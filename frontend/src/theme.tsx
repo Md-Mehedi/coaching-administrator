@@ -1,13 +1,7 @@
 import { red } from "@mui/material/colors";
 import { createTheme, Theme } from "@mui/material/styles";
 
-export const lightTheme: Theme = createTheme({
-  palette: {
-    secondary: {
-      main: red[500],
-    },
-  },
-});
+export const lightTheme: Theme = createTheme();
 
 Object.assign(lightTheme, {
   overrides: {

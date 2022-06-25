@@ -5,6 +5,7 @@ export interface IProgram {
   endDate: Date;
   admissionFees: number;
 }
+
 export interface ISubject {
   id: number;
   name: string;
@@ -221,6 +222,7 @@ export const students = [
     fatherName: "Alom Hossain",
     motherName: "Maliha Begum",
     bloodGroup: "O+",
+    fees: 1200,
   },
   {
     id: 2,
@@ -231,6 +233,7 @@ export const students = [
     fatherName: "Alom Hossain",
     motherName: "Maliha Begum",
     bloodGroup: "O+",
+    fees: 800,
   },
   {
     id: 3,
@@ -241,6 +244,7 @@ export const students = [
     fatherName: "Alom Hossain",
     motherName: "Maliha Begum",
     bloodGroup: "O+",
+    fees: 1200,
   },
   {
     id: 4,
@@ -251,6 +255,7 @@ export const students = [
     fatherName: "Alom Hossain",
     motherName: "Maliha Begum",
     bloodGroup: "O+",
+    fees: 0,
   },
 ];
 
@@ -297,6 +302,106 @@ export const studentsHistory = [
         startDate: new Date("2022/03/03"),
         endDate: null,
       },
+    ],
+  },
+];
+
+export const examTypes = [
+  { id: 1, name: "CQ" },
+  { id: 2, name: "MCQ" },
+  { id: 3, name: "Short Question" },
+  { id: 4, name: "Other" },
+];
+
+export const exams = [
+  {
+    id: 1,
+    name: "Chapter 1",
+    syllabus: "Chapter 1 full. 10 CQ from test paper",
+    resultDate: new Date("2022/06/28"),
+    mark: [
+      { examType: "CQ", mark: 30 },
+      { examType: "MCQ", mark: 20 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Chapter 2",
+    syllabus: "Chapter 2 full.",
+    resultDate: new Date("2022/06/28"),
+    mark: [
+      { examType: "CQ", mark: 30 },
+      { examType: "MCQ", mark: 20 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Chapter 3",
+    syllabus: "Chapter 3 full. Solve MCQ from sheet",
+    resultDate: new Date("2022/06/28"),
+    mark: [{ examType: "MCQ", mark: 20 }],
+  },
+  {
+    id: 4,
+    name: "Chapter 4",
+    syllabus: "Chapter 4 MCQ Test",
+    resultDate: new Date("2022/06/28"),
+    mark: [{ examType: "Short Question", mark: 20 }],
+  },
+  {
+    id: 5,
+    name: "Chapter 5",
+    syllabus: "Chapter 5 full. 15 CQ from guide",
+    resultDate: new Date("2022/06/28"),
+    mark: [
+      { examType: "CQ", mark: 30 },
+      { examType: "Other", mark: 20 },
+    ],
+  },
+];
+
+export type PaymentType = {
+  type: string;
+  details: {
+    id: number;
+    name: string;
+    amount: number;
+  }[];
+};
+
+var a: string;
+const b = 6;
+
+a = "8";
+
+export const payment: PaymentType[] = [
+  {
+    type: "Monthly fees",
+    details: [
+      { id: 1, name: "12 Physics Batch", amount: 800 },
+      { id: 2, name: "12 Chemistry Batch", amount: 1200 },
+      { id: 3, name: "12 Biology Batch", amount: 400 },
+      { id: 4, name: "12 ICT Batch", amount: 600 },
+    ],
+  },
+  {
+    type: "Admission fees",
+    details: [
+      { id: 1, name: "HSC=23", amount: 800 },
+      { id: 2, name: "Biology Booster 2023", amount: 1200 },
+    ],
+  },
+  {
+    type: "Sheet fees",
+    details: [
+      { id: 5, name: "Physics 1st Paper : Chapter 1", amount: 30 },
+      { id: 6, name: "Physics 1st Paper : Chapter 2", amount: 40 },
+      { id: 7, name: "Physics 1st Paper : Chapter 3", amount: 20 },
+      { id: 8, name: "Physics 1st Paper : Chapter 4", amount: 50 },
+      { id: 9, name: "Physics 1st Paper : Chapter 1", amount: 10 },
+      { id: 10, name: "Physics 1st Paper : Chapter 2", amount: 20 },
+      { id: 11, name: "Physics 1st Paper : Chapter 3", amount: 30 },
+      { id: 12, name: "Physics 1st Paper : Chapter 4", amount: 40 },
     ],
   },
 ];

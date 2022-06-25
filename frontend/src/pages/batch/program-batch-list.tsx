@@ -18,7 +18,7 @@ export default function ProgramBatchList() {
         render: (item: IProgram) => <>{item.startDate.toLocaleDateString()}</>,
       },
     ],
-    studentsColumn: [
+    batchColumn: [
       // {
       //   title: "Avatar",
       //   field: "avatar",
@@ -68,14 +68,14 @@ export default function ProgramBatchList() {
               <MaterialTable
                 style={{ width: "100%" }}
                 //@ts-ignore
-                columns={state.studentsColumn.map((item) => ({
+                columns={state.programColumns.map((item) => ({
                   ...item,
                   align: "center",
                 }))}
                 title="Programs"
-                data={students}
+                data={programs}
                 options={{
-                  paging: students.length > 10,
+                  paging: programs.length > 10,
                   headerStyle: { textAlign: "center" },
                   actionsColumnIndex: -1,
                   addRowPosition: "first",
@@ -106,7 +106,7 @@ export default function ProgramBatchList() {
               <MaterialTable
                 style={{ width: "100%" }}
                 //@ts-ignore
-                columns={state.batchColumns.map((item) => ({
+                columns={state.batchColumn.map((item) => ({
                   ...item,
                   align: "center",
                 }))}

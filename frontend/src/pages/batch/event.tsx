@@ -27,6 +27,8 @@ type EventStates = {
 };
 type EventProps = {
   title: string;
+  disableMoreClass?: boolean;
+  disableRepeat?: boolean;
 };
 export default function Event(props: EventProps) {
   const [state, setState] = useState<EventStates>({
@@ -81,19 +83,21 @@ export default function Event(props: EventProps) {
               renderInput={(params) => <TextField fullWidth {...params} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <MobileDatePicker
-              label="Repeat until"
-              value={state.untilDate}
-              onChange={(newValue) => {
-                setState({
-                  ...state,
-                  untilDate: newValue,
-                });
-              }}
-              renderInput={(params) => <TextField fullWidth {...params} />}
-            />
-          </Grid>
+          {!props.disableRepeat && (
+            <Grid item xs={12} sm={6} md={4}>
+              <MobileDatePicker
+                label="Repeat until"
+                value={state.untilDate}
+                onChange={(newValue) => {
+                  setState({
+                    ...state,
+                    untilDate: newValue,
+                  });
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={6} md={4}>
             <FormControl fullWidth>
               <InputLabel>Teacher</InputLabel>
@@ -136,15 +140,17 @@ export default function Event(props: EventProps) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Button variant="contained" startIcon={<Add />}>
-                  Add More Class
-                </Button>
+          {!props.disableMoreClass && (
+            <Grid item xs={12}>
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <Button variant="contained" startIcon={<Add />}>
+                    Add More Class
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          )}
         </Grid>
       </CardContent>
     </Card>
