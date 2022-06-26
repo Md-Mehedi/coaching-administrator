@@ -405,3 +405,28 @@ export const payment: PaymentType[] = [
     ],
   },
 ];
+
+export const blood_group: string[] = [
+  "A+",
+  "A-",
+  "B+",
+  "B-",
+  "AB+",
+  "AB-",
+  "O+",
+  "O-",
+];
+
+export const occupation: string[] = [
+  "Businessman",
+  "Doctor",
+  "Job Holder",
+  "Driver",
+];
+
+export const religion: string[] = [
+  "Islam",
+  "Hinduism",
+  "Buddhism",
+  "Christian",
+];

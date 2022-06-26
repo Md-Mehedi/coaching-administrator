@@ -1,4 +1,10 @@
-import { Grid } from "@mui/material";
+import {
+  Accordion,
+  Grid,
+  AccordionSummary,
+  Collapse,
+  Link,
+} from "@mui/material";
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -20,10 +26,14 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Header, { HEADER_HEIGHT } from "../components/header";
-import { InboxOutlined } from "@mui/icons-material";
+import { ArrowDropDown, ArrowDropUp, InboxOutlined } from "@mui/icons-material";
 import CreateBatch from "../pages/batch/create-batch";
 import CreateProgram from "./../pages/batch/create-program";
 import { Exam } from "../pages/batch/exam";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { createStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 
 const drawerWidth = 240;
 
@@ -57,28 +67,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -96,26 +84,168 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-type DrawerLayoutPage = {
+/******************************************
+ * ************ Side Bar Row **************
+ * *****************************************/
+
+export type SideBarRowProps = {
+  sideBarOpen: boolean;
+  page: DrawerLayoutPage;
+  onLinkClick: (link: string) => void;
+};
+export function SideBarRow(props: SideBarRowProps) {
+  const [collapseOpen, setCollapseOpen] = React.useState(false);
+  return (
+    <ListItem disablePadding sx={{ display: "block" }}>
+      <Link
+        href={props.page.link}
+        underline="hover"
+        onClick={(event) => {
+          props.onLinkClick(props.page.link);
+          event.preventDefault();
+        }}
+      >
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: props.sideBarOpen ? "initial" : "flex-start",
+            paddingLeft: 1,
+            paddingRight: 0,
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: props.sideBarOpen ? 3 : "auto",
+              justifyContent: "center",
+            }}
+          >
+            {props.page.icon}
+          </ListItemIcon>
+          <ListItemText
+            hidden={!props.sideBarOpen}
+            primary={props.page.title}
+            primaryTypographyProps={{
+              sx: { whiteSpace: "pre-wrap" },
+            }}
+          />
+          {props.page.children.length > 0 && (
+            <IconButton
+              onClick={(event) => {
+                event.stopPropagation();
+                event.preventDefault();
+                setCollapseOpen(!collapseOpen);
+              }}
+            >
+              {collapseOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+            </IconButton>
+          )}
+        </ListItemButton>
+      </Link>
+      {props.page.children.length > 0 && (
+        <Collapse in={collapseOpen}>
+          {props.page.children.map((item, childIdx) => (
+            <Link
+              href={item.link}
+              underline="hover"
+              onClick={(event) => {
+                props.onLinkClick(item.link);
+                event.preventDefault();
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: props.sideBarOpen ? "initial" : "center",
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  marginLeft: props.sideBarOpen ? 4 : 0,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: props.sideBarOpen ? 3 : 0,
+                    justifyContent: "center",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  hidden={!props.sideBarOpen}
+                  primary={item.title}
+                  primaryTypographyProps={{
+                    sx: { whiteSpace: "pre-wrap" },
+                  }}
+                />
+              </ListItemButton>
+            </Link>
+          ))}
+        </Collapse>
+      )}
+    </ListItem>
+  );
+}
+
+/******************************************
+ * *********** Drawer Side Bar ************
+ * *****************************************/
+export type DrawerSideBarProps = {
+  open: boolean;
+  pages: DrawerLayoutPage[];
+  onLinkClick: (link: string) => void;
+};
+function DrawerSideBar(props: DrawerSideBarProps) {
+  return (
+    <List>
+      {props.pages.map((page, pageIdx) => (
+        <SideBarRow
+          key={pageIdx}
+          sideBarOpen={props.open}
+          page={page}
+          onLinkClick={props.onLinkClick}
+        />
+      ))}
+    </List>
+  );
+}
+
+/******************************************
+ * *********** Drawer Layout **************
+ * *****************************************/
+
+export type DrawerLayoutPage = {
   icon: JSX.Element;
   title: string;
   page: JSX.Element | JSX.Element[];
+  link: string;
+  children: {
+    icon: JSX.Element;
+    title: string;
+    page: JSX.Element | JSX.Element[];
+    link: string;
+  }[];
 };
 
-type DrawerLayoutProps = {
+export type DrawerLayoutProps = {
+  currentLink: string;
   pages: DrawerLayoutPage[];
 };
 
 type DrawerLayoutStates = {
   open: boolean;
-  currentPageIndex: number;
+  currentPageLink: string;
 };
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
   const [states, setStates] = React.useState<DrawerLayoutStates>({
     open: true,
-    currentPageIndex: 0,
+    currentPageLink: "",
   });
+
+  React.useEffect(() => {
+    setStates({ ...states, currentPageLink: props.currentLink });
+  }, [props.currentLink]);
 
   const handleDrawerOpen = () => {
     setStates({ ...states, open: true });
@@ -128,7 +258,6 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   return (
     <Box sx={{ display: "flex", backgroundColor: "yellow" }}>
       <CssBaseline />
-
       <Drawer
         variant="permanent"
         open={states.open}
@@ -148,61 +277,33 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           )}
         </DrawerHeader>
         <Divider />
-        <List>
-          {props.pages.map((page, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-              sx={{ display: "block" }}
-              onClick={(event) =>
-                setStates({ ...states, currentPageIndex: index })
-              }
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: states.open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: states.open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {page.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={page.title}
-                  sx={{ opacity: states.open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <DrawerSideBar
+          open={states.open}
+          pages={props.pages}
+          onLinkClick={(link) => {
+            window.history.pushState("", "", link);
+            setStates({ ...states, currentPageLink: link });
+          }}
+        />
       </Drawer>
-      <Grid container justifyContent="center" alignItems="center">
-        {props.pages[states.currentPageIndex].page}
+      <Grid
+        container
+        sx={{ padding: "20px" }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        {props.pages.map((item) =>
+          item.link == states.currentPageLink
+            ? item.page
+            : item.children.map((childItem) =>
+                childItem.link == states.currentPageLink ? (
+                  childItem.page
+                ) : (
+                  <></>
+                )
+              )
+        )}
       </Grid>
     </Box>
   );
 }
-
-export function DrawerLayoutTest() {
-  return (
-    <>
-      <Header />
-      <DrawerLayout pages={custom_pages} />;
-    </>
-  );
-}
-
-const custom_pages: DrawerLayoutPage[] = [
-  { icon: <InboxOutlined />, title: "Batch", page: <CreateBatch /> },
-  { icon: <InboxOutlined />, title: "Batch", page: <CreateProgram /> },
-  { icon: <InboxOutlined />, title: "Batch", page: <Exam /> },
-  { icon: <InboxOutlined />, title: "Batch", page: <CreateBatch /> },
-  { icon: <InboxOutlined />, title: "Batch", page: <CreateBatch /> },
-];
