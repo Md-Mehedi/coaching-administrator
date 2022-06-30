@@ -31,21 +31,21 @@ public class PersonService {
         Person oldPerson = repository.findById(person.getId()).orElse(null);
 
         oldPerson.setFullName(person.getFullName());
-        oldPerson.setNick_name(person.getNick_name());
+        oldPerson.setNickName(person.getNickName());
         oldPerson.setGender(person.getGender());
         oldPerson.setEmail(person.getEmail());
-        oldPerson.setFather_name(person.getFather_name());
-        oldPerson.setMother_name(person.getMother_name());
-        oldPerson.setDate_of_birth(person.getDate_of_birth());
-        oldPerson.setBlood_group(person.getBlood_group());
+        oldPerson.setFatherName(person.getFatherName());
+        oldPerson.setMotherName(person.getMotherName());
+        oldPerson.setDateOfBirth(person.getDateOfBirth());
+        oldPerson.setBloodGroup(person.getBloodGroup());
         oldPerson.setNationality(person.getNationality());
-        oldPerson.setJoining_date(person.getJoining_date());
-        oldPerson.setPermanent_adrs_id(person.getPermanent_adrs_id());
-        oldPerson.setPresent_adrs_id(person.getPresent_adrs_id());
-        oldPerson.setFather_ocptn_id(person.getFather_ocptn_id());
-        oldPerson.setMother_ocptn_id(person.getMother_ocptn_id());
-        oldPerson.setReligion_id(person.getReligion_id());
-        oldPerson.setPerson_type(person.getPerson_type());
+        oldPerson.setJoiningDate(person.getJoiningDate());
+        oldPerson.setPermanentAdrsId(person.getPermanentAdrsId());
+        oldPerson.setPresentAdrsId(person.getPresentAdrsId());
+        oldPerson.setFatherOcptnId(person.getFatherOcptnId());
+        oldPerson.setMotherOcptnId(person.getMotherOcptnId());
+        oldPerson.setReligionId(person.getReligionId());
+        oldPerson.setPersonType(person.getPersonType());
 
         return repository.save(person);
     }
