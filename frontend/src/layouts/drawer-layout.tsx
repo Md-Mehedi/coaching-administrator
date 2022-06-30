@@ -34,6 +34,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { createStyles } from "@mui/styles";
 import { makeStyles } from "@mui/styles";
+import { LinkContext } from "./../hooks/use-browse-history";
+import SpecialLink from "./../components/special-link";
 
 const drawerWidth = 240;
 
@@ -91,20 +93,12 @@ const Drawer = styled(MuiDrawer, {
 export type SideBarRowProps = {
   sideBarOpen: boolean;
   page: DrawerLayoutPage;
-  onLinkClick: (link: string) => void;
 };
 export function SideBarRow(props: SideBarRowProps) {
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   return (
     <ListItem disablePadding sx={{ display: "block" }}>
-      <Link
-        href={props.page.link}
-        underline="hover"
-        onClick={(event) => {
-          props.onLinkClick(props.page.link);
-          event.preventDefault();
-        }}
-      >
+      <SpecialLink href={props.page.link}>
         <ListItemButton
           sx={{
             minHeight: 48,
@@ -141,18 +135,11 @@ export function SideBarRow(props: SideBarRowProps) {
             </IconButton>
           )}
         </ListItemButton>
-      </Link>
+      </SpecialLink>
       {props.page.children.length > 0 && (
         <Collapse in={collapseOpen}>
           {props.page.children.map((item, childIdx) => (
-            <Link
-              href={item.link}
-              underline="hover"
-              onClick={(event) => {
-                props.onLinkClick(item.link);
-                event.preventDefault();
-              }}
-            >
+            <SpecialLink href={item.link}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -179,7 +166,7 @@ export function SideBarRow(props: SideBarRowProps) {
                   }}
                 />
               </ListItemButton>
-            </Link>
+            </SpecialLink>
           ))}
         </Collapse>
       )}
@@ -193,18 +180,12 @@ export function SideBarRow(props: SideBarRowProps) {
 export type DrawerSideBarProps = {
   open: boolean;
   pages: DrawerLayoutPage[];
-  onLinkClick: (link: string) => void;
 };
 function DrawerSideBar(props: DrawerSideBarProps) {
   return (
     <List>
       {props.pages.map((page, pageIdx) => (
-        <SideBarRow
-          key={pageIdx}
-          sideBarOpen={props.open}
-          page={page}
-          onLinkClick={props.onLinkClick}
-        />
+        <SideBarRow key={pageIdx} sideBarOpen={props.open} page={page} />
       ))}
     </List>
   );
@@ -228,31 +209,30 @@ export type DrawerLayoutPage = {
 };
 
 export type DrawerLayoutProps = {
-  currentLink: string;
+  link: string;
   pages: DrawerLayoutPage[];
 };
 
 type DrawerLayoutStates = {
-  open: boolean;
-  currentPageLink: string;
+  sideBarOpen: boolean;
 };
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
+  const [link, updateLink] = React.useContext(LinkContext);
   const [states, setStates] = React.useState<DrawerLayoutStates>({
-    open: true,
-    currentPageLink: "",
+    sideBarOpen: true,
   });
 
   React.useEffect(() => {
-    setStates({ ...states, currentPageLink: props.currentLink });
-  }, [props.currentLink]);
+    updateLink(props.link);
+  }, [props.link]);
 
   const handleDrawerOpen = () => {
-    setStates({ ...states, open: true });
+    setStates({ ...states, sideBarOpen: true });
   };
 
   const handleDrawerClose = () => {
-    setStates({ ...states, open: false });
+    setStates({ ...states, sideBarOpen: false });
   };
 
   return (
@@ -260,13 +240,13 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
       <CssBaseline />
       <Drawer
         variant="permanent"
-        open={states.open}
+        open={states.sideBarOpen}
         PaperProps={{
           sx: { top: HEADER_HEIGHT },
         }}
       >
         <DrawerHeader>
-          {states.open ? (
+          {states.sideBarOpen ? (
             <IconButton onClick={handleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
@@ -277,14 +257,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
           )}
         </DrawerHeader>
         <Divider />
-        <DrawerSideBar
-          open={states.open}
-          pages={props.pages}
-          onLinkClick={(link) => {
-            window.history.pushState("", "", link);
-            setStates({ ...states, currentPageLink: link });
-          }}
-        />
+        <DrawerSideBar open={states.sideBarOpen} pages={props.pages} />
       </Drawer>
       <Grid
         container
@@ -293,14 +266,10 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         alignItems="center"
       >
         {props.pages.map((item) =>
-          item.link == states.currentPageLink
+          item.link == link
             ? item.page
             : item.children.map((childItem) =>
-                childItem.link == states.currentPageLink ? (
-                  childItem.page
-                ) : (
-                  <></>
-                )
+                childItem.link == link ? childItem.page : <></>
               )
         )}
       </Grid>
