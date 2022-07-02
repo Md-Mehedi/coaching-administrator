@@ -30,6 +30,7 @@ public class PersonService {
     public Person updatePerson(Person person) {
         Person oldPerson = repository.findById(person.getId()).orElse(null);
 
+        oldPerson.setPassword(person.getPassword());
         oldPerson.setFullName(person.getFullName());
         oldPerson.setNickName(person.getNickName());
         oldPerson.setGender(person.getGender());
