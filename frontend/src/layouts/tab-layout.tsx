@@ -41,11 +41,13 @@ function a11yProps(index: number) {
   };
 }
 
+export type TabLayoutContent = {
+  title: string;
+  element: JSX.Element | JSX.Element[];
+};
+
 export type TabLayoutProps = {
-  tabs: {
-    title: string;
-    element: JSX.Element | JSX.Element[];
-  }[];
+  tabs: TabLayoutContent[];
 };
 
 export default function TabLayout(props: TabLayoutProps) {
@@ -61,7 +63,7 @@ export default function TabLayout(props: TabLayoutProps) {
   };
 
   return (
-    <Box sx={{ bgcolor: "background.paper", width: '100%'}}>
+    <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
       <AppBar position="static">
         <Tabs
           value={value}

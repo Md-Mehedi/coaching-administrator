@@ -60,7 +60,7 @@ export default function Dashboard({ link }) {
   return (
     <>
       <Header />
-      <DrawerLayout pages={dashboard_pages} currentLink={link} />
+      <DrawerLayout pages={dashboard_pages} link={link} />
     </>
   );
 }
