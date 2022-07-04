@@ -11,6 +11,7 @@ import javax.persistence.Table;
 public class Division {
 
     @Id
+    // @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
