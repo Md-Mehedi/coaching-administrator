@@ -4,15 +4,17 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Lob;
 
 @Entity
 @Table(name = "person")
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String password;
     private Integer permanentAdrsId;
@@ -31,6 +33,8 @@ public class Person {
     private String bloodGroup;
     private String nationality;
     private String personType;
+    @Lob
+    private byte[] image;
 
     public Person() {
     }
@@ -38,7 +42,7 @@ public class Person {
     public Person(Integer id, String password, Integer permanentAdrsId, Integer presentAdrsId, Integer fatherOcptnId,
             Integer motherOcptnId, Integer religionId, String fullName, String nickName, String gender, String email,
             String fatherName, String motherName, Date dateOfBirth, Date joiningDate, String bloodGroup,
-            String nationality, String personType) {
+            String nationality, String personType, byte[] image) {
         this.id = id;
         this.password = password;
         this.permanentAdrsId = permanentAdrsId;
@@ -57,6 +61,15 @@ public class Person {
         this.bloodGroup = bloodGroup;
         this.nationality = nationality;
         this.personType = personType;
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Integer getId() {
