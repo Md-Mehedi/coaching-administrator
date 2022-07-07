@@ -25,6 +25,10 @@ public class PersonService {
         return repository.findByFullName(name);
     }
 
+    public Person getPersonByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
     public String deletePerson(Integer id) {
 
         repository.deleteById(id);
@@ -53,6 +57,7 @@ public class PersonService {
         oldPerson.setReligionId(person.getReligionId());
         oldPerson.setPersonType(person.getPersonType());
         oldPerson.setImage(person.getImage());
+        oldPerson.setActivated(person.getActivated());
 
         return repository.save(oldPerson);
     }

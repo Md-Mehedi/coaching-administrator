@@ -7,7 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Lob;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "person")
@@ -33,7 +34,8 @@ public class Person {
     private String bloodGroup;
     private String nationality;
     private String personType;
-    @Lob
+    private String activated;
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 
     public Person() {
@@ -42,7 +44,7 @@ public class Person {
     public Person(Integer id, String password, Integer permanentAdrsId, Integer presentAdrsId, Integer fatherOcptnId,
             Integer motherOcptnId, Integer religionId, String fullName, String nickName, String gender, String email,
             String fatherName, String motherName, Date dateOfBirth, Date joiningDate, String bloodGroup,
-            String nationality, String personType, byte[] image) {
+            String nationality, String personType, String activated, byte[] image) {
         this.id = id;
         this.password = password;
         this.permanentAdrsId = permanentAdrsId;
@@ -61,11 +63,20 @@ public class Person {
         this.bloodGroup = bloodGroup;
         this.nationality = nationality;
         this.personType = personType;
+        this.activated = activated;
         this.image = image;
     }
 
     public byte[] getImage() {
         return image;
+    }
+
+    public String getActivated() {
+        return activated;
+    }
+
+    public void setActivated(String activated) {
+        this.activated = activated;
     }
 
     public void setImage(byte[] image) {
