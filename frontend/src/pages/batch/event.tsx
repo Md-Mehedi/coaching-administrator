@@ -1,4 +1,4 @@
-import { Add } from "@mui/icons-material";
+import { Add, ClearOutlined } from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -6,6 +6,7 @@ import {
   CardHeader,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -27,8 +28,8 @@ type EventStates = {
 };
 type EventProps = {
   title: string;
-  disableMoreClass?: boolean;
   disableRepeat?: boolean;
+  onDeleteClick?: (event) => void;
 };
 export default function Event(props: EventProps) {
   const [state, setState] = useState<EventStates>({
@@ -41,7 +42,14 @@ export default function Event(props: EventProps) {
   });
   return (
     <Card>
-      <CardHeader title={props.title} />
+      <CardHeader
+        title={props.title}
+        action={
+          <IconButton onClick={props.onDeleteClick}>
+            <ClearOutlined />
+          </IconButton>
+        }
+      />
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4}>
@@ -140,17 +148,6 @@ export default function Event(props: EventProps) {
               </Select>
             </FormControl>
           </Grid>
-          {!props.disableMoreClass && (
-            <Grid item xs={12}>
-              <Grid container justifyContent="center">
-                <Grid item>
-                  <Button variant="contained" startIcon={<Add />}>
-                    Add More Class
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          )}
         </Grid>
       </CardContent>
     </Card>

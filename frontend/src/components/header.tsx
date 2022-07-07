@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  AppBar,
   Avatar,
   Button,
   Grid,
@@ -14,6 +15,8 @@ import { Dashboard } from "@mui/icons-material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { Theme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import SpecialLink from "./special-link";
+import { USER_LINKS } from "../links";
 
 export const HEADER_HEIGHT = 80;
 
@@ -180,7 +183,7 @@ export default function Header() {
   return (
     <>
       <Grid id="header-root">
-        <Toolbar className={classes.root}>
+        <AppBar className={classes.root} position="fixed">
           <Grid
             container
             direction="row"
@@ -194,7 +197,21 @@ export default function Header() {
                 <SearchBox />
               </Responsive> */}
             <Grid item>
-              <IconSet />
+              <Grid container direction="row" spacing={2} alignItems="center">
+                <Grid item>
+                  <IconSet />
+                </Grid>
+                <Grid item>
+                  <SpecialLink href={USER_LINKS.login.path}>
+                    <Button variant="contained">Login</Button>
+                  </SpecialLink>
+                </Grid>
+                <Grid item>
+                  <SpecialLink href={USER_LINKS.register.path}>
+                    <Button variant="contained">Register</Button>
+                  </SpecialLink>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
           {/* <Responsive displayIn={"Mobile"}>
@@ -202,7 +219,7 @@ export default function Header() {
                 <SearchBox />
               </Grid>
             </Responsive> */}
-        </Toolbar>
+        </AppBar>
       </Grid>
     </>
   );

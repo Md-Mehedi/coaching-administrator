@@ -70,7 +70,8 @@ export default function TabLayout(props: TabLayoutProps) {
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="inherit"
-          variant="fullWidth"
+          variant="scrollable"
+          scrollButtons="auto"
           aria-label="full width tabs example"
         >
           {props.tabs.map((item, index) => (

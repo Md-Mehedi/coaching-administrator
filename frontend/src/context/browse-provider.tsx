@@ -3,9 +3,11 @@ import React, { useState, useEffect, useContext } from "react";
 /**
  * Initializing Context
  */
-export const LinkContext = React.createContext<
-  [string, (newLink: string) => void]
->(["", (newLink) => {}]);
+// export const LinkContext = React.createContext({
+//   link: "",
+//   param: undefined,
+//   updateLink: (newLink) => {},
+// });
 
 /**
  * Creating provider with default state
@@ -14,17 +16,19 @@ export const LinkContext = React.createContext<
  * - updateMessage can be used from any child of provider and will update the global state
  */
 export default function BrowseProvider({ children }) {
-  const [currentLink, setCurrentLink] = useState("/");
-
-  const updateLink = (newLink) => {
-    setCurrentLink(newLink);
-  };
-
-  return (
-    <LinkContext.Provider value={[currentLink, updateLink]}>
-      {children}
-    </LinkContext.Provider>
-  );
+  // const [state, setState] = useState({
+  //   link: "/",
+  //   param: undefined,
+  // });
+  // const { link, param } = state;
+  // const updateLink = (linkDetails) => {
+  //   setState({ ...state, ...linkDetails });
+  // };
+  // return (
+  //   <LinkContext.Provider value={{ link, param, updateLink }}>
+  //     {children}
+  //   </LinkContext.Provider>
+  // );
 }
 
 // /**

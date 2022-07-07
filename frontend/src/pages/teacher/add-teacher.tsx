@@ -12,13 +12,15 @@ import {
   Typography,
 } from "@mui/material";
 import { DatePicker } from "@mui/lab";
-import { blood_group, occupation, religion } from "./../../data";
+import { blood_group, occupation, religion } from "../../data";
 import { DeleteForever } from "@mui/icons-material";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import AddressField from "../../components/form-components/address-field";
 import ContactInformation from "../../components/form-components/contact-field";
 import ExamResultField from "../../components/form-components/exam-field";
 import AvatarUpload from "../../components/avatar-upload";
+import BasicInformation from "../../components/form-components/basic-information";
+import ParentInformation from "../../components/form-components/parent-information";
 
 export default function AddTeacher() {
   const [state, setState] = useState({
@@ -31,131 +33,11 @@ export default function AddTeacher() {
   });
   return (
     <Grid container spacing={2}>
-      <Grid item container alignItems="center">
-        <AvatarUpload />
+      <Grid item container>
+        <BasicInformation />
       </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Full name" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Nickname" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-          <Select
-            value={state.gender}
-            label="Gender"
-            onChange={(event) =>
-              setState({ ...state, gender: event.target.value })
-            }
-          >
-            <MenuItem value={"M"}>Male</MenuItem>
-            <MenuItem value={"F"}>Female</MenuItem>
-            <MenuItem value={"O"}>Other</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="E-mail" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Father's name" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Mother's name" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <DatePicker
-          label="Date of birth"
-          value={state.dob}
-          onChange={(newValue) => {
-            setState({
-              ...state,
-              dob: newValue,
-            });
-          }}
-          renderInput={(params) => <TextField fullWidth {...params} />}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Blood group</InputLabel>
-          <Select
-            value={state.bloodGroup}
-            label="Blood group"
-            onChange={(event) =>
-              setState({ ...state, bloodGroup: event.target.value })
-            }
-          >
-            {blood_group.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Nationality" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">
-            Father Occupation
-          </InputLabel>
-          <Select
-            value={state.fatherOccupation}
-            label="Father Occupation"
-            onChange={(event) =>
-              setState({ ...state, fatherOccupation: event.target.value })
-            }
-          >
-            {occupation.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">
-            Mother Occupation
-          </InputLabel>
-          <Select
-            value={state.motherOccupation}
-            label="Mother Occupation"
-            onChange={(event) =>
-              setState({ ...state, motherOccupation: event.target.value })
-            }
-          >
-            {occupation.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Religion</InputLabel>
-          <Select
-            value={state.religion}
-            label="Religion"
-            onChange={(event) =>
-              setState({ ...state, religion: event.target.value })
-            }
-          >
-            {religion.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      <Grid item container>
+        <ParentInformation />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <TextField fullWidth variant="outlined" label="Salary" />

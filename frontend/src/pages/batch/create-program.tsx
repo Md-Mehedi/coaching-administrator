@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
-import Admin from "./../../layouts/admin";
+import AdminLayout from "../../layouts/admin-layout";
 import Event from "./event";
 import TextEditor from "./../../components/text-editor";
 
@@ -22,7 +22,7 @@ type CreateProgramStates = {
 
 export default function CreateProgram(props: CreateProgramProps) {
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField fullWidth variant="outlined" label="Program Name" />
@@ -37,6 +37,6 @@ export default function CreateProgram(props: CreateProgramProps) {
           <SaveCancelButtons />
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }

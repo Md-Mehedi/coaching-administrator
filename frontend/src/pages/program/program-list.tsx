@@ -1,49 +1,39 @@
 import { AddCircleOutline } from "@mui/icons-material";
 import {
-  Avatar,
-  Button,
+  Grid,
   Card,
   CardActionArea,
   CardContent,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Typography,
+  Button,
 } from "@mui/material";
-import MaterialTable from "material-table";
-import React, { useState } from "react";
-import { batches, IProgram, students } from "../../data";
-import Admin from "../../layouts/admin";
+import { useState } from "react";
+import SpecialLink from "../../components/special-link";
 import { programs } from "../../data";
-import { blue } from "@mui/material/colors";
-import AddIcon from "@mui/icons-material/Add";
-import PersonIcon from "@mui/icons-material/Person";
-import CreateProgram from "./create-program";
 import DialogLayout from "../../layouts/dialog";
+import CreateProgram from "./create-program";
 
 function ProgramCards() {
   return (
     <Grid container spacing={2}>
       {programs.map((item) => (
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card>
-            <CardActionArea>
-              <CardContent>
-                <Grid
-                  container
-                  sx={{ height: 130 }}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Typography variant="h5">{item.name}</Typography>
-                </Grid>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <SpecialLink href="/program">
+            <Card>
+              <CardActionArea>
+                <CardContent>
+                  <Grid
+                    container
+                    sx={{ height: 130 }}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Typography variant="h5">{item.name}</Typography>
+                  </Grid>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </SpecialLink>
         </Grid>
       ))}
     </Grid>
@@ -71,9 +61,10 @@ export default function ProgramList() {
       <DialogLayout
         title="Create a program"
         open={state.open}
-        content={<CreateProgram />}
         onClose={() => setState({ ...state, open: false })}
-      />
+      >
+        <CreateProgram />
+      </DialogLayout>
     </Grid>
   );
   // return (

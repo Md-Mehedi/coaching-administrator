@@ -15,7 +15,7 @@ import MaterialTable from "material-table";
 import React, { useState } from "react";
 import { moment } from "../../App";
 import { batches, IBatch, studentsHistory } from "../../data";
-import Admin from "../../layouts/admin";
+import AdminLayout from "../../layouts/admin-layout";
 import TabLayout from "../../layouts/tab-layout";
 import UpdateButton from "./../../components/update-button";
 import { students } from "./../../data";
@@ -224,7 +224,7 @@ export function BatchUpdateStudent() {
     ],
   });
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container direction="column" spacing={2}>
         <Grid item container>
           <MaterialTable
@@ -259,46 +259,46 @@ export function BatchUpdateStudent() {
           <UpdateButton />
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }
 
 export default function Batch() {
   return (
-    <Admin>
-      <Grid container direction="column">
-        <Grid item>
-          <Typography variant="h4">
-            {"HSC-23 > "} {data.name}
-          </Typography>
-        </Grid>
-        <Grid item container>
-          <TabLayout
-            tabs={[
-              {
-                title: "About",
-                element: <BatchAbout />,
-              },
-              {
-                title: "Students",
-                element: <BatchStudents />,
-              },
-              {
-                title: "Students History",
-                element: <BatchStudentHistory />,
-              },
-              {
-                title: "Exam",
-                element: <ExamList />,
-              },
-              {
-                title: "Routine",
-                element: <BatchRoutine />,
-              },
-            ]}
-          />
-        </Grid>
+    // <Admin>
+    <Grid container direction="column">
+      <Grid item>
+        <Typography variant="h4">
+          {"HSC-23 > "} {data.name}
+        </Typography>
       </Grid>
-    </Admin>
+      <Grid item container>
+        <TabLayout
+          tabs={[
+            {
+              title: "About",
+              element: <BatchAbout />,
+            },
+            {
+              title: "Students",
+              element: <BatchStudents />,
+            },
+            {
+              title: "Students History",
+              element: <BatchStudentHistory />,
+            },
+            {
+              title: "Exam",
+              element: <ExamList />,
+            },
+            {
+              title: "Routine",
+              element: <BatchRoutine />,
+            },
+          ]}
+        />
+      </Grid>
+    </Grid>
+    // </Admin>
   );
 }

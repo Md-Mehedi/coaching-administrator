@@ -9,23 +9,22 @@ import {
 import React from "react";
 import CreateProgram from "../pages/program/create-program";
 
-export interface DialogProps {
-  open: boolean;
-  onClose: (event) => void;
-  content: JSX.Element | JSX.Element[];
+export interface DialogLayoutProps {
+  open?: boolean;
+  onClose?: (event) => void;
+  children: JSX.Element | JSX.Element[];
   title?: string;
   primaryButtonText?: string;
   primaryButtonClick?: (event) => void;
   secondaryButtonText?: string;
   secondaryButtonClick?: (event) => void;
 }
-const emails = ["username@gmail.com", "user02@gmail.com"];
 
-export default function DialogLayout(props: DialogProps) {
+export default function DialogLayout(props: DialogLayoutProps) {
   return (
-    <Dialog onClose={props.onClose} open={props.open}>
+    <Dialog onClose={props.onClose} open={props.open || false}>
       <DialogTitle sx={{ textAlign: "center" }}>{props.title}</DialogTitle>
-      <DialogContent>{props.content}</DialogContent>
+      <DialogContent>{props.children}</DialogContent>
       <DialogActions>
         <Grid
           container
@@ -48,7 +47,7 @@ export default function DialogLayout(props: DialogProps) {
               variant="contained"
               color="secondary"
               onClick={(event) => {
-                props.onClose(event);
+                props.onClose && props.onClose(event);
                 props.secondaryButtonClick && props.secondaryButtonClick(event);
               }}
             >

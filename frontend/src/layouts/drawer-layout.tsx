@@ -1,40 +1,21 @@
-import {
-  Accordion,
-  Grid,
-  AccordionSummary,
-  Collapse,
-  Link,
-} from "@mui/material";
+import { Grid, Collapse } from "@mui/material";
 import * as React from "react";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import Header, { HEADER_HEIGHT } from "../components/header";
-import { ArrowDropDown, ArrowDropUp, InboxOutlined } from "@mui/icons-material";
-import CreateBatch from "../pages/batch/create-batch";
-import CreateProgram from "./../pages/batch/create-program";
-import { Exam } from "../pages/batch/exam";
+import { HEADER_HEIGHT } from "../components/header";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { createStyles } from "@mui/styles";
-import { makeStyles } from "@mui/styles";
-import { LinkContext } from "./../hooks/use-browse-history";
 import SpecialLink from "./../components/special-link";
 
 const drawerWidth = 240;
@@ -198,19 +179,17 @@ function DrawerSideBar(props: DrawerSideBarProps) {
 export type DrawerLayoutPage = {
   icon: JSX.Element;
   title: string;
-  page: JSX.Element | JSX.Element[];
   link: string;
   children: {
     icon: JSX.Element;
     title: string;
-    page: JSX.Element | JSX.Element[];
     link: string;
   }[];
 };
 
 export type DrawerLayoutProps = {
-  link: string;
   pages: DrawerLayoutPage[];
+  currentElement: JSX.Element | JSX.Element[];
 };
 
 type DrawerLayoutStates = {
@@ -218,14 +197,14 @@ type DrawerLayoutStates = {
 };
 
 export default function DrawerLayout(props: DrawerLayoutProps) {
-  const [link, updateLink] = React.useContext(LinkContext);
+  // const { link, updateLink } = React.useContext(LinkContext);
   const [states, setStates] = React.useState<DrawerLayoutStates>({
     sideBarOpen: true,
   });
 
   React.useEffect(() => {
-    updateLink(props.link);
-  }, [props.link]);
+    // updateLink({ link: props.link });
+  }, [props.currentElement]);
 
   const handleDrawerOpen = () => {
     setStates({ ...states, sideBarOpen: true });
@@ -236,7 +215,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "yellow" }}>
+    <Box sx={{ display: "flex", backgroundColor: "yellow", width: "100%" }}>
       <CssBaseline />
       <Drawer
         variant="permanent"
@@ -265,13 +244,14 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         justifyContent="center"
         alignItems="center"
       >
-        {props.pages.map((item) =>
+        {props.currentElement}
+        {/* {props.pages.map((item) =>
           item.link == link
             ? item.page
             : item.children.map((childItem) =>
                 childItem.link == link ? childItem.page : <></>
               )
-        )}
+        )} */}
       </Grid>
     </Box>
   );

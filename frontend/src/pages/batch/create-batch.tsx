@@ -9,8 +9,9 @@ import {
 import React, { useState } from "react";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
-import Admin from "./../../layouts/admin";
+import AdminLayout from "../../layouts/admin-layout";
 import Event from "./event";
+import Events from "./events";
 
 type CreateBatchProps = {};
 type CreateBatchState = {
@@ -24,7 +25,7 @@ export default function CreateBatch(props: CreateBatchProps) {
     subjectId: 0,
   });
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField fullWidth variant="outlined" label="Name" />
@@ -74,12 +75,9 @@ export default function CreateBatch(props: CreateBatchProps) {
           <TextField fullWidth variant="outlined" label="Monthly Fees" />
         </Grid>
         <Grid item xs={12}>
-          <Event title="Class 1" />
-        </Grid>
-        <Grid item container>
-          <SaveCancelButtons />
+          <Events />
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }

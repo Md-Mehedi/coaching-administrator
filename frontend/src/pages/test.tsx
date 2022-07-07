@@ -23,7 +23,6 @@ function InnerFunction({ item }) {
 }
 export default function Test() {
   const [refresh, setRefresh] = useState(true);
-  console.log("in test : ", refresh);
   return (
     <Grid container spacing={2} direction="column">
       <Grid item>

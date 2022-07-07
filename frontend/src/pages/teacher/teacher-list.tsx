@@ -3,39 +3,39 @@ import MaterialTable from "material-table";
 import { useState } from "react";
 import SpecialLink from "../../components/special-link";
 import UpdateButton from "../../components/update-button";
-import { students } from "../../data";
+import { students, teachers } from "../../data";
 import { useNavigate } from "react-router-dom";
 
-export function StudentList() {
+export function TeacherList() {
   const navigate = useNavigate();
   const [state, setState] = useState({
-    studentsColumn: [
+    teacherColumn: [
       { title: "Roll no", field: "id", editable: false },
-      {
-        title: "Photo",
-        field: "photo",
-        editable: false,
-        render: (item) => (
-          <Grid container justifyContent="center">
-            <Avatar
-              src={item.content}
-              alt=""
-              sx={{
-                border: 3,
-                height: 40,
-                width: 40,
-              }}
-            />
-          </Grid>
-        ),
-      },
-      { title: "Name", field: "nickname", editable: false },
-      {
-        title: "Fees",
-        field: "fees",
-        editable: false,
-        render: (item) => (item.fees != 0 ? item.fees : "FREE"),
-      },
+      // {
+      //   title: "Photo",
+      //   field: "photo",
+      //   editable: false,
+      //   render: (item) => (
+      //     <Grid container justifyContent="center">
+      //       <Avatar
+      //         src={item.content}
+      //         alt=""
+      //         sx={{
+      //           border: 3,
+      //           height: 40,
+      //           width: 40,
+      //         }}
+      //       />
+      //     </Grid>
+      //   ),
+      // },
+      { title: "Name", field: "name", editable: false },
+      // {
+      //   title: "Fees",
+      //   field: "fees",
+      //   editable: false,
+      //   render: (item) => (item.fees != 0 ? item.fees : "FREE"),
+      // },
     ],
   });
   return (
@@ -44,12 +44,12 @@ export function StudentList() {
         <MaterialTable
           style={{ width: "100%" }}
           //@ts-ignore
-          columns={state.studentsColumn.map((item) => ({
+          columns={state.teacherColumn.map((item) => ({
             ...item,
             align: "center",
           }))}
-          title="Enrolled Students"
-          data={students}
+          title="Teachers"
+          data={teachers}
           options={{
             paging: students.length > 10,
             headerStyle: { textAlign: "center" },
@@ -58,7 +58,7 @@ export function StudentList() {
             pageSize: 10,
           }}
           onRowClick={(event) => {
-            navigate("/student");
+            navigate("/teacher");
           }}
         />
       </Grid>

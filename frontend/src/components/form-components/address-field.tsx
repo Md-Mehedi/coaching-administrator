@@ -1,9 +1,17 @@
 import { Grid, Typography, TextField } from "@mui/material";
+import { useState } from "react";
 
 export type AddressFieldProps = {
   title: string;
 };
+
 export default function AddressField(props: AddressFieldProps) {
+  const [state, setState] = useState({
+    division: "",
+    district: "",
+    thana: "",
+    village: "",
+  });
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>

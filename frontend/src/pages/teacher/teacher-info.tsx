@@ -10,7 +10,6 @@ import React, { useContext, useEffect, useState } from "react";
 import TabLayout, { TabLayoutContent } from "../../layouts/tab-layout";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams } from "react-router-dom";
-import StudentBatchDetails from "./info/student-batch-list";
 import ShortInfo from "../../components/person-components/short-info";
 import About from "../../components/person-components/about";
 
@@ -19,10 +18,10 @@ const tabs: TabLayoutContent[] = [
     title: "About",
     element: <About />,
   },
-  {
-    title: "Batch",
-    element: <StudentBatchDetails />,
-  },
+  // {
+  //   title: "Batch",
+  //   element: <StudentBatchDetails />,
+  // },
 ];
 const data = [
   "Full name",
@@ -48,13 +47,12 @@ const data = [
   "Permanent Address",
 ];
 
-export default function StudentInfo() {
+export default function TeacherInfo() {
   const [state, setState] = useState<{ id: any }>({ id: undefined });
   const { id } = useParams();
   useEffect(() => {
     setState({ ...state, id: id });
   }, [state.id]);
-
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>

@@ -13,7 +13,8 @@ import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import Redirect, { useNavigate, useMatch } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import { Login } from "./../pages/auth/Login";
+import { Login } from "../pages/auth/login";
+import WebLayout from "./web-layout";
 
 const useStyles: any = makeStyles((theme) => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles: any = makeStyles((theme) => ({
   },
 }));
 
-export default function Auth() {
+export default function AuthLayout({ children }) {
   const classes = useStyles();
   const history = useNavigate();
   let match = useMatch;
@@ -35,8 +36,7 @@ export default function Auth() {
   //   }
   // }, []);
   return (
-    <>
-      {/* <Navbar transparent /> */}
+    <WebLayout>
       <main>
         <div
           // className="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat bg-full"
@@ -47,47 +47,44 @@ export default function Auth() {
             // backgroundImage: `url(${auth_bg})`,
           }}
         >
-          {/* <Login /> */}
-
           <Grid
             container
             alignContent="center"
             className={classes.root}
             justifyContent="center"
           >
-            {
-              <Dialog open={!signOut}>
-                <DialogTitle>{"You are already signed in!!"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Do you want to sign out?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={(event) => {
-                      setSignOut(true);
-                      // AuthService.logout();
-                    }}
-                    color="primary"
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={(event) => {
-                      // history.goBack();
-                    }}
-                    color="primary"
-                    autoFocus
-                  >
-                    No
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            }
+            {children}
           </Grid>
+          <Dialog open={!signOut}>
+            <DialogTitle>{"You are already signed in!!"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Do you want to sign out?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={(event) => {
+                  setSignOut(true);
+                  // AuthService.logout();
+                }}
+                color="primary"
+              >
+                Yes
+              </Button>
+              <Button
+                onClick={(event) => {
+                  // history.goBack();
+                }}
+                color="primary"
+                autoFocus
+              >
+                No
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </main>
-    </>
+    </WebLayout>
   );
 }

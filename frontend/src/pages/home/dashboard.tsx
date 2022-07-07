@@ -1,48 +1,67 @@
-import { InboxOutlined } from "@mui/icons-material";
-import React from "react";
+import {
+  InboxOutlined,
+  EventAvailable,
+  CurrencyBitcoin,
+  CurrencyExchange,
+} from "@mui/icons-material";
 import Header from "../../components/header";
 import DrawerLayout, { DrawerLayoutPage } from "../../layouts/drawer-layout";
-import CreateBatch from "../batch/create-batch";
-import CreateProgram from "../batch/create-program";
-import Exam from "../batch/exam";
-import { StudentList } from "../student/student-list";
-import Test from "../test";
-import AddStudent from "./../student/add-student";
-import AddTeacher from "./../teacher/add-teacher";
+import WebLayout from "../../layouts/web-layout";
+import { ADMIN_LINKS } from "../../links";
+import AdminLayout from "./../../layouts/admin-layout";
 
+console.log("Dashboard ", ADMIN_LINKS);
 const dashboard_pages: DrawerLayoutPage[] = [
   {
     icon: <InboxOutlined />,
     title: "Student",
-    page: <StudentList />,
-    link: "/student-list",
+    link: ADMIN_LINKS.studentList.path,
     children: [
       {
         icon: <InboxOutlined />,
         title: "All Students",
-        page: <StudentList />,
-        link: "/student-list",
+        link: ADMIN_LINKS.studentList.path,
       },
       {
         icon: <InboxOutlined />,
         title: "Add new student",
-        page: <AddStudent />,
-        link: "/add-student",
+        link: ADMIN_LINKS.addStudent.path,
       },
     ],
   },
   {
     icon: <InboxOutlined />,
     title: "Teacher",
-    page: <AddTeacher />,
-    link: "/add-teacher",
+    link: ADMIN_LINKS.teacherList.path,
+    children: [
+      {
+        icon: <InboxOutlined />,
+        title: "Add teacher",
+        link: ADMIN_LINKS.addTeacher.path,
+      },
+      {
+        icon: <InboxOutlined />,
+        title: "Teacher list",
+        link: ADMIN_LINKS.teacherList.path,
+      },
+    ],
+  },
+  {
+    icon: <EventAvailable />,
+    title: "Program",
+    link: ADMIN_LINKS.programList.path,
+    children: [],
+  },
+  {
+    icon: <CurrencyExchange />,
+    title: "Expense",
+    link: ADMIN_LINKS.expenseList.path,
     children: [],
   },
   {
     icon: <InboxOutlined />,
     title: "Test",
-    page: <Test />,
-    link: "/test",
+    link: ADMIN_LINKS.test.path,
     children: [],
   },
 ];
@@ -56,11 +75,14 @@ dashboard_pages.map((item) => {
   });
 });
 
-export default function Dashboard({ link }) {
+export default function Dashboard({
+  element,
+}: {
+  element: JSX.Element | JSX.Element[];
+}) {
   return (
-    <>
-      <Header />
-      <DrawerLayout pages={dashboard_pages} link={link} />
-    </>
+    <AdminLayout>
+      <DrawerLayout pages={dashboard_pages} currentElement={element} />
+    </AdminLayout>
   );
 }

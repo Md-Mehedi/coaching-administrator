@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import TabLayout from "../../layouts/tab-layout";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function About() {

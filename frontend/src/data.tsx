@@ -1,3 +1,10 @@
+import ProgramList from "./pages/program/program-list";
+import AddStudent from "./pages/student/add-student";
+import StudentInfo from "./pages/student/student-info";
+import { StudentList } from "./pages/student/student-list";
+import AddTeacher from "./pages/teacher/add-teacher";
+import Test from "./pages/test";
+
 export interface IProgram {
   id: number;
   name: string;
@@ -129,7 +136,6 @@ export const batches: IBatch[] = [
     name: "12 Physics",
     studentCount: 10,
     assignedTeachers: ["Mehedi", "Ali"],
-    program: programs[0],
     subject: subjects[0],
   },
   {
@@ -137,78 +143,91 @@ export const batches: IBatch[] = [
     name: "11 Physics 1",
     studentCount: 26,
     assignedTeachers: ["Mehedi", "Ali"],
+    subject: subjects[0],
   },
   {
     id: 3,
     name: "11 Physics 2",
     studentCount: 22,
     assignedTeachers: ["Mehedi", "Ratul"],
+    subject: subjects[0],
   },
   {
     id: 4,
     name: "11 Chemistry",
     studentCount: 18,
     assignedTeachers: ["Mijan"],
+    subject: subjects[0],
   },
   {
     id: 5,
     name: "11 Biology",
     studentCount: 16,
     assignedTeachers: ["Ali"],
+    subject: subjects[0],
   },
   {
     id: 6,
     name: "11 ICT",
     studentCount: 17,
     assignedTeachers: ["Mijan"],
+    subject: subjects[0],
   },
   {
     id: 7,
     name: "10 Physics",
     studentCount: 30,
     assignedTeachers: ["Mehedi"],
+    subject: subjects[0],
   },
   {
     id: 8,
     name: "10 Chemistry",
     studentCount: 23,
     assignedTeachers: ["Mijan"],
+    subject: subjects[0],
   },
   {
     id: 9,
     name: "10 Biology",
     studentCount: 28,
     assignedTeachers: ["Mijan"],
+    subject: subjects[0],
   },
   {
     id: 10,
     name: "10 Math",
     studentCount: 7,
     assignedTeachers: ["Ratul"],
+    subject: subjects[0],
   },
   {
     id: 11,
     name: "9 Physics",
     studentCount: 31,
     assignedTeachers: ["Mehedi"],
+    subject: subjects[0],
   },
   {
     id: 12,
     name: "9 Chemistry",
     studentCount: 31,
     assignedTeachers: ["Mijan"],
+    subject: subjects[0],
   },
   {
     id: 13,
     name: "9 Biology",
     studentCount: 22,
     assignedTeachers: ["Ali"],
+    subject: subjects[0],
   },
   {
     id: 14,
     name: "9 Math",
     studentCount: 16,
     assignedTeachers: ["Ratul"],
+    subject: subjects[0],
   },
 ];
 

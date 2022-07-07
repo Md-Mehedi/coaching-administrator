@@ -19,14 +19,15 @@ import MaterialTable from "material-table";
 import { exams, examTypes, teachers } from "./../../data";
 import { AddCircleOutline } from "@mui/icons-material";
 import { moment } from "../../App";
-import Admin from "../../layouts/admin";
+import AdminLayout from "../../layouts/admin-layout";
+import Events from "./events";
 
 export function CreateExam() {
   const [state, setState] = useState({
     examType: 0,
   });
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField fullWidth variant="outlined" label="Exam Name" />
@@ -74,19 +75,19 @@ export function CreateExam() {
           </Card>
         </Grid>
         <Grid item xs={12}>
-          <Event title="Exam schedule" disableMoreClass disableRepeat />
+          <Events disableMoreClass disableRepeat />
         </Grid>
         <Grid item container>
           <SaveCancelButtons />
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }
 export function Exam() {
   const exam = exams[0];
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Typography variant="subtitle1">{`Exam name : ${exam.name}`}</Typography>
@@ -119,7 +120,7 @@ export function Exam() {
           </Grid>
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }
 export default function ExamList() {

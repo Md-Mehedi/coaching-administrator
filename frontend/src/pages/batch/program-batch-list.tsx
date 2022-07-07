@@ -3,7 +3,7 @@ import { Button, Grid, Typography } from "@mui/material";
 import MaterialTable from "material-table";
 import React, { useState } from "react";
 import { batches, IProgram, students } from "../../data";
-import Admin from "../../layouts/admin";
+import AdminLayout from "../../layouts/admin-layout";
 import { programs } from "./../../data";
 
 export default function ProgramBatchList() {
@@ -55,7 +55,7 @@ export default function ProgramBatchList() {
   });
 
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container direction="row" spacing={2} alignItems="flex-start">
         <Grid item xs={6}>
           <Grid container direction="column">
@@ -134,6 +134,6 @@ export default function ProgramBatchList() {
           </Grid>
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }

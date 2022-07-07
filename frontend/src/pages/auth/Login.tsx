@@ -21,7 +21,8 @@ const useStyles: any = makeStyles((theme: Theme) => ({
   },
   image: {
     //https://st4.depositphotos.com/21087722/22869/i/1600/depositphotos_228693110-stock-photo-amazing-succulents-welcome-handwriting-monogram.jpg
-    backgroundImage: "url()",
+    backgroundImage:
+      "url(https://st4.depositphotos.com/21087722/22869/i/1600/depositphotos_228693110-stock-photo-amazing-succulents-welcome-handwriting-monogram.jpg)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -136,9 +137,9 @@ export function Login({ signOut }: { signOut: boolean }) {
                 margin="normal"
                 required
                 fullWidth
-                label="Username"
-                name="username"
-                autoComplete="username"
+                label="E-mail"
+                name="email"
+                autoComplete="email"
                 autoFocus
                 onBlur={(event: {
                   target: { value: React.SetStateAction<string> };

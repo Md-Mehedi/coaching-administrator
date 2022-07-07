@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Admin from "../../layouts/admin";
+import AdminLayout from "../../layouts/admin-layout";
 import { payment } from "../../data";
 import HierarchyCheckbox from "../../components/hierarchy-checkbox";
 
@@ -70,7 +70,7 @@ export default function FeesCollection() {
     );
   }
   return (
-    <Admin>
+    <AdminLayout>
       <Grid container direction="column" spacing={2} alignItems="center">
         <Grid item xs={6}>
           <TextField variant="outlined" label="Roll no" />
@@ -155,6 +155,6 @@ export default function FeesCollection() {
           <Typography variant="h5">Due Remain : 2450 TK</Typography>
         </Grid>
       </Grid>
-    </Admin>
+    </AdminLayout>
   );
 }
