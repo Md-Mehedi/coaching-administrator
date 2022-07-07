@@ -3,6 +3,8 @@ package coaching.administrator.classes.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coaching.administrator.classes.Security.PasswordEncoder;
+
 @Service
 public class PersonService {
 
@@ -10,6 +12,8 @@ public class PersonService {
     private PersonRepository repository;
 
     public Person savePerson(Person person) {
+        PasswordEncoder pEncoder = new PasswordEncoder();
+        person.setPassword(pEncoder.getEncodedPassword(person.getPassword()));
         return repository.save(person);
     }
 
@@ -21,6 +25,10 @@ public class PersonService {
         return repository.findByFullName(name);
     }
 
+    public Person getPersonByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
     public String deletePerson(Integer id) {
 
         repository.deleteById(id);
@@ -29,7 +37,9 @@ public class PersonService {
 
     public Person updatePerson(Person person) {
         Person oldPerson = repository.findById(person.getId()).orElse(null);
+        PasswordEncoder pEncoder = new PasswordEncoder();
 
+        oldPerson.setPassword(pEncoder.getEncodedPassword(person.getPassword()));
         oldPerson.setFullName(person.getFullName());
         oldPerson.setNickName(person.getNickName());
         oldPerson.setGender(person.getGender());
@@ -46,8 +56,10 @@ public class PersonService {
         oldPerson.setMotherOcptnId(person.getMotherOcptnId());
         oldPerson.setReligionId(person.getReligionId());
         oldPerson.setPersonType(person.getPersonType());
+        oldPerson.setImage(person.getImage());
+        oldPerson.setActivated(person.getActivated());
 
-        return repository.save(person);
+        return repository.save(oldPerson);
     }
 
 }
