@@ -1,4 +1,4 @@
-package coaching.administrator.classes.District;
+package coaching.administrator.classes.Thana;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,22 +7,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "district")
-public class District {
+@Table(name = "thana")
+public class Thana {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    public Integer divisionId;
+    public Integer districtId;
 
-    public District() {
+    public Thana() {
     }
 
-    public District(Integer id, String name, Integer divisionId) {
+    public Thana(Integer id, String name, Integer districtId) {
         this.id = id;
         this.name = name;
-        this.divisionId = divisionId;
+        this.districtId = districtId;
     }
 
     public Integer getId() {
@@ -41,11 +41,11 @@ public class District {
         this.name = name;
     }
 
-    public Integer getDivisionId() {
-        return divisionId;
+    public Integer getDistrictId() {
+        return districtId;
     }
 
-    public void setDivisionId(Integer divisionId) {
-        this.divisionId = divisionId;
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
     }
 }
