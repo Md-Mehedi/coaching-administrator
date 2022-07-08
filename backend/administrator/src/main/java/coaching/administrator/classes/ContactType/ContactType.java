@@ -1,4 +1,4 @@
-package coaching.administrator.classes.District;
+package coaching.administrator.classes.ContactType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,22 +7,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "district")
-public class District {
+@Table(name = "contact_type")
+public class ContactType {
 
     @Id
+    // @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    public Integer divisionId;
 
-    public District() {
+    public ContactType() {
     }
 
-    public District(Integer id, String name, Integer divisionId) {
+    public ContactType(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.divisionId = divisionId;
     }
 
     public Integer getId() {
@@ -41,11 +40,4 @@ public class District {
         this.name = name;
     }
 
-    public Integer getDivisionId() {
-        return divisionId;
-    }
-
-    public void setDivisionId(Integer divisionId) {
-        this.divisionId = divisionId;
-    }
 }
