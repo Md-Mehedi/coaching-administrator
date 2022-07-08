@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import coaching.administrator.classes.Global.Global;
+import net.bytebuddy.build.EntryPoint.Unvalidated;
 
 @RestController
 public class PersonController {
@@ -27,26 +28,27 @@ public class PersonController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/add-admin")
-    public String addAdmin(@RequestBody Person person) {
+    @PostMapping("/verify-admin")
+    public String addAdmin(@RequestParam("email") String email,
+            @RequestParam("password") String password) {
 
+        Person unVerifiedPerson = new Person();
         try {
-            System.out.println("\033[31minside add person\033[0m");
-            Person existingPerson = service.getPersonByEmail(person.getEmail());
-
+            Person existingPerson = service.getPersonByEmail(email);
             if (existingPerson != null) {
                 return "email already taken";
             }
 
-            person.setActivated("F");
-            service.savePerson(person);
-            person = service.getPersonById(person.getId());
-            ConfirmationToken confirmationToken = new ConfirmationToken(person.getId());
+            unVerifiedPerson.setEmail(email);
+            unVerifiedPerson.setPassword(password);
+            unVerifiedPerson.setActivated("F");
+            service.savePerson(unVerifiedPerson);
 
+            unVerifiedPerson = service.getPersonByEmail(email);
+            ConfirmationToken confirmationToken = new ConfirmationToken(unVerifiedPerson.getId());
             confirmationTokenRepository.save(confirmationToken);
-
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(person.getEmail());
+            mailMessage.setTo(unVerifiedPerson.getEmail());
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setText("To confirm your account, please click here : "
                     + Global.BASE_PATH + "/confirm-admin?token=" + confirmationToken.getConfirmationToken());
@@ -54,8 +56,9 @@ public class PersonController {
             emailService.sendEmail(mailMessage);
 
             return "person set for email confirmation";
+
         } catch (Exception e) {
-            service.deletePerson(person.getId());
+            service.deletePerson(unVerifiedPerson.getId());
             System.out.println("\033[31minside Exception in add person\033[0m");
             e.printStackTrace();
         }
@@ -76,6 +79,22 @@ public class PersonController {
                 return "The link is invalid or broken";
             }
         } catch (Exception e) {
+            System.out.println("\033[31minside Exception in confirm person\033[0m");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @PostMapping("/add-admin")
+    public String addAdmin(@RequestBody Person person) {
+
+        try {
+            System.out.println("\033[31minside add person\033[0m");
+
+            service.savePerson(person);
+
+        } catch (Exception e) {
+            service.deletePerson(person.getId());
             System.out.println("\033[31minside Exception in add person\033[0m");
             e.printStackTrace();
         }
