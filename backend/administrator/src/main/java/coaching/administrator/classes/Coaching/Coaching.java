@@ -1,4 +1,4 @@
-package coaching.administrator.classes.Organization;
+package coaching.administrator.classes.Coaching;
 
 import java.sql.Date;
 
@@ -8,12 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
-@Table(name = "organization")
-public class Organization {
+@Table(name = "coaching")
+public class Coaching {
 
     @Id
-    // @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
@@ -21,29 +22,38 @@ public class Organization {
     private String description;
     private Integer addressId;
     private Integer contactNo;
-    private Date registration_time;
+    private Date registrationTime;
     private Integer whatsappNo;
     private String facebookLink;
     private String youtubeLink;
-    
-    public Organization() {
-    }
-    
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] image;
 
-    public Organization(Integer id, String name, String email, String description, Integer addressId, Integer contactNo,
-            Date registration_time, Integer whatsappNo, String facebookLink, String youtubeLink) {
+    public Coaching() {
+    }
+
+    public Coaching(Integer id, String name, String email, String description, Integer addressId, Integer contactNo,
+            Date registrationTime, Integer whatsappNo, String facebookLink, String youtubeLink, byte[] image) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.description = description;
         this.addressId = addressId;
         this.contactNo = contactNo;
-        this.registration_time = registration_time;
+        this.registrationTime = registrationTime;
         this.whatsappNo = whatsappNo;
         this.facebookLink = facebookLink;
         this.youtubeLink = youtubeLink;
+        this.image = image;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public Integer getId() {
         return id;
@@ -93,12 +103,12 @@ public class Organization {
         this.contactNo = contactNo;
     }
 
-    public Date getRegistration_time() {
-        return registration_time;
+    public Date getRegistrationTime() {
+        return registrationTime;
     }
 
-    public void setRegistration_time(Date registration_time) {
-        this.registration_time = registration_time;
+    public void setRegistrationTime(Date registrationTime) {
+        this.registrationTime = registrationTime;
     }
 
     public Integer getWhatsappNo() {
@@ -124,6 +134,5 @@ public class Organization {
     public void setYoutubeLink(String youtubeLink) {
         this.youtubeLink = youtubeLink;
     }
-
 
 }

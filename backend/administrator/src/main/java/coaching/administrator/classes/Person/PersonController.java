@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import coaching.administrator.classes.Global.Global;
 
@@ -28,8 +27,8 @@ public class PersonController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/add-person")
-    public String addPerson(@RequestBody Person person) {
+    @PostMapping("/add-admin")
+    public String addAdmin(@RequestBody Person person) {
 
         try {
             System.out.println("\033[31minside add person\033[0m");
@@ -50,7 +49,7 @@ public class PersonController {
             mailMessage.setTo(person.getEmail());
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setText("To confirm your account, please click here : "
-                    + Global.BASE_PATH + "/confirm-person?token=" + confirmationToken.getConfirmationToken());
+                    + Global.BASE_PATH + "/confirm-admin?token=" + confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 
@@ -63,7 +62,7 @@ public class PersonController {
         return null;
     }
 
-    @RequestMapping(value = "/confirm-person", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/confirm-admin", method = { RequestMethod.GET, RequestMethod.POST })
     public String confirmPerson(@RequestParam("token") String confirmationToken) {
         try {
             ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
@@ -83,7 +82,7 @@ public class PersonController {
         return null;
     }
 
-    @GetMapping("/get-person-by-id/{id}")
+    @GetMapping("/get-admin-by-id/{id}")
     public Person getPersonById(@PathVariable Integer id) {
         return service.getPersonById(id);
     }
@@ -94,12 +93,17 @@ public class PersonController {
         return "Hello Spring Boot";
     }
 
-    @GetMapping("/get-person-by-full-name/{name}")
+    @GetMapping("/get-admin-by-full-name/{name}")
     public Person getPersonByFullName(@PathVariable String name) {
         return service.getPersonByFullName(name);
     }
 
-    @PutMapping("/update-person-by-id")
+    @GetMapping("/get-admin-by-eamil/{email}")
+    public Person getPersonByEmail(@PathVariable String email) {
+        return service.getPersonByEmail(email);
+    }
+
+    @PutMapping("/update-admin-by-id")
     public Person updatePerson(@RequestBody Person person) {
         return service.updatePerson(person);
     }
