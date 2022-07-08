@@ -30,45 +30,57 @@ public class PersonController {
 
     @PostMapping("/add-person")
     public String addPerson(@RequestBody Person person) {
-        System.out.println("\033[31minside add person\033[0m");
-        Person existingPerson = service.getPersonByEmail(person.getEmail());
 
-        if (existingPerson != null) {
-            return "email already taken";
+        try {
+            System.out.println("\033[31minside add person\033[0m");
+            Person existingPerson = service.getPersonByEmail(person.getEmail());
+
+            if (existingPerson != null) {
+                return "email already taken";
+            }
+
+            person.setActivated("F");
+            service.savePerson(person);
+            person = service.getPersonById(person.getId());
+            ConfirmationToken confirmationToken = new ConfirmationToken(person.getId());
+
+            confirmationTokenRepository.save(confirmationToken);
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(person.getEmail());
+            mailMessage.setSubject("Complete Registration!");
+            mailMessage.setText("To confirm your account, please click here : "
+                    + Global.BASE_PATH + "/confirm-person?token=" + confirmationToken.getConfirmationToken());
+
+            emailService.sendEmail(mailMessage);
+
+            return "person set for email confirmation";
+        } catch (Exception e) {
+            service.deletePerson(person.getId());
+            System.out.println("\033[31minside Exception in add person\033[0m");
+            e.printStackTrace();
         }
-
-        person.setActivated("F");
-        service.savePerson(person);
-        person = service.getPersonById(person.getId());
-        ConfirmationToken confirmationToken = new ConfirmationToken(person.getId());
-
-        confirmationTokenRepository.save(confirmationToken);
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(person.getEmail());
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setText("To confirm your account, please click here : "
-                + Global.BASE_PATH + "/confirm-person?token=" + confirmationToken.getConfirmationToken());
-
-        emailService.sendEmail(mailMessage);
-
-        return "person set for email confirmation";
-
+        return null;
     }
 
     @RequestMapping(value = "/confirm-person", method = { RequestMethod.GET, RequestMethod.POST })
     public String confirmPerson(@RequestParam("token") String confirmationToken) {
-        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        try {
+            ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
-        if (token != null) {
-            Person person = service.getPersonById(token.getPersonId());
-            person.setActivated("T");
-            service.updatePerson(person);
-            return "person account verified with email";
-        } else {
-            return "The link is invalid or broken";
+            if (token != null) {
+                Person person = service.getPersonById(token.getPersonId());
+                person.setActivated("T");
+                service.updatePerson(person);
+                return "person account verified with email";
+            } else {
+                return "The link is invalid or broken";
+            }
+        } catch (Exception e) {
+            System.out.println("\033[31minside Exception in add person\033[0m");
+            e.printStackTrace();
         }
-
+        return null;
     }
 
     @GetMapping("/get-person-by-id/{id}")
