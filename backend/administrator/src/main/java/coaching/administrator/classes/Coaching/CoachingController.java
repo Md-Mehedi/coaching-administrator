@@ -32,22 +32,8 @@ public class CoachingController {
                 return "email already taken";
             }
 
-            coaching.setActivated("F");
             service.saveCoaching(coaching);
             coaching = service.getCoachingById(coaching.getId());
-            ConfirmationToken confirmationToken = new ConfirmationToken(coaching.getId());
-
-            confirmationTokenRepository.save(confirmationToken);
-
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(coaching.getEmail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setText("To confirm your account, please click here : "
-                    + Global.BASE_PATH + "/confirm-admin?token=" + confirmationToken.getConfirmationToken());
-
-            emailService.sendEmail(mailMessage);
-
-            return "coaching set for email confirmation";
         } catch (Exception e) {
             service.deleteCoaching(coaching.getId());
             System.out.println("\033[31minside Exception in add coaching\033[0m");
