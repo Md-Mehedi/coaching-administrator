@@ -1,5 +1,6 @@
 import { Grid, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
+import TabLayout from "../layouts/tab-layout";
 
 const array = [1, 2, 3, 4, 5];
 function InnerFunction({ item }) {
@@ -21,20 +22,29 @@ function InnerFunction({ item }) {
     </Grid>
   );
 }
+const tabs = [
+  { title: "test1", element: <Test /> },
+  { title: "test2", element: <Test /> },
+];
 export default function Test() {
   const [refresh, setRefresh] = useState(true);
   return (
-    <Grid container spacing={2} direction="column">
-      <Grid item>
-        <Button variant="outlined" onClick={(event) => setRefresh(!refresh)}>
-          Refreshed {refresh ? 1 : 0}
-        </Button>
-      </Grid>
-      {array.map((item) => (
+    <>
+      <Grid container spacing={2} direction="column">
         <Grid item>
-          <InnerFunction item={item} />
+          <Button variant="outlined" onClick={(event) => setRefresh(!refresh)}>
+            Refreshed {refresh ? 1 : 0}
+          </Button>
         </Grid>
-      ))}
-    </Grid>
+        {array.map((item) => (
+          <Grid item>
+            <InnerFunction item={item} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
+}
+export function TabTest() {
+  return <TabLayout tabs={tabs} />;
 }

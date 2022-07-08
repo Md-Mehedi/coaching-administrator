@@ -10,10 +10,13 @@ import { StudentList } from "./pages/student/student-list";
 import AddTeacher from "./pages/teacher/add-teacher";
 import TeacherInfo from "./pages/teacher/teacher-info";
 import { TeacherList } from "./pages/teacher/teacher-list";
-import Test from "./pages/test";
+import Test, { TabTest } from "./pages/test";
 import { Register } from "./pages/auth/register";
+import Settings from "./pages/settings/settings";
 
 export var ADMIN_LINKS = {
+  // Admin
+  settings: { path: "/dashboard/setting", element: <Settings /> },
   // Student
   studentList: { path: "/dashboard/student-list", element: <StudentList /> },
   addStudent: { path: "/dashboard/add-student", element: <AddStudent /> },
@@ -29,11 +32,12 @@ export var ADMIN_LINKS = {
   batch: { path: "/dashboard/batch", element: <Batch /> },
   // Other
   expenseList: { path: "/dashboard/expense", element: <ExpenseList /> },
-  test: { path: "/dashboard/test", element: <Test /> },
+  test: { path: "/dashboard/test", element: <TabTest /> },
 };
 
 export var USER_LINKS = {
   home: { path: "/home", element: <StudentList /> },
   login: { path: "/auth/login", element: <Login signOut /> },
   register: { path: "/auth/register", element: <Register /> },
+  forgotPassword: { path: "/auth/forgot-password", element: <Login signOut /> },
 };

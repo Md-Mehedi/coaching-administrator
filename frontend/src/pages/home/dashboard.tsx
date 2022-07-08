@@ -60,6 +60,12 @@ const dashboard_pages: DrawerLayoutPage[] = [
   },
   {
     icon: <InboxOutlined />,
+    title: "Settings",
+    link: ADMIN_LINKS.settings.path,
+    children: [],
+  },
+  {
+    icon: <InboxOutlined />,
     title: "Test",
     link: ADMIN_LINKS.test.path,
     children: [],

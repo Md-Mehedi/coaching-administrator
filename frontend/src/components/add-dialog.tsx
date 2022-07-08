@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { AddCircle, DeleteForever, RemoveCircle } from "@mui/icons-material";
-import DialogLayout, { DialogLayoutProps } from "../layouts/dialog";
+import DialogLayout, { DialogLayoutProps } from "../layouts/dialog-layout";
 import DropDown from "./dropdown";
 
 export interface AddDialogProps extends DialogLayoutProps {
@@ -22,6 +22,8 @@ export interface AddDialogProps extends DialogLayoutProps {
   };
   title?: string;
   children: JSX.Element | JSX.Element[];
+  saveButtonClick?: (event) => void;
+  cancelButtonClick?: (event) => void;
 }
 
 export default function AddDialog(props: AddDialogProps) {
@@ -48,6 +50,8 @@ export default function AddDialog(props: AddDialogProps) {
           props.onClose && props.onClose(event);
           event.stopPropagation();
         }}
+        primaryButtonClick={props.saveButtonClick}
+        secondaryButtonClick={props.cancelButtonClick}
       >
         {props?.children}
       </DialogLayout>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MyTable from "../../../components/my-table";
-import DialogLayout from "../../../layouts/dialog";
+import DialogLayout from "../../../layouts/dialog-layout";
 import AddExam from "./add-exam";
 
 export default function ProgramExam() {

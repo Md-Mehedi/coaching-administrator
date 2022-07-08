@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import SpecialLink from "../../components/special-link";
 import { programs } from "../../data";
-import DialogLayout from "../../layouts/dialog";
+import DialogLayout from "../../layouts/dialog-layout";
 import { ADMIN_LINKS } from "../../links";
 import CreateProgram from "./create-program";
 

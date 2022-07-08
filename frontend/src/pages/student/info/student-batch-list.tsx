@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { AddCircle, DeleteForever, RemoveCircle } from "@mui/icons-material";
 import MyTable from "../../../components/my-table";
-import DialogLayout from "../../../layouts/dialog";
+import DialogLayout from "../../../layouts/dialog-layout";
 import DropDown from "../../../components/dropdown";
 
 function AddBatch() {

@@ -6,6 +6,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Test from "../pages/test";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -25,11 +26,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      <Box sx={{ p: 3 }}>{children}</Box>
     </div>
   );
 }
@@ -75,7 +72,7 @@ export default function TabLayout(props: TabLayoutProps) {
           aria-label="full width tabs example"
         >
           {props.tabs.map((item, index) => (
-            <Tab label={item.title} {...a11yProps(0)} />
+            <Tab key={index} label={item.title} {...a11yProps(index)} />
           ))}
           {/* <Tab label="Item Two" {...a11yProps(1)} />
           <Tab label="Item Three" {...a11yProps(2)} /> */}
@@ -85,10 +82,18 @@ export default function TabLayout(props: TabLayoutProps) {
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
+        sx={{ padding: 20 }}
       >
         {props.tabs.map((item, index) => (
-          <TabPanel value={value} index={index} dir={theme.direction}>
+          <TabPanel
+            key={index}
+            value={value}
+            index={index}
+            dir={theme.direction}
+          >
+            {/* <div hidden={value !== index}> */}
             {item.element}
+            {/* </div> */}
           </TabPanel>
         ))}
         {/* <TabPanel value={value} index={0} dir={theme.direction}>

@@ -2,8 +2,8 @@ import axios from "axios";
 import { API } from "./../../api";
 
 class AuthService {
-  addAdmin(admin) {
-    return axios.post(API.auth.register, admin);
+  register(email: string, password: string) {
+    return axios.post(API.auth.register, { email: email, password: password });
   }
   // prefix = "/api/auth";
   // existByEmail(email: string) {

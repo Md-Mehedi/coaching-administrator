@@ -215,7 +215,16 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "#dae7eb", width: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "start",
+        alignItems: "start",
+        backgroundColor: "#dae7eb",
+        width: "100%",
+        minHeight: `calc(100vw - ${HEADER_HEIGHT}px - 15px)`,
+      }}
+    >
       <CssBaseline />
       <Drawer
         variant="permanent"

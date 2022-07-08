@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import "./index.css";
 import Router from "./routes";
@@ -15,9 +16,11 @@ function App() {
           // @ts-ignore
           dateAdapter={AdapterDateFns}
         >
-          <React.StrictMode>
-            <Router />
-          </React.StrictMode>
+          <SnackbarProvider maxSnack={3}>
+            <React.StrictMode>
+              <Router />
+            </React.StrictMode>
+          </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>
     </div>

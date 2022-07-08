@@ -6,7 +6,7 @@ export type DropDownProps = {
   data: { value: any; label: string }[];
 };
 
-export default function DropDown(props: DropDownProps) {
+export default function DropDown(props) {
   const { data, ...others } = props;
   return (
     <FormControl fullWidth>

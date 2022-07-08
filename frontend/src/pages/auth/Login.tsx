@@ -13,51 +13,49 @@ import {
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/system";
 import { useState } from "react";
-import AuthLayout from "../../layouts/auth-layout";
+import AuthLayout, { ForgotPassword } from "../../layouts/auth-layout";
+import { USER_LINKS } from "../../links";
 // import { useHistory } from "react-router-dom";
+import SpecialLink from "./../../components/special-link";
+import { useSnackbar } from "notistack";
 
-const useStyles: any = makeStyles((theme: Theme) => ({
-  root: {
-    height: "100vh",
-  },
-  image: {
-    //https://st4.depositphotos.com/21087722/22869/i/1600/depositphotos_228693110-stock-photo-amazing-succulents-welcome-handwriting-monogram.jpg
-    backgroundImage:
-      "url(https://st4.depositphotos.com/21087722/22869/i/1600/depositphotos_228693110-stock-photo-amazing-succulents-welcome-handwriting-monogram.jpg)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+// const useStyles: any = makeStyles((theme: Theme) => ({
+//   root: {
+//     height: "100vh",
+//   },
+//   image: {
+//     //https://st4.depositphotos.com/21087722/22869/i/1600/depositphotos_228693110-stock-photo-amazing-succulents-welcome-handwriting-monogram.jpg
+//     backgroundImage:
+//       "url(https://st4.depositphotos.com/21087722/22869/i/1600/depositphotos_228693110-stock-photo-amazing-succulents-welcome-handwriting-monogram.jpg)",
+//     backgroundRepeat: "no-repeat",
+//     backgroundColor:
+//       theme.palette.type === "light"
+//         ? theme.palette.grey[50]
+//         : theme.palette.grey[900],
+//     backgroundSize: "cover",
+//     backgroundPosition: "center",
+//   },
+//   paper: {
+//     margin: theme.spacing(8, 4),
+//     display: "flex",
+//     flexDirection: "column",
+//     alignItems: "center",
+//   },
+//   avatar: {
+//     margin: theme.spacing(1),
+//     backgroundColor: theme.palette.secondary.main,
+//   },
+//   form: {
+//     width: "100%", // Fix IE 11 issue.
+//     marginTop: theme.spacing(1),
+//   },
+//   submit: {
+//     margin: theme.spacing(3, 0, 2),
+//   },
+// }));
 
 export function Login({ signOut }: { signOut: boolean }) {
-  const classes = useStyles();
-  // const history = useHistory();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
+  // const classes = useStyles();
 
   // function handleSubmitClick(event: { preventDefault: () => void }) {
   //   event.preventDefault();
@@ -97,126 +95,120 @@ export function Login({ signOut }: { signOut: boolean }) {
   //     }
   //   );
   // }
-  function handleSnackbarClose(event?: React.SyntheticEvent, reason?: string) {
-    if (reason === "clickaway") {
-      return;
+  const { enqueueSnackbar } = useSnackbar();
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+  function errorVerify() {
+    if (!state.email || !state.password) {
+      enqueueSnackbar("Please fill up all field properly", {
+        variant: "error",
+      });
+      return false;
     }
-    setOpen(false);
+    return true;
+  }
+  function handleLoginClick(event) {
+    if (errorVerify()) alert(state.email + state.password);
   }
   return (
     <AuthLayout>
-      <Grid container justifyContent="flex-end" spacing={2} padding={8}>
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          lg={5}
-          component={Paper}
-          elevation={6}
-          square
-          style={{ padding: 5 }}
-        >
-          {signOut && (
-            <>
-              <Snackbar
-                open={open}
-                // onClose={handleSnackbarClose}
-                autoHideDuration={2000}
-              >
-                <Alert onClose={handleSnackbarClose} severity="error">
-                  {message}
-                </Alert>
-              </Snackbar>
-              <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Sign in
-                </Typography>
-                <form
-                  className={classes.form}
-                  noValidate
-                  // onSubmit={handleSubmitClick}
-                >
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="E-mail"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                    onBlur={(event: {
-                      target: { value: React.SetStateAction<string> };
-                    }) => {
-                      setUsername(event.target.value);
-                    }}
-                    onChange={(event: {
-                      target: { value: React.SetStateAction<string> };
-                    }) => setUsername(event.target.value)}
-                    // pattern="letters-digits-no-space"
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    autoComplete="password"
-                    onBlur={(event: {
-                      target: { value: React.SetStateAction<string> };
-                    }) => {
-                      setPassword(event.target.value);
-                    }}
-                    onChange={(event: {
-                      target: { value: React.SetStateAction<string> };
-                    }) => setPassword(event.target.value)}
-                  />
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    className={classes.submit}
-                  >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link
-                      // href={
-                      //   history.location.pathname
-                      //     .split("/")
-                      //     .slice(0, -1)
-                      //     .join("/") + "/forgot-password"
-                      // }
-                      // variant="body2"
-                      >
-                        Forgot password?
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link
-                        // href={
-                        //   history.location.pathname
-                        //     .split("/")
-                        //     .slice(0, -1)
-                        // .join("/") + "/signup"
-                        // }
-                        variant="body2"
-                      >
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </form>
-              </div>
-            </>
-          )}
+      <Grid
+        container
+        direction="column"
+        spacing={3}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item container direction="column" alignItems="center" spacing={1}>
+          <Grid item>
+            <Avatar>
+              <LockOutlinedIcon />
+            </Avatar>
+          </Grid>
+          <Grid item>
+            <Typography component="h1" variant="h5">
+              Log In
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid item container direction="column" spacing={1}>
+          <Grid item>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              label="E-mail"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onBlur={(event) => {
+                setState({
+                  ...state,
+                  email: event.target.value,
+                });
+              }}
+              onChange={(event) => {
+                setState({
+                  ...state,
+                  email: event.target.value,
+                });
+              }}
+              // pattern="letters-digits-no-space"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              autoComplete="password"
+              onBlur={(event) => {
+                setState({
+                  ...state,
+                  password: event.target.value,
+                });
+              }}
+              onChange={(event) => {
+                setState({
+                  ...state,
+                  password: event.target.value,
+                });
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleLoginClick}
+            >
+              Log In
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item container>
+          <Grid item xs>
+            <ForgotPassword />
+          </Grid>
+          <Grid item>
+            <SpecialLink
+              href={USER_LINKS.register.path}
+              // href={
+              //   history.location.pathname
+              //     .split("/")
+              //     .slice(0, -1)
+              // .join("/") + "/signup"
+              // }
+            >
+              {"Don't have an account? Register"}
+            </SpecialLink>
+          </Grid>
         </Grid>
       </Grid>
     </AuthLayout>

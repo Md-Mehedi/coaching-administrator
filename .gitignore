@@ -8,3 +8,5 @@ frontend/.git
 backend/.gitignore
 backend/.git
 *.log
+*.sh
+*.bat

@@ -37,7 +37,12 @@ export default function DialogLayout(props: DialogLayoutProps) {
             <Button
               variant="contained"
               color="primary"
-              onClick={props.primaryButtonClick}
+              onClick={(event) => {
+                if (props.primaryButtonClick) {
+                  props.primaryButtonClick(event);
+                  props.onClose && props.onClose(event);
+                }
+              }}
             >
               {props.primaryButtonText || "Save"}
             </Button>
