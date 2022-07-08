@@ -1,6 +1,10 @@
-import { Grid, Avatar } from "@mui/material";
-import MaterialTable, { MaterialTableProps } from "material-table";
-import React, { useEffect, useState } from "react";
+import { Add, AddOutlined } from "@mui/icons-material";
+import { Grid, Avatar, IconButton, Button } from "@mui/material";
+import MaterialTable, {
+  MaterialTableProps,
+  MTableAction,
+} from "material-table";
+import React, { useEffect, useRef, useState } from "react";
 import { students } from "../data";
 export type column = {
   title: string;
@@ -14,7 +18,9 @@ export type actions = {
   tooltip: string;
   onClick: (event, rowData) => {};
 };
+
 export default function MyTable(props) {
+  const addActionRef = useRef();
   const [column, setColumn] = useState([{}]);
   useEffect(() => {
     setColumn(props.column);
@@ -22,9 +28,15 @@ export default function MyTable(props) {
 
   return (
     <MaterialTable
-      {...props}
+      editable={{
+        onRowAdd: (newData) => {
+          console.log(newData);
+          alert("IN may table");
+        },
+      }}
       title={props.title ? props.title : ""}
-      style={{ width: "100%" }}
+      {...props}
+      style={{ width: "100%", ...props.style }}
       //@ts-ignore
       columns={column.map((item) => ({
         align: "center",
@@ -39,11 +51,35 @@ export default function MyTable(props) {
         pageSize: 10,
         ...props.options,
       }}
-      editable={{
-        onRowAdd: (newData) => {
-          console.log(newData);
-        },
+      icons={{
+        Add: (props) => (
+          <Button
+            variant="contained"
+            startIcon={<AddOutlined />}
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            Create Batch
+          </Button>
+        ),
       }}
+      // components={{
+      //   Action: (props) => {
+      //     if (
+      //       typeof props.action === typeof Function ||
+      //       props.action.tooltip !== "Add"
+      //     )
+      //       return <MTableAction {...props} />;
+      //     else
+      //       return (
+      //         //@ts-ignore
+      //         <div ref={addActionRef} onClick={props.action.onClick}>
+      //           ADD{" "}
+      //         </div>
+      //       );
+      //   },
+      // }}
       // components={{
       //   Cell: <p />,
       // }}

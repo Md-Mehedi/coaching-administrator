@@ -11,6 +11,7 @@ import { useState } from "react";
 import SpecialLink from "../../components/special-link";
 import { programs } from "../../data";
 import DialogLayout from "../../layouts/dialog";
+import { ADMIN_LINKS } from "../../links";
 import CreateProgram from "./create-program";
 
 function ProgramCards() {
@@ -18,7 +19,7 @@ function ProgramCards() {
     <Grid container spacing={2}>
       {programs.map((item) => (
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <SpecialLink href="/program">
+          <SpecialLink href={ADMIN_LINKS.program.path}>
             <Card>
               <CardActionArea>
                 <CardContent>

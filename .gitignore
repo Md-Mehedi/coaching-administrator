@@ -7,3 +7,4 @@ frontend/.gitignore
 frontend/.git
 backend/.gitignore
 backend/.git
+*.log

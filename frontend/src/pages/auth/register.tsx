@@ -70,16 +70,39 @@ export function Register() {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+  // const [state, setState] = useState({
+  //   email: "66.mehedi@gmail.com",
+  //   password: "",
+  //   passwordAgain: "",
+  //   admin: {
+  //     image: "",
+  //     fullName: "",
+  //     nickname: "",
+  //     gender: "M",
+  //     dob: null,
+  //     bloodGroup: "O+",
+  //   },
+  //   coaching: {
+  //     image: "",
+  //     name: "",
+  //     description: "",
+  //     whatsAppNo: "",
+  //     facebook: "",
+  //     youtube: "",
+  //     email: "",
+  //     address: null,
+  //   },
+  // });
   const [state, setState] = useState({
-    email: "",
-    password: "",
-    passwordAgain: "",
+    email: "66.mehedi@gmail.com",
+    password: "30051999",
+    passwordAgain: "30051999",
     admin: {
       image: "",
-      fullName: "",
-      nickname: "",
+      fullName: "Md. Mehedi Hasan",
+      nickname: "Mehedi",
       gender: "M",
-      dob: null,
+      dob: new Date(),
       bloodGroup: "O+",
     },
     coaching: {

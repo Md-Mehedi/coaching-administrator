@@ -13,6 +13,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/system";
 import { useState } from "react";
+import AuthLayout from "../../layouts/auth-layout";
 // import { useHistory } from "react-router-dom";
 
 const useStyles: any = makeStyles((theme: Theme) => ({
@@ -103,113 +104,121 @@ export function Login({ signOut }: { signOut: boolean }) {
     setOpen(false);
   }
   return (
-    <Grid
-      component={Paper}
-      elevation={6}
-      square
-      style={{ padding: 5, width: "70%" }}
-    >
-      {signOut && (
-        <>
-          <Snackbar
-            open={open}
-            // onClose={handleSnackbarClose}
-            autoHideDuration={2000}
-          >
-            <Alert onClose={handleSnackbarClose} severity="error">
-              {message}
-            </Alert>
-          </Snackbar>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form
-              className={classes.form}
-              noValidate
-              // onSubmit={handleSubmitClick}
-            >
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="E-mail"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onBlur={(event: {
-                  target: { value: React.SetStateAction<string> };
-                }) => {
-                  setUsername(event.target.value);
-                }}
-                onChange={(event: {
-                  target: { value: React.SetStateAction<string> };
-                }) => setUsername(event.target.value)}
-                // pattern="letters-digits-no-space"
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                autoComplete="password"
-                onBlur={(event: {
-                  target: { value: React.SetStateAction<string> };
-                }) => {
-                  setPassword(event.target.value);
-                }}
-                onChange={(event: {
-                  target: { value: React.SetStateAction<string> };
-                }) => setPassword(event.target.value)}
-              />
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                type="submit"
-                className={classes.submit}
+    <AuthLayout>
+      <Grid container justifyContent="flex-end" spacing={2} padding={8}>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          lg={5}
+          component={Paper}
+          elevation={6}
+          square
+          style={{ padding: 5 }}
+        >
+          {signOut && (
+            <>
+              <Snackbar
+                open={open}
+                // onClose={handleSnackbarClose}
+                autoHideDuration={2000}
               >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                  // href={
-                  //   history.location.pathname
-                  //     .split("/")
-                  //     .slice(0, -1)
-                  //     .join("/") + "/forgot-password"
-                  // }
-                  // variant="body2"
+                <Alert onClose={handleSnackbarClose} severity="error">
+                  {message}
+                </Alert>
+              </Snackbar>
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <form
+                  className={classes.form}
+                  noValidate
+                  // onSubmit={handleSubmitClick}
+                >
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="E-mail"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    onBlur={(event: {
+                      target: { value: React.SetStateAction<string> };
+                    }) => {
+                      setUsername(event.target.value);
+                    }}
+                    onChange={(event: {
+                      target: { value: React.SetStateAction<string> };
+                    }) => setUsername(event.target.value)}
+                    // pattern="letters-digits-no-space"
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    autoComplete="password"
+                    onBlur={(event: {
+                      target: { value: React.SetStateAction<string> };
+                    }) => {
+                      setPassword(event.target.value);
+                    }}
+                    onChange={(event: {
+                      target: { value: React.SetStateAction<string> };
+                    }) => setPassword(event.target.value)}
+                  />
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className={classes.submit}
                   >
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link
-                    // href={
-                    //   history.location.pathname
-                    //     .split("/")
-                    //     .slice(0, -1)
-                    // .join("/") + "/signup"
-                    // }
-                    variant="body2"
-                  >
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-        </>
-      )}
-    </Grid>
+                    Sign In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link
+                      // href={
+                      //   history.location.pathname
+                      //     .split("/")
+                      //     .slice(0, -1)
+                      //     .join("/") + "/forgot-password"
+                      // }
+                      // variant="body2"
+                      >
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link
+                        // href={
+                        //   history.location.pathname
+                        //     .split("/")
+                        //     .slice(0, -1)
+                        // .join("/") + "/signup"
+                        // }
+                        variant="body2"
+                      >
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </form>
+              </div>
+            </>
+          )}
+        </Grid>
+      </Grid>
+    </AuthLayout>
   );
 }

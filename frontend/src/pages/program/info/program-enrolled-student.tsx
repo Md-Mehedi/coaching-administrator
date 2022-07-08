@@ -2,6 +2,7 @@ import React from "react";
 import MyTable from "../../../components/my-table";
 import { students } from "./../../../data";
 import { useNavigate } from "react-router-dom";
+import { ADMIN_LINKS } from "./../../../links";
 
 export default function ProgramEnrolledStudent() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function ProgramEnrolledStudent() {
         { title: "Enrolled Date", field: "enrolledDate" },
       ]}
       onRowClick={(event, rowData) => {
-        navigate("/student");
+        navigate(ADMIN_LINKS.student.path);
       }}
       options={{
         toolbar: true,

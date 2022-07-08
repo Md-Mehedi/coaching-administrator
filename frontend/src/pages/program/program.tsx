@@ -3,8 +3,13 @@ import React from "react";
 import TabLayout, { TabLayoutContent } from "../../layouts/tab-layout";
 import ProgramBatchList from "./info/program-batch-list";
 import ProgramEnrolledStudent from "./info/program-enrolled-student";
+import ProgramExam from "./info/program-exam";
 
 const tabs: TabLayoutContent[] = [
+  {
+    title: "Exam",
+    element: <ProgramExam />,
+  },
   {
     title: "Batch",
     element: <ProgramBatchList />,

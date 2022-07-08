@@ -215,7 +215,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "yellow", width: "100%" }}>
+    <Box sx={{ display: "flex", backgroundColor: "#dae7eb", width: "100%" }}>
       <CssBaseline />
       <Drawer
         variant="permanent"
