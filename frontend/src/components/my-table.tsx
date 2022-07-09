@@ -1,4 +1,4 @@
-import { Add, AddOutlined } from "@mui/icons-material";
+import { Add, AddCircle, AddOutlined } from "@mui/icons-material";
 import { Grid, Avatar, IconButton, Button } from "@mui/material";
 import MaterialTable, {
   MaterialTableProps,
@@ -19,23 +19,33 @@ export type actions = {
   onClick: (event, rowData) => {};
 };
 
-export default function MyTable(props) {
+export interface MyTableProps<RowData extends object>
+  extends MaterialTableProps<RowData> {
+  addButtonText?: string;
+  addButtonDialog?: JSX.Element[] | JSX.Element;
+}
+
+export default function MyTable<RowData extends object>(
+  props: MyTableProps<RowData>
+) {
   const addActionRef = useRef();
+  const { addButtonText, addButtonDialog, ...others } = props;
   const [column, setColumn] = useState([{}]);
   useEffect(() => {
-    setColumn(props.column);
-  }, [props.column]);
+    setColumn(props.columns);
+  }, [props.columns]);
 
   return (
+    //@ts-ignore
     <MaterialTable
-      editable={{
-        onRowAdd: (newData) => {
-          console.log(newData);
-          alert("IN may table");
-        },
-      }}
+      // editable={{
+      //   // onRowAdd: (newData) => {
+      //   //   console.log(newData);
+      //   //   alert("IN my table");
+      //   // },
+      // }}
       title={props.title ? props.title : ""}
-      {...props}
+      {...others}
       style={{ width: "100%", ...props.style }}
       //@ts-ignore
       columns={column.map((item) => ({
@@ -44,26 +54,27 @@ export default function MyTable(props) {
         ...item,
       }))}
       options={{
-        paging: props.data.length > 10,
+        paging: props.data.length >= 5,
         headerStyle: { textAlign: "center" },
-        actionsColumnIndex: -1,
+        actionsColumnIndex: 0,
         addRowPosition: "first",
-        pageSize: 10,
+        pageSize: 5,
         ...props.options,
       }}
-      icons={{
-        Add: (props) => (
-          <Button
-            variant="contained"
-            startIcon={<AddOutlined />}
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
-          >
-            Create Batch
-          </Button>
-        ),
-      }}
+      // icons={{
+      //   Add: (addProps) => (
+      //     <Button
+      //       variant="contained"
+      //       startIcon={<AddCircle />}
+      //       onClick={(event) => {
+      //         event.stopPropagation();
+      //         addProps?.ref?.onClick();
+      //       }}
+      //     >
+      //       {props.addButtonText || "Add"}
+      //     </Button>
+      //   ),
+      // }}
       // components={{
       //   Action: (props) => {
       //     if (

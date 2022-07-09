@@ -27,7 +27,8 @@ export default function ProgramBatchList() {
             ...item,
             subject: item.subject?.name,
           }))}
-          column={[
+          // @ts-ignore
+          columns={[
             { title: "Name", field: "name" },
             { title: "Subject", field: "subject" },
           ]}

@@ -8,21 +8,19 @@ import {
 } from "@mui/material";
 import React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-export default function About() {
-  function Field({ field, value }) {
-    return (
-      <Grid container direction="row" spacing={0} alignItems="center">
-        <Grid item>
-          <Typography sx={{ fontWeight: "bold" }}>{field} : &nbsp; </Typography>
-        </Grid>
-        <Grid item>
-          <Typography>{value} </Typography>
-        </Grid>
+export function Field({ field, value }) {
+  return (
+    <Grid container direction="row" spacing={0} alignItems="center">
+      <Grid item>
+        <Typography sx={{ fontWeight: "bold" }}>{field} : &nbsp; </Typography>
       </Grid>
-    );
-  }
-
+      <Grid item>
+        <Typography>{value} </Typography>
+      </Grid>
+    </Grid>
+  );
+}
+export default function About() {
   return (
     <div>
       <Accordion>

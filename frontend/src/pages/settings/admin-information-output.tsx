@@ -2,6 +2,7 @@ import { Avatar, Grid, Typography } from "@mui/material";
 import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material/styles";
+import { Field } from "../../components/person-components/about";
 
 const useStyle = makeStyles((theme: Theme) => ({
   justifyContent: {
@@ -29,18 +30,16 @@ export default function AdminInformationOutput() {
             <Typography variant="h5">Nickname</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1">
-              Full Name : Kazi Wasif Amin Shammya
-            </Typography>
+            <Field field="Full Name" value="Kazi Wasif Amin Shammya" />
           </Grid>
           <Grid item>
-            <Typography variant="body1">Date of birth: 30/05/1999</Typography>
+            <Field field="Date of birth" value="30/05/1999" />
           </Grid>
           <Grid item>
-            <Typography variant="body1">Gender : Male</Typography>
+            <Field field="Gender" value="Male" />
           </Grid>
           <Grid item>
-            <Typography variant="body1">Blood group : O+</Typography>
+            <Field field="Blood group" value="O+" />
           </Grid>
         </Grid>
       </Grid>

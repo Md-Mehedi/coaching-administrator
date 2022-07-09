@@ -1,31 +1,237 @@
-import React from "react";
+import { DatePicker } from "@mui/lab";
+import { Grid, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import DropDown from "../components/dropdown";
 import MyTable from "../components/my-table";
+import { Field } from "../components/person-components/about";
 
 const column = [
-  { title: "Date", field: "date", type: "date" },
+  {
+    title: "Date",
+    field: "date",
+    type: "date",
+    initialEditValue: new Date(),
+    editComponent: (props) => (
+      <DatePicker
+        label="Date of birth"
+        value={props.value}
+        onChange={props.onChange}
+        // onChange={(newValue) => {
+        //   props.onChange(newValue.toLocaleString());
+        // }}
+        renderInput={(params) => <TextField fullWidth {...params} />}
+      />
+    ),
+  },
   { title: "Details", field: "details" },
-  { title: "Amount", field: "amount" },
+  { title: "Amount", field: "amount", type: "numeric" },
 ];
 const data = [
-  { date: Date(), details: "Bench", amount: 2000 },
-  { date: Date(), details: "Bench", amount: 2000 },
-  { date: Date(), details: "Bench", amount: 2000 },
-  { date: Date(), details: "Bench", amount: 2000 },
-  { date: Date(), details: "Bench", amount: 2000 },
+  {
+    id: 1,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 2,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 3,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 4,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 5,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 6,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 7,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 8,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 9,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
+  {
+    id: 10,
+    date: new Date().toLocaleDateString(),
+    details: "Bench",
+    amount: 2000,
+  },
 ];
 
 export default function ExpenseList() {
+  const [state, setState] = useState({
+    data: data,
+    filter: {
+      month: 7,
+      year: 2022,
+      selectedAmount: 0,
+    },
+  });
+  useEffect(() => {
+    // var input = document.getElementsByClassName(
+    //   "MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+    // )[0];
+    // input.addEventListener("keypress", function (event) {
+    //   // @ts-ignore
+    //   if (event.key === "Enter")
+    //     document
+    //       .getElementsByClassName(
+    //         "MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+    //       )[0]
+    //       // @ts-ignore
+    //       .click();
+    // });
+  }, []);
+
   return (
-    <MyTable
-      column={column.map((item) => ({
-        ...item,
-        editable: "always",
-        filtering: true,
-      }))}
-      data={data}
-      options={{
-        searchFieldAlignment: "left",
-      }}
-    />
+    <Grid container direction="column" spacing={2}>
+      <Grid item container spacing={2} alignItems="center">
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <DropDown
+            label="Month"
+            value={state.filter.month}
+            data={[
+              { value: 0, label: "-- Any Month --" },
+              { value: 1, label: "January" },
+              { value: 2, label: "February" },
+              { value: 3, label: "March" },
+              { value: 4, label: "April" },
+              { value: 5, label: "May" },
+              { value: 6, label: "June" },
+              { value: 7, label: "July" },
+              { value: 8, label: "August" },
+              { value: 9, label: "September" },
+              { value: 10, label: "October" },
+              { value: 11, label: "November" },
+              { value: 12, label: "December" },
+            ]}
+            onChange={(event) =>
+              setState({
+                ...state,
+                filter: { ...state.filter, month: event.target.value },
+              })
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <DropDown
+            label="Year"
+            value={state.filter.year}
+            data={[
+              { value: 0, label: "-- Any Year --" },
+              { value: 2018, label: "2018" },
+              { value: 2019, label: "2019" },
+              { value: 2020, label: "2020" },
+              { value: 2021, label: "2021" },
+              { value: 2022, label: "2022" },
+            ]}
+            onChange={(event) =>
+              setState({
+                ...state,
+                filter: { ...state.filter, year: event.target.value },
+              })
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Field field="Total spend" value={18587} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Field field="Selected spend" value={state.filter.selectedAmount} />
+        </Grid>
+      </Grid>
+      <Grid item container>
+        <MyTable
+          //@ts-ignore
+          columns={column.map((item) => ({
+            ...item,
+            editable: "always",
+            filtering: true,
+          }))}
+          data={state.data}
+          options={{
+            searchFieldAlignment: "right",
+            selection: true,
+          }}
+          onSelectionChange={(rows) => {
+            let sum = 0;
+            rows.forEach((item) => {
+              sum += item.amount;
+            });
+            setState({
+              ...state,
+              filter: { ...state.filter, selectedAmount: sum },
+            });
+          }}
+          editable={{
+            onRowAdd: (newData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  setState({ ...state, data: [...state.data, newData] });
+
+                  resolve(1);
+                }, 1000);
+              }),
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  const dataUpdate = [...state.data];
+                  const index = state.data.findIndex(
+                    (item) => item.id === oldData?.id
+                  );
+                  // oldData?.id || 0;
+                  dataUpdate[index] = newData;
+                  setState({ ...state, data: [...dataUpdate] });
+
+                  resolve(1);
+                }, 1000);
+              }),
+            onRowDelete: (oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  const dataDelete = [...state.data];
+                  const index = state.data.findIndex(
+                    (item) => item.id === oldData?.id
+                  );
+                  dataDelete.splice(index, 1);
+                  setState({ ...state, data: [...dataDelete] });
+                  resolve(1);
+                }, 1000);
+              }),
+          }}
+        />
+      </Grid>
+    </Grid>
   );
 }

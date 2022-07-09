@@ -15,18 +15,19 @@ export default function ProgramExam() {
   return (
     <>
       <MyTable
-        column={[
+        // @ts-ignore
+        columns={[
           { title: "Name", field: "name" },
           { title: "Subject-Mark", field: "subjectMark" },
           { title: "Result Date", field: "resultDate" },
         ]}
         data={state.data}
-        editable={{
-          onRowAdd: (rowData) => {
-            setState({ ...state, addDialogOpen: true });
-            alert("ok");
-          },
-        }}
+        // editable={{
+        //   onRowAdd: (rowData) => {
+        //     setState({ ...state, addDialogOpen: true });
+        //     alert("ok");
+        //   },
+        // }}
       />
       <DialogLayout
         open={state.addDialogOpen}

@@ -86,7 +86,8 @@ export default function StudentBatchDetails() {
         <AccordionDetails>
           <MyTable
             title="HSC 2023"
-            column={[
+            //@ts-ignore
+            columns={[
               {
                 title: "Name",
                 field: "subject",
@@ -102,15 +103,15 @@ export default function StudentBatchDetails() {
               { subject: "Math", date: "20/04/2022" },
               { subject: "Biology", date: "20/04/2022" },
             ]}
-            actions={[
-              {
-                icon: (rowData) => <RemoveCircle />,
-                tooltip: "Remove from batch",
-                onClick: (event, rowData) => {
-                  console.log(rowData);
-                },
-              },
-            ]}
+            // actions={[
+            //   {
+            //     icon: (rowData) => <RemoveCircle />,
+            //     tooltip: "Remove from batch",
+            //     onClick: (event, rowData) => {
+            //       console.log(rowData);
+            //     },
+            //   },
+            // ]}
           />
           <Grid container direction="column">
             {/* <Grid

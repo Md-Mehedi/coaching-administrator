@@ -9,7 +9,8 @@ export default function ProgramEnrolledStudent() {
   return (
     <MyTable
       data={students.map((item) => ({ ...item, enrolledDate: "30/04/2022" }))}
-      column={[
+      // @ts-ignore
+      columns={[
         { title: "Name", field: "fullName" },
         { title: "Enrolled Date", field: "enrolledDate" },
       ]}
