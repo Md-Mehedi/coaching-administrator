@@ -10,8 +10,7 @@ import React, { useState } from "react";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
 import AdminLayout from "../../layouts/admin-layout";
-import Event from "./event";
-import Events from "./events";
+import Events from "../class-time/events";
 
 type CreateBatchProps = {};
 type CreateBatchState = {

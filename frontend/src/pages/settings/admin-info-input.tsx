@@ -13,7 +13,7 @@ import { Person } from "../../classes/person-info";
 import AvatarUpload from "../../components/avatar-upload";
 import { blood_group } from "../../data";
 
-export default function AdminInformationInput() {
+export default function AdminInfoInput() {
   const [admin, setAdmin] = useState(new Person());
   function updateAdmin(object) {
     setAdmin({ ...admin, ...object });

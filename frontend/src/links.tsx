@@ -1,8 +1,8 @@
 import { Login } from "./pages/auth/login";
-import Batch from "./pages/batch/batch";
-import ExpenseList from "./pages/expense-list";
+import Batch from "./pages/batch/batch-info";
+import ExpenseList from "./pages/financial/expense-list";
 import Dashboard from "./pages/home/dashboard";
-import Program from "./pages/program/program";
+import Program from "./pages/program/program-info";
 import ProgramList from "./pages/program/program-list";
 import AddStudent from "./pages/student/add-student";
 import StudentInfo from "./pages/student/student-info";
@@ -13,7 +13,7 @@ import { TeacherList } from "./pages/teacher/teacher-list";
 import Test, { TabTest } from "./pages/test";
 import { Register } from "./pages/auth/register";
 import Settings from "./pages/settings/settings";
-import ExamDetails from "./pages/program/info/exam-details";
+import ExamDetails from "./pages/exam/exam-info";
 
 export var ADMIN_LINKS = {
   // Admin

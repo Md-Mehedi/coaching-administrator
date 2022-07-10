@@ -2,11 +2,11 @@ import { AddCircle } from "@mui/icons-material";
 import { Button, Grid, IconButton } from "@mui/material";
 import { MTableToolbar } from "material-table";
 import React, { useState } from "react";
-import MyTable from "../../../components/my-table";
-import DialogLayout from "../../../layouts/dialog-layout";
-import AddExam from "./add-exam";
+import MyTable from "../../components/my-table";
+import DialogLayout from "../../layouts/dialog-layout";
 import { useNavigate } from "react-router-dom";
-import { ADMIN_LINKS } from "./../../../links";
+import { ADMIN_LINKS } from "../../links";
+import AddExam from "../exam/add-exam";
 function updateAddIcon(props, newFunction, stopOldFunction = true) {
   var addIcon = props.actions.find((item) => item.tooltip === "Add");
   var oldFunc = addIcon.onClick;

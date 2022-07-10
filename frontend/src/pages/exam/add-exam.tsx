@@ -1,32 +1,22 @@
 import {
-  AddCircleOutline,
   ArrowDownward,
   DeleteForever,
+  AddCircleOutline,
 } from "@mui/icons-material";
 import {
   Grid,
   TextField,
-  Typography,
-  Card,
-  CardHeader,
-  CardContent,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
   Accordion,
-  AccordionDetails,
   AccordionSummary,
   IconButton,
+  AccordionDetails,
+  Button,
+  Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import DropDown from "../../../components/dropdown";
-import SaveCancelButtons from "../../../components/save-cancel-buttons";
-import TextEditor from "../../../components/text-editor";
-import { examTypes } from "../../../data";
-import AdminLayout from "../../../layouts/admin-layout";
-import Events from "../../batch/events";
+import { useState } from "react";
+import DropDown from "../../components/dropdown";
+import TextEditor from "../../components/text-editor";
+import Events from "../class-time/events";
 
 function ExamTypeMark(props) {
   const [state, setState] = useState({

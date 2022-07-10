@@ -1,11 +1,19 @@
 import { Grid, Box, TextField, Autocomplete } from "@mui/material";
 import { useState } from "react";
 
-export default function SearchByNameOrIdField() {
+export type SearchByNameOrIdFieldProps = {
+  multiple?: boolean;
+};
+export default function SearchByNameOrIdField(
+  props: SearchByNameOrIdFieldProps
+) {
   const [state, setState] = useState<{
-    selectedValue: { id: string; name: string } | null;
+    selectedValue:
+      | { id: string; name: string }
+      | { id: string; name: string }[]
+      | null;
   }>({
-    selectedValue: null,
+    selectedValue: props.multiple ? [] : null,
   });
   const students = [
     { id: "2312001", name: "Aman" },
@@ -16,36 +24,39 @@ export default function SearchByNameOrIdField() {
   ];
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12}>
         <Autocomplete
+          multiple={props.multiple}
+          filterSelectedOptions={props.multiple}
           value={state.selectedValue}
           onChange={(event, newValue) => {
             setState({ ...state, selectedValue: newValue });
           }}
           options={students}
           autoHighlight
-          getOptionLabel={(option) => option.id}
-          renderOption={(props, option) => (
-            <Box
-              component="li"
-              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-              {...props}
-            >
-              {/* <img
-              loading="lazy"
-              width="20"
-              src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-              srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-              alt=""
-            /> */}
-              {option.id} - {option.name}
-            </Box>
-          )}
+          getOptionLabel={(option) => option.id + " - " + option.name}
+          // renderOption={(props, option) => (
+          //   <Box
+          //     component="li"
+          //     sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+          //     {...props}
+          //   >
+          //     {/* <img
+          //     loading="lazy"
+          //     width="20"
+          //     src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+          //     srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+          //     alt=""
+          //   /> */}
+          //     {option.id} - {option.name}
+          //   </Box>
+          // )}
           renderInput={(params) => (
             <TextField
               {...params}
               fullWidth
-              label="ID"
+              label="ID - Name"
+              placeholder="Enter student ID or Name"
               inputProps={{
                 ...params.inputProps,
                 autoComplete: "new-password", // disable autocomplete and autofill
@@ -55,7 +66,7 @@ export default function SearchByNameOrIdField() {
         />
         {/* <TextField fullWidth variant="outlined" label="ID" /> */}
       </Grid>
-      <Grid item xs={12} sm={6}>
+      {/* <Grid item xs={12} sm={6}>
         <Autocomplete
           value={state.selectedValue}
           onChange={(event, newValue) => {
@@ -71,13 +82,6 @@ export default function SearchByNameOrIdField() {
               sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
               {...props}
             >
-              {/* <img
-            loading="lazy"
-            width="20"
-            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-            alt=""
-          /> */}
               {option.id} - {option.name}
             </Box>
           )}
@@ -92,8 +96,7 @@ export default function SearchByNameOrIdField() {
             />
           )}
         />
-        {/* <TextField fullWidth variant="outlined" label="Nickname" /> */}
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

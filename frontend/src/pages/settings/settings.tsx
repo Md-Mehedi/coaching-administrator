@@ -2,16 +2,16 @@ import React from "react";
 import { TabLayoutContent } from "../../layouts/tab-layout";
 
 import TabLayout from "./../../layouts/tab-layout";
-import AdminInformationInput from "./admin-information-input";
-import CoachingInformationInput from "./coaching-information-input";
-import CoachingInformationOutput from "./coaching-information-output";
-import AdminInformationOutput from "./admin-information-output";
+import AdminInfoInput from "./admin-info-input";
+import CoachingInfoInput from "./coaching-info-input";
+import CoachingInfoOutput from "./coaching-info-output";
+import AdminInfoOutput from "./admin-info-output";
 
 const tabs: TabLayoutContent[] = [
-  { title: "CIO", element: <CoachingInformationOutput /> },
-  { title: "CII", element: <CoachingInformationInput /> },
-  { title: "AII", element: <AdminInformationInput /> },
-  { title: "AIO", element: <AdminInformationOutput /> },
+  { title: "CIO", element: <CoachingInfoOutput /> },
+  { title: "CII", element: <CoachingInfoInput /> },
+  { title: "AII", element: <AdminInfoInput /> },
+  { title: "AIO", element: <AdminInfoOutput /> },
 ];
 // const tabs: TabLayoutContent[] = [
 //   { title: "Coaching Information", element: <CoachingInformationOutput /> },

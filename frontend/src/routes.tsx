@@ -1,27 +1,13 @@
 import {
   BrowserRouter,
+  Routes,
+  Route,
   Navigate,
   Outlet,
-  Route,
-  Routes,
 } from "react-router-dom";
-import { Login } from "./pages/auth/login";
-import ProgramBatchList from "./pages/batch/program-batch-list";
-import CreateBatch from "./pages/batch/create-batch";
-import CreateProgram from "./pages/batch/create-program";
-import Home from "./pages/home/Home";
-import Batch, { BatchUpdateStudent } from "./pages/batch/batch";
-import { Exam } from "./pages/batch/exam";
-import FeesCollection from "./pages/batch/fees-collection";
-import AddStudent from "./pages/student/add-student";
-import StudentInfo from "./pages/student/student-info";
-import { StudentList } from "./pages/student/student-list";
-import AddTeacher from "./pages/teacher/add-teacher";
-import Test from "./pages/test";
-import PageNotFound from "./pages/page-not-found";
-import ProgramList from "./pages/program/program-list";
-import Dashboard, { dashboardLinks } from "./pages/home/dashboard";
 import { ADMIN_LINKS, USER_LINKS } from "./links";
+import Dashboard from "./pages/home/dashboard";
+import PageNotFound from "./pages/page-not-found";
 
 let adminLinks: { link: string; element: JSX.Element | JSX.Element[] }[] = [];
 Object.entries(ADMIN_LINKS).map((item) => {

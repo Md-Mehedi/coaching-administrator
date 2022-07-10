@@ -3,60 +3,72 @@ import {
   Autocomplete,
   Box,
   Button,
+  Card,
+  CardContent,
   Grid,
   TextField,
   Typography,
 } from "@mui/material";
-import { Field } from "../../../components/person-components/about";
-import MyTable from "../../../components/my-table";
-import TabLayout from "../../../layouts/tab-layout";
-import TextEditor from "../../../components/text-editor";
-import DialogLayout from "../../../layouts/dialog-layout";
-import SearchByNameOrIdField from "../../../components/search-by-name-or-id-field";
+import { Field } from "../../components/person-components/about";
+import MyTable from "../../components/my-table";
+import TabLayout from "../../layouts/tab-layout";
+import TextEditor from "../../components/text-editor";
+import DialogLayout from "../../layouts/dialog-layout";
+import SearchByNameOrIdField from "../../components/search-by-name-or-id-field";
 import AddExam from "./add-exam";
-import { onRowDelete, onRowUpdate } from "./../../../components/my-table";
+import { onRowDelete, onRowUpdate } from "../../components/my-table";
 
 function ExamShortInfo() {
   const [state, setState] = useState({ open: false });
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
-        <Grid container direction="column" spacing={1}>
-          <Grid item>
-            <Field field="Program name" value="HSC-23" />
+        <Grid item container direction="column" alignItems="center" spacing={2}>
+          <Grid item container>
+            <Card sx={{ width: "100%" }}>
+              <CardContent>
+                <Grid container direction="column" spacing={1}>
+                  <Grid item>
+                    <Field field="Program name" value="HSC-23" />
+                  </Grid>
+                  <Grid item>
+                    <Field field="Exam name" value="Final Model Test" />
+                  </Grid>
+                  <Grid item>
+                    <Field field="Result date" value="Not published" />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
           </Grid>
           <Grid item>
-            <Field field="Exam name" value="Final Model Test" />
-          </Grid>
-          <Grid item>
-            <Field field="Result date" value="Not published" />
-          </Grid>
-          <Grid
-            item
-            container
-            direction="row"
-            justifyContent="center"
-            spacing={2}
-          >
-            <Grid item>
-              <Button
-                variant="contained"
-                onClick={(event) => setState({ ...state, open: true })}
-              >
-                Update
-              </Button>
-              <DialogLayout
-                open={state.open}
-                onClose={(event) => setState({ ...state, open: false })}
-                title="Exam name"
-              >
-                <AddExam />
-              </DialogLayout>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="secondary">
-                Delete
-              </Button>
+            <Grid
+              item
+              container
+              direction="row"
+              justifyContent="center"
+              spacing={2}
+            >
+              <Grid item>
+                <Button
+                  variant="contained"
+                  onClick={(event) => setState({ ...state, open: true })}
+                >
+                  Update
+                </Button>
+                <DialogLayout
+                  open={state.open}
+                  onClose={(event) => setState({ ...state, open: false })}
+                  title="Exam name"
+                >
+                  <AddExam />
+                </DialogLayout>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" color="secondary">
+                  Delete
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

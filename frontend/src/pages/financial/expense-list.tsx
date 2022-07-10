@@ -1,9 +1,9 @@
 import { DatePicker } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import DropDown from "../components/dropdown";
-import MyTable, { onRowDelete, onRowUpdate } from "../components/my-table";
-import { Field } from "../components/person-components/about";
+import DropDown from "../../components/dropdown";
+import MyTable, { onRowDelete, onRowUpdate } from "../../components/my-table";
+import { Field } from "../../components/person-components/about";
 
 const column = [
   {

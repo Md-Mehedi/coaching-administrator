@@ -19,8 +19,8 @@ import TextEditor from "../../components/text-editor";
 import { blood_group } from "../../data";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Person } from "../../classes/person-info";
-import AdminInformationInput from "./admin-information-input";
-import CoachingInformationInput from "./coaching-information-input";
+import AdminInfoInput from "./admin-info-input";
+import CoachingInformationInput from "./coaching-info-input";
 
 export default function AdminDetails() {
   function RegistrationForm() {
@@ -31,7 +31,7 @@ export default function AdminDetails() {
             <Typography variant="h6">Admin Information</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <AdminInformationInput />
+            <AdminInfoInput />
           </AccordionDetails>
         </Accordion>
         <Accordion>

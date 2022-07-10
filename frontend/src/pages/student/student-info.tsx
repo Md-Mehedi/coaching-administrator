@@ -10,7 +10,7 @@ import React, { useContext, useEffect, useState } from "react";
 import TabLayout, { TabLayoutContent } from "../../layouts/tab-layout";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams } from "react-router-dom";
-import StudentBatchDetails from "./info/student-batch-list";
+import StudentBatchDetails from "./student-batch-list";
 import ShortInfo from "../../components/person-components/short-info";
 import About from "../../components/person-components/about";
 

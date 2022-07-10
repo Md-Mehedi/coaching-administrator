@@ -18,15 +18,24 @@ export interface DialogLayoutProps {
   primaryButtonClick?: (event) => void;
   secondaryButtonText?: string;
   secondaryButtonClick?: (event) => void;
+  fullWidth?: boolean;
 }
 
 export default function DialogLayout(props: DialogLayoutProps) {
   return (
-    <Dialog onClose={props.onClose} open={props.open || false}>
+    <Dialog
+      onClose={props.onClose}
+      open={props.open || false}
+      PaperProps={{ sx: { width: props.fullWidth ? "100%" : "-1" } }}
+    >
       {props.title && (
         <DialogTitle sx={{ textAlign: "center" }}>{props.title}</DialogTitle>
       )}
-      <DialogContent>{props.children}</DialogContent>
+      <DialogContent sx={{ p: 0, m: 0 }}>
+        <Grid container sx={{ padding: 2 }}>
+          {props.children}
+        </Grid>
+      </DialogContent>
       <DialogActions>
         <Grid
           container

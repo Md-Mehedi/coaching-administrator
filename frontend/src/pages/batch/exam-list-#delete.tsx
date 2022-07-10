@@ -14,55 +14,54 @@ import {
 } from "@mui/material";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import TextEditor from "../../components/text-editor";
-import Event from "./event";
 import MaterialTable from "material-table";
-import { exams, examTypes, teachers } from "./../../data";
+import { exams, examTypes, teachers } from "../../data";
 import { AddCircleOutline } from "@mui/icons-material";
 import { moment } from "../../App";
 import AdminLayout from "../../layouts/admin-layout";
-import Events from "./events";
+import Events from "../class-time/events";
 import { ADMIN_LINKS } from "../../links";
 import { useNavigate } from "react-router-dom";
 
-export function Exam() {
-  const exam = exams[0];
-  return (
-    <AdminLayout>
-      <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <Typography variant="subtitle1">{`Exam name : ${exam.name}`}</Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="subtitle1">{`Syllabus : ${exam.syllabus}`}</Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant="subtitle1">
-            {`Mark distribution : `}
-            {exam.mark.map((item, index) => (
-              <>
-                {" "}
-                {index != 0
-                  ? ", "
-                  : ""} {`${item.examType} (${item.mark})`}{" "}
-              </>
-            ))}
-          </Typography>
-        </Grid>
-        <Grid item container direction="row" spacing={2}>
-          <Grid item>
-            <Button variant="contained">Update</Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained">Routine</Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained">Upload mark / Result</Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    </AdminLayout>
-  );
-}
+// export function Exam() {
+//   const exam = exams[0];
+//   return (
+//     <AdminLayout>
+//       <Grid container direction="column" spacing={2}>
+//         <Grid item>
+//           <Typography variant="subtitle1">{`Exam name : ${exam.name}`}</Typography>
+//         </Grid>
+//         <Grid item>
+//           <Typography variant="subtitle1">{`Syllabus : ${exam.syllabus}`}</Typography>
+//         </Grid>
+//         <Grid item>
+//           <Typography variant="subtitle1">
+//             {`Mark distribution : `}
+//             {exam.mark.map((item, index) => (
+//               <>
+//                 {" "}
+//                 {index != 0
+//                   ? ", "
+//                   : ""} {`${item.examType} (${item.mark})`}{" "}
+//               </>
+//             ))}
+//           </Typography>
+//         </Grid>
+//         <Grid item container direction="row" spacing={2}>
+//           <Grid item>
+//             <Button variant="contained">Update</Button>
+//           </Grid>
+//           <Grid item>
+//             <Button variant="contained">Routine</Button>
+//           </Grid>
+//           <Grid item>
+//             <Button variant="contained">Upload mark / Result</Button>
+//           </Grid>
+//         </Grid>
+//       </Grid>
+//     </AdminLayout>
+//   );
+// }
 export default function ExamList() {
   const navigate = useNavigate();
   const [state, setState] = useState({

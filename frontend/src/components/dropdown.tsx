@@ -49,12 +49,31 @@ export default function DropDown<
   return (
     <Autocomplete
       {...props}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        // props.onClick && props.onClick(event);
+      }}
+      componentsProps={{
+        paper: {
+          onClick: (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            // props.onClick && props.onClick(event);
+          },
+        },
+      }}
       autoHighlight
       // @ts-ignore
       getOptionLabel={(option: object) => option[props.optionLabel]}
       renderInput={(params) => (
         <TextField
           {...params}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            // props.onClick && props.onClick(event);
+          }}
           fullWidth
           label={props.label}
           inputProps={{

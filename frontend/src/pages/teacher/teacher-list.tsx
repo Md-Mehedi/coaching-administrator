@@ -5,6 +5,7 @@ import SpecialLink from "../../components/special-link";
 import UpdateButton from "../../components/update-button";
 import { students, teachers } from "../../data";
 import { useNavigate } from "react-router-dom";
+import { ADMIN_LINKS } from "./../../links";
 
 export function TeacherList() {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ export function TeacherList() {
             pageSize: 10,
           }}
           onRowClick={(event) => {
-            navigate("/teacher");
+            navigate(ADMIN_LINKS.teacher.path);
           }}
         />
       </Grid>

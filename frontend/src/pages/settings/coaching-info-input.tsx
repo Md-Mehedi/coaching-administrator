@@ -5,7 +5,7 @@ import TextEditor from "../../components/text-editor";
 import { useState } from "react";
 import { Coaching } from "../../classes/coaching";
 import AddDialog from "../../components/add-dialog";
-import ImageUpload from "./../../components/image-upload";
+import ImageUpload from "../../components/image-upload";
 
 export default function CoachingInformationInput() {
   const [coaching, setCoaching] = useState(new Coaching());

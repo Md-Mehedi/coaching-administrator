@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API } from "./../../api";
+import { API } from "../api";
 
 class AuthService {
   register(email: string, password: string) {
