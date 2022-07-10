@@ -23,7 +23,9 @@ export interface DialogLayoutProps {
 export default function DialogLayout(props: DialogLayoutProps) {
   return (
     <Dialog onClose={props.onClose} open={props.open || false}>
-      <DialogTitle sx={{ textAlign: "center" }}>{props.title}</DialogTitle>
+      {props.title && (
+        <DialogTitle sx={{ textAlign: "center" }}>{props.title}</DialogTitle>
+      )}
       <DialogContent>{props.children}</DialogContent>
       <DialogActions>
         <Grid

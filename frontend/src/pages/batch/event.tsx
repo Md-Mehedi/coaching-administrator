@@ -45,9 +45,11 @@ export default function Event(props: EventProps) {
       <CardHeader
         title={props.title}
         action={
-          <IconButton onClick={props.onDeleteClick}>
-            <ClearOutlined />
-          </IconButton>
+          !props.disableRepeat && (
+            <IconButton onClick={props.onDeleteClick}>
+              <ClearOutlined />
+            </IconButton>
+          )
         }
       />
       <CardContent>

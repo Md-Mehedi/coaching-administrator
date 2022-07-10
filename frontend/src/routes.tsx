@@ -11,7 +11,7 @@ import CreateBatch from "./pages/batch/create-batch";
 import CreateProgram from "./pages/batch/create-program";
 import Home from "./pages/home/Home";
 import Batch, { BatchUpdateStudent } from "./pages/batch/batch";
-import { CreateExam, Exam } from "./pages/batch/exam";
+import { Exam } from "./pages/batch/exam";
 import FeesCollection from "./pages/batch/fees-collection";
 import AddStudent from "./pages/student/add-student";
 import StudentInfo from "./pages/student/student-info";
@@ -53,8 +53,8 @@ export default function Router() {
           <Route key={idx} path={item} element={<Dashboard link={item} />} />
         ))} */}
 
-        <Route path="/" element={<Navigate to="home" />} />
-        <Route path="/auth/login" element={<Login signOut={true} />} />
+        <Route path="/" element={<Navigate to="dashboard/home" />} />
+        {/* <Route path="/auth/login" element={<Login signOut={true} />} />
         <Route path="/auth" element={<Navigate to="login" />} />
         <Route path="/programs" element={<ProgramBatchList />} />
         <Route path="/batch" element={<Batch />} />
@@ -63,7 +63,7 @@ export default function Router() {
         <Route path="/create-exam" element={<CreateExam />} />
         <Route path="/create-batch" element={<CreateBatch />} />
         <Route path="/create-program" element={<CreateProgram />} />
-        <Route path="/fees-collection" element={<FeesCollection />} />
+        <Route path="/fees-collection" element={<FeesCollection />} /> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Outlet />

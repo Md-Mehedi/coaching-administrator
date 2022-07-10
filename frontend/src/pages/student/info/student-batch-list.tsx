@@ -17,7 +17,10 @@ import DialogLayout from "../../../layouts/dialog-layout";
 import DropDown from "../../../components/dropdown";
 
 function AddBatch() {
-  const [state, setState] = useState({ open: false, value: 2 });
+  const [state, setState] = useState({ open: false, value: null });
+  function updateState(object) {
+    setState({ ...state, ...object });
+  }
   return (
     <>
       <Button
@@ -42,13 +45,15 @@ function AddBatch() {
           <Grid item>
             <DropDown
               label="Batch"
-              data={[
+              value={state.value}
+              onChange={(event, newValue) => updateState({ value: newValue })}
+              options={[
                 { value: 1, label: "Physics" },
                 { value: 2, label: "Chemistry" },
                 { value: 3, label: "Math" },
                 { value: 4, label: "Biology" },
               ]}
-              value={state.value}
+              optionLabel="label"
             />
           </Grid>
         </Grid>

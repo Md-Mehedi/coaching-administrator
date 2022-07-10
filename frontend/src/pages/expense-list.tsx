@@ -2,7 +2,7 @@ import { DatePicker } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DropDown from "../components/dropdown";
-import MyTable from "../components/my-table";
+import MyTable, { onRowDelete, onRowUpdate } from "../components/my-table";
 import { Field } from "../components/person-components/about";
 
 const column = [
@@ -93,8 +93,8 @@ export default function ExpenseList() {
   const [state, setState] = useState({
     data: data,
     filter: {
-      month: 7,
-      year: 2022,
+      month: null,
+      year: null,
       selectedAmount: 0,
     },
   });
@@ -113,7 +113,9 @@ export default function ExpenseList() {
     //       .click();
     // });
   }, []);
-
+  function updateState(object) {
+    setState({ ...state, ...object });
+  }
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item container spacing={2} alignItems="center">
@@ -121,7 +123,12 @@ export default function ExpenseList() {
           <DropDown
             label="Month"
             value={state.filter.month}
-            data={[
+            onChange={(event, newValue) =>
+              updateState({
+                filter: { ...state.filter, month: newValue },
+              })
+            }
+            options={[
               { value: 0, label: "-- Any Month --" },
               { value: 1, label: "January" },
               { value: 2, label: "February" },
@@ -136,19 +143,19 @@ export default function ExpenseList() {
               { value: 11, label: "November" },
               { value: 12, label: "December" },
             ]}
-            onChange={(event) =>
-              setState({
-                ...state,
-                filter: { ...state.filter, month: event.target.value },
-              })
-            }
+            optionLabel="label"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <DropDown
             label="Year"
             value={state.filter.year}
-            data={[
+            onChange={(event, newValue) =>
+              updateState({
+                filter: { ...state.filter, year: newValue },
+              })
+            }
+            options={[
               { value: 0, label: "-- Any Year --" },
               { value: 2018, label: "2018" },
               { value: 2019, label: "2019" },
@@ -156,12 +163,7 @@ export default function ExpenseList() {
               { value: 2021, label: "2021" },
               { value: 2022, label: "2022" },
             ]}
-            onChange={(event) =>
-              setState({
-                ...state,
-                filter: { ...state.filter, year: event.target.value },
-              })
-            }
+            optionLabel="label"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -203,32 +205,12 @@ export default function ExpenseList() {
                   resolve(1);
                 }, 1000);
               }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  const dataUpdate = [...state.data];
-                  const index = state.data.findIndex(
-                    (item) => item.id === oldData?.id
-                  );
-                  // oldData?.id || 0;
-                  dataUpdate[index] = newData;
-                  setState({ ...state, data: [...dataUpdate] });
-
-                  resolve(1);
-                }, 1000);
-              }),
-            onRowDelete: (oldData) =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  const dataDelete = [...state.data];
-                  const index = state.data.findIndex(
-                    (item) => item.id === oldData?.id
-                  );
-                  dataDelete.splice(index, 1);
-                  setState({ ...state, data: [...dataDelete] });
-                  resolve(1);
-                }, 1000);
-              }),
+            onRowUpdate: onRowUpdate(state.data, (newData) =>
+              setState({ ...state, data: newData })
+            ),
+            onRowDelete: onRowDelete(state.data, (newData) =>
+              setState({ ...state, data: newData })
+            ),
           }}
         />
       </Grid>

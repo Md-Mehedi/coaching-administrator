@@ -3,6 +3,7 @@ import { Grid, Avatar, IconButton, Button } from "@mui/material";
 import MaterialTable, {
   MaterialTableProps,
   MTableAction,
+  MTableToolbar,
 } from "material-table";
 import React, { useEffect, useRef, useState } from "react";
 import { students } from "../data";
@@ -22,14 +23,13 @@ export type actions = {
 export interface MyTableProps<RowData extends object>
   extends MaterialTableProps<RowData> {
   addButtonText?: string;
-  addButtonDialog?: JSX.Element[] | JSX.Element;
+  onAddButtonClick?: (event) => void;
 }
 
 export default function MyTable<RowData extends object>(
   props: MyTableProps<RowData>
 ) {
-  const addActionRef = useRef();
-  const { addButtonText, addButtonDialog, ...others } = props;
+  const { addButtonText, onAddButtonClick, ...others } = props;
   const [column, setColumn] = useState([{}]);
   useEffect(() => {
     setColumn(props.columns);
@@ -38,12 +38,6 @@ export default function MyTable<RowData extends object>(
   return (
     //@ts-ignore
     <MaterialTable
-      // editable={{
-      //   // onRowAdd: (newData) => {
-      //   //   console.log(newData);
-      //   //   alert("IN my table");
-      //   // },
-      // }}
       title={props.title ? props.title : ""}
       {...others}
       style={{ width: "100%", ...props.style }}
@@ -60,6 +54,32 @@ export default function MyTable<RowData extends object>(
         addRowPosition: "first",
         pageSize: 5,
         ...props.options,
+      }}
+      components={{
+        Toolbar: (props) => (
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-end"
+            spacing={2}
+          >
+            <Grid item>
+              <MTableToolbar {...props} />
+            </Grid>
+            {onAddButtonClick && (
+              <Grid item>
+                <Button
+                  variant="contained"
+                  startIcon={<AddCircle />}
+                  onClick={onAddButtonClick}
+                >
+                  {addButtonText}
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+        ),
       }}
       // icons={{
       //   Add: (addProps) => (
@@ -96,4 +116,33 @@ export default function MyTable<RowData extends object>(
       // }}
     />
   );
+}
+
+export function onRowDelete(data, setData, func = () => {}) {
+  return (oldData) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataDelete = [...data];
+        //@ts-ignore
+        const index = oldData.tableData.id;
+        dataDelete.splice(index, 1);
+        setData(dataDelete);
+        resolve(1);
+        func();
+      }, 1000);
+    });
+}
+export function onRowUpdate(data, setData, func = () => {}) {
+  return (newData, oldData) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...data];
+        //@ts-ignore
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        setData(dataUpdate);
+        resolve(1);
+        func();
+      }, 1000);
+    });
 }

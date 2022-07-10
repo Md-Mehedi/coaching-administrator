@@ -26,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      <Box sx={{ p: 3 }}>{children}</Box>
+      <Box>{children}</Box>
     </div>
   );
 }
@@ -45,6 +45,7 @@ export type TabLayoutContent = {
 
 export type TabLayoutProps = {
   tabs: TabLayoutContent[];
+  noPadding?: boolean;
 };
 
 export default function TabLayout(props: TabLayoutProps) {
@@ -82,7 +83,7 @@ export default function TabLayout(props: TabLayoutProps) {
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
-        sx={{ padding: 20 }}
+        style={{ padding: props.noPadding ? 0 : 20 }}
       >
         {props.tabs.map((item, index) => (
           <TabPanel

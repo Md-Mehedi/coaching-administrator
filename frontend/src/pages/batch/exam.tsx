@@ -21,69 +21,9 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { moment } from "../../App";
 import AdminLayout from "../../layouts/admin-layout";
 import Events from "./events";
+import { ADMIN_LINKS } from "../../links";
+import { useNavigate } from "react-router-dom";
 
-export function CreateExam() {
-  const [state, setState] = useState({
-    examType: 0,
-  });
-  return (
-    <AdminLayout>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField fullWidth variant="outlined" label="Exam Name" />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h6">Syllabus</Typography>
-          <TextEditor />
-        </Grid>
-        <Grid item xs={12}>
-          <Card>
-            <CardHeader title="Mark Distribution" />
-            <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel>Exam type</InputLabel>
-                    <Select
-                      value={state.examType}
-                      label="Teacher"
-                      onChange={(event) => {
-                        setState({
-                          ...state,
-                          examType: event.target.value as number,
-                        });
-                        console.log(event);
-                      }}
-                    >
-                      <MenuItem value={0}>-- Select Exam Type --</MenuItem>
-                      {examTypes.map((item) => (
-                        <MenuItem value={item.id}>{item.name}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField fullWidth variant="outlined" label="Mark" />
-                </Grid>
-                <Grid item xs={12} container justifyContent="center">
-                  <Button variant="contained" startIcon={<AddCircleOutline />}>
-                    Add More Type
-                  </Button>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Events disableMoreClass disableRepeat />
-        </Grid>
-        <Grid item container>
-          <SaveCancelButtons />
-        </Grid>
-      </Grid>
-    </AdminLayout>
-  );
-}
 export function Exam() {
   const exam = exams[0];
   return (
@@ -124,6 +64,7 @@ export function Exam() {
   );
 }
 export default function ExamList() {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     examColumn: [
       { title: "Name", field: "name", editable: false },
@@ -167,6 +108,9 @@ export default function ExamList() {
             actionsColumnIndex: -1,
             addRowPosition: "first",
             pageSize: 10,
+          }}
+          onRowClick={(event) => {
+            navigate(ADMIN_LINKS.exam.path);
           }}
           // actions={[
           //   {

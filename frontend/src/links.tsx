@@ -13,6 +13,7 @@ import { TeacherList } from "./pages/teacher/teacher-list";
 import Test, { TabTest } from "./pages/test";
 import { Register } from "./pages/auth/register";
 import Settings from "./pages/settings/settings";
+import ExamDetails from "./pages/program/info/exam-details";
 
 export var ADMIN_LINKS = {
   // Admin
@@ -28,6 +29,7 @@ export var ADMIN_LINKS = {
   // Program
   program: { path: "/dashboard/program", element: <Program /> },
   programList: { path: "/dashboard/program-list", element: <ProgramList /> },
+  exam: { path: "/dashboard/exam", element: <ExamDetails /> },
   // Batch
   batch: { path: "/dashboard/batch", element: <Batch /> },
   // Other

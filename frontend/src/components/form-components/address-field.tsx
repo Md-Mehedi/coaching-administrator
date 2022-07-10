@@ -1,4 +1,4 @@
-import { Grid, Typography, TextField } from "@mui/material";
+import { Grid, Typography, TextField, Autocomplete } from "@mui/material";
 import { useState } from "react";
 import { Address } from "../../classes/person-info";
 import DropDown from "../dropdown";
@@ -30,45 +30,37 @@ export default function AddressField(props: AddressFieldProps) {
           <DropDown
             label="Division"
             value={state.division}
-            onChange={(event) =>
-              updateState({
-                division: event.target.value,
-                district: null,
-                thana: null,
-              })
-            }
-            data={divisions.map((item) => ({
-              value: item.id,
-              label: item.name,
-            }))}
+            onChange={(event, newValue) => {
+              updateState({ division: newValue });
+            }}
+            options={divisions}
+            optionLabel="name"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             label="District"
             value={state.district}
-            onChange={(event) =>
-              updateState({ district: event.target.value, thana: null })
+            onChange={(event, newValue) =>
+              updateState({ district: newValue, thana: null })
             }
-            data={districts
-              .filter((item) => item.division_id == state.division)
-              .map((item) => ({
-                value: item.id,
-                label: item.name,
-              }))}
+            options={districts.filter(
+              // @ts-ignore
+              (item) => state.division && item.division_id == state.division.id
+            )}
+            optionLabel="name"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             label="Thana"
             value={state.thana}
-            onChange={(event) => updateState({ thana: event.target.value })}
-            data={thanas
-              .filter((item) => item.district_id == state.district)
-              .map((item) => ({
-                value: item.id,
-                label: item.name,
-              }))}
+            onChange={(event, newValue) => updateState({ thana: newValue })}
+            options={thanas.filter(
+              // @ts-ignore
+              (item) => state.district && item.district_id == state.district.id
+            )}
+            optionLabel="name"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
