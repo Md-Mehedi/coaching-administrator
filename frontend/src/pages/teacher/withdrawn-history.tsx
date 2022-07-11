@@ -1,97 +1,88 @@
 import { DatePicker } from "@mui/lab";
-import { Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DropDown from "../../components/dropdown";
-import MyTable, { onRowDelete, onRowUpdate } from "../../components/my-table";
+import MyTable, { onRowUpdate, onRowDelete } from "../../components/my-table";
 import { Field } from "../../components/person-components/about";
-import { onRowAdd } from "./../../components/my-table";
 
-const column = [
-  {
-    title: "Date",
-    field: "date",
-    type: "date",
-    initialEditValue: new Date(),
-    editComponent: (props) => (
-      <DatePicker
-        label="Date of birth"
-        value={props.value}
-        onChange={props.onChange}
-        // onChange={(newValue) => {
-        //   props.onChange(newValue.toLocaleString());
-        // }}
-        renderInput={(params) => <TextField fullWidth {...params} />}
-      />
-    ),
-  },
-  { title: "Details", field: "details" },
-  { title: "Amount", field: "amount", type: "numeric" },
-];
 const data = [
   {
-    id: 1,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-21",
+    batchName: "Physics-1",
+    classCount: 12,
+    month: "January-22",
+    amount: 500,
+    withdrawnDate: "28-07-22",
   },
   {
-    id: 2,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-22",
+    batchName: "Physics-1",
+    classCount: 4,
+    month: "January-22",
+    amount: 500,
+    withdrawnDate: null,
   },
   {
-    id: 3,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-21",
+    batchName: "Physics-2",
+    classCount: 7,
+    month: "January-22",
+    amount: 500,
+    withdrawnDate: "28-07-22",
   },
   {
-    id: 4,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-22",
+    batchName: "Physics-2",
+    classCount: 10,
+    month: "February-22",
+    amount: 500,
+    withdrawnDate: null,
   },
   {
-    id: 5,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-21",
+    batchName: "Physics-2",
+    classCount: 12,
+    month: "March-22",
+    amount: 500,
+    withdrawnDate: null,
   },
   {
-    id: 6,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-21",
+    batchName: "Physics-1",
+    classCount: 9,
+    month: "March-22",
+    amount: 500,
+    withdrawnDate: null,
   },
   {
-    id: 7,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
-  },
-  {
-    id: 8,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
-  },
-  {
-    id: 9,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
-  },
-  {
-    id: 10,
-    date: new Date().toLocaleDateString(),
-    details: "Bench",
-    amount: 2000,
+    programName: "HSC-21",
+    batchName: "Physics-1",
+    classCount: 12,
+    month: "January-22",
+    amount: 500,
+    withdrawnDate: null,
   },
 ];
 
-export default function ExpenseList() {
+export default function WithdrawnHistory() {
   const [state, setState] = useState({
+    columns: [
+      { title: "Program Name", field: "programName" },
+      { title: "Batch Name", field: "batchName" },
+      { title: "Class Count", field: "classCount" },
+      { title: "Month", field: "month" },
+      { title: "Amount", field: "amount" },
+      {
+        title: "Withdrawn Date",
+        field: "withdrawnDate",
+        render: (rowData) =>
+          rowData.withdrawnDate ? (
+            rowData.withdrawnDate
+          ) : (
+            <Button variant="contained">Withdraw</Button>
+          ),
+      },
+    ],
     data: data,
     filter: {
       month: null,
@@ -168,46 +159,33 @@ export default function ExpenseList() {
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Field field="Total spend" value={18587} />
+          <Field field="Total withdrawn" value={18587} />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Field field="Selected spend" value={state.filter.selectedAmount} />
+          <Field field="Remaining" value={state.filter.selectedAmount} />
         </Grid>
       </Grid>
       <Grid item container>
         <MyTable
           //@ts-ignore
-          columns={column.map((item) => ({
-            ...item,
-            editable: "always",
-            filtering: true,
-          }))}
+          columns={state.columns.map((item) => ({ ...item, grouping: true }))}
           data={state.data}
           options={{
-            searchFieldAlignment: "right",
             selection: true,
+            grouping: true,
+            sorting: false,
+            filtering: true,
           }}
-          onSelectionChange={(rows) => {
-            let sum = 0;
-            rows.forEach((item) => {
-              sum += item.amount;
-            });
-            setState({
-              ...state,
-              filter: { ...state.filter, selectedAmount: sum },
-            });
-          }}
-          editable={{
-            onRowAdd: onRowAdd(state.data, (newData) =>
-              setState({ ...state, data: newData })
-            ),
-            onRowUpdate: onRowUpdate(state.data, (newData) =>
-              setState({ ...state, data: newData })
-            ),
-            onRowDelete: onRowDelete(state.data, (newData) =>
-              setState({ ...state, data: newData })
-            ),
-          }}
+          // onSelectionChange={(rows) => {
+          //   let sum = 0;
+          //   rows.forEach((item) => {
+          //     sum += item.amount;
+          //   });
+          //   setState({
+          //     ...state,
+          //     filter: { ...state.filter, selectedAmount: sum },
+          //   });
+          // }}
         />
       </Grid>
     </Grid>

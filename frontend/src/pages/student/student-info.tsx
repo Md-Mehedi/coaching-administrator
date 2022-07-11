@@ -13,8 +13,13 @@ import { useParams } from "react-router-dom";
 import StudentBatchDetails from "./student-batch-list";
 import ShortInfo from "../../components/person-components/short-info";
 import About from "../../components/person-components/about";
+import StudentExamList from "./student-exam-list";
 
 const tabs: TabLayoutContent[] = [
+  {
+    title: "Exam",
+    element: <StudentExamList />,
+  },
   {
     title: "About",
     element: <About />,

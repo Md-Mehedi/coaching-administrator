@@ -222,7 +222,7 @@ export default function DrawerLayout(props: DrawerLayoutProps) {
         alignItems: "start",
         backgroundColor: "#dae7eb",
         width: "100%",
-        minHeight: `calc(100vw - ${HEADER_HEIGHT}px - 15px)`,
+        minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
       }}
     >
       <CssBaseline />

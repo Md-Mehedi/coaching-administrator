@@ -54,6 +54,7 @@ export default function BatchStudents() {
           onRowClick={(event, rowData) => {
             navigate(ADMIN_LINKS.student.path);
           }}
+          addButtonText="Add Student"
           onAddButtonClick={(event) => {
             setState({ ...state, open: true });
           }}

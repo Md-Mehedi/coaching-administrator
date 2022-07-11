@@ -14,8 +14,12 @@ import Test, { TabTest } from "./pages/test";
 import { Register } from "./pages/auth/register";
 import Settings from "./pages/settings/settings";
 import ExamDetails from "./pages/exam/exam-info";
+import Home from "./pages/home/home";
+import SubjectList from "./pages/batch/subject-list";
+import DuesList from "./pages/financial/dues-list";
 
 export var ADMIN_LINKS = {
+  home: { path: "/dashboard/home", element: <Home /> },
   // Admin
   settings: { path: "/dashboard/setting", element: <Settings /> },
   // Student
@@ -32,8 +36,12 @@ export var ADMIN_LINKS = {
   exam: { path: "/dashboard/exam", element: <ExamDetails /> },
   // Batch
   batch: { path: "/dashboard/batch", element: <Batch /> },
-  // Other
+  // Subject
+  subjectList: { path: "/dashboard/subject-list", element: <SubjectList /> },
+  // Financial
+  duesList: { path: "/dashboard/dues", element: <DuesList /> },
   expenseList: { path: "/dashboard/expense", element: <ExpenseList /> },
+  // Other
   test: { path: "/dashboard/test", element: <TabTest /> },
 };
 

@@ -12,12 +12,18 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams } from "react-router-dom";
 import ShortInfo from "../../components/person-components/short-info";
 import About from "../../components/person-components/about";
+import WithdrawnHistory from "./withdrawn-history";
 
 const tabs: TabLayoutContent[] = [
+  {
+    title: "Withdrawn History",
+    element: <WithdrawnHistory />,
+  },
   {
     title: "About",
     element: <About />,
   },
+
   // {
   //   title: "Batch",
   //   element: <StudentBatchDetails />,

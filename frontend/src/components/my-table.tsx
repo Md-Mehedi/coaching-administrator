@@ -44,7 +44,6 @@ export default function MyTable<RowData extends object>(
       //@ts-ignore
       columns={column.map((item) => ({
         align: "center",
-        editable: true,
         ...item,
       }))}
       options={{
@@ -57,28 +56,34 @@ export default function MyTable<RowData extends object>(
       }}
       components={{
         Toolbar: (props) => (
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            justifyContent="flex-end"
-            spacing={2}
-          >
-            <Grid item>
-              <MTableToolbar {...props} />
-            </Grid>
-            {onAddButtonClick && (
+          <>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
               <Grid item>
-                <Button
-                  variant="contained"
-                  startIcon={<AddCircle />}
-                  onClick={onAddButtonClick}
-                >
-                  {addButtonText}
-                </Button>
+                <Grid item container>
+                  <MTableToolbar
+                    {...props}
+                    sx={{ ...props.style, width: "100%" }}
+                  />
+                </Grid>
               </Grid>
-            )}
-          </Grid>
+              {onAddButtonClick && (
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    startIcon={<AddCircle />}
+                    onClick={onAddButtonClick}
+                  >
+                    {addButtonText}
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </>
         ),
       }}
       // icons={{
@@ -143,6 +148,16 @@ export function onRowUpdate(data, setData, func = () => {}) {
         setData(dataUpdate);
         resolve(1);
         func();
+      }, 1000);
+    });
+}
+
+export function onRowAdd(data, setData, func = () => {}) {
+  return (newData) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        setData([newData, ...data]);
+        resolve(1);
       }, 1000);
     });
 }
