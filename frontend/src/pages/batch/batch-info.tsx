@@ -6,10 +6,15 @@ import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import { IBatch, batches } from "../../data";
 import TabLayout from "../../layouts/tab-layout";
 import { Field } from "../../components/person-components/about";
+import BatchAttendance from "./batch-attendance";
 
 const data: IBatch = batches[0];
 
 const tabs = [
+  {
+    title: "Attendance",
+    element: <BatchAttendance />,
+  },
   {
     title: "Students",
     element: <BatchStudents />,

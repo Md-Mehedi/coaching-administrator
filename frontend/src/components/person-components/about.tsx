@@ -8,14 +8,27 @@ import {
 } from "@mui/material";
 import React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-export function Field({ field, value }) {
+import {
+  OverridableTypeMap,
+  DefaultComponentProps,
+} from "@mui/material/OverridableComponent";
+
+export interface FieldProps<M extends OverridableTypeMap> {
+  field: string;
+  value: any;
+  fieldProps?: DefaultComponentProps<M>;
+  valueProps?: DefaultComponentProps<M>;
+}
+export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
   return (
     <Grid container direction="row" spacing={0} alignItems="center">
       <Grid item>
-        <Typography sx={{ fontWeight: "bold" }}>{field} : &nbsp; </Typography>
+        <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
+          {props.field} : &nbsp;{" "}
+        </Typography>
       </Grid>
       <Grid item>
-        <Typography>{value} </Typography>
+        <Typography {...props.valueProps}>{props.value} </Typography>
       </Grid>
     </Grid>
   );

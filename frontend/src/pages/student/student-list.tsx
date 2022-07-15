@@ -6,6 +6,7 @@ import UpdateButton from "../../components/update-button";
 import { students } from "../../data";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "../../links";
+import MyTable from "../../components/my-table";
 
 export function StudentList() {
   const navigate = useNavigate();
@@ -42,30 +43,21 @@ export function StudentList() {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item container>
-        <MaterialTable
-          style={{ width: "100%" }}
-          //@ts-ignore
-          columns={state.studentsColumn.map((item) => ({
-            ...item,
-            align: "center",
-          }))}
-          title="Enrolled Students"
+        <MyTable
+          title="Student List"
+          // @ts-ignore
+          columns={state.studentsColumn}
           data={students}
-          options={{
-            paging: students.length > 10,
-            headerStyle: { textAlign: "center" },
-            actionsColumnIndex: -1,
-            addRowPosition: "first",
-            pageSize: 10,
-          }}
           onRowClick={(event) => {
             navigate(ADMIN_LINKS.student.path);
           }}
+          addButtonText="Add Student"
+          onAddButtonClick={(event) => navigate(ADMIN_LINKS.addStudent.path)}
         />
       </Grid>
-      <Grid item container>
+      {/* <Grid item container>
         <UpdateButton />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }
