@@ -50,11 +50,11 @@ public class PersonService {
         oldPerson.setBloodGroup(person.getBloodGroup());
         oldPerson.setNationality(person.getNationality());
         oldPerson.setJoiningDate(person.getJoiningDate());
-        oldPerson.setPermanentAdrsId(person.getPermanentAdrsId());
-        oldPerson.setPresentAdrsId(person.getPresentAdrsId());
-        oldPerson.setFatherOcptnId(person.getFatherOcptnId());
-        oldPerson.setMotherOcptnId(person.getMotherOcptnId());
-        oldPerson.setReligionId(person.getReligionId());
+        oldPerson.setPermanentAddresss(person.getPermanentAddresss());
+        oldPerson.setPresentAddress(person.getPresentAddress());
+        oldPerson.setFatherOccupation(person.getFatherOccupation());
+        oldPerson.setMotherOccupation(person.getMotherOccupation());
+        oldPerson.setReligion(person.getReligion());
         oldPerson.setPersonType(person.getPersonType());
         oldPerson.setImage(person.getImage());
         oldPerson.setActivated(person.getActivated());

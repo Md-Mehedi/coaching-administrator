@@ -1,52 +1,40 @@
 package coaching.administrator.classes.Address;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.Thana.Thana;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Table(name = "address")
-public class Address {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String village;
-    private Integer thanaId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "thana_id", referencedColumnName = "id")
+    private Thana thana;
+    // @OneToOne(mappedBy = "presentAddress", fetch = FetchType.LAZY)
+    // private Person personPresent;
+    // @OneToOne(mappedBy = "permanentAddress", fetch = FetchType.LAZY)
+    // private Person personPermanent;
 
-    public Address() {
-    }
-
-    public Address(Integer id, String village, Integer thanaId) {
-        this.id = id;
-        this.village = village;
-        this.thanaId = thanaId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getVillage() {
-        return village;
-    }
-
-    public void setVillage(String village) {
-        this.village = village;
-    }
-
-    public Integer getThanaId() {
-        return thanaId;
-    }
-
-    public void setThanaId(Integer thanaId) {
-        this.thanaId = thanaId;
-    }
-    
 }

@@ -21,10 +21,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+	implementation 'com.sun.xml.bind:jaxb-core:2.2.11'
+	implementation 'com.sun.xml.bind:jaxb-impl:2.2.11'
+	implementation 'javax.activation:activation:1.1.1'
+	//implementation 'org.hibernate:hibernate-entitymanager:4.3.8.Final'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
 
 tasks.named('test') {

@@ -1,46 +1,42 @@
 package coaching.administrator.classes.Religion;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.Person.Person;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@AllArgsConstructor
+// @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "religion")
-public class Religion {
+public class Religion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
+    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL, mappedBy = "religion")
+    // @JoinColumn(name = "religion_id")
+    private List<Person> persons;
+
     public Religion() {
-        System.out.println("\033[31minside religion default constructor\033[0m" + this.name);
 
-    }
-
-    public Religion(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-        System.out.println("\033[31minside religion  parameterizedconstructor\033[0m");
-
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }
