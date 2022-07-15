@@ -35,12 +35,11 @@ public class CoachingService {
 
     public Coaching updateCoaching(Coaching coaching) {
         Coaching oldCoaching = repository.findById(coaching.getId()).orElse(null);
-        PasswordEncoder pEncoder = new PasswordEncoder();
 
         oldCoaching.setName(coaching.getName());
         oldCoaching.setDescription(coaching.getDescription());
         oldCoaching.setRegistrationTime(coaching.getRegistrationTime());
-        oldCoaching.setAddressId(coaching.getAddressId());
+        oldCoaching.setAddresss(coaching.getAddresss());
         oldCoaching.setContactNo(coaching.getContactNo());
         oldCoaching.setEmail(coaching.getEmail());
         oldCoaching.setWhatsappNo(coaching.getWhatsappNo());

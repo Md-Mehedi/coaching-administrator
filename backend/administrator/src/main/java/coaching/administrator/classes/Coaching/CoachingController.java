@@ -70,11 +70,6 @@ public class CoachingController {
         return service.getCoachingById(id);
     }
 
-    @GetMapping("/helloworld")
-    public String helloWorld() {
-        System.out.println("\033[31minside spring boot hello world.\033[0m");
-        return "Hello Spring Boot";
-    }
 
     @GetMapping("/get-coaching-by-name/{name}")
     public Coaching getCoachingByName(@PathVariable String name) {

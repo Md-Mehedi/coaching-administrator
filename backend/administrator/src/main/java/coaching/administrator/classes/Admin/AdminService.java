@@ -3,6 +3,8 @@ package coaching.administrator.classes.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coaching.administrator.classes.Person.PersonRepository;
+import coaching.administrator.classes.Person.PersonService;
 import coaching.administrator.classes.Security.PasswordEncoder;
 
 @Service
@@ -10,10 +12,12 @@ public class AdminService {
 
     @Autowired
     private AdminRepository repository;
+    @Autowired
+    private PersonService personService;
 
     public Admin saveAdmin(Admin admin) {
         PasswordEncoder pEncoder = new PasswordEncoder();
-        admin.setPassword(pEncoder.getEncodedPassword(admin.getPassword()));
+        // admin.setPassword(pEncoder.getEncodedPassword(admin.getPassword()));
         return repository.save(admin);
     }
 
@@ -36,30 +40,12 @@ public class AdminService {
     }
 
     public Admin updateAdmin(Admin admin) {
-        Admin oldAdmin = repository.findById(admin.getId()).orElse(null);
-        PasswordEncoder pEncoder = new PasswordEncoder();
+        // Admin oldAdmin = repository.findById(admin.getId()).orElse(null);
 
-        oldAdmin.setPassword(pEncoder.getEncodedPassword(admin.getPassword()));
-        oldAdmin.setFullName(admin.getFullName());
-        oldAdmin.setNickName(admin.getNickName());
-        oldAdmin.setGender(admin.getGender());
-        oldAdmin.setEmail(admin.getEmail());
-        oldAdmin.setFatherName(admin.getFatherName());
-        oldAdmin.setMotherName(admin.getMotherName());
-        oldAdmin.setDateOfBirth(admin.getDateOfBirth());
-        oldAdmin.setBloodGroup(admin.getBloodGroup());
-        oldAdmin.setNationality(admin.getNationality());
-        oldAdmin.setJoiningDate(admin.getJoiningDate());
-        oldAdmin.setPermanentAdrsId(admin.getPermanentAdrsId());
-        oldAdmin.setPresentAdrsId(admin.getPresentAdrsId());
-        oldAdmin.setFatherOcptnId(admin.getFatherOcptnId());
-        oldAdmin.setMotherOcptnId(admin.getMotherOcptnId());
-        oldAdmin.setReligionId(admin.getReligionId());
-        oldAdmin.setPersonType(admin.getPersonType());
-        oldAdmin.setImage(admin.getImage());
-        oldAdmin.setActivated(admin.getActivated());
+        // personService.updatePerson(oldAdmin);
 
-        return repository.save(oldAdmin);
+        // return repository.save(oldAdmin);
+        return null;
     }
 
 }

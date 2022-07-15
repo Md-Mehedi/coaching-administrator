@@ -1,51 +1,38 @@
 package coaching.administrator.classes.Thana;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.District.District;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Table(name = "thana")
-public class Thana {
+public class Thana implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    public Integer districtId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "district_id", referencedColumnName = "id")
+    private District district;
+    // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy
+    // = "thana")
+    // private List<Address> addresses;
 
-    public Thana() {
-    }
-
-    public Thana(Integer id, String name, Integer districtId) {
-        this.id = id;
-        this.name = name;
-        this.districtId = districtId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(Integer districtId) {
-        this.districtId = districtId;
-    }
 }

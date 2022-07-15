@@ -18,7 +18,7 @@ public class AddressService {
     }
 
     public Address getAddressByName(String name) {
-        return repository.findByName(name);
+        return repository.findByVillage(name);
     }
 
     public String deleteAddress(Integer id) {
