@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "admin")
 public class Admin extends Person {
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 

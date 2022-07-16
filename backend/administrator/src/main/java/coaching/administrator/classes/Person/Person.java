@@ -39,11 +39,11 @@ public class Person implements Serializable {
     private Integer id;
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "permanent_adrs_id", referencedColumnName = "id")
     private Address permanentAddresss;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "present_adrs_id", referencedColumnName = "id")
     private Address presentAddress;
 
@@ -59,7 +59,7 @@ public class Person implements Serializable {
     @JoinColumn(name = "religion_id", referencedColumnName = "id")
     private Religion religion;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
 
@@ -74,7 +74,6 @@ public class Person implements Serializable {
     private String bloodGroup;
     private String nationality;
     private String personType;
-    private String activated;
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 

@@ -57,7 +57,6 @@ public class PersonService {
         oldPerson.setReligion(person.getReligion());
         oldPerson.setPersonType(person.getPersonType());
         oldPerson.setImage(person.getImage());
-        oldPerson.setActivated(person.getActivated());
 
         return repository.save(oldPerson);
     }

@@ -16,8 +16,8 @@ public class AdminService {
     private PersonService personService;
 
     public Admin saveAdmin(Admin admin) {
-        PasswordEncoder pEncoder = new PasswordEncoder();
-        // admin.setPassword(pEncoder.getEncodedPassword(admin.getPassword()));
+        // PasswordEncoder pEncoder = new PasswordEncoder();
+        // admin.setPassword(pEncoder.getEncodedPassword(admin.getPerson().getPassword()));
         return repository.save(admin);
     }
 
@@ -40,12 +40,10 @@ public class AdminService {
     }
 
     public Admin updateAdmin(Admin admin) {
-        // Admin oldAdmin = repository.findById(admin.getId()).orElse(null);
 
-        // personService.updatePerson(oldAdmin);
-
-        // return repository.save(oldAdmin);
-        return null;
+        personService.updatePerson(admin);
+        Admin newAdmin = repository.findById(admin.getId()).orElse(null);
+        return newAdmin;
     }
 
 }

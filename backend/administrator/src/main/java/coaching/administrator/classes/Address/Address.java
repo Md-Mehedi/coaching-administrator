@@ -29,7 +29,7 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String village;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "thana_id", referencedColumnName = "id")
     private Thana thana;
     // @OneToOne(mappedBy = "presentAddress", fetch = FetchType.LAZY)
