@@ -15,6 +15,8 @@ import { AddCircle, DeleteForever, RemoveCircle } from "@mui/icons-material";
 import MyTable from "../../components/my-table";
 import DialogLayout from "../../layouts/dialog-layout";
 import DropDown from "../../components/dropdown";
+import { ADMIN_LINKS } from "./../../links";
+import { useNavigate } from "react-router-dom";
 
 function AddBatch() {
   const [state, setState] = useState({ open: false, value: null });
@@ -63,6 +65,7 @@ function AddBatch() {
 }
 
 export default function StudentBatchDetails() {
+  const navigate = useNavigate();
   return (
     <Grid container direction="column">
       <Accordion>
@@ -108,6 +111,7 @@ export default function StudentBatchDetails() {
               { subject: "Math", date: "20/04/2022" },
               { subject: "Biology", date: "20/04/2022" },
             ]}
+            onRowClick={(event) => navigate(ADMIN_LINKS.batch.path)}
             // actions={[
             //   {
             //     icon: (rowData) => <RemoveCircle />,

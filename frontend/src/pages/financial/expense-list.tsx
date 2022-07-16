@@ -2,7 +2,11 @@ import { DatePicker } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DropDown from "../../components/dropdown";
-import MyTable, { onRowDelete, onRowUpdate } from "../../components/my-table";
+import MyTable, {
+  columnDateInput,
+  onRowDelete,
+  onRowUpdate,
+} from "../../components/my-table";
 import { Field } from "../../components/person-components/about";
 import { onRowAdd } from "./../../components/my-table";
 
@@ -12,17 +16,7 @@ const column = [
     field: "date",
     type: "date",
     initialEditValue: new Date(),
-    editComponent: (props) => (
-      <DatePicker
-        label="Date of birth"
-        value={props.value}
-        onChange={props.onChange}
-        // onChange={(newValue) => {
-        //   props.onChange(newValue.toLocaleString());
-        // }}
-        renderInput={(params) => <TextField fullWidth {...params} />}
-      />
-    ),
+    editComponent: columnDateInput(),
   },
   { title: "Details", field: "details" },
   { title: "Amount", field: "amount", type: "numeric" },

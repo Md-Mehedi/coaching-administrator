@@ -6,11 +6,12 @@ import UpdateButton from "../../components/update-button";
 import { students, teachers } from "../../data";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "./../../links";
+import MyTable from "../../components/my-table";
 
 export function TeacherList() {
   const navigate = useNavigate();
   const [state, setState] = useState({
-    teacherColumn: [
+    columns: [
       { title: "Roll no", field: "id", editable: false },
       // {
       //   title: "Photo",
@@ -42,25 +43,16 @@ export function TeacherList() {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item container>
-        <MaterialTable
-          style={{ width: "100%" }}
+        <MyTable
+          title="Teacher List"
           //@ts-ignore
-          columns={state.teacherColumn.map((item) => ({
-            ...item,
-            align: "center",
-          }))}
-          title="Teachers"
+          columns={state.columns}
           data={teachers}
-          options={{
-            paging: students.length > 10,
-            headerStyle: { textAlign: "center" },
-            actionsColumnIndex: -1,
-            addRowPosition: "first",
-            pageSize: 10,
-          }}
           onRowClick={(event) => {
             navigate(ADMIN_LINKS.teacher.path);
           }}
+          addButtonText="Add Teacher"
+          onAddButtonClick={(event) => navigate(ADMIN_LINKS.teacherList.path)}
         />
       </Grid>
       <Grid item container>

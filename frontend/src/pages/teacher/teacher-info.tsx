@@ -13,8 +13,13 @@ import { useParams } from "react-router-dom";
 import ShortInfo from "../../components/person-components/short-info";
 import About from "../../components/person-components/about";
 import WithdrawnHistory from "./withdrawn-history";
+import TeacherBatchList from "./teacher-batch-list";
 
 const tabs: TabLayoutContent[] = [
+  {
+    title: "Batch",
+    element: <TeacherBatchList />,
+  },
   {
     title: "Withdrawn History",
     element: <WithdrawnHistory />,

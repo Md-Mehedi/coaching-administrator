@@ -1,5 +1,6 @@
 import { Add, AddCircle, AddOutlined } from "@mui/icons-material";
-import { Grid, Avatar, IconButton, Button } from "@mui/material";
+import { DatePicker } from "@mui/lab";
+import { Grid, Avatar, IconButton, Button, TextField } from "@mui/material";
 import MaterialTable, {
   MaterialTableProps,
   MTableAction,
@@ -48,12 +49,13 @@ export default function MyTable<RowData extends object>(
       }))}
       options={{
         paging: props.data.length >= 5,
-        headerStyle: { textAlign: "center" },
+        // headerStyle: { textAlign: "center" },
         actionsColumnIndex: 0,
         addRowPosition: "first",
         pageSize: 5,
         ...props.options,
       }}
+      onColumnDragged={(event) => alert("hello")}
       components={{
         Toolbar: (props) => (
           <>
@@ -62,14 +64,13 @@ export default function MyTable<RowData extends object>(
               direction="row"
               alignItems="center"
               justifyContent="flex-end"
+              sx={{ paddingLeft: 2, paddingRight: 2 }}
             >
-              <Grid item>
-                <Grid item container>
-                  <MTableToolbar
-                    {...props}
-                    sx={{ ...props.style, width: "100%" }}
-                  />
-                </Grid>
+              <Grid item sx={{ flexGrow: 1 }}>
+                <MTableToolbar
+                  {...props}
+                  sx={{ ...props.style, width: "100%" }}
+                />
               </Grid>
               {onAddButtonClick && (
                 <Grid item>
@@ -160,4 +161,18 @@ export function onRowAdd(data, setData, func = () => {}) {
         resolve(1);
       }, 1000);
     });
+}
+
+export function columnDateInput(label: string = "") {
+  return (props) => (
+    <DatePicker
+      label={label}
+      value={props.value}
+      onChange={props.onChange}
+      // onChange={(newValue) => {
+      //   props.onChange(newValue.toLocaleString());
+      // }}
+      renderInput={(params) => <TextField fullWidth {...params} />}
+    />
+  );
 }
