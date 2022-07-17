@@ -12,6 +12,10 @@ const data: IBatch = batches[0];
 
 const tabs = [
   {
+    title: "Routine",
+    element: <BatchRoutine />,
+  },
+  {
     title: "Attendance",
     element: <BatchAttendance />,
   },
@@ -22,10 +26,6 @@ const tabs = [
   {
     title: "Students History",
     element: <BatchStudentHistory />,
-  },
-  {
-    title: "Routine",
-    element: <BatchRoutine />,
   },
 ];
 export default function Batch() {

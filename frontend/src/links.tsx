@@ -17,6 +17,7 @@ import ExamDetails from "./pages/exam/exam-info";
 import Home from "./pages/home/home";
 import SubjectList from "./pages/batch/subject-list";
 import DuesList from "./pages/financial/dues-list";
+import ConfirmAdmin from "./pages/auth/confirm-admin";
 
 export var ADMIN_LINKS = {
   home: { path: "/dashboard/home", element: <Home /> },
@@ -47,7 +48,11 @@ export var ADMIN_LINKS = {
 
 export var USER_LINKS = {
   home: { path: "/home", element: <StudentList /> },
-  login: { path: "/auth/login", element: <Login signOut /> },
+  login: { path: "/auth/login", element: <Login /> },
   register: { path: "/auth/register", element: <Register /> },
-  forgotPassword: { path: "/auth/forgot-password", element: <Login signOut /> },
+  verifyAdmin: {
+    path: "/auth/confirm-admin",
+    element: <ConfirmAdmin />,
+  },
+  forgotPassword: { path: "/auth/forgot-password", element: <Login /> },
 };
