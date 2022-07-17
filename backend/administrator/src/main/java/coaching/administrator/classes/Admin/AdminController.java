@@ -87,7 +87,7 @@ public class AdminController {
 
             if (token != null) {
                 if (service.getAdminByEmail(token.getEmail()) != null)
-                    return new APIMessage(false, "email-taken");
+                    return new APIMessage(false, "Email already taken");
                 Person person = new Person();
                 // admin.setActivated("T");
                 person.setPassword(token.getPassword());
@@ -116,7 +116,7 @@ public class AdminController {
             System.out.println("\033[31minside add admin\033[0m");
 
             // personService.savePerson(admin);
-            System.out.println("Admin id : "+ admin.getPerson().getId());
+            System.out.println("Admin id : " + admin.getPerson().getId());
             service.saveAdmin(admin);
 
             return new APIMessage(true, "Information successfully submitted");
@@ -163,6 +163,7 @@ public class AdminController {
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // String encodedPasssword = pEncoder.getEncodedPassword(password);
         Admin admin = service.getAdminByEmail(email);
+
         if (admin == null)
             return node
                     .put("success", false)
@@ -181,5 +182,4 @@ public class AdminController {
                     .put("success", false)
                     .put("message", "Server error. Try again.");
     }
-
 }
