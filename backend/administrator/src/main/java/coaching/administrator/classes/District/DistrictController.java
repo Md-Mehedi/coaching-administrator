@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.District;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,11 @@ public class DistrictController {
     @GetMapping("/get-district-by-name/{name}")
     public District getDistrictByName(@PathVariable String name) {
         return service.getDistrictByName(name);
+    }
+
+    @GetMapping("/get-all-district-by-division-id/{id}")
+    public List<District> getDistrictByDivision(@PathVariable Integer id) {
+        return service.getDistrictByDivision(id);
     }
 
     @DeleteMapping("/delete-district-by-id")

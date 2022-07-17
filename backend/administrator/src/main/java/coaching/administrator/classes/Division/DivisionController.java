@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Division;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,11 @@ public class DivisionController {
     @GetMapping("/get-division-by-id/{id}")
     public Division getDivisionById(@PathVariable Integer id) {
         return service.getDivisionById(id);
+    }
+
+    @GetMapping("/get-all-divisions")
+    public List<Division> getDivisions() {
+        return service.getDivisions();
     }
 
     @GetMapping("/get-division-by-name/{name}")

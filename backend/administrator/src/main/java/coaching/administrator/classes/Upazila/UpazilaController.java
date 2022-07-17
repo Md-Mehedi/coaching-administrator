@@ -1,5 +1,7 @@
 
-package coaching.administrator.classes.Thana;
+package coaching.administrator.classes.Upazila;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,26 +12,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ThanaController {
+public class UpazilaController {
 
     @Autowired
-    private ThanaService service;
+    private UpazilaService service;
 
     @PostMapping("/add-thana")
-    public Thana addThana(@RequestBody Thana thana) {
+    public Upazila addThana(@RequestBody Upazila thana) {
         System.out.println("\033[31minside add thana\033[0m");
 
         return service.saveThana(thana);
     }
 
     @GetMapping("/get-thana-by-id/{id}")
-    public Thana getThanaById(@PathVariable Integer id) {
+    public Upazila getThanaById(@PathVariable Integer id) {
         return service.getThanaById(id);
     }
 
     @GetMapping("/get-thana-by-name/{name}")
-    public Thana getThanaByName(@PathVariable String name) {
+    public Upazila getThanaByName(@PathVariable String name) {
         return service.getThanaByName(name);
+    }
+
+    @GetMapping("/get-all-upazila-by-district-id/{id}")
+    public List<Upazila> getUpazilaByDistrict(@PathVariable Integer id) {
+        return service.getUpazilaByDistrict(id);
     }
 
     @DeleteMapping("/delete-thana-by-id")

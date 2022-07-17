@@ -20,15 +20,13 @@ import coaching.administrator.classes.Person.ConfirmationToken;
 import coaching.administrator.classes.Person.ConfirmationTokenRepository;
 import coaching.administrator.classes.Person.EmailService;
 import coaching.administrator.classes.Person.Person;
-import coaching.administrator.classes.Person.PersonService;
+import coaching.administrator.classes.Security.PasswordEncoder;
 
 @RestController
 public class AdminController {
 
     @Autowired
     private AdminService service;
-    @Autowired
-    private PersonService personService;
 
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
@@ -45,6 +43,7 @@ public class AdminController {
         try {
             Admin existingAdmin = service.getAdminByEmail(email);
             if (existingAdmin != null) {
+                System.out.println("\033[31admin id = \033[0m" + existingAdmin.getPerson().getId());
                 return "email already taken";
             }
 
@@ -81,18 +80,20 @@ public class AdminController {
             ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
             if (token != null) {
+                if (service.getAdminByEmail(token.getEmail()) != null)
+                    return "email-taken";
                 Person person = new Person();
                 // admin.setActivated("T");
                 person.setPassword(token.getPassword());
                 person.setEmail(token.getEmail());
-                personService.savePerson(person);
-                person = personService.getPersonByEmail(token.getEmail());
+                // personService.savePerson(person);
+                // person = personService.getPersonByEmail(token.getEmail());
                 Admin admin = new Admin();
                 admin.setPerson(person);
                 service.saveAdmin(admin);
-                return "admin account verified with email";
+                return "admin-verified";
             } else {
-                return "The link is invalid or broken";
+                return "broken-link";
             }
         } catch (Exception e) {
             System.out.println("\033[31minside Exception in confirm admin\033[0m");
@@ -108,11 +109,11 @@ public class AdminController {
         try {
             System.out.println("\033[31minside add admin\033[0m");
 
-            personService.savePerson(admin);
+            // personService.savePerson(admin);
             service.saveAdmin(admin);
 
         } catch (Exception e) {
-            service.deleteAdmin(admin.getId());
+            service.deleteAdmin(admin.getPerson().getId());
             System.out.println("\033[31minside Exception in add admin\033[0m");
             e.printStackTrace();
         }
@@ -144,4 +145,24 @@ public class AdminController {
     public Admin updateAdmin(@RequestBody Admin admin) {
         return service.updateAdmin(admin);
     }
+
+    @GetMapping("/authenticate-admin")
+    public String authenticateAdmin(@RequestBody Map<String, String> adminMap) {
+
+        String email = adminMap.get("email");
+        String password = adminMap.get("password");
+
+        PasswordEncoder pEncoder = new PasswordEncoder();
+        String encodedPasssword = pEncoder.getEncodedPassword(password);
+        Admin admin = service.getAdminByEmail(email);
+        if (admin == null)
+            return "not-registered";
+        else if (!encodedPasssword.equals(admin.getPerson().getPassword()))
+            return "wrong-password";
+        else if (encodedPasssword.equals(admin.getPerson().getPassword()))
+            return "success";
+        else
+            return "unknown-error";
+    }
+
 }

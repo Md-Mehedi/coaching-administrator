@@ -1,5 +1,7 @@
 package coaching.administrator.classes.District;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class DistrictService {
 
     public District getDistrictByName(String name) {
         return repository.findByName(name);
+    }
+
+    public List<District> getDistrictByDivision(Integer id) {
+        return repository.findByDivisionId(id);
     }
 
     public String deleteDistrict(Integer id) {

@@ -3,9 +3,8 @@ package coaching.administrator.classes.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import coaching.administrator.classes.Person.PersonRepository;
+import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
-import coaching.administrator.classes.Security.PasswordEncoder;
 
 @Service
 public class AdminService {
@@ -26,11 +25,19 @@ public class AdminService {
     }
 
     public Admin getAdminByFullName(String name) {
-        return repository.findByFullName(name);
+        Person person = personService.getPersonByFullName(name);
+        Admin admin = new Admin();
+        admin.setPerson(person);
+        return admin;
     }
 
     public Admin getAdminByEmail(String email) {
-        return repository.findByEmail(email);
+        Person person = personService.getPersonByEmail(email);
+        if (person == null)
+            return null;
+        Admin admin = new Admin();
+        admin.setPerson(person);
+        return admin;
     }
 
     public String deleteAdmin(Integer id) {
@@ -41,9 +48,10 @@ public class AdminService {
 
     public Admin updateAdmin(Admin admin) {
 
-        personService.updatePerson(admin);
-        Admin newAdmin = repository.findById(admin.getId()).orElse(null);
-        return newAdmin;
+        // personService.updatePerson(admin);
+        // Admin newAdmin = repository.findById(admin.getId()).orElse(null);
+        // return newAdmin;
+        return repository.save(admin);
     }
 
 }

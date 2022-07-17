@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import coaching.administrator.classes.Thana.Thana;
+import coaching.administrator.classes.Upazila.Upazila;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,8 +30,8 @@ public class Address implements Serializable {
     private Integer id;
     private String village;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "thana_id", referencedColumnName = "id")
-    private Thana thana;
+    @JoinColumn(name = "upazila_id", referencedColumnName = "id")
+    private Upazila upazila;
     // @OneToOne(mappedBy = "presentAddress", fetch = FetchType.LAZY)
     // private Person personPresent;
     // @OneToOne(mappedBy = "permanentAddress", fetch = FetchType.LAZY)

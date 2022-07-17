@@ -1,24 +1,30 @@
-package coaching.administrator.classes.Thana;
+package coaching.administrator.classes.Upazila;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ThanaService {
+public class UpazilaService {
 
     @Autowired
-    private ThanaRepository repository;
+    private UpazilaRepository repository;
 
-    public Thana saveThana(Thana thana) {
+    public Upazila saveThana(Upazila thana) {
         return repository.save(thana);
     }
 
-    public Thana getThanaById(Integer id) {
+    public Upazila getThanaById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 
-    public Thana getThanaByName(String name) {
+    public Upazila getThanaByName(String name) {
         return repository.findByName(name);
+    }
+
+    public List<Upazila> getUpazilaByDistrict(Integer id) {
+        return repository.findByDistrictId(id);
     }
 
     public String deleteThana(Integer id) {

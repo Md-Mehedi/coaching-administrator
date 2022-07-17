@@ -33,7 +33,7 @@ public class Coaching {
     private String email;
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address addresss;
 
