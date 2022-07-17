@@ -81,7 +81,7 @@ public class AdminController {
 
             if (token != null) {
                 if (service.getAdminByEmail(token.getEmail()) != null)
-                    return new APIMessage(false, "email-taken");
+                    return new APIMessage(false, "Email already taken");
                 Person person = new Person();
                 // admin.setActivated("T");
                 person.setPassword(token.getPassword());
@@ -104,7 +104,7 @@ public class AdminController {
     }
 
     @PostMapping("/add-admin")
-    public String addAdmin(@RequestBody Admin admin) {
+    public APIMessage addAdmin(@RequestBody Admin admin) {
 
         try {
             System.out.println("\033[31minside add admin\033[0m");
@@ -116,6 +116,7 @@ public class AdminController {
             service.deleteAdmin(admin.getPerson().getId());
             System.out.println("\033[31minside Exception in add admin\033[0m");
             e.printStackTrace();
+            return new APIMessage(false, "Something went wrong. Please try again");
         }
         return null;
     }
@@ -147,7 +148,7 @@ public class AdminController {
     }
 
     @GetMapping("/authenticate-admin")
-    public String authenticateAdmin(@RequestBody Map<String, String> adminMap) {
+    public APIMessage authenticateAdmin(@RequestBody Map<String, String> adminMap) {
 
         String email = adminMap.get("email");
         String password = adminMap.get("password");
@@ -155,14 +156,18 @@ public class AdminController {
         PasswordEncoder pEncoder = new PasswordEncoder();
         String encodedPasssword = pEncoder.getEncodedPassword(password);
         Admin admin = service.getAdminByEmail(email);
-        if (admin == null)
-            return "not-registered";
-        else if (!encodedPasssword.equals(admin.getPerson().getPassword()))
-            return "wrong-password";
+        if (admin == null) {
+            if (confirmationTokenRepository.findByEmail(email) != null)
+                return new APIMessage(false, "Check your inbox to verify account !");
+            else
+                return new APIMessage(false, "Please register first");
+
+        } else if (!encodedPasssword.equals(admin.getPerson().getPassword()))
+            return new APIMessage(false, "Please enter correct password !");
         else if (encodedPasssword.equals(admin.getPerson().getPassword()))
-            return "success";
+            return new APIMessage(false, "Login successful");
         else
-            return "unknown-error";
+            return new APIMessage(false, "Something went wrong. Please try again");
     }
 
 }
