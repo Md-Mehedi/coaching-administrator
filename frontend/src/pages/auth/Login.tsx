@@ -54,7 +54,7 @@ import { useSnackbar } from "notistack";
 //   },
 // }));
 
-export function Login({ signOut }: { signOut: boolean }) {
+export function LoginBox({ signOut }: { signOut: boolean }) {
   // const classes = useStyles();
 
   // function handleSubmitClick(event: { preventDefault: () => void }) {
@@ -113,104 +113,110 @@ export function Login({ signOut }: { signOut: boolean }) {
     if (errorVerify()) alert(state.email + state.password);
   }
   return (
-    <AuthLayout>
-      <Grid
-        container
-        direction="column"
-        spacing={3}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Grid item container direction="column" alignItems="center" spacing={1}>
-          <Grid item>
-            <Avatar>
-              <LockOutlinedIcon />
-            </Avatar>
-          </Grid>
-          <Grid item>
-            <Typography component="h1" variant="h5">
-              Log In
-            </Typography>
-          </Grid>
+    <Grid
+      container
+      direction="column"
+      spacing={3}
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid item container direction="column" alignItems="center" spacing={1}>
+        <Grid item>
+          <Avatar>
+            <LockOutlinedIcon />
+          </Avatar>
         </Grid>
-        <Grid item container direction="column" spacing={1}>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              label="E-mail"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onBlur={(event) => {
-                setState({
-                  ...state,
-                  email: event.target.value,
-                });
-              }}
-              onChange={(event) => {
-                setState({
-                  ...state,
-                  email: event.target.value,
-                });
-              }}
-              // pattern="letters-digits-no-space"
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              autoComplete="password"
-              onBlur={(event) => {
-                setState({
-                  ...state,
-                  password: event.target.value,
-                });
-              }}
-              onChange={(event) => {
-                setState({
-                  ...state,
-                  password: event.target.value,
-                });
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleLoginClick}
-            >
-              Log In
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid item container>
-          <Grid item xs>
-            <ForgotPassword />
-          </Grid>
-          <Grid item>
-            <SpecialLink
-              href={USER_LINKS.register.path}
-              // href={
-              //   history.location.pathname
-              //     .split("/")
-              //     .slice(0, -1)
-              // .join("/") + "/signup"
-              // }
-            >
-              {"Don't have an account? Register"}
-            </SpecialLink>
-          </Grid>
+        <Grid item>
+          <Typography component="h1" variant="h5">
+            Log In
+          </Typography>
         </Grid>
       </Grid>
+      <Grid item container direction="column" spacing={1}>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            label="E-mail"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onBlur={(event) => {
+              setState({
+                ...state,
+                email: event.target.value,
+              });
+            }}
+            onChange={(event) => {
+              setState({
+                ...state,
+                email: event.target.value,
+              });
+            }}
+            // pattern="letters-digits-no-space"
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            autoComplete="password"
+            onBlur={(event) => {
+              setState({
+                ...state,
+                password: event.target.value,
+              });
+            }}
+            onChange={(event) => {
+              setState({
+                ...state,
+                password: event.target.value,
+              });
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleLoginClick}
+          >
+            Log In
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid item container>
+        <Grid item xs>
+          <ForgotPassword />
+        </Grid>
+        <Grid item>
+          <SpecialLink
+            href={USER_LINKS.register.path}
+            // href={
+            //   history.location.pathname
+            //     .split("/")
+            //     .slice(0, -1)
+            // .join("/") + "/signup"
+            // }
+          >
+            {"Don't have an account? Register"}
+          </SpecialLink>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+}
+
+export function Login() {
+  return (
+    <AuthLayout>
+      <LoginBox signOut={true} />
     </AuthLayout>
   );
 }

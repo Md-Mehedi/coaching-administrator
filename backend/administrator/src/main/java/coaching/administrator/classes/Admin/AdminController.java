@@ -61,7 +61,7 @@ public class AdminController {
             mailMessage.setTo(email);
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setText("To confirm your account, please click here : "
-                    + Global.BASE_PATH + "/confirm-admin?token=" + confirmationToken.getConfirmationToken());
+                    + Global.FRONTEND_PATH + "/auth/confirm-admin?token=" + confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 
@@ -135,7 +135,7 @@ public class AdminController {
         return service.getAdminByFullName(name);
     }
 
-    @GetMapping("/get-admin-by-eamil/{email}")
+    @GetMapping("/get-admin-by-email/{email}")
     public Admin getAdminByEmail(@PathVariable String email) {
         return service.getAdminByEmail(email);
     }

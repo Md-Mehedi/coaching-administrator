@@ -1,40 +1,12 @@
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { DatePicker } from "@mui/lab";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Alert,
-  Avatar,
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  Link,
-  MenuItem,
-  Paper,
-  Select,
-  Snackbar,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Theme } from "@mui/system";
-import { MouseEventHandler, useState } from "react";
-import AvatarUpload from "../../components/avatar-upload";
-import AddressField from "../../components/form-components/address-field";
-import BasicInformation from "../../components/form-components/basic-information";
-import TextEditor from "../../components/text-editor";
-import { blood_group, religion } from "../../data";
-import AuthLayout, { ForgotPassword } from "../../layouts/auth-layout";
-import { Person } from "../../classes/person-info";
-import { Coaching } from "../../classes/coaching";
-// import { useHistory } from "react-router-dom";
-import SpecialLink from "./../../components/special-link";
-import { USER_LINKS } from "../../links";
+import { LockOutlined } from "@mui/icons-material";
+import { Grid, Typography, Button, Avatar, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { ADMIN_LINKS } from "./../../links";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { API } from "../../api";
+import SpecialLink from "../../components/special-link";
+import AuthLayout, { ForgotPassword } from "../../layouts/auth-layout";
+import { ADMIN_LINKS, USER_LINKS } from "../../links";
 
 function RegistrationConfirm() {
   return (
@@ -132,6 +104,7 @@ export function Register() {
     againPassword: "",
     submit: false,
   });
+
   function errorVerify() {
     if (!state.email || !state.password || !state.againPassword) {
       enqueueSnackbar("Please fill up all field properly", {
@@ -146,9 +119,19 @@ export function Register() {
     return true;
   }
   function handleRegisterClick(event) {
+    console.log(state);
     if (errorVerify()) {
-      enqueueSnackbar("Registration successful", { variant: "success" });
-      setState({ ...state, submit: true });
+      API.auth
+        .register(state.email, state.password)
+        .then((response) => {
+          console.log(response);
+          enqueueSnackbar("Registration successful", { variant: "success" });
+          setState({ ...state, submit: true });
+        })
+        .catch((onRejected) => {
+          console.log(onRejected);
+          alert("no internet connection");
+        });
     }
   }
   return (
@@ -156,7 +139,7 @@ export function Register() {
       <Grid container direction="column" spacing={1} alignItems="center">
         <Grid item>
           <Avatar /* className={classes.avatar} */>
-            <LockOutlinedIcon />
+            <LockOutlined />
           </Avatar>
         </Grid>
         <Grid item>

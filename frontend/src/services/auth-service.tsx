@@ -2,9 +2,9 @@ import axios from "axios";
 import { API } from "../api";
 
 class AuthService {
-  register(email: string, password: string) {
-    return axios.post(API.auth.register, { email: email, password: password });
-  }
+  // register(email: string, password: string) {
+  //   return axios.post(API.auth.register, { email: email, password: password });
+  // }
   // prefix = "/api/auth";
   // existByEmail(email: string) {
   //   return axios.post(GLOBAL.HOST + this.prefix + `/validity-email/${email}`);
@@ -54,7 +54,6 @@ class AuthService {
   // logout() {
   //   localStorage.removeItem("user");
   // }
-
   // getCurrentUser() {
   //   return JSON.parse(localStorage.getItem("user") + "");
   // }
