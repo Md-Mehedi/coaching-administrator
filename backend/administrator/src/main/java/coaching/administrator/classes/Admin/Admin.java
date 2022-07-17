@@ -3,7 +3,9 @@ package coaching.administrator.classes.Admin;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,10 +19,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "admin")
-public class Admin extends Person {
+public class Admin {
 
+    @Id
+    private Integer person_id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @MapsId
     private Person person;
+
+    private Integer salary;
 
 }

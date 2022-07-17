@@ -1,4 +1,4 @@
-package coaching.administrator.classes.Thana;
+package coaching.administrator.classes.Upazila;
 
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(name = "thana")
-public class Thana implements Serializable {
+public class Upazila implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

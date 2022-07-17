@@ -1,5 +1,7 @@
 package coaching.administrator.classes.Division;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class DivisionService {
 
     public Division getDivisionByName(String name) {
         return repository.findByName(name);
+    }
+
+    public List<Division> getDivisions() {
+        return repository.findAll();
     }
 
     public String deleteDivision(Integer id) {
