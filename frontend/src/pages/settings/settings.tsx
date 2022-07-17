@@ -6,8 +6,10 @@ import AdminInfoInput from "./admin-info-input";
 import CoachingInfoInput from "./coaching-info-input";
 import CoachingInfoOutput from "./coaching-info-output";
 import AdminInfoOutput from "./admin-info-output";
+import AdminList from "./admin-list";
 
 const tabs: TabLayoutContent[] = [
+  { title: "Admin List", element: <AdminList /> },
   { title: "CIO", element: <CoachingInfoOutput /> },
   { title: "CII", element: <CoachingInfoInput /> },
   { title: "AII", element: <AdminInfoInput /> },

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import coaching.administrator.classes.Global.APIMessage;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Person.ConfirmationToken;
 import coaching.administrator.classes.Person.ConfirmationTokenRepository;
@@ -37,7 +38,7 @@ public class AdminController {
     private EmailService emailService;
 
     @PostMapping("/verify-admin")
-    public String addAdmin(@RequestBody Map<String, Object> adminMap) {
+    public APIMessage addAdmin(@RequestBody Map<String, Object> adminMap) {
 
         String email = (String) adminMap.get("email");
         String password = (String) adminMap.get("password");
@@ -45,7 +46,7 @@ public class AdminController {
         try {
             Admin existingAdmin = service.getAdminByEmail(email);
             if (existingAdmin != null) {
-                return "email already taken";
+                return new APIMessage(false, "Email already taken");
             }
 
             // unVerifiedAdmin.setEmail(email);
@@ -65,18 +66,18 @@ public class AdminController {
 
             emailService.sendEmail(mailMessage);
 
-            return "admin set for email confirmation";
+            return new APIMessage(true, "Registration successful");
 
         } catch (Exception e) {
             // service.deleteAdmin(unVerifiedAdmin.getId());
             System.out.println("\033[31minside Exception in add admin\033[0m");
             e.printStackTrace();
         }
-        return null;
+        return new APIMessage(false, "Server error. Please try again");
     }
 
     @RequestMapping(value = "/confirm-admin", method = { RequestMethod.GET, RequestMethod.POST })
-    public String confirmAdmin(@RequestParam("token") String confirmationToken) {
+    public APIMessage confirmAdmin(@RequestParam("token") String confirmationToken) {
         try {
             ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
@@ -90,14 +91,14 @@ public class AdminController {
                 Admin admin = new Admin();
                 admin.setPerson(person);
                 service.saveAdmin(admin);
-                return "admin account verified with email";
+                return new APIMessage(true, "Account verified successfully");
             } else {
-                return "The link is invalid or broken";
+                return new APIMessage(false, "The link is invalid or broken");
             }
         } catch (Exception e) {
             System.out.println("\033[31minside Exception in confirm admin\033[0m");
             e.printStackTrace();
-            return "Exception in confirm-admin";
+            return new APIMessage(false, "Server error. Please try again");
         }
         // return null;
     }

@@ -74,7 +74,7 @@ export default function Header() {
     return (
       <Grid container direction="row" alignItems="center" spacing={1}>
         <Grid item>
-          <Link to="/home">
+          <Link to={USER_LINKS.home.path}>
             <IconButton>
               <img
                 className={classes.logo}

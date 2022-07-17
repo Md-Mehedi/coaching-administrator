@@ -124,13 +124,14 @@ export function Register() {
       API.auth
         .register(state.email, state.password)
         .then((response) => {
-          console.log(response);
-          enqueueSnackbar("Registration successful", { variant: "success" });
-          setState({ ...state, submit: true });
+          enqueueSnackbar(response.data.message, {
+            variant: response.data.success ? "success" : "error",
+          });
+          response.data.success && setState({ ...state, submit: true });
         })
         .catch((onRejected) => {
           console.log(onRejected);
-          alert("no internet connection");
+          // alert("no internet connection");
         });
     }
   }
@@ -163,6 +164,7 @@ export function Register() {
                   variant="outlined"
                   required
                   fullWidth
+                  type="email"
                   label="E-mail"
                   name="email"
                   autoComplete="email"

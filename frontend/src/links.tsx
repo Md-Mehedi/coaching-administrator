@@ -47,7 +47,7 @@ export var ADMIN_LINKS = {
 };
 
 export var USER_LINKS = {
-  home: { path: "/home", element: <StudentList /> },
+  home: { path: "/dashboard/home", element: <StudentList /> },
   login: { path: "/auth/login", element: <Login /> },
   register: { path: "/auth/register", element: <Register /> },
   verifyAdmin: {
