@@ -4,17 +4,25 @@ import AuthLayout from "../../layouts/auth-layout";
 import { LoginBox } from "./login";
 import { useSearchParams } from "react-router-dom";
 import { API } from "./../../api";
+import { useSnackbar } from "notistack";
+import { generateVariant, showSnackbar } from "./../../tools/helper-functions";
 
 export default function ConfirmAdmin() {
+  const { enqueueSnackbar } = useSnackbar();
   const [searchParams, setSearchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [verified, setVerified] = useState(false);
   useEffect(() => {
+    console.log("Confirmation checking");
     token &&
       API.auth.confirmAdmin(token).then((response) => {
-        if (response.status == 200) setVerified(true);
+        if (response.status == 200) {
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            setVerified(true);
+          });
+        }
       });
-  }, []);
+  }, [token]);
 
   return (
     <AuthLayout>

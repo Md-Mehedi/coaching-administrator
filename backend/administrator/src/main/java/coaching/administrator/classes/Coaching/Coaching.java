@@ -35,7 +35,7 @@ public class Coaching {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address addresss;
+    private Address address;
 
     private String contactNo;
     private Date registrationTime;

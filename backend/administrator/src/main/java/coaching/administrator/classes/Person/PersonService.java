@@ -50,7 +50,7 @@ public class PersonService {
         oldPerson.setBloodGroup(person.getBloodGroup());
         oldPerson.setNationality(person.getNationality());
         oldPerson.setJoiningDate(person.getJoiningDate());
-        oldPerson.setPermanentAddresss(person.getPermanentAddresss());
+        oldPerson.setPermanentAddress(person.getPermanentAddress());
         oldPerson.setPresentAddress(person.getPresentAddress());
         oldPerson.setFatherOccupation(person.getFatherOccupation());
         oldPerson.setMotherOccupation(person.getMotherOccupation());

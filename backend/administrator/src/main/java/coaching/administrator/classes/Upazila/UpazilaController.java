@@ -36,7 +36,9 @@ public class UpazilaController {
 
     @GetMapping("/get-all-upazila-by-district-id/{id}")
     public List<Upazila> getUpazilaByDistrict(@PathVariable Integer id) {
-        return service.getUpazilaByDistrict(id);
+        List<Upazila> list = service.getUpazilaByDistrict(id);
+        System.out.println("District id " + id + " " + list.size());
+        return list;
     }
 
     @DeleteMapping("/delete-thana-by-id")

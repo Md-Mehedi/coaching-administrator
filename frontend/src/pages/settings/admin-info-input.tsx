@@ -8,27 +8,71 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import { useState } from "react";
-import { Person } from "../../classes/person-info";
+import { useEffect, useState } from "react";
+import { Admin, Person } from "../../classes/person-info";
 import AvatarUpload from "../../components/avatar-upload";
 import { blood_group } from "../../data";
+import { useSnackbar } from "notistack";
+import { API } from "./../../api";
+import { errorVerify, showSnackbar } from "../../tools/helper-functions";
+import AuthService from "../../services/auth-service";
+import axios from "axios";
 
 export default function AdminInfoInput() {
-  const [admin, setAdmin] = useState(new Person());
+  const [admin, setAdmin] = useState<Admin>();
+  const { enqueueSnackbar } = useSnackbar();
+  useEffect(() => {
+    axios
+      .get("http://localhost:7982/get-admin-by-id/" + AuthService.getAdminId())
+      .then((response) => {
+        console.log(response.data);
+        setAdmin(response.data);
+      });
+    // setAdmin({
+    //   ...admin,
+    //   person_id: parseInt(AuthService.getAdminId() || ""),
+    //   person: { ...admin?.person, id: parseInt(AuthService.getAdminId() || "") },
+    // });
+  }, [AuthService.getAdminId()]);
+
   function updateAdmin(object) {
-    setAdmin({ ...admin, ...object });
+    //@ts-ignore
+    setAdmin({
+      ...admin,
+      person: {
+        ...admin?.person,
+        ...object,
+      },
+    });
+  }
+  function handleSubmitClick(event) {
+    const requiredFields = [
+      { label: "Full name", field: admin?.person.fullName },
+      { label: "Nickname", field: admin?.person.nickName },
+      { label: "Gender", field: admin?.person.gender },
+      { label: "Date of birth", field: admin?.person.dateOfBirth },
+    ];
+    if (errorVerify(enqueueSnackbar, requiredFields)) {
+      admin &&
+        API.admin.addAdmin(admin).then((response) => {
+          if (response.status == 200) {
+            showSnackbar(enqueueSnackbar, response.data);
+          }
+        });
+    }
   }
   return (
     <Grid container spacing={2}>
       <Grid item container alignItems="center">
-        <AvatarUpload />
+        <AvatarUpload onChange={(files) => updateAdmin({ image: files[0] })} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <TextField
+          required
           fullWidth
           variant="outlined"
           label="Full name"
-          defaultValue={admin.fullName}
+          value={admin?.person.fullName || ""}
           onChange={(event) => {
             updateAdmin({ fullName: event.target.value });
           }}
@@ -39,10 +83,11 @@ export default function AdminInfoInput() {
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <TextField
+          required
           fullWidth
           variant="outlined"
           label="Nickname"
-          defaultValue={admin.nickName}
+          value={admin?.person.nickName || ""}
           onChange={(event) => {
             updateAdmin({ nickName: event.target.value });
           }}
@@ -52,10 +97,10 @@ export default function AdminInfoInput() {
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
+        <FormControl fullWidth required>
           <InputLabel id="demo-simple-select-label">Gender</InputLabel>
           <Select
-            value={admin.gender}
+            value={admin?.person.gender || ""}
             label="Gender"
             onChange={(event) => {
               updateAdmin({ gender: event.target.value });
@@ -70,18 +115,18 @@ export default function AdminInfoInput() {
       <Grid item xs={12} sm={6} md={4}>
         <DatePicker
           label="Date of birth"
-          value={admin.dateOfBirth}
+          value={admin?.person.dateOfBirth}
           onChange={(newValue) => {
             updateAdmin({ dateOfBirth: newValue });
           }}
-          renderInput={(params) => <TextField fullWidth {...params} />}
+          renderInput={(params) => <TextField required fullWidth {...params} />}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Blood group</InputLabel>
           <Select
-            value={admin.bloodGroup}
+            value={admin?.person.bloodGroup || ""}
             label="Blood group"
             onChange={(event) => {
               updateAdmin({ bloodGroup: event.target.value });
@@ -104,7 +149,9 @@ export default function AdminInfoInput() {
         justifyContent="center"
       >
         <Grid item>
-          <Button variant="contained">Submit</Button>
+          <Button variant="contained" onClick={handleSubmitClick}>
+            Submit
+          </Button>
         </Grid>
         <Grid item>
           <Button variant="contained">Save</Button>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API } from "../api";
 
-class AuthService {
+let AuthService = {
   // register(email: string, password: string) {
   //   return axios.post(API.auth.register, { email: email, password: password });
   // }
@@ -82,7 +82,10 @@ class AuthService {
   //     return this.getCurrentUser().photo;
   //   } else return undefined;
   // }
-}
+  getAdminId() {
+    return localStorage.getItem("adminId");
+  },
+};
 export function authHeaders() {
   const user = JSON.parse(localStorage.getItem("user") + "");
 
@@ -96,4 +99,4 @@ export function authHeaders() {
     return { headers: {} };
   }
 }
-export default new AuthService();
+export default AuthService;

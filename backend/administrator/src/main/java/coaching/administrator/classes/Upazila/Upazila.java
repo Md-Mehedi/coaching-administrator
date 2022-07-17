@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "thana")
+@Table(name = "upazila")
 public class Upazila implements Serializable {
 
     @Id

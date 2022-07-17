@@ -18,6 +18,10 @@ import { USER_LINKS } from "../../links";
 // import { useHistory } from "react-router-dom";
 import SpecialLink from "./../../components/special-link";
 import { useSnackbar } from "notistack";
+import { API } from "../../api";
+import { useNavigate } from "react-router-dom";
+import { ADMIN_LINKS } from "./../../links";
+import { showSnackbar } from "../../tools/helper-functions";
 
 // const useStyles: any = makeStyles((theme: Theme) => ({
 //   root: {
@@ -95,6 +99,7 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
   //     }
   //   );
   // }
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [state, setState] = useState({
     email: "",
@@ -110,7 +115,16 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
     return true;
   }
   function handleLoginClick(event) {
-    if (errorVerify()) alert(state.email + state.password);
+    if (errorVerify()) {
+      API.auth.login(state.email, state.password).then((response) => {
+        if (response.status == 200) {
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            localStorage.setItem("adminId", response.data.adminId);
+            navigate(ADMIN_LINKS.settings.path);
+          });
+        }
+      });
+    }
   }
   return (
     <Grid

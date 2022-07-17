@@ -7,7 +7,7 @@ export class District {
   name: string;
   division: Division;
 }
-export class Thana {
+export class Upazila {
   id: number;
   name: string;
   district: District;
@@ -15,21 +15,42 @@ export class Thana {
 export class Address {
   id: number;
   village: string;
-  thana: Thana;
+  upazila: Upazila | null;
 }
-
+export class Occupation {
+  id: number;
+  name: string;
+}
+export class Religion {
+  id: number;
+  name: string;
+}
+export class Coaching {
+  id: number;
+  name: string;
+  email: string;
+  description: string;
+  address: Address;
+  contactNo: string;
+  registrationTime: Date;
+  whatsappNo: Date;
+  facebookLink: string;
+  youtubeLink: string;
+  image: string;
+}
 export class Person {
   id: number | null;
-  email: string;
   password: number;
-  permanentAdrsId?: number;
-  presentAdrsId?: number;
-  fatherOcptnId?: number;
-  motherOcptnId?: number;
-  religionId?: number;
+  permanentAddress?: Address;
+  presentAddress?: Address;
+  fatherOccupation?: Occupation;
+  motherOccupation?: Occupation;
+  religion?: Religion;
+  coaching?: Coaching;
   fullName?: string;
   nickName?: string;
   gender?: string;
+  email: string;
   fatherName?: string;
   motherName?: string;
   dateOfBirth?: Date | null = null;
@@ -37,6 +58,10 @@ export class Person {
   bloodGroup?: string;
   nationality?: string;
   personType?: string;
-  activated?: string;
-  image?: string[];
+  image?: string;
+}
+export class Admin {
+  person_id: number;
+  person: Person = new Person();
+  salary: number;
 }

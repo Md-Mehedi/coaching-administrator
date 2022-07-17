@@ -39,7 +39,7 @@ public class CoachingService {
         oldCoaching.setName(coaching.getName());
         oldCoaching.setDescription(coaching.getDescription());
         oldCoaching.setRegistrationTime(coaching.getRegistrationTime());
-        oldCoaching.setAddresss(coaching.getAddresss());
+        oldCoaching.setAddress(coaching.getAddress());
         oldCoaching.setContactNo(coaching.getContactNo());
         oldCoaching.setEmail(coaching.getEmail());
         oldCoaching.setWhatsappNo(coaching.getWhatsappNo());

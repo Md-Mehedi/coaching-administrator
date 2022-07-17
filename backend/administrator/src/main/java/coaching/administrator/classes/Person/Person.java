@@ -41,7 +41,7 @@ public class Person implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "permanent_adrs_id", referencedColumnName = "id")
-    private Address permanentAddresss;
+    private Address permanentAddress;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "present_adrs_id", referencedColumnName = "id")

@@ -120,7 +120,7 @@ export function SideBarRow(props: SideBarRowProps) {
       {props.page.children.length > 0 && (
         <Collapse in={collapseOpen}>
           {props.page.children.map((item, childIdx) => (
-            <SpecialLink href={item.link}>
+            <SpecialLink key={childIdx} href={item.link}>
               <ListItemButton
                 sx={{
                   minHeight: 48,

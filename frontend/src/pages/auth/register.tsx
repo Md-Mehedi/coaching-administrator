@@ -186,6 +186,7 @@ export function Register() {
                   name="password"
                   label="Password"
                   type="password"
+                  autoComplete="new-password"
                   onBlur={(event) => {
                     setState({ ...state, password: event.target.value });
                   }}

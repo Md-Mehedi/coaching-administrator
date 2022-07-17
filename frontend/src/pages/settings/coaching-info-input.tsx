@@ -8,7 +8,7 @@ import AddDialog from "../../components/add-dialog";
 import ImageUpload from "../../components/image-upload";
 
 export default function CoachingInformationInput() {
-  const [coaching, setCoaching] = useState(new Coaching());
+  const [coaching, setCoaching] = useState<Coaching | null>();
   function updateCoaching(object) {
     setCoaching({ ...coaching, ...object });
   }
@@ -22,7 +22,7 @@ export default function CoachingInformationInput() {
           fullWidth
           variant="outlined"
           label="Coaching name"
-          defaultValue={coaching.name}
+          value={coaching?.name}
           onChange={(event) => {
             updateCoaching({ name: event.target.value });
           }}
@@ -33,7 +33,7 @@ export default function CoachingInformationInput() {
       </Grid>
       <Grid item container>
         <TextEditor
-          value={coaching.description}
+          value={coaching?.description}
           onChange={(value) => updateCoaching({ description: value })}
         />
       </Grid>
@@ -42,7 +42,7 @@ export default function CoachingInformationInput() {
           fullWidth
           variant="outlined"
           label="Whatsapp no"
-          defaultValue={coaching.whatsappNo}
+          defaultValue={coaching?.whatsappNo}
           onChange={(event) => {
             updateCoaching({ whatsappNo: event.target.value });
           }}
@@ -56,7 +56,7 @@ export default function CoachingInformationInput() {
           fullWidth
           variant="outlined"
           label="Facebook"
-          defaultValue={coaching.facebookLink}
+          defaultValue={coaching?.facebookLink}
           onChange={(event) => {
             updateCoaching({ facebookLink: event.target.value });
           }}
@@ -70,7 +70,7 @@ export default function CoachingInformationInput() {
           fullWidth
           variant="outlined"
           label="Youtube"
-          defaultValue={coaching.youtubeLink}
+          defaultValue={coaching?.youtubeLink}
           onChange={(event) => {
             updateCoaching({ youtubeLink: event.target.value });
           }}
@@ -84,7 +84,7 @@ export default function CoachingInformationInput() {
           fullWidth
           variant="outlined"
           label="Email"
-          defaultValue={coaching.email}
+          defaultValue={coaching?.email}
           onChange={(event) => {
             updateCoaching({ email: event.target.value });
           }}

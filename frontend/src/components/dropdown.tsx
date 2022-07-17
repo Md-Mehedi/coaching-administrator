@@ -45,10 +45,15 @@ export default function DropDown<
   DisableClearable extends boolean | undefined = undefined,
   FreeSolo extends boolean | undefined = undefined
 >(props: DropDownProps<T, Multiple, DisableClearable, FreeSolo>) {
-  // const { data, ...others } = props;
+  const { label, optionLabel, ...others } = props;
   return (
     <Autocomplete
-      {...props}
+      {...others}
+      onChange={(event, newVal, reason) => {
+        console.log(event);
+        console.log(props.onChange);
+        props.onChange && props.onChange(event, newVal, reason);
+      }}
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();

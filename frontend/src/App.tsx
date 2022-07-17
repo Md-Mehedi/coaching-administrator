@@ -17,9 +17,9 @@ function App() {
           dateAdapter={AdapterDateFns}
         >
           <SnackbarProvider maxSnack={3}>
-            <React.StrictMode>
-              <Router />
-            </React.StrictMode>
+            {/* <React.StrictMode> */}
+            <Router />
+            {/* </React.StrictMode> */}
           </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>
