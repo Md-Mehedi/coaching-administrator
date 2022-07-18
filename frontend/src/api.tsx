@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Admin } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
+import { Coaching } from "./classes/coaching";
 
 const HOST = "http://localhost:7982";
 
@@ -27,6 +28,7 @@ export const API = {
   },
   admin: {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
+    getAdminById: (id: number) => get("/get-admin-by-id/" + id),
   },
   address: {
     getDivisions: () => get("/get-all-divisions"),
@@ -34,5 +36,10 @@ export const API = {
       get("/get-all-district-by-division-id/" + divisionId),
     getUpazilas: (districtId: number) =>
       get("/get-all-upazila-by-district-id/" + districtId),
+  },
+  coaching: {
+    addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
+    getCoachingByAdminId: (adminId: number) =>
+      get("/get-coaching-by-admin-id/" + adminId),
   },
 };

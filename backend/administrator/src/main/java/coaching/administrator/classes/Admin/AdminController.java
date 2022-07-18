@@ -121,7 +121,7 @@ public class AdminController {
 
             return new APIMessage(true, "Information successfully submitted");
         } catch (Exception e) {
-            service.deleteAdmin(admin.getPerson().getId());
+            // service.deleteAdmin(admin.getPerson().getId());
             System.out.println("\033[31minside Exception in add admin\033[0m");
             e.printStackTrace();
         }

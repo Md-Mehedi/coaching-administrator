@@ -83,7 +83,7 @@ let AuthService = {
   //   } else return undefined;
   // }
   getAdminId() {
-    return localStorage.getItem("adminId");
+    return parseInt(localStorage.getItem("adminId") || "-1");
   },
 };
 export function authHeaders() {

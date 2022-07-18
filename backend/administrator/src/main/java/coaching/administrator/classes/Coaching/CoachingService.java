@@ -3,6 +3,9 @@ package coaching.administrator.classes.Coaching;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coaching.administrator.classes.Person.Person;
+import coaching.administrator.classes.Person.PersonRepository;
+import coaching.administrator.classes.Person.PersonService;
 import coaching.administrator.classes.Security.PasswordEncoder;
 
 @Service
@@ -10,6 +13,8 @@ public class CoachingService {
 
     @Autowired
     private CoachingRepository repository;
+    @Autowired
+    private PersonService personService;
 
     public Coaching saveCoaching(Coaching coaching) {
         return repository.save(coaching);

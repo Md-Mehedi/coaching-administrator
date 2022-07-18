@@ -8,6 +8,7 @@ import { API } from "../../api";
 
 export type AddressFieldProps = {
   title: string;
+  value?: Address;
   onChange?: (address: Address) => void;
 };
 
@@ -30,7 +31,13 @@ export default function AddressField(props: AddressFieldProps) {
   function loadDivisions() {
     API.address.getDivisions().then((response) => {
       console.log(response.data);
-      setState({ ...state, divisions: response.data });
+      setState({
+        ...state,
+        divisions: response.data,
+        address: props.value || new Address(),
+        selectedDivision: props.value?.upazila?.district.division || null,
+        selectedDistrict: props.value?.upazila?.district || null,
+      });
     });
   }
   function loadDistricts(division: Division | null) {
@@ -52,15 +59,16 @@ export default function AddressField(props: AddressFieldProps) {
       setState({
         ...state,
         selectedDistrict: district,
-        address: { ...state.address, upazila: null },
+        address: { ...state.address },
         upazilas: response.data,
       });
       props.onChange && props.onChange({ ...state.address, upazila: null });
     });
   }
   useEffect(() => {
+    console.log(props.value);
     loadDivisions();
-  }, []);
+  }, [props.value]);
   console.log(state);
   return (
     <Grid container direction="column" spacing={2}>

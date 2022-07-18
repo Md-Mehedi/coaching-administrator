@@ -1,5 +1,7 @@
 package coaching.administrator.classes.Admin;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "admin")
-public class Admin {
+public class Admin implements Serializable {
 
     @Id
     private Integer person_id;

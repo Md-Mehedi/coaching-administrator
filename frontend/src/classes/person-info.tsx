@@ -62,6 +62,6 @@ export class Person {
 }
 export class Admin {
   person_id: number;
-  person: Person = new Person();
-  salary: number;
+  person?: Person = new Person();
+  salary?: number;
 }

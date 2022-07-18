@@ -59,7 +59,7 @@ public class Person implements Serializable {
     @JoinColumn(name = "religion_id", referencedColumnName = "id")
     private Religion religion;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import coaching.administrator.classes.Global.APIMessage;
 import coaching.administrator.classes.Global.Global;
 
 @RestController
@@ -22,24 +23,25 @@ public class CoachingController {
     private CoachingService service;
 
     @PostMapping("/add-coaching")
-    public String addAdmin(@RequestBody Coaching coaching) {
+    public APIMessage addAdmin(@RequestBody Coaching coaching) {
 
         try {
             System.out.println("\033[31minside add coaching\033[0m");
             Coaching existingCoaching = service.getCoachingByEmail(coaching.getEmail());
 
             if (existingCoaching != null) {
-                return "email already taken";
+                return new APIMessage(false, "Email already taken");
             }
 
             service.saveCoaching(coaching);
-            coaching = service.getCoachingById(coaching.getId());
+            // coaching = service.getCoachingById(coaching.getId());
+            return new APIMessage(true, "Information successfully submitted");
         } catch (Exception e) {
             service.deleteCoaching(coaching.getId());
             System.out.println("\033[31minside Exception in add coaching\033[0m");
             e.printStackTrace();
         }
-        return null;
+        return new APIMessage(true, "Server error. Try again.");
     }
 
     // @RequestMapping(value = "/confirm-admin", method = { RequestMethod.GET,
@@ -70,6 +72,10 @@ public class CoachingController {
         return service.getCoachingById(id);
     }
 
+    // @GetMapping("/get-coaching-by-admin-id/{id}")
+    // public Coaching getCoachingByAdminId(@PathVariable Integer id) {
+    // return service.getCoachingByAdminId(id);
+    // }
 
     @GetMapping("/get-coaching-by-name/{name}")
     public Coaching getCoachingByName(@PathVariable String name) {

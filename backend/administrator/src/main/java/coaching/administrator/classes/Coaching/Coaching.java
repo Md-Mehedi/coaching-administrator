@@ -1,6 +1,6 @@
 package coaching.administrator.classes.Coaching;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -38,6 +40,7 @@ public class Coaching {
     private Address address;
 
     private String contactNo;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date registrationTime;
     private Integer whatsappNo;
     private String facebookLink;

@@ -47,10 +47,10 @@ export default function AdminInfoInput() {
   }
   function handleSubmitClick(event) {
     const requiredFields = [
-      { label: "Full name", field: admin?.person.fullName },
-      { label: "Nickname", field: admin?.person.nickName },
-      { label: "Gender", field: admin?.person.gender },
-      { label: "Date of birth", field: admin?.person.dateOfBirth },
+      { label: "Full name", field: admin?.person?.fullName },
+      { label: "Nickname", field: admin?.person?.nickName },
+      { label: "Gender", field: admin?.person?.gender },
+      { label: "Date of birth", field: admin?.person?.dateOfBirth },
     ];
     if (errorVerify(enqueueSnackbar, requiredFields)) {
       admin &&
@@ -72,7 +72,7 @@ export default function AdminInfoInput() {
           fullWidth
           variant="outlined"
           label="Full name"
-          value={admin?.person.fullName || ""}
+          value={admin?.person?.fullName || ""}
           onChange={(event) => {
             updateAdmin({ fullName: event.target.value });
           }}
@@ -87,7 +87,7 @@ export default function AdminInfoInput() {
           fullWidth
           variant="outlined"
           label="Nickname"
-          value={admin?.person.nickName || ""}
+          value={admin?.person?.nickName || ""}
           onChange={(event) => {
             updateAdmin({ nickName: event.target.value });
           }}
@@ -100,7 +100,7 @@ export default function AdminInfoInput() {
         <FormControl fullWidth required>
           <InputLabel id="demo-simple-select-label">Gender</InputLabel>
           <Select
-            value={admin?.person.gender || ""}
+            value={admin?.person?.gender || ""}
             label="Gender"
             onChange={(event) => {
               updateAdmin({ gender: event.target.value });
@@ -115,7 +115,7 @@ export default function AdminInfoInput() {
       <Grid item xs={12} sm={6} md={4}>
         <DatePicker
           label="Date of birth"
-          value={admin?.person.dateOfBirth}
+          value={admin?.person?.dateOfBirth}
           onChange={(newValue) => {
             updateAdmin({ dateOfBirth: newValue });
           }}
@@ -126,7 +126,7 @@ export default function AdminInfoInput() {
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Blood group</InputLabel>
           <Select
-            value={admin?.person.bloodGroup || ""}
+            value={admin?.person?.bloodGroup || ""}
             label="Blood group"
             onChange={(event) => {
               updateAdmin({ bloodGroup: event.target.value });
