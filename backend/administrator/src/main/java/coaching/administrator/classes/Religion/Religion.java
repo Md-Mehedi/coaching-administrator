@@ -31,9 +31,9 @@ public class Religion implements Serializable {
     private Integer id;
     private String name;
 
-    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL, mappedBy = "religion")
-    // @JoinColumn(name = "religion_id")
-    private List<Person> persons;
+    // @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL, mappedBy = "religion")
+    // // @JoinColumn(name = "religion_id")
+    // private List<Person> persons;
 
     public Religion() {
 
