@@ -1,5 +1,5 @@
 
-package coaching.administrator.classes.Student;
+package coaching.administrator.classes.Teacher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class StudentController {
+public class TeacherController {
 
     @Autowired
-    private StudentService service;
+    private TeacherService service;
 
-    @PostMapping("/add-student")
-    public Student addStudent(Student student) {
-        return service.saveStudent(student);
+    @PostMapping("/add-teacher")
+    public Teacher addTeacher(Teacher teacher) {
+        return service.saveTeacher(teacher);
     }
 
-    @GetMapping("/get-student-by-id/{id}")
-    public Student getStudentById(@PathVariable Integer id) {
-        return service.getStudentById(id);
+    @GetMapping("/get-teacher-by-id/{id}")
+    public Teacher getTeacherById(@PathVariable Integer id) {
+        return service.getTeacherById(id);
     }
 
     // @GetMapping("/helloworld")
@@ -35,18 +35,18 @@ public class StudentController {
     // return "Hello Spring Boot";
     // }
 
-    @GetMapping("/get-student-by-full-name/{name}")
-    public Student getStudentByFullName(@PathVariable String name) {
-        return service.getStudentByFullName(name);
+    @GetMapping("/get-teacher-by-full-name/{name}")
+    public Teacher getTeacherByFullName(@PathVariable String name) {
+        return service.getTeacherByFullName(name);
     }
 
-    @GetMapping("/get-student-by-eamil/{email}")
-    public Student getStudentByEmail(@PathVariable String email) {
-        return service.getStudentByEmail(email);
+    @GetMapping("/get-teacher-by-eamil/{email}")
+    public Teacher getTeacherByEmail(@PathVariable String email) {
+        return service.getTeacherByEmail(email);
     }
 
-    @PutMapping("/update-student")
-    public Student updateStudent(@RequestBody Student student) {
-        return service.updateStudent(student);
+    @PutMapping("/update-teacher")
+    public Teacher updateTeacher(@RequestBody Teacher teacher) {
+        return service.updateTeacher(teacher);
     }
 }
