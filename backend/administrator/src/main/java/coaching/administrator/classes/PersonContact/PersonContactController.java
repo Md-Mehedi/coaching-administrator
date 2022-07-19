@@ -1,4 +1,7 @@
 package coaching.administrator.classes.PersonContact;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +17,22 @@ public class PersonContactController {
     private PersonContactService service;
 
     @PostMapping("/add-personContact")
-    public PersonContact addPersonContact(@RequestBody PersonContact personContact) {
+    public List<PersonContact> addPersonContact(@RequestBody List<PersonContact> personContacts) {
         System.out.println("\033[31minside add personContact\033[0m");
 
-        return service.savePersonContact(personContact);
+        for (PersonContact personContact : personContacts)
+            service.savePersonContact(personContact);
+        return service.getPersonContactByPersonId(personContacts.get(0).getPersonId());
     }
 
     @GetMapping("/get-personContact-by-id/{id}")
     public PersonContact getPersonContactById(@PathVariable Integer id) {
         return service.getPersonContactById(id);
+    }
+
+    @GetMapping("/get-personContact-by-id/{id}")
+    public List<PersonContact> getPersonContactByPersonId(@PathVariable Integer personId) {
+        return service.getPersonContactByPersonId(personId);
     }
 
     @DeleteMapping("/delete-personContact-by-id")

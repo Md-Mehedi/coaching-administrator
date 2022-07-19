@@ -42,34 +42,10 @@ public class CoachingController {
         return null;
     }
 
-    // @RequestMapping(value = "/confirm-admin", method = { RequestMethod.GET,
-    // RequestMethod.POST })
-    // public String confirmCoaching(@RequestParam("token") String
-    // confirmationToken) {
-    // try {
-    // ConfirmationToken token =
-    // confirmationTokenRepository.findByConfirmationToken(confirmationToken);
-
-    // if (token != null) {
-    // Coaching coaching = service.getCoachingById(token.getCoachingId());
-    // coaching.setActivated("T");
-    // service.updateCoaching(coaching);
-    // return "coaching account verified with email";
-    // } else {
-    // return "The link is invalid or broken";
-    // }
-    // } catch (Exception e) {
-    // System.out.println("\033[31minside Exception in add coaching\033[0m");
-    // e.printStackTrace();
-    // }
-    // return null;
-    // }
-
     @GetMapping("/get-coaching-by-id/{id}")
     public Coaching getCoachingById(@PathVariable Integer id) {
         return service.getCoachingById(id);
     }
-
 
     @GetMapping("/get-coaching-by-name/{name}")
     public Coaching getCoachingByName(@PathVariable String name) {

@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -69,7 +71,9 @@ public class Person implements Serializable {
     private String email;
     private String fatherName;
     private String motherName;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date joiningDate;
     private String bloodGroup;
     private String nationality;
