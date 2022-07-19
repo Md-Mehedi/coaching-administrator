@@ -1,4 +1,4 @@
-package coaching.administrator.classes.Religion;
+package coaching.administrator.classes.Day;
 
 import java.io.Serializable;
 
@@ -13,15 +13,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-@Table(name = "religion")
-public class Religion implements Serializable {
+@Table(name = "day")
+public class Day implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    // @OneToMany(targetEntity = District.class, cascade = CascadeType.ALL, mappedBy
+    // = "thana")
+    // private List<District> districts;
 
 }

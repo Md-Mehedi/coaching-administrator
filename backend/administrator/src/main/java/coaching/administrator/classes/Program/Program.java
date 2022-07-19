@@ -1,6 +1,6 @@
 package coaching.administrator.classes.Program;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

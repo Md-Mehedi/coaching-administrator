@@ -64,8 +64,9 @@ public class AdminService {
     public Admin updateAdmin(Admin admin) {
 
         // personService.updatePerson(admin);
-        // Admin newAdmin = repository.findById(admin.getId()).orElse(null);
-        // return newAdmin;
+        // Admin oldAdmin = repository.findById(admin.getPerson_id()).orElse(null);
+        // oldadm
+
         return repository.save(admin);
     }
 

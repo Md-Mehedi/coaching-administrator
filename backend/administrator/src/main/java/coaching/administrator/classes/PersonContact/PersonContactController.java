@@ -22,7 +22,7 @@ public class PersonContactController {
 
         for (PersonContact personContact : personContacts)
             service.savePersonContact(personContact);
-        return service.getPersonContactByPersonId(personContacts.get(0).getPersonId());
+        return service.getPersonContactByPersonId(personContacts.get(0).getPerson().getId());
     }
 
     @GetMapping("/get-personContact-by-id/{id}")
@@ -30,7 +30,7 @@ public class PersonContactController {
         return service.getPersonContactById(id);
     }
 
-    @GetMapping("/get-personContact-by-id/{id}")
+    @GetMapping("/get-personContact-by-person/{id}")
     public List<PersonContact> getPersonContactByPersonId(@PathVariable Integer personId) {
         return service.getPersonContactByPersonId(personId);
     }

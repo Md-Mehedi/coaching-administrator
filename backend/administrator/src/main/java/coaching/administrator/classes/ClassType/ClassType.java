@@ -1,4 +1,4 @@
-package coaching.administrator.classes.Religion;
+package coaching.administrator.classes.ClassType;
 
 import java.io.Serializable;
 
@@ -13,15 +13,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-@Table(name = "religion")
-public class Religion implements Serializable {
+@Table(name = "class_type")
+public class ClassType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String type;
 
 }
