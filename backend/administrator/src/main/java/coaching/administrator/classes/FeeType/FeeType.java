@@ -1,4 +1,4 @@
-package coaching.administrator.classes.ClassType;
+package coaching.administrator.classes.FeeType;
 
 import java.io.Serializable;
 
@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "class_type")
-public class ClassType implements Serializable {
+@Table(name = "fee_type")
+public class FeeType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String type;
+    private String name;
 }
