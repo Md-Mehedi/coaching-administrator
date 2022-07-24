@@ -1,4 +1,4 @@
-select * from subject
+select * from edu_qualification
 
 
 alter table student_batch

@@ -1,5 +1,5 @@
 
-package coaching.administrator.classes.Edu_qualification;
+package coaching.administrator.classes.EduQualification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Edu_qualificationController {
+public class EduQualificationController {
 
     @Autowired
-    private Edu_qualificationService service;
+    private EduQualificationService service;
 
-    @PostMapping("/add-edu_qualification")
-    public Edu_qualification addEdu_qualification(@RequestBody Edu_qualification edu_qualification) {
-        System.out.println("\033[31minside add edu_qualification\033[0m");
+    @PostMapping("/add-eduQualification")
+    public EduQualification addEdu_qualification(@RequestBody EduQualification eduQualification) {
+        System.out.println("\033[31minside add eduQualification\033[0m");
 
-        return service.saveEdu_qualification(edu_qualification);
+        return service.saveEdu_qualification(eduQualification);
     }
 
-    @GetMapping("/get-edu_qualification-by-id/{id}")
-    public Edu_qualification getEdu_qualificationById(@PathVariable Integer id) {
+    @GetMapping("/get-eduQualification-by-id/{id}")
+    public EduQualification getEdu_qualificationById(@PathVariable Integer id) {
         return service.getEdu_qualificationById(id);
     }
 
-    @DeleteMapping("/delete-edu_qualification-by-id")
+    @DeleteMapping("/delete-eduQualification-by-id")
     public String deleteEdu_qualification(@PathVariable Integer id) {
         return service.deleteEdu_qualification(id);
     }

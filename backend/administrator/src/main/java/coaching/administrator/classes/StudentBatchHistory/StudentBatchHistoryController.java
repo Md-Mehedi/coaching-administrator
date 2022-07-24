@@ -20,7 +20,7 @@ public class StudentBatchHistoryController {
 
     @PostMapping("/add-studentBatchHistory")
     public StudentBatchHistory addStudentBatchHistory(@RequestBody StudentBatchHistory studentBatchHistory) {
-        System.out.println("\033[31minside add studentBatchHistory\033[0m");
+        System.out.println("\033[31m inside add studentBatchHistory\033[0m");
 
         return repository.save(studentBatchHistory);
     }

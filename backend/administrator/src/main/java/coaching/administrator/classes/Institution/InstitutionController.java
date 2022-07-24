@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Institution;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,9 @@ public class InstitutionController {
 
     @Autowired
     private InstitutionService service;
+
+    @Autowired
+    private InstitutionRepository repository;
 
     @PostMapping("/add-institution")
     public Institution addInstitution(@RequestBody Institution institution) {
@@ -30,6 +35,11 @@ public class InstitutionController {
     @GetMapping("/get-institution-by-name/{name}")
     public Institution getInstitutionByName(@PathVariable String name) {
         return service.getInstitutionByName(name);
+    }
+
+    @GetMapping("/get-all-institution-by-boardId/{id}")
+    public List<Institution> getAllInstitutionByBoard(@PathVariable Integer boardId) {
+        return repository.findByBoardId(boardId);
     }
 
     @DeleteMapping("/delete-institution-by-id")
