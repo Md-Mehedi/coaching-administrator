@@ -2,15 +2,12 @@
 package coaching.administrator.classes.Teacher;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,5 +45,11 @@ public class TeacherController {
     @PutMapping("/update-teacher")
     public Teacher updateTeacher(@RequestBody Teacher teacher) {
         return service.updateTeacher(teacher);
+    }
+
+    @DeleteMapping("/delete-teacher-by-id/{id}")
+    public String deleteTeacher(@PathVariable Integer id) {
+        service.deleteTeacher(id);
+        return "Teacher with id " + id + " deleted successfully";
     }
 }

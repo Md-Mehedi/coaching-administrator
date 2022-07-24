@@ -8,5 +8,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
 
     Subject findByName(String name);
 
+    List<Subject> findByCoachingId(Integer id);
+
     List<Subject> findAll();
 }

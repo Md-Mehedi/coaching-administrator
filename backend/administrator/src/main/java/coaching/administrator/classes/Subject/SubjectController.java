@@ -17,6 +17,9 @@ public class SubjectController {
     @Autowired
     private SubjectService service;
 
+    @Autowired
+    private SubjectRepository repository;
+
     @PostMapping("/add-subject")
     public Subject addSubject(@RequestBody Subject subject) {
         System.out.println("\033[31minside add subject\033[0m");
@@ -39,8 +42,14 @@ public class SubjectController {
         return service.getSubjectByName(name);
     }
 
+    @GetMapping("/get-all-subject-by-coaching-id/{id}")
+    public List<Subject> getSubjectByCoachingId(@PathVariable Integer id) {
+        return repository.findByCoachingId(id);
+    }
+
     @DeleteMapping("/delete-subject-by-id")
     public String deleteSubject(@PathVariable Integer id) {
-        return service.deleteSubject(id);
+        service.deleteSubject(id);
+        return "Subject with id " + id + " deleted successfully";
     }
 }

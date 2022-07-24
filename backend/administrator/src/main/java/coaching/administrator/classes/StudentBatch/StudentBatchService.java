@@ -19,9 +19,9 @@ public class StudentBatchService {
         return repository.findById(id).orElse(null);
     }
 
-    public StudentBatch getStudentBatchByName(String typeName) {
-        return repository.findByType(typeName);
-    }
+    // public StudentBatch getStudentBatchByName(String typeName) {
+    // return repository.findByType(typeName);
+    // }
 
     public List<StudentBatch> getStudentBatches() {
         return repository.findAll();

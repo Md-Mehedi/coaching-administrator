@@ -34,10 +34,10 @@ public class StudentBatchController {
         return service.getStudentBatches();
     }
 
-    @GetMapping("/get-studentBatch-by-name/{name}")
-    public StudentBatch getStudentBatchByName(@PathVariable String name) {
-        return service.getStudentBatchByName(name);
-    }
+    // @GetMapping("/get-studentBatch-by-name/{name}")
+    // public StudentBatch getStudentBatchByName(@PathVariable String name) {
+    // return service.getStudentBatchByName(name);
+    // }
 
     @DeleteMapping("/delete-studentBatch-by-id")
     public String deleteStudentBatch(@PathVariable Integer id) {

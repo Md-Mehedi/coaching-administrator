@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,9 @@ public class BatchController {
 
     @Autowired
     private BatchService service;
+
+    @Autowired
+    private BatchRepository repository;
 
     @PostMapping("/add-batch")
     public Batch addBatch(@RequestBody Batch batch) {
@@ -28,7 +32,7 @@ public class BatchController {
         return service.getBatchById(id);
     }
 
-    @GetMapping("/get-all-batch-by-program/{programId}")
+    @GetMapping("/get-all-batch-by-program-id/{programId}")
     public List<Batch> getAllBatchByProgramId(Integer programId) {
         return service.getAllBatchByProgramId(programId);
     }
@@ -36,6 +40,11 @@ public class BatchController {
     @GetMapping("/get-batch-by-name/{name}")
     public Batch getBatchByName(@PathVariable String name) {
         return service.getBatchByName(name);
+    }
+
+    @PutMapping("update-batch")
+    public Batch updateBatch(@RequestBody Batch batch) {
+        return repository.save(batch);
     }
 
     @DeleteMapping("/delete-batch-by-id")

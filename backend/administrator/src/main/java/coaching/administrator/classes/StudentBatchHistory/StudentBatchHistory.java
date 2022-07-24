@@ -1,4 +1,4 @@
-package coaching.administrator.classes.StudentBatch;
+package coaching.administrator.classes.StudentBatchHistory;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,24 +25,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "student_batch")
-public class StudentBatch implements Serializable {
+@Table(name = "student_batch_history")
+public class StudentBatchHistory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    // private Date startDate;
+    private Date startDate;
 
-    // @Temporal(TemporalType.TIMESTAMP)
-    // private Date endDate;
-
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private Batch batch;
-
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id", referencedColumnName = "person_id")

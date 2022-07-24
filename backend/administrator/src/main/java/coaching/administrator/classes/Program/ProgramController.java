@@ -1,7 +1,10 @@
 
 package coaching.administrator.classes.Program;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +17,8 @@ public class ProgramController {
 
     @Autowired
     private ProgramService service;
+    @Autowired
+    private ProgramRepository repository;
 
     @PostMapping("/add-program")
     public String addAdmin(@RequestBody Program program) {
@@ -39,8 +44,19 @@ public class ProgramController {
         return service.getProgramByName(name);
     }
 
-    @PutMapping("/update-program-by-id")
+    @GetMapping("/get-all-program-by-coaching-id/{id}")
+    public List<Program> getProgramByCoachingId(@PathVariable Integer id) {
+        return repository.findByCoachingId(id);
+    }
+
+    @PutMapping("/update-program")
     public Program updateProgram(@RequestBody Program program) {
         return service.updateProgram(program);
+    }
+
+    @DeleteMapping("/delete-program-by-id/{id}")
+    public String deleteProgram(@PathVariable Integer id) {
+        service.deleteProgram(id);
+        return "Program with id " + id + " deleted successfully";
     }
 }

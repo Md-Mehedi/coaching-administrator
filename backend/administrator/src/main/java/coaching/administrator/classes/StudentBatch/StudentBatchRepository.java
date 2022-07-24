@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentBatchRepository extends JpaRepository<StudentBatch, Integer> {
 
-    StudentBatch findByType(String typeName);
+    // StudentBatch findByType(String typeName);
 
     List<StudentBatch> findAll();
 }
