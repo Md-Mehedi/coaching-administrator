@@ -1,9 +1,13 @@
 import { Email, Facebook, WhatsApp, YouTube } from "@mui/icons-material";
 import { Avatar, Grid, IconButton, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TextEditor from "../../components/text-editor";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material/styles";
+import { API } from "../../api";
+import { Coaching } from "../../classes/person-info";
+import AuthService from "../../services/auth-service";
+import SpecialLink from "../../components/special-link";
 
 const useStyle = makeStyles((theme: Theme) => ({
   justifyContent: {
@@ -21,6 +25,15 @@ const useStyle = makeStyles((theme: Theme) => ({
 
 export default function CoachingInformationOutput() {
   const classes = useStyle();
+  const [coaching, setCoaching] = useState<Coaching | null>();
+  useEffect(() => {
+    API.coaching
+      .getCoachingByAdminId(AuthService.getAdminId())
+      .then((response) => {
+        console.log("Coaching", response.data);
+        setCoaching(response.data);
+      });
+  }, []);
   return (
     <Grid container spacing={3} className={classes.justifyContent}>
       <Grid item xs={12} md={5} lg={4} className={classes.justifyContent}>
@@ -34,10 +47,10 @@ export default function CoachingInformationOutput() {
           className={classes.justifyContent}
         >
           <Grid item>
-            <Typography variant="h5">Coaching Name</Typography>
+            <Typography variant="h5">{coaching?.name}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1">Address</Typography>
+            <Typography variant="body1">{`${coaching?.address.village}, ${coaching?.address.upazila?.name}, ${coaching?.address.upazila?.district.name}, ${coaching?.address.upazila?.district.division.name}`}</Typography>
           </Grid>
           <Grid
             item
@@ -48,30 +61,38 @@ export default function CoachingInformationOutput() {
             className={classes.justifyContent}
           >
             <Grid item>
-              <IconButton>
-                <Facebook />
-              </IconButton>
+              <SpecialLink href={"http://" + coaching?.facebookLink}>
+                <IconButton>
+                  <Facebook />
+                </IconButton>
+              </SpecialLink>
             </Grid>
             <Grid item>
-              <IconButton>
-                <WhatsApp />
-              </IconButton>
+              <SpecialLink href={"http://" + coaching?.whatsappNo}>
+                <IconButton>
+                  <WhatsApp />
+                </IconButton>
+              </SpecialLink>
             </Grid>
             <Grid item>
-              <IconButton>
-                <YouTube />
-              </IconButton>
+              <SpecialLink href={"http://" + coaching?.youtubeLink}>
+                <IconButton>
+                  <YouTube />
+                </IconButton>
+              </SpecialLink>
             </Grid>
             <Grid item>
-              <IconButton>
-                <Email />
-              </IconButton>
+              <SpecialLink href={"http://" + coaching?.email}>
+                <IconButton>
+                  <Email />
+                </IconButton>
+              </SpecialLink>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <TextEditor readOnly />
+        <TextEditor value={coaching?.description} readOnly />
       </Grid>
     </Grid>
   );

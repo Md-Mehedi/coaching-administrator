@@ -19,18 +19,26 @@ export interface FieldProps<M extends OverridableTypeMap> {
   fieldProps?: DefaultComponentProps<M>;
   valueProps?: DefaultComponentProps<M>;
 }
+/**
+ * It's a function that takes a generic type parameter, M, which extends the OverridableTypeMap type,
+ * and returns a React component that takes a FieldProps<M> object as a parameter
+ * @param props - FieldProps<M>
+ * @returns A React component.
+ */
 export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
   return (
-    <Grid container direction="row" spacing={0} alignItems="center">
-      <Grid item>
-        <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
-          {props.field} : &nbsp;{" "}
-        </Typography>
+    props.value && (
+      <Grid container direction="row" spacing={0} alignItems="center">
+        <Grid item>
+          <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
+            {props.field} : &nbsp;{" "}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography {...props.valueProps}>{props.value} </Typography>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Typography {...props.valueProps}>{props.value} </Typography>
-      </Grid>
-    </Grid>
+    )
   );
 }
 export default function About() {

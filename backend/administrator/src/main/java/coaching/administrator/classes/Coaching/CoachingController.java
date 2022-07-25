@@ -72,10 +72,10 @@ public class CoachingController {
         return service.getCoachingById(id);
     }
 
-    // @GetMapping("/get-coaching-by-admin-id/{id}")
-    // public Coaching getCoachingByAdminId(@PathVariable Integer id) {
-    // return service.getCoachingByAdminId(id);
-    // }
+    @GetMapping("/get-coaching-by-admin-id/{id}")
+    public Coaching getCoachingByAdminId(@PathVariable Integer id) {
+        return service.getCoachingByAdminId(id);
+    }
 
     @GetMapping("/get-coaching-by-name/{name}")
     public Coaching getCoachingByName(@PathVariable String name) {

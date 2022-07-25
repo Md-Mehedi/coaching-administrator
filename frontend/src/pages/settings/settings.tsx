@@ -7,13 +7,15 @@ import CoachingInfoInput from "./coaching-info-input";
 import CoachingInfoOutput from "./coaching-info-output";
 import AdminInfoOutput from "./admin-info-output";
 import AdminList from "./admin-list";
+import PasswordChange from "./password-change";
 
 const tabs: TabLayoutContent[] = [
   { title: "Admin List", element: <AdminList /> },
-  { title: "CIO", element: <CoachingInfoOutput /> },
-  { title: "CII", element: <CoachingInfoInput /> },
-  { title: "AII", element: <AdminInfoInput /> },
-  { title: "AIO", element: <AdminInfoOutput /> },
+  { title: "Coaching Information Input", element: <CoachingInfoInput /> },
+  { title: "Coaching Information Output", element: <CoachingInfoOutput /> },
+  { title: "Admin Information Input", element: <AdminInfoInput /> },
+  { title: "Admin Information Output", element: <AdminInfoOutput /> },
+  { title: "Password Change", element: <PasswordChange /> },
 ];
 // const tabs: TabLayoutContent[] = [
 //   { title: "Coaching Information", element: <CoachingInformationOutput /> },

@@ -1,55 +1,115 @@
-import React, { useState } from "react";
+import { Grid, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
+import { API } from "../../api";
 import {
-  Avatar,
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { DatePicker } from "@mui/lab";
-import { blood_group, occupation, religion } from "../../data";
-import { DeleteForever } from "@mui/icons-material";
-import SaveCancelButtons from "../../components/save-cancel-buttons";
+  Board,
+  Institution,
+  Student,
+  Teacher,
+} from "../../classes/person-info";
+import DropDown from "../../components/dropdown";
 import AddressField from "../../components/form-components/address-field";
+import BasicInformation from "../../components/form-components/basic-information";
 import ContactInformation from "../../components/form-components/contact-field";
 import ExamResultField from "../../components/form-components/exam-field";
-import AvatarUpload from "../../components/avatar-upload";
-import BasicInformation from "../../components/form-components/basic-information";
+import MyTextfield from "../../components/form-components/my-textfield";
 import ParentInformation from "../../components/form-components/parent-information";
+import SaveCancelButtons from "../../components/save-cancel-buttons";
 
+type AddTeacherState = {
+  boards: Board[];
+  selectedBoard: Board | null;
+  institutions: Institution[];
+};
 export default function AddTeacher() {
-  const [state, setState] = useState({
-    gender: "M",
-    dob: null,
-    bloodGroup: blood_group[0],
-    fatherOccupation: occupation[0],
-    motherOccupation: occupation[1],
-    religion: religion[0],
+  const [teacher, setTeacher] = useState<Teacher>();
+  const [state, setState] = useState<AddTeacherState>({
+    selectedBoard: null,
+    institutions: [],
+    boards: [],
   });
+  useEffect(() => {
+    API.institution.getUniversityList().then((response) => {
+      setState({ ...state, institutions: response.data });
+    });
+  }, []);
+
   return (
     <Grid container spacing={2}>
       <Grid item container>
-        <BasicInformation />
+        <BasicInformation
+          person={teacher?.person}
+          setPerson={(newPerson) =>
+            setTeacher({ ...teacher, person: newPerson })
+          }
+        />
       </Grid>
       <Grid item container>
-        <ParentInformation />
+        <ParentInformation
+          person={teacher?.person}
+          setPerson={(newPerson) =>
+            setTeacher({ ...teacher, person: newPerson })
+          }
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6} md={4}>
+        <MyTextfield
+          label="Salary"
+          value={teacher?.salary}
+          onChange={(event) =>
+            setTeacher({ ...teacher, salary: event.target.value })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Salary" />
+        <DropDown
+          label="Currently studying institution"
+          value={teacher?.person.ins}
+          options={state.institutions}
+          optionLabel="name"
+          onChange={(event, newValue) =>
+            setTeacher({ ...teacher, institution: newValue || undefined })
+          }
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <DropDown
+          label="Class"
+          value={teacher?.classNo}
+          options={[9, 10, 11, 12]}
+          optionLabel=""
+          onChange={(event, newValue) =>
+            setTeacher({ ...teacher, classNo: newValue || undefined })
+          }
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <MyTextfield label="Class Roll" />
       </Grid>
       <Grid item xs={12}>
-        <AddressField title="Present Address" />
+        <AddressField
+          title="Present Address"
+          value={teacher?.person?.presentAddress}
+          onChange={(address) =>
+            setTeacher({
+              ...teacher,
+              person: { ...teacher?.person, presentAddress: address },
+            })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
-        <AddressField title="Permanent Address" />
-      </Grid>
-      <Grid item xs={12}>
-        <ExamResultField title="Current Institution Information" />
+        <AddressField
+          title="Permanent Address"
+          value={teacher?.person?.permanentAddress}
+          onChange={(address) =>
+            setTeacher({
+              ...teacher,
+              person: { ...teacher?.person, permanentAddress: address },
+            })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
         <ExamResultField title="JSC Exam Information" />

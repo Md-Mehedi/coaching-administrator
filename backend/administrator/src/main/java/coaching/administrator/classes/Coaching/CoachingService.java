@@ -54,4 +54,9 @@ public class CoachingService {
         return repository.save(oldCoaching);
     }
 
+    public Coaching getCoachingByAdminId(Integer id) {
+        Person admin = personService.getPersonById(id);
+        return admin.getCoaching();
+    }
+
 }

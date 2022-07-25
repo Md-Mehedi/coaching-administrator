@@ -25,6 +25,16 @@ export class Religion {
   id: number;
   name: string;
 }
+export class Board {
+  id: number;
+  name: string;
+}
+export class Institution {
+  id: number;
+  name: string;
+  type: string;
+  board: Board | null;
+}
 export class Coaching {
   id: number;
   name: string;
@@ -39,8 +49,8 @@ export class Coaching {
   image: string;
 }
 export class Person {
-  id: number | null;
-  password: number;
+  id?: number | null;
+  password?: number;
   permanentAddress?: Address;
   presentAddress?: Address;
   fatherOccupation?: Occupation;
@@ -50,7 +60,7 @@ export class Person {
   fullName?: string;
   nickName?: string;
   gender?: string;
-  email: string;
+  email?: string;
   fatherName?: string;
   motherName?: string;
   dateOfBirth?: Date | null = null;
@@ -64,4 +74,23 @@ export class Admin {
   person_id: number;
   person?: Person = new Person();
   salary?: number;
+}
+export class Student {
+  person_id?: number;
+  person?: Person;
+  registrationNo?: number;
+  classNo?: number;
+  classRollNo?: number;
+  institution?: Institution;
+}
+export class Teacher {
+  person_id?: number;
+  person?: Person;
+  salary?: string;
+}
+export function getGender(gender: string | undefined | null) {
+  if (gender == "M") return "Male";
+  if (gender == "F") return "Female";
+  if (gender == "O") return "Other";
+  return "";
 }

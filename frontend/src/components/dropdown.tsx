@@ -70,7 +70,7 @@ export default function DropDown<
       }}
       autoHighlight
       // @ts-ignore
-      getOptionLabel={(option: object) => option[props.optionLabel]}
+      getOptionLabel={(option: object) => option[props.optionLabel] || ""}
       renderInput={(params) => (
         <TextField
           {...params}

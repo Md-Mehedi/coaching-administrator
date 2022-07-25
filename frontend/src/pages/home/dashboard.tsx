@@ -72,7 +72,7 @@ const dashboard_pages: DrawerLayoutPage[] = [
   },
   {
     icon: <InboxOutlined />,
-    title: "Settings",
+    title: "Management",
     link: ADMIN_LINKS.settings.path,
     children: [],
   },

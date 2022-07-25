@@ -43,7 +43,7 @@ export var ADMIN_LINKS = {
   duesList: { path: "/dashboard/dues", element: <DuesList /> },
   expenseList: { path: "/dashboard/expense", element: <ExpenseList /> },
   // Other
-  test: { path: "/dashboard/test", element: <TabTest /> },
+  test: { path: "/dashboard/test", element: <Test /> },
 };
 
 export var USER_LINKS = {

@@ -8,15 +8,39 @@ import {
   MenuItem,
 } from "@mui/material";
 import React, { useState } from "react";
+import { Person, Religion } from "../../classes/person-info";
 import { blood_group, religion } from "../../data";
 import AvatarUpload from "../avatar-upload";
+import DropDown from "../dropdown";
+import MyTextfield from "./my-textfield";
+import { API } from "./../../api";
 
-export default function BasicInformation() {
-  const [state, setState] = useState({
-    gender: "M",
-    dob: null,
-    bloodGroup: blood_group[0],
-    religion: religion[0],
+const GENDERS = [
+  { id: "M", name: "Male" },
+  { id: "F", name: "Female" },
+  { id: "O", name: "Other" },
+];
+const BLOOD_GROUPS = [
+  { groupName: "A+" },
+  { name: "A-" },
+  { name: "B+" },
+  { name: "B-" },
+  { name: "O+" },
+  { name: "O-" },
+  { name: "AB+" },
+  { name: "AB-" },
+];
+
+export default function BasicInformation({
+  person,
+  setPerson,
+}: {
+  person?: Person;
+  setPerson: (person: Person) => void;
+}) {
+  const [religions, setReligions] = useState<Religion[]>([]);
+  API.religion.getList().then((response) => {
+    setReligions(response.data);
   });
   return (
     <Grid container spacing={2}>
@@ -24,81 +48,84 @@ export default function BasicInformation() {
         <AvatarUpload />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Full name" />
+        <MyTextfield
+          label="Full name"
+          value={person?.fullName}
+          onChange={(event) =>
+            setPerson({ ...person, fullName: event.target.value })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Nickname" />
+        <MyTextfield
+          label="Nickname"
+          value={person?.nickName}
+          onChange={(event) =>
+            setPerson({ ...person, nickName: event.target.value })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-          <Select
-            value={state.gender}
-            label="Gender"
-            onChange={(event) =>
-              setState({ ...state, gender: event.target.value })
-            }
-          >
-            <MenuItem value={"M"}>Male</MenuItem>
-            <MenuItem value={"F"}>Female</MenuItem>
-            <MenuItem value={"O"}>Other</MenuItem>
-          </Select>
-        </FormControl>
+        <DropDown
+          label="Gender"
+          options={GENDERS}
+          optionLabel="name"
+          value={GENDERS.find((item) => item.id == person?.gender)}
+          onChange={(event, newValue) =>
+            setPerson({ ...person, gender: newValue?.id })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="E-mail" />
+        <MyTextfield
+          label="E-mail"
+          value={person?.email}
+          onChange={(event) =>
+            setPerson({ ...person, email: event.target.value })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <DatePicker
           label="Date of birth"
-          value={state.dob}
+          value={person?.dateOfBirth}
           onChange={(newValue) => {
-            setState({
-              ...state,
-              dob: newValue,
+            setPerson({
+              ...person,
+              dateOfBirth: newValue,
             });
           }}
           renderInput={(params) => <TextField fullWidth {...params} />}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Blood group</InputLabel>
-          <Select
-            value={state.bloodGroup}
-            label="Blood group"
-            onChange={(event) =>
-              setState({ ...state, bloodGroup: event.target.value })
-            }
-          >
-            {blood_group.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <DropDown
+          label="Blood group"
+          options={BLOOD_GROUPS}
+          optionLabel="groupName"
+          onChange={(event, newValue) =>
+            setPerson({ ...person, bloodGroup: newValue?.groupName })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <TextField fullWidth variant="outlined" label="Nationality" />
+        <MyTextfield
+          label="Nationality"
+          value={person?.nationality}
+          onChange={(event) =>
+            setPerson({ ...person, nationality: event.target.value })
+          }
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Religion</InputLabel>
-          <Select
-            value={state.religion}
-            label="Religion"
-            onChange={(event) =>
-              setState({ ...state, religion: event.target.value })
-            }
-          >
-            {religion.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <DropDown
+          label="Religion"
+          options={religions}
+          optionLabel="name"
+          onChange={(event, newValue) =>
+            setPerson({ ...person, religion: newValue || undefined })
+          }
+        />
       </Grid>
     </Grid>
   );

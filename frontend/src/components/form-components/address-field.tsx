@@ -12,6 +12,8 @@ export type AddressFieldProps = {
   onChange?: (address: Address) => void;
 };
 
+const [variable, setVariable] = useState<Division[]>([]);
+
 export default function AddressField(props: AddressFieldProps) {
   const [state, setState] = useState<{
     divisions: Division[];

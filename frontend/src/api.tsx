@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Admin } from "./classes/person-info";
+import { Admin, Religion } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
 import { Coaching } from "./classes/coaching";
 
@@ -41,5 +41,19 @@ export const API = {
     addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
     getCoachingByAdminId: (adminId: number) =>
       get("/get-coaching-by-admin-id/" + adminId),
+  },
+  religion: {
+    getList: () => get("/get-all-religion"),
+    add: (religion: Religion) => postBody("/add-religion", religion),
+  },
+  occupation: {
+    getList: () => get(""),
+  },
+  board: {
+    getList: () => get(""),
+  },
+  institution: {
+    getListByBoard: (id: number) => get(""),
+    getUniversityList: () => get(""),
   },
 };
