@@ -17,6 +17,9 @@ public class ClassTakenController {
     @Autowired
     private ClassTakenService service;
 
+    @Autowired
+    private ClassTakenRepository repository;
+
     @PostMapping("/add-classTaken")
     public ClassTaken addClassTaken(@RequestBody ClassTaken classTaken) {
         System.out.println("\033[31minside add classTaken\033[0m");
@@ -29,6 +32,10 @@ public class ClassTakenController {
         return service.getClassTakenById(id);
     }
 
+    @GetMapping("/get-classTaken-by-batchId/{id}")
+    public List<ClassTaken> getClassTakenByBatchId(@PathVariable Integer id) {
+        return repository.findAllByBatchId(id);
+    }
 
     @DeleteMapping("/delete-classTaken-by-id")
     public String deleteClassTaken(@PathVariable Integer id) {

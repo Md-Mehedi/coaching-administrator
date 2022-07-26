@@ -39,7 +39,7 @@ public class ClassTypeController {
         return service.getClassTypeByName(name);
     }
 
-    @DeleteMapping("/delete-classType-by-id")
+    @DeleteMapping("/delete-classType-by-id/{id}")
     public String deleteClassType(@PathVariable Integer id) {
         return service.deleteClassType(id);
     }

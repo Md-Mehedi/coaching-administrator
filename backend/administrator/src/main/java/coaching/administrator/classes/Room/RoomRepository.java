@@ -9,4 +9,10 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     Room findByName(String name);
 
     List<Room> findAll();
+
+    // @Query(value =
+    // " select * from room where coaching_id = :coachingId "
+    // ,nativeQuery = true)
+    List<Room> findAllByCoachingId(Integer coachingId);
+
 }

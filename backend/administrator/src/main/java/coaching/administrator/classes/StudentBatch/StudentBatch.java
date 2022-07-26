@@ -33,16 +33,14 @@ public class StudentBatch implements Serializable {
     private Integer id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    // private Date startDate;
+    private Date startDate;
 
     // @Temporal(TemporalType.TIMESTAMP)
     // private Date endDate;
 
-
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private Batch batch;
-
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id", referencedColumnName = "person_id")

@@ -17,6 +17,9 @@ public class RoomController {
     @Autowired
     private RoomService service;
 
+    @Autowired
+    private RoomRepository repository;
+
     @PostMapping("/add-room")
     public Room addRoom(@RequestBody Room room) {
         System.out.println("\033[31minside add room\033[0m");
@@ -27,6 +30,11 @@ public class RoomController {
     @GetMapping("/get-room-by-id/{id}")
     public Room getRoomById(@PathVariable Integer id) {
         return service.getRoomById(id);
+    }
+
+    @GetMapping("/get-all-room-by-coachingId/{id}")
+    public List<Room> getAllRoomByCoachingId(@PathVariable Integer id) {
+        return repository.findAllByCoachingId(id);
     }
 
     @GetMapping("/get-all-rooms")
