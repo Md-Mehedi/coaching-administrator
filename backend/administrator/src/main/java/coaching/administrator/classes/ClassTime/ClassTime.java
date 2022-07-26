@@ -39,6 +39,7 @@ public class ClassTime implements Serializable {
     private Date startTime;
 
     private Integer duration;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 

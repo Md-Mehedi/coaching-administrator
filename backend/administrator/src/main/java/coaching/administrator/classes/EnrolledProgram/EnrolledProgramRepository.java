@@ -14,5 +14,5 @@ public interface EnrolledProgramRepository extends JpaRepository<EnrolledProgram
 
     @Query(value = "select * from enrolled_program " +
             " where coaching_id = :coachingId", nativeQuery = true)
-    List<Map<String, Object>> findAllByCoachingId(@Param("coachingId") Integer coachingId);
+    List<EnrolledProgram> findAllByCoachingId(@Param("coachingId") Integer coachingId);
 }

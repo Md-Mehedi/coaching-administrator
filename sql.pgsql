@@ -1,5 +1,7 @@
-select * from edu_qualification
+select * from class_time
 
 
 alter table student_batch
 drop column end_date;
+
+drop table class_time cascade
