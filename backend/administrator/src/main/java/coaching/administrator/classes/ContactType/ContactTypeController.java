@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.ContactType;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,5 +37,10 @@ public class ContactTypeController {
     @DeleteMapping("/delete-contactType-by-id")
     public String deleteContactType(@PathVariable Integer id) {
         return service.deleteContactType(id);
+    }
+
+    @GetMapping("/get-all-contactType")
+    public List<ContactType> deleteContactType() {
+        return service.getAllContactType();
     }
 }

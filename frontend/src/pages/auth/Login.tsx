@@ -16,11 +16,11 @@ import { useState } from "react";
 import AuthLayout, { ForgotPassword } from "../../layouts/auth-layout";
 import { USER_LINKS } from "../../links";
 // import { useHistory } from "react-router-dom";
-import SpecialLink from "./../../components/special-link";
+import SpecialLink from "../../components/special-link";
 import { useSnackbar } from "notistack";
 import { API } from "../../api";
 import { useNavigate } from "react-router-dom";
-import { ADMIN_LINKS } from "./../../links";
+import { ADMIN_LINKS } from "../../links";
 import { showSnackbar } from "../../tools/helper-functions";
 
 // const useStyles: any = makeStyles((theme: Theme) => ({

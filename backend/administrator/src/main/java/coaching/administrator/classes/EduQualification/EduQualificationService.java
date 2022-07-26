@@ -1,19 +1,19 @@
-package coaching.administrator.classes.Edu_qualification;
+package coaching.administrator.classes.EduQualification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Edu_qualificationService {
+public class EduQualificationService {
 
     @Autowired
-    private Edu_qualificationRepository repository;
+    private EduQualificationRepository repository;
 
-    public Edu_qualification saveEdu_qualification(Edu_qualification edu_qualification) {
+    public EduQualification saveEdu_qualification(EduQualification edu_qualification) {
         return repository.save(edu_qualification);
     }
 
-    public Edu_qualification getEdu_qualificationById(Integer id) {
+    public EduQualification getEdu_qualificationById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 

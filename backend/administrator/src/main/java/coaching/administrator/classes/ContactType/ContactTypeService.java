@@ -1,5 +1,7 @@
 package coaching.administrator.classes.ContactType;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,10 @@ public class ContactTypeService {
     public String deleteContactType(Integer id) {
         repository.deleteById(id);
         return "ContactType with id : " + id + " deleted";
+    }
+
+    public List<ContactType> getAllContactType() {
+        return repository.findAll();
     }
 
 }

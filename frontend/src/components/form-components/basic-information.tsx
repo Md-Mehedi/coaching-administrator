@@ -7,7 +7,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Person, Religion } from "../../classes/person-info";
 import { blood_group, religion } from "../../data";
 import AvatarUpload from "../avatar-upload";
@@ -20,16 +20,7 @@ const GENDERS = [
   { id: "F", name: "Female" },
   { id: "O", name: "Other" },
 ];
-const BLOOD_GROUPS = [
-  { groupName: "A+" },
-  { name: "A-" },
-  { name: "B+" },
-  { name: "B-" },
-  { name: "O+" },
-  { name: "O-" },
-  { name: "AB+" },
-  { name: "AB-" },
-];
+const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
 export default function BasicInformation({
   person,
@@ -39,9 +30,13 @@ export default function BasicInformation({
   setPerson: (person: Person) => void;
 }) {
   const [religions, setReligions] = useState<Religion[]>([]);
-  API.religion.getList().then((response) => {
-    setReligions(response.data);
-  });
+  useEffect(() => {
+    API.religion.getList().then((response) => {
+      setReligions(response.data);
+    });
+  }, []);
+
+  console.log("Currently print", person);
   return (
     <Grid container spacing={2}>
       <Grid item container alignItems="center">
@@ -101,10 +96,11 @@ export default function BasicInformation({
       <Grid item xs={12} sm={6} md={4}>
         <DropDown
           label="Blood group"
+          value={person?.bloodGroup}
           options={BLOOD_GROUPS}
-          optionLabel="groupName"
+          optionLabel=""
           onChange={(event, newValue) =>
-            setPerson({ ...person, bloodGroup: newValue?.groupName })
+            setPerson({ ...person, bloodGroup: newValue || undefined })
           }
         />
       </Grid>
@@ -120,11 +116,13 @@ export default function BasicInformation({
       <Grid item xs={12} sm={6} md={4}>
         <DropDown
           label="Religion"
+          value={person?.religion}
           options={religions}
           optionLabel="name"
-          onChange={(event, newValue) =>
-            setPerson({ ...person, religion: newValue || undefined })
-          }
+          onChange={(event, newValue) => {
+            console.log("in religion", newValue);
+            setPerson({ ...person, religion: newValue || undefined });
+          }}
         />
       </Grid>
     </Grid>

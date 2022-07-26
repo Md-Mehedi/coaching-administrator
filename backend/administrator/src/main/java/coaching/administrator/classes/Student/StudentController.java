@@ -3,6 +3,7 @@ package coaching.administrator.classes.Student;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,11 @@ public class StudentController {
     @PutMapping("/update-student")
     public Student updateStudent(@RequestBody Student student) {
         return service.updateStudent(student);
+    }
+
+    @DeleteMapping("/delete-student-by-id/{id}")
+    public String deleteStudent(@PathVariable Integer id) {
+        service.deleteStudent(id);
+        return "Student with id " + id + " deleted successfully";
     }
 }

@@ -23,6 +23,9 @@ import MyTextfield from "./../../components/form-components/my-textfield";
 import DropDown from "../../components/dropdown";
 import { Board } from "./../../classes/person-info";
 import { API } from "./../../api";
+import PersonExamDetails from "../../components/form-components/person-exam-details";
+import { showSnackbar } from "../../tools/helper-functions";
+import { useSnackbar } from "notistack";
 
 type AddStudentState = {
   boards: Board[];
@@ -30,7 +33,8 @@ type AddStudentState = {
   institutions: Institution[];
 };
 export default function AddStudent() {
-  const [student, setStudent] = useState<Student>();
+  const { enqueueSnackbar } = useSnackbar();
+  const [student, setStudent] = useState<Student>(new Student());
   const [state, setState] = useState<AddStudentState>({
     selectedBoard: null,
     institutions: [],
@@ -45,6 +49,12 @@ export default function AddStudent() {
     board &&
       API.institution.getListByBoard(board.id).then((response) => {
         setState({ ...state, institutions: response.data });
+      });
+  }
+  function addStudent() {
+    student &&
+      API.student.add(student).then((response) => {
+        showSnackbar(enqueueSnackbar, response.data);
       });
   }
 
@@ -102,7 +112,13 @@ export default function AddStudent() {
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <MyTextfield label="Class Roll" />
+        <MyTextfield
+          label="Class Roll"
+          value={student?.classRollNo}
+          onChange={(event) =>
+            setStudent({ ...student, classRollNo: event.target.value })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
         <AddressField
@@ -129,16 +145,29 @@ export default function AddStudent() {
         />
       </Grid>
       <Grid item xs={12}>
-        <ExamResultField title="JSC Exam Information" />
+        <PersonExamDetails
+          examInfo={student?.person?.eduQualifications}
+          onChange={(newInfo) =>
+            setStudent({
+              ...student,
+              person: { ...student?.person, eduQualifications: newInfo },
+            })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
-        <ExamResultField title="SSC Exam Information" />
+        <ContactInformation
+          contacts={student?.person?.contacts}
+          onChange={(newContacts) =>
+            setStudent({
+              ...student,
+              person: { ...student?.person, contacts: newContacts },
+            })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
-        <ContactInformation />
-      </Grid>
-      <Grid item xs={12}>
-        <SaveCancelButtons />
+        <SaveCancelButtons onSaveClick={(event) => addStudent()} />
       </Grid>
     </Grid>
   );

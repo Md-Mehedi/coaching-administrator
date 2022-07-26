@@ -13,7 +13,6 @@ import javax.persistence.Table;
 public class Expense {
 
     @Id
-    // @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer organizationId;

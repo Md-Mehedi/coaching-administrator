@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Admin, Religion } from "./classes/person-info";
+import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
 import { Coaching } from "./classes/coaching";
 
@@ -30,6 +30,19 @@ export const API = {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
     getAdminById: (id: number) => get("/get-admin-by-id/" + id),
   },
+  student: {
+    add: (student: Student) => postBody("/add-student", student),
+    get: (id: number) => get("/get-student-by-id/" + id),
+  },
+  teacher: {
+    add: (teacher: Teacher) => postBody("/add-teacher", teacher),
+    getById: (id: number) => get("/get-teacher-by-id/" + id),
+  },
+  person: {
+    contacts: {
+      getContactTypes: () => get("/get-all-contactType"),
+    },
+  },
   address: {
     getDivisions: () => get("/get-all-divisions"),
     getDistricts: (divisionId: number) =>
@@ -47,13 +60,16 @@ export const API = {
     add: (religion: Religion) => postBody("/add-religion", religion),
   },
   occupation: {
-    getList: () => get(""),
+    getList: () => get("get-all-occupation"),
   },
   board: {
-    getList: () => get(""),
+    getList: () => get("get-all-board"),
   },
   institution: {
-    getListByBoard: (id: number) => get(""),
+    getListByBoard: (id: number) => get("/get-all-institution-by-boardId" + id),
     getUniversityList: () => get(""),
+  },
+  qualification: {
+    getExamByName: (name: string) => get("/get-exam-by-name/" + name),
   },
 };

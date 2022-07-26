@@ -25,3 +25,9 @@ export function errorVerify(
   });
   return success;
 }
+
+export function updateArray<T>(array: T[], idx: number, newValue: T) {
+  let newArray = [...array];
+  newArray[idx] = newValue;
+  return newArray;
+}

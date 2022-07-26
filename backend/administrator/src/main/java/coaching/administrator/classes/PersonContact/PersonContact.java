@@ -1,65 +1,36 @@
 package coaching.administrator.classes.PersonContact;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.Person.Person;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Table(name = "person_contact")
 public class PersonContact {
 
     @Id
-    // @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer PersonId;
-    private Integer ContactTypeId;
+
+    // @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional =
+    // true)
+    // @JoinColumn(name = "person_id", referencedColumnName = "id")
+    // private Person person;
+    private String contactType;
     private String number;
 
-    public PersonContact() {
-    }
-
-    public PersonContact(Integer id, Integer personId, Integer contactTypeId, String number) {
-        this.id = id;
-        PersonId = personId;
-        ContactTypeId = contactTypeId;
-        this.number = number;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getPersonId() {
-        return PersonId;
-    }
-
-    public void setPersonId(Integer personId) {
-        PersonId = personId;
-    }
-
-    public Integer getContactTypeId() {
-        return ContactTypeId;
-    }
-
-    public void setContactTypeId(Integer contactTypeId) {
-        ContactTypeId = contactTypeId;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    
-    
 }

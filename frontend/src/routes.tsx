@@ -8,6 +8,7 @@ import {
 import { ADMIN_LINKS, USER_LINKS } from "./links";
 import Dashboard from "./pages/home/dashboard";
 import PageNotFound from "./pages/page-not-found";
+import AddTeacher from "./pages/teacher/add-teacher";
 
 let adminLinks: { link: string; element: JSX.Element | JSX.Element[] }[] = [];
 Object.entries(ADMIN_LINKS).map((item) => {
@@ -26,19 +27,29 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         {adminLinks.map((item, idx) => (
-          <Route
-            key={idx}
-            path={item.link}
-            element={<Dashboard element={item.element} />}
-          />
+          <>
+            <Route
+              key={idx}
+              path={item.link}
+              element={<Dashboard element={item.element} />}
+            />
+            {/* <Route
+              key={idx + 100}
+              path={item.link + "/:id"}
+              element={<Dashboard element={item.element} />}
+            /> */}
+          </>
         ))}
         {userLinks.map((item, idx) => (
-          <Route key={idx} path={item.link} element={item.element} />
+          <>
+            <Route key={idx} path={item.link} element={item.element} />
+          </>
         ))}
         {/* {dashboardLinks.map((item, idx) => (
           <Route key={idx} path={item} element={<Dashboard link={item} />} />
         ))} */}
 
+        <Route path="/dashboard/add-teacher/:id" element={<AddTeacher />} />
         <Route path="/" element={<Navigate to="dashboard/home" />} />
         {/* <Route path="/auth/login" element={<Login signOut={true} />} />
         <Route path="/auth" element={<Navigate to="login" />} />

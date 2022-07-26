@@ -8,6 +8,7 @@ import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
 } from "@mui/material";
+import { useState } from "react";
 
 // export type DropDownProps = {
 //   label: string;
@@ -33,7 +34,7 @@ export interface DropDownProps<
   T,
   Multiple extends boolean | undefined = undefined,
   DisableClearable extends boolean | undefined = undefined,
-  FreeSolo extends boolean | undefined = undefined
+  FreeSolo extends boolean | undefined = true
 > extends AutocompleteProps<T, Multiple, DisableClearable, FreeSolo> {
   label: string;
   optionLabel: string;
@@ -46,31 +47,11 @@ export default function DropDown<
   FreeSolo extends boolean | undefined = undefined
 >(props: DropDownProps<T, Multiple, DisableClearable, FreeSolo>) {
   const { label, optionLabel, ...others } = props;
+  const [currentValue, setCurrentValue] = useState("");
   return (
     <Autocomplete
-      {...others}
-      onChange={(event, newVal, reason) => {
-        console.log(event);
-        console.log(props.onChange);
-        props.onChange && props.onChange(event, newVal, reason);
-      }}
-      onClick={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        // props.onClick && props.onClick(event);
-      }}
-      componentsProps={{
-        paper: {
-          onClick: (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            // props.onClick && props.onClick(event);
-          },
-        },
-      }}
+      blurOnSelect={true}
       autoHighlight
-      // @ts-ignore
-      getOptionLabel={(option: object) => option[props.optionLabel] || ""}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -87,6 +68,42 @@ export default function DropDown<
           }}
         />
       )}
+      {...others}
+      //@ts-ignore
+      value={props.value || null}
+      inputValue={currentValue}
+      onChange={(event, newVal, reason) => {
+        console.log(event);
+        console.log(props.onChange);
+        props.onChange && props.onChange(event, newVal, reason);
+      }}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        props.onClick && props.onClick(event);
+      }}
+      onInputChange={(event, value, reject) => {
+        setCurrentValue(value);
+      }}
+      onClose={(event) => {
+        let object = props.optionLabel
+          ? JSON.parse(`{"${props.optionLabel}":"${currentValue}"}`)
+          : currentValue;
+        console.log(object);
+        props.onChange && props.onChange(event, object, "createOption");
+      }}
+      componentsProps={{
+        paper: {
+          onClick: (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          },
+        },
+      }}
+      // @ts-ignore
+      getOptionLabel={(option: T) =>
+        props.optionLabel ? option[props.optionLabel] : option
+      }
     />
   );
 }

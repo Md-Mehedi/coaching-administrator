@@ -43,6 +43,7 @@ export default function ParentInformation({
         <DropDown
           label="Father Occupation"
           options={occupations}
+          value={person?.fatherOccupation}
           optionLabel={"name"}
           onChange={(event, newValue) =>
             setPerson({ ...person, fatherOccupation: newValue || undefined })
@@ -61,6 +62,7 @@ export default function ParentInformation({
       <Grid item xs={12} sm={6} md={4}>
         <DropDown
           label="Mother Occupation"
+          value={person?.motherOccupation}
           options={occupations}
           optionLabel={"name"}
           onChange={(event, newValue) =>

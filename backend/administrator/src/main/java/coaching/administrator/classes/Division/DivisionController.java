@@ -2,6 +2,7 @@
 package coaching.administrator.classes.Division;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,11 +12,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @RestController
 public class DivisionController {
 
     @Autowired
     private DivisionService service;
+
+    @Autowired
+    private DivisionRepository repository;
+
+    private ObjectMapper mapper;
 
     @PostMapping("/add-division")
     public Division addDivision(@RequestBody Division division) {
@@ -37,6 +45,19 @@ public class DivisionController {
     @GetMapping("/get-division-by-name/{name}")
     public Division getDivisionByName(@PathVariable String name) {
         return service.getDivisionByName(name);
+    }
+
+    @GetMapping("/get-district-count-by-division")
+    public List<Map<String, Object>> getDistrictCountByDivision() {
+        List<Map<String, Object>> objects = repository.countByDivision();
+        // List<ObjectNode> nodes;
+        // for(Object object : objects)
+        // {
+        // ObjectNode node = mapper.createObjectNode();
+        // node.put("division name",object.getClass().);
+        // nodes.add()
+        // }
+        return objects;
     }
 
     @DeleteMapping("/delete-division-by-id")

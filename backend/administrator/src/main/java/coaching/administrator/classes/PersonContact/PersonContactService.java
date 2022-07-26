@@ -1,5 +1,7 @@
 package coaching.administrator.classes.PersonContact;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,10 @@ public class PersonContactService {
 
     public PersonContact getPersonContactById(Integer id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public List<PersonContact> getPersonContactByPersonId(Integer personId) {
+        return repository.findAllByPersonId(personId);
     }
 
     public String deletePersonContact(Integer id) {

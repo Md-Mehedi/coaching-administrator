@@ -2,7 +2,12 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { Button } from "@mui/material";
 
-export default function SaveCancelButtons() {
+type SaveCancelButtonsProps = {
+  onSaveClick?: (event) => void;
+  onCancelClick?: (event) => void;
+};
+
+export default function SaveCancelButtons(props: SaveCancelButtonsProps) {
   return (
     <Grid
       item
@@ -13,12 +18,16 @@ export default function SaveCancelButtons() {
       spacing={2}
     >
       <Grid item>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={props.onSaveClick}>
           Save
         </Button>
       </Grid>
       <Grid item>
-        <Button variant="contained" color="secondary">
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={props.onCancelClick}
+        >
           Cancel
         </Button>
       </Grid>

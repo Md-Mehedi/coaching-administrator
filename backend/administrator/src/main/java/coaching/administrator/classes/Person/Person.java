@@ -2,6 +2,8 @@ package coaching.administrator.classes.Person;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,14 +15,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
 import coaching.administrator.classes.Address.Address;
 import coaching.administrator.classes.Coaching.Coaching;
+import coaching.administrator.classes.EduQualification.EduQualification;
 import coaching.administrator.classes.Occupation.Occupation;
+import coaching.administrator.classes.PersonContact.PersonContact;
 import coaching.administrator.classes.Religion.Religion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,13 +70,21 @@ public class Person implements Serializable {
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "person")
+    private Set<EduQualification> eduQualifications;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "person")
+    private Set<PersonContact> contacts;
+
     private String fullName;
     private String nickName;
     private String gender;
     private String email;
     private String fatherName;
     private String motherName;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date joiningDate;
     private String bloodGroup;
     private String nationality;

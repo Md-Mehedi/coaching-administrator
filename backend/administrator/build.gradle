@@ -22,6 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+	implementation 'org.slf4j:slf4j-api:1.7.6'
 	implementation 'com.sun.xml.bind:jaxb-core:2.2.11'
 	implementation 'com.sun.xml.bind:jaxb-impl:2.2.11'
 	implementation 'javax.activation:activation:1.1.1'

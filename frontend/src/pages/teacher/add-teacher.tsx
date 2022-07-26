@@ -1,4 +1,5 @@
 import { Grid, TextField } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useState, useEffect } from "react";
 import { API } from "../../api";
 import {
@@ -14,7 +15,10 @@ import ContactInformation from "../../components/form-components/contact-field";
 import ExamResultField from "../../components/form-components/exam-field";
 import MyTextfield from "../../components/form-components/my-textfield";
 import ParentInformation from "../../components/form-components/parent-information";
+import PersonExamDetails from "../../components/form-components/person-exam-details";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
+import { showSnackbar } from "../../tools/helper-functions";
+import { useParams } from "react-router-dom";
 
 type AddTeacherState = {
   boards: Board[];
@@ -22,7 +26,9 @@ type AddTeacherState = {
   institutions: Institution[];
 };
 export default function AddTeacher() {
-  const [teacher, setTeacher] = useState<Teacher>();
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
+  const [teacher, setTeacher] = useState<Teacher>(new Teacher());
   const [state, setState] = useState<AddTeacherState>({
     selectedBoard: null,
     institutions: [],
@@ -32,7 +38,18 @@ export default function AddTeacher() {
     API.institution.getUniversityList().then((response) => {
       setState({ ...state, institutions: response.data });
     });
+    alert("Teacher id:" + id);
+    id &&
+      API.teacher.getById(parseInt(id)).then((response) => {
+        setTeacher(response.data);
+      });
   }, []);
+  function addTeacher() {
+    teacher &&
+      API.teacher.add(teacher).then((response) => {
+        showSnackbar(enqueueSnackbar, response.data);
+      });
+  }
 
   return (
     <Grid container spacing={2}>
@@ -62,31 +79,17 @@ export default function AddTeacher() {
           }
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={4}>
+      {/* <Grid item xs={12} sm={6} md={4}>
         <DropDown
           label="Currently studying institution"
-          value={teacher?.person.ins}
+          value={teacher?.person.}
           options={state.institutions}
           optionLabel="name"
           onChange={(event, newValue) =>
             setTeacher({ ...teacher, institution: newValue || undefined })
           }
         />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <DropDown
-          label="Class"
-          value={teacher?.classNo}
-          options={[9, 10, 11, 12]}
-          optionLabel=""
-          onChange={(event, newValue) =>
-            setTeacher({ ...teacher, classNo: newValue || undefined })
-          }
-        />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <MyTextfield label="Class Roll" />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <AddressField
           title="Present Address"
@@ -112,16 +115,29 @@ export default function AddTeacher() {
         />
       </Grid>
       <Grid item xs={12}>
-        <ExamResultField title="JSC Exam Information" />
+        <PersonExamDetails
+          examInfo={teacher?.person?.eduQualifications}
+          onChange={(newInfo) =>
+            setTeacher({
+              ...teacher,
+              person: { ...teacher?.person, eduQualifications: newInfo },
+            })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
-        <ExamResultField title="SSC Exam Information" />
+        <ContactInformation
+          contacts={teacher?.person?.contacts}
+          onChange={(newContacts) =>
+            setTeacher({
+              ...teacher,
+              person: { ...teacher?.person, contacts: newContacts },
+            })
+          }
+        />
       </Grid>
       <Grid item xs={12}>
-        <ContactInformation />
-      </Grid>
-      <Grid item xs={12}>
-        <SaveCancelButtons />
+        <SaveCancelButtons onSaveClick={(event) => addTeacher()} />
       </Grid>
     </Grid>
   );

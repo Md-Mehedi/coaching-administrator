@@ -28,12 +28,4 @@ public class Occupation implements Serializable {
     private Integer id;
     private String name;
 
-    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL, mappedBy = "fatherOccupation")
-    // @JoinColumn(name = "father_ocptn_id")
-    private List<Person> personsFather;
-
-    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL, mappedBy = "motherOccupation")
-    // @JoinColumn(name = "father_ocptn_id")
-    private List<Person> personsMother;
-
 }

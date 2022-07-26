@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Occupation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,9 @@ public class OccupationController {
 
     @Autowired
     private OccupationService service;
+
+    @Autowired
+    private OccupationRepository repository;
 
     @PostMapping("/add-occupation")
     public Occupation addOccupation(@RequestBody Occupation occupation) {
@@ -30,6 +35,11 @@ public class OccupationController {
     @GetMapping("/get-occupation-by-name/{name}")
     public Occupation getOccupationByName(@PathVariable String name) {
         return service.getOccupationByName(name);
+    }
+
+    @GetMapping("/get-all-occupation")
+    public List<Occupation> getAllOccupation() {
+        return repository.findAll();
     }
 
     @DeleteMapping("/delete-occupation-by-id")

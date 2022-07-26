@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Board;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ public class BoardController {
 
     @Autowired
     private BoardService service;
+    @Autowired
+    private BoardRepository repository;
 
     @PostMapping("/add-board")
     public Board addBoard(@RequestBody Board board) {
@@ -30,6 +34,11 @@ public class BoardController {
     @GetMapping("/get-board-by-name/{name}")
     public Board getBoardByName(@PathVariable String name) {
         return service.getBoardByName(name);
+    }
+
+    @GetMapping("/get-all-board")
+    public List<Board> getAllBoard() {
+        return repository.findAll();
     }
 
     @DeleteMapping("/delete-board-by-id")

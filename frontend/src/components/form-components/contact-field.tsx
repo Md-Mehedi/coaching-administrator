@@ -10,82 +10,108 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PersonContact } from "../../classes/person-info";
+import { updateArray } from "../../tools/helper-functions";
+import DropDown from "../dropdown";
+import { API } from "./../../api";
+import MyTextfield from "./my-textfield";
 
-export type Contact = {
-  type: string;
-  number: string;
-};
-
-export type ContactInformationStates = {
-  info: Contact[];
-};
-const contacts: Contact[] = [
-  { type: "Personal", number: "019234482" },
-  { type: "Father", number: "019234482" },
-  { type: "Mother", number: "019234482" },
-];
-const contact_type: string[] = ["Personal", "Father", "Mother"];
-
-export default function ContactInformation() {
-  const [state, setState] = useState<ContactInformationStates>({
-    info: contacts,
+function SingleContactInformation({
+  contact,
+  onChange,
+  onDelete,
+  contactTypes,
+}: {
+  contact: PersonContact;
+  onChange: (contact: PersonContact) => void;
+  onDelete: () => void;
+  contactTypes: string[];
+}) {
+  return (
+    <Grid container spacing={2} alignItems="center">
+      <Grid item xs={4}>
+        <DropDown
+          label="Contact type"
+          value={contact.contactType}
+          options={contactTypes}
+          optionLabel=""
+          onChange={(event, newValue) => {
+            console.log("New Value: ", newValue);
+            onChange({ ...contact, contactType: newValue || "" });
+          }}
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <MyTextfield
+          label="Number"
+          value={contact.number}
+          onChange={(event) =>
+            onChange({ ...contact, number: event.target.value })
+          }
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <IconButton onClick={onDelete}>
+          <DeleteForever />
+        </IconButton>
+        {/* <IconButton
+          onClick={(event) => {
+            const info = state.contacts.filter(
+              (item, curIndex) => curIndex != idx
+            );
+            setState({ ...state, contacts: info });
+          }}
+        >
+          <DeleteForever />
+        </IconButton> */}
+      </Grid>
+    </Grid>
+  );
+}
+export default function ContactInformation({
+  contacts,
+  onChange,
+}: {
+  contacts?: PersonContact[];
+  onChange?: (newContacts: PersonContact[]) => void;
+}) {
+  const [state, setState] = useState<{
+    contactTypes: string[];
+  }>({
+    contactTypes: [],
   });
+  useEffect(() => {
+    state.contactTypes ||
+      API.person.contacts.getContactTypes().then((response) => {
+        setState({ ...state, contactTypes: response.data });
+      });
+  }, []);
+  console.log("in contact", contacts);
+  console.log("in contact", state.contactTypes);
+
   function addMoreNumberClicked(event) {
-    const newContact = {
-      type: contact_type[0],
-      number: "",
-    };
-    const newInfo = [...state.info, newContact];
-    setState({ ...state, info: newInfo });
+    let newContact: PersonContact = { contactType: state.contactTypes[0] };
+    onChange &&
+      (contacts ? onChange([...contacts, newContact]) : onChange([newContact]));
   }
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
         <Typography variant="h6">Contact Information</Typography>
       </Grid>
-      {state.info.map((item, idx) => (
-        <Grid key={idx} item container spacing={2} alignItems="center">
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Contact type
-              </InputLabel>
-              <Select
-                value={item.type}
-                label="Contact type"
-                onChange={(event) => {
-                  const info = state.info;
-                  info[idx].type = event.target.value;
-                  setState({
-                    ...state,
-                    info: info,
-                  });
-                }}
-              >
-                {contact_type.map((item) => (
-                  <MenuItem key={item} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField fullWidth variant="outlined" label="Number" />
-          </Grid>
-          <Grid item xs={2}>
-            <IconButton
-              onClick={(event) => {
-                const info = state.info.filter(
-                  (item, curIndex) => curIndex != idx
-                );
-                setState({ ...state, info: info });
-              }}
-            >
-              <DeleteForever />
-            </IconButton>
-          </Grid>
+      {contacts?.map((item, idx) => (
+        <Grid item container>
+          <SingleContactInformation
+            contact={item}
+            contactTypes={state.contactTypes}
+            onChange={(newContact) => {
+              onChange && onChange(updateArray(contacts, idx, newContact));
+            }}
+            onDelete={() => {
+              onChange && onChange(contacts.splice(idx));
+            }}
+          />
         </Grid>
       ))}
       <Grid item container justifyContent="center" alignItems="center">

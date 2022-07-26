@@ -1,3 +1,5 @@
+import { API } from "../api";
+
 export class Division {
   id: number;
   name: string;
@@ -48,6 +50,22 @@ export class Coaching {
   youtubeLink: string;
   image: string;
 }
+export class Exam {
+  id?: number;
+  name: string;
+}
+export class EduQualification {
+  id?: number;
+  exam?: Exam;
+  institution?: Institution;
+  passingYear?: number;
+  result?: number;
+}
+export class PersonContact {
+  id?: number;
+  contactType?: string;
+  number?: string;
+}
 export class Person {
   id?: number | null;
   password?: number;
@@ -57,6 +75,8 @@ export class Person {
   motherOccupation?: Occupation;
   religion?: Religion;
   coaching?: Coaching;
+  eduQualifications?: EduQualification[];
+  contacts?: PersonContact[];
   fullName?: string;
   nickName?: string;
   gender?: string;
@@ -69,6 +89,15 @@ export class Person {
   nationality?: string;
   personType?: string;
   image?: string;
+  constructor() {
+    this.contacts = [];
+    this.contacts.push({ contactType: "Personal" });
+    this.contacts.push({ contactType: "Father" });
+    this.contacts.push({ contactType: "Mother" });
+    this.eduQualifications = [];
+    this.eduQualifications.push({ exam: { name: "HSC" } });
+    this.eduQualifications.push({ exam: { name: "HSC" } });
+  }
 }
 export class Admin {
   person_id: number;
@@ -80,13 +109,21 @@ export class Student {
   person?: Person;
   registrationNo?: number;
   classNo?: number;
-  classRollNo?: number;
+  classRollNo?: string;
   institution?: Institution;
+  constructor() {
+    this.person = new Person();
+  }
 }
 export class Teacher {
   person_id?: number;
   person?: Person;
   salary?: string;
+  currentInstitution?: EduQualification;
+  constructor() {
+    this.person = new Person();
+    console.log("Teacher class");
+  }
 }
 export function getGender(gender: string | undefined | null) {
   if (gender == "M") return "Male";
