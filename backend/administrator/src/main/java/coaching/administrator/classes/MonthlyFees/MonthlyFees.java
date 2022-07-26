@@ -36,7 +36,7 @@ public class MonthlyFees {
     private Student student;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "batch_id", referencedColumnName = "person_id")
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private Batch batch;
 
     @Temporal(TemporalType.TIMESTAMP)

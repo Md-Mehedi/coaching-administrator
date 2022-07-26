@@ -1,4 +1,4 @@
-select * from class_time
+select * from batch
 
 
 alter table student_batch

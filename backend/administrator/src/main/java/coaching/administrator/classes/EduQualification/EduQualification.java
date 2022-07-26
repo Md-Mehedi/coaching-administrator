@@ -34,10 +34,9 @@ public class EduQualification implements Serializable {
     @JoinColumn(name = "exam_id", referencedColumnName = "id")
     private Exam exam;
 
-    // @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch =
-    // FetchType.LAZY)
-    // @JoinColumn(name = "person_id", referencedColumnName = "id")
-    // private Person person;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person person;
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "institution_id", referencedColumnName = "id")
