@@ -1,7 +1,7 @@
-select * from batch
+select * from fees
 
 
-alter table student_batch
+alter table student drop cascade
 drop column end_date;
 
-drop table class_time cascade
+drop table student cascade
