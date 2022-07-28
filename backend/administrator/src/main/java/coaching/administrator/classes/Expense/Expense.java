@@ -1,74 +1,39 @@
-package coaching.administrator.classes.Expense;
+package coaching.administrator.classes.expense;
 
-import java.sql.Time;
+import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.Division.Division;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Table(name = "expense")
-public class Expense {
+public class Expense implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer organizationId;
-    private Time time;
-    private String description;
-    private Integer amount;
-
-    public Expense() {
-    }
-
-    public Expense(Integer id, Integer organizationId, Time time, String description, Integer amount) {
-        this.id = id;
-        this.organizationId = organizationId;
-        this.time = time;
-        this.description = description;
-        this.amount = amount;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Integer organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
+    private String name;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "division_id", referencedColumnName = "id")
+    public Division division;
+    // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy
+    // = "thana")
+    // private List<Thana> thanas;
 
 }
