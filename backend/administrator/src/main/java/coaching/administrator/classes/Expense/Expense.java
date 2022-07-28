@@ -1,7 +1,6 @@
-package coaching.administrator.classes.expense;
+package coaching.administrator.classes.Expense;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,28 +11,37 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import coaching.administrator.classes.Division.Division;
+import coaching.administrator.classes.Coaching.Coaching;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "expense")
-public class Expense implements Serializable {
+public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "division_id", referencedColumnName = "id")
-    public Division division;
-    // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy
-    // = "thana")
-    // private List<Thana> thanas;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "coaching_id", referencedColumnName = "id")
+    private Coaching coaching;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date time;
+
+    private String description;
+    private Integer amount;
 
 }

@@ -1,5 +1,10 @@
 package coaching.administrator.classes.Expense;
 
-public class ExpenseRepository {
-    
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
+
+    List<Expense> findAllByCoachingId(Integer coachingId);
 }
