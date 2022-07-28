@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Expense;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,16 @@ public class ExpenseController {
     @GetMapping("/get-expense-by-id/{id}")
     public Expense getExpenseById(@PathVariable Integer id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/get-expense-by-coaching-id/{coachingId}")
+    public List<Expense> getExpenseByCoachingId(@PathVariable Integer coachingId) {
+        return repository.findAllByCoachingId(coachingId);
+    }
+
+    @GetMapping("/get-expense-by-coaching-id-month-year/{coachingId}/{month}/{year}")
+    public Expense getExpenseByCoachingIdMonthYear(@PathVariable Integer coachingId,@PathVariable String month,@PathVariable Integer year) {
+        return repository.findByCoachingIdMonthYear(coachingId,month,Integer.toString(year));
     }
 
     @DeleteMapping("/delete-expense-by-id")
