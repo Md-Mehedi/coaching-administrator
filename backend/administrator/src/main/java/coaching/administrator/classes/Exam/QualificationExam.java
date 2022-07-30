@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "exam")
-public class Exam implements Serializable {
+@Table(name = "qualification_exam")
+public class QualificationExam implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

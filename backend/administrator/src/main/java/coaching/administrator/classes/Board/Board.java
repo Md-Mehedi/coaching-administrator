@@ -1,5 +1,7 @@
 package coaching.administrator.classes.Board;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(name = "board")
-public class Board {
+public class Board implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

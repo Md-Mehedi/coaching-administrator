@@ -14,8 +14,14 @@ function postParam(url, param) {
 function postBody(url, body) {
   return post(url, body);
 }
+function put(url, body) {
+  return axios.put(HOST + url, body);
+}
 function get(url, param = {}) {
   return axios.get(HOST + url + createQueryParam(param));
+}
+function del(url, param = {}) {
+  return axios.delete(HOST + url + createQueryParam(param));
 }
 export const API = {
   auth: {
@@ -33,10 +39,16 @@ export const API = {
   student: {
     add: (student: Student) => postBody("/add-student", student),
     get: (id: number) => get("/get-student-by-id/" + id),
+    getAll: () => get("/get-all-student"),
+    delete: (id: number) => del("/delete-student-by-id/" + id),
+    update: (student: Student) => put("/update-student", student),
   },
   teacher: {
     add: (teacher: Teacher) => postBody("/add-teacher", teacher),
     getById: (id: number) => get("/get-teacher-by-id/" + id),
+    getAll: () => get("/get-all-teacher"),
+    delete: (id: number) => del("/delete-teacher-by-id/" + id),
+    update: (student: Student) => put("/update-teacher", student),
   },
   person: {
     contacts: {
@@ -60,16 +72,17 @@ export const API = {
     add: (religion: Religion) => postBody("/add-religion", religion),
   },
   occupation: {
-    getList: () => get("get-all-occupation"),
-  },
-  board: {
-    getList: () => get("get-all-board"),
-  },
-  institution: {
-    getListByBoard: (id: number) => get("/get-all-institution-by-boardId" + id),
-    getUniversityList: () => get(""),
+    getList: () => get("/get-all-occupation"),
   },
   qualification: {
+    getExamList: () => get("/get-all-qualification-exam"),
+    getBoardList: () => get("/get-all-board"),
     getExamByName: (name: string) => get("/get-exam-by-name/" + name),
+    getDepartments: () => get("/get-all-department"),
+    institution: {
+      getListByBoard: (id: number) =>
+        get("/get-all-institution-by-boardId/" + id),
+      getUniversityList: () => get(""),
+    },
   },
 };

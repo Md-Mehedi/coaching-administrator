@@ -7,8 +7,9 @@ import {
   TextField,
   AutocompleteProps,
   AutocompleteRenderInputParams,
+  AutocompleteValue,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // export type DropDownProps = {
 //   label: string;
@@ -38,6 +39,7 @@ export interface DropDownProps<
 > extends AutocompleteProps<T, Multiple, DisableClearable, FreeSolo> {
   label: string;
   optionLabel: string;
+  required?: boolean;
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
 }
 export default function DropDown<
@@ -46,8 +48,20 @@ export default function DropDown<
   DisableClearable extends boolean | undefined = undefined,
   FreeSolo extends boolean | undefined = undefined
 >(props: DropDownProps<T, Multiple, DisableClearable, FreeSolo>) {
-  const { label, optionLabel, ...others } = props;
-  const [currentValue, setCurrentValue] = useState("");
+  const { label, optionLabel, required, ...others } = props;
+  const [state, setState] = useState<{
+    inputValue: string;
+    selectedValue:
+      | AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>
+      | undefined;
+  }>({
+    inputValue: "",
+    selectedValue: props.value,
+  });
+  let localSelectedValue: any = null;
+  useEffect(() => {
+    // setSelectedValue(props.value);
+  }, []);
   return (
     <Autocomplete
       blurOnSelect={true}
@@ -55,6 +69,7 @@ export default function DropDown<
       renderInput={(params) => (
         <TextField
           {...params}
+          required={required}
           onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -71,26 +86,87 @@ export default function DropDown<
       {...others}
       //@ts-ignore
       value={props.value || null}
-      inputValue={currentValue}
+      //@ts-ignore
+      defaultValue={props.value || null}
       onChange={(event, newVal, reason) => {
-        console.log(event);
-        console.log(props.onChange);
-        props.onChange && props.onChange(event, newVal, reason);
+        // props.onChange && props.onChange(event, newVal, reason);
+        localSelectedValue = newVal;
+        // setState({ ...state, selectedValue: newVal });
+        //  setSelectedValue(newVal);
       }}
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
         props.onClick && props.onClick(event);
       }}
+      inputValue={
+        state.inputValue
+        // selectedValue && props.optionLabel
+        //   ? selectedValue[props.optionLabel]
+        //   : selectedValue
+      }
       onInputChange={(event, value, reject) => {
-        setCurrentValue(value);
+        // let object = props.optionLabel
+        //   ? JSON.parse(`{"${props.optionLabel}":"${value}"}`)
+        //   : value;
+        // setSelectedValue(object);
+        setState({ ...state, inputValue: value });
       }}
+      // onHighlightChange={(event, value) => {
+      //   value && props.optionLabel
+      //     ? setSelectedValue(value[props.optionLabel])
+      //     : // @ts-ignore
+      //       setSelectedValue(value);
+      // }}
       onClose={(event) => {
-        let object = props.optionLabel
-          ? JSON.parse(`{"${props.optionLabel}":"${currentValue}"}`)
-          : currentValue;
-        console.log(object);
-        props.onChange && props.onChange(event, object, "createOption");
+        if (!localSelectedValue) {
+          // if (state.inputValue == "") return;
+          let val = props.options.find((item) => {
+            if (props.optionLabel) {
+              return state.inputValue == item[props.optionLabel];
+            } else {
+              //@ts-ignore
+              return state.inputValue == item;
+            }
+          });
+          if (!val) {
+            val = props.optionLabel
+              ? JSON.parse(`{"${props.optionLabel}":"${state.inputValue}"}`)
+              : state.inputValue;
+          }
+          props.onChange &&
+            // @ts-ignore
+            props.onChange(event, val, "createOption");
+          // @ts-ignore
+          setState({ ...state, selectedValue: val });
+        } else {
+          props.onChange &&
+            // @ts-ignore
+            props.onChange(event, localSelectedValue, "createOption");
+          setState({ ...state, selectedValue: localSelectedValue });
+        }
+        // if (selectedValue) {
+        //   props.onChange &&
+        //   return;
+        // }
+        // let foundObject = props.options.find((item) => {
+        //   if (props.optionLabel && item[props.optionLabel] == currentValue)
+        //     return true;
+        //   // @ts-ignore
+        //   else if (!props.optionLabel && item == currentValue) return true;
+        //   return false;
+        // });
+        // if (props.onChange) {
+        //   if (foundObject) {
+        //     // @ts-ignore
+        //     props.onChange(event, foundObject, "createOption");
+        //   } else {
+        //     let object = props.optionLabel
+        //       ? JSON.parse(`{"${props.optionLabel}":"${currentValue}"}`)
+        //       : currentValue;
+        //     props.onChange(event, object, "createOption");
+        //   }
+        // }
       }}
       componentsProps={{
         paper: {

@@ -12,12 +12,12 @@ export class District {
 export class Upazila {
   id: number;
   name: string;
-  district: District;
+  district?: District;
 }
 export class Address {
   id: number;
-  village: string;
-  upazila: Upazila | null;
+  village: string = "";
+  upazila?: Upazila | null;
 }
 export class Occupation {
   id: number;
@@ -32,10 +32,10 @@ export class Board {
   name: string;
 }
 export class Institution {
-  id: number;
-  name: string;
-  type: string;
-  board: Board | null;
+  id?: number;
+  name?: string;
+  type?: string;
+  board?: Board | null;
 }
 export class Coaching {
   id: number;
@@ -50,20 +50,29 @@ export class Coaching {
   youtubeLink: string;
   image: string;
 }
-export class Exam {
+export class QualificationExam {
   id?: number;
   name: string;
 }
+export class Department {
+  id?: number;
+  name?: string;
+}
 export class EduQualification {
   id?: number;
-  exam?: Exam;
+  qualificationExam?: QualificationExam;
   institution?: Institution;
   passingYear?: number;
   result?: number;
+  department?: Department;
+}
+export class ContactType {
+  id: number;
+  name: string;
 }
 export class PersonContact {
   id?: number;
-  contactType?: string;
+  contactType?: ContactType;
   number?: string;
 }
 export class Person {
@@ -89,14 +98,15 @@ export class Person {
   nationality?: string;
   personType?: string;
   image?: string;
+  currentQualification?: EduQualification;
   constructor() {
-    this.contacts = [];
-    this.contacts.push({ contactType: "Personal" });
-    this.contacts.push({ contactType: "Father" });
-    this.contacts.push({ contactType: "Mother" });
-    this.eduQualifications = [];
-    this.eduQualifications.push({ exam: { name: "HSC" } });
-    this.eduQualifications.push({ exam: { name: "HSC" } });
+    // this.contacts = [];
+    // this.contacts.push({ contactType: "Personal" });
+    // this.contacts.push({ contactType: "Father" });
+    // this.contacts.push({ contactType: "Mother" });
+    // this.eduQualifications = [];
+    // this.eduQualifications.push({ exam: { name: "HSC" } });
+    // this.eduQualifications.push({ exam: { name: "HSC" } });
   }
 }
 export class Admin {
@@ -105,25 +115,14 @@ export class Admin {
   salary?: number;
 }
 export class Student {
-  person_id?: number;
-  person?: Person;
+  // person_id?: number;
+  person?: Person = new Person();
   registrationNo?: number;
-  classNo?: number;
-  classRollNo?: string;
-  institution?: Institution;
-  constructor() {
-    this.person = new Person();
-  }
 }
 export class Teacher {
-  person_id?: number;
-  person?: Person;
+  // person_id?: number;
+  person?: Person = new Person();
   salary?: string;
-  currentInstitution?: EduQualification;
-  constructor() {
-    this.person = new Person();
-    console.log("Teacher class");
-  }
 }
 export function getGender(gender: string | undefined | null) {
   if (gender == "M") return "Male";

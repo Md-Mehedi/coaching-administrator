@@ -1,0 +1,65 @@
+package coaching.administrator.classes.Global;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.swing.text.Utilities;
+
+import org.hibernate.EmptyInterceptor;
+import org.hibernate.annotations.CollectionType;
+import org.hibernate.type.BinaryType;
+import org.hibernate.type.descriptor.converter.AttributeConverterTypeAdapter;
+
+@Component
+public class CustomHibernateInterceptor extends EmptyInterceptor {
+
+    private static final long serialVersionUID = -2355165114530619983L;
+
+    @Override
+    public int[] findDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState,
+            String[] propertyNames, Type[] types) {
+        if (entity instanceof BaseEntity) {
+            Set<String> dirtyProperties = new HashSet<>();
+            for (int i = 0; i < propertyNames.length; i++) {
+                if (isModified(currentState, previousState, types, i)) {
+                    dirtyProperties.add(propertyNames[i]);
+                }
+            }
+
+            int[] dirtyPropertiesIndices = new int[dirtyProperties.size()];
+            List<String> propertyNamesList = Arrays.asList(propertyNames);
+            int i = 0;
+            for (String dirtyProperty : dirtyProperties) {
+                dirtyPropertiesIndices[i++] = propertyNamesList.indexOf(dirtyProperty);
+            }
+            return dirtyPropertiesIndices;
+        }
+
+        return super.findDirty(entity, id, currentState, previousState, propertyNames, types);
+    }
+
+    private boolean isModified(Object[] currentState, Object[] previousState, Type[] types, int i) {
+        boolean equals = true;
+        Object oldValue = previousState[i];
+        Object newValue = currentState[i];
+
+        if (oldValue != null || newValue != null) {
+            if (types[i] instanceof AttributeConverterTypeAdapter) {
+                // check for JSONObject attributes
+                equals = String.valueOf(oldValue).equals(String.valueOf(newValue));
+            } else if (types[i] instanceof BinaryType) {
+                // byte arrays in our entities are always UUID representations
+                equals = Utilities.byteArrayToUUID((byte[]) oldValue)
+                        .equals(Utilities.byteArrayToUUID((byte[]) newValue));
+            } else if (!(types[i] instanceof CollectionType)) {
+                equals = Objects.equals(oldValue, newValue);
+            }
+        }
+
+        return !equals;
+    }
+}

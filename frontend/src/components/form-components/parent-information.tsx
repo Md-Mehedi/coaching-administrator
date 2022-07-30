@@ -13,13 +13,16 @@ import MyTextfield from "./my-textfield";
 import { Occupation } from "./../../classes/person-info";
 import DropDown from "../dropdown";
 import { API } from "./../../api";
+import { emptyFieldChecking } from "./../../tools/helper-functions";
 
 export default function ParentInformation({
   person,
   setPerson,
+  verifier,
 }: {
   person?: Person;
   setPerson: (person: Person) => void;
+  verifier?: any;
 }) {
   const [occupations, setOccupations] = useState<Occupation[]>([]);
   useEffect(() => {
@@ -28,10 +31,18 @@ export default function ParentInformation({
     });
   }, []);
 
+  verifier.current = (enqueueSnackbar) => {
+    let errorVerifyField = [
+      { label: "Father's name", field: person?.fatherName },
+      { label: "Mother's name", field: person?.motherName },
+    ];
+    return emptyFieldChecking(enqueueSnackbar, errorVerifyField);
+  };
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4}>
         <MyTextfield
+          required
           label="Father's name"
           value={person?.fatherName}
           onChange={(event) =>
@@ -52,6 +63,7 @@ export default function ParentInformation({
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <MyTextfield
+          required
           label="Mother's name"
           value={person?.motherName}
           onChange={(event) =>

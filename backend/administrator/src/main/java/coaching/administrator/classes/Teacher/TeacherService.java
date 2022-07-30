@@ -3,6 +3,9 @@ package coaching.administrator.classes.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
 
@@ -11,14 +14,19 @@ public class TeacherService {
 
     @Autowired
     private TeacherRepository repository;
+    @Autowired
+    private ObjectMapper mapper;
 
     @Autowired
     private PersonService personService;
 
-    public Teacher saveTeacher(Teacher teacher) {
+    public ObjectNode saveTeacher(Teacher teacher) {
+        ObjectNode node = mapper.createObjectNode();
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // teacher.setPassword(pEncoder.getEncodedPassword(teacher.getPerson().getPassword()));
-        return repository.save(teacher);
+        repository.save(teacher);
+        return node.put("success", true)
+                .put("message", "Teacher added successfully");
     }
 
     public Teacher getTeacherById(Integer id) {
@@ -39,17 +47,19 @@ public class TeacherService {
         return teacher;
     }
 
-    public String deleteTeacher(Integer id) {
-
+    public ObjectNode deleteTeacher(Integer id) {
+        ObjectNode node = mapper.createObjectNode();
         repository.deleteById(id);
-        return "Teacher with id : " + id + " deleted";
+        return node.put("success", true)
+                .put("message", "Teacher deleted successfully");
     }
 
-    public Teacher updateTeacher(Teacher teacher) {
-
+    public ObjectNode updateTeacher(Teacher teacher) {
+        ObjectNode node = mapper.createObjectNode();
         // personService.updatePerson(teacher);
         // Teacher newTeacher = repository.findById(teacher.getId()).orElse(null);
-        return repository.save(teacher);
+        repository.save(teacher);
+        return node.put("success", true)
+                .put("message", "Teacher updated successfully");
     }
-
 }

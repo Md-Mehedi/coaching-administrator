@@ -3,6 +3,10 @@ package coaching.administrator.classes.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
 
@@ -11,14 +15,21 @@ public class StudentService {
 
     @Autowired
     private StudentRepository repository;
+    @Autowired
+    private ObjectMapper mapper;
 
     @Autowired
     private PersonService personService;
 
-    public Student saveStudent(Student student) {
+    public ObjectNode saveStudent(Student student) {
+        ObjectNode node = mapper.createObjectNode();
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // student.setPassword(pEncoder.getEncodedPassword(student.getPerson().getPassword()));
-        return repository.save(student);
+        repository.save(student);
+        Global.colorPrint(student);
+        Global.colorPrint(student.getPerson());
+        return node.put("success", true)
+                .put("message", "Student added successfully");
     }
 
     public Student getStudentById(Integer id) {
@@ -39,17 +50,20 @@ public class StudentService {
         return student;
     }
 
-    public String deleteStudent(Integer id) {
-
+    public ObjectNode deleteStudent(Integer id) {
+        ObjectNode node = mapper.createObjectNode();
         repository.deleteById(id);
-        return "Student with id : " + id + " deleted";
+        return node.put("success", true)
+                .put("message", "Student delete successfully");
     }
 
-    public Student updateStudent(Student student) {
-
+    public ObjectNode updateStudent(Student student) {
+        ObjectNode node = mapper.createObjectNode();
         // personService.updatePerson(student);
         // Student newStudent = repository.findById(student.getId()).orElse(null);
-        return repository.save(student);
+        repository.save(student);
+        return node.put("success", true)
+                .put("message", "Student update successfully");
     }
 
 }

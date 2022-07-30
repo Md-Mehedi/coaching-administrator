@@ -19,10 +19,6 @@ public class PersonContactService {
         return repository.findById(id).orElse(null);
     }
 
-    public List<PersonContact> getPersonContactByPersonId(Integer personId) {
-        return repository.findAllByPersonId(personId);
-    }
-
     public String deletePersonContact(Integer id) {
         repository.deleteById(id);
         return "PersonContact with id : " + id + " deleted";

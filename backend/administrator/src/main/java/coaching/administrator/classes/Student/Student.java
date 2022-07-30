@@ -1,5 +1,7 @@
 package coaching.administrator.classes.Student;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,17 +21,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(name = "student")
-public class Student {
+public class Student implements Serializable {
 
     @Id
     private Integer person_id;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     @MapsId
     private Person person;
 
     private Integer registrationNo;
-    private Integer classNo;
-    private Integer classRollNo;
+    // private Integer classNo;
+    // private Integer classRollNo;
 
 }

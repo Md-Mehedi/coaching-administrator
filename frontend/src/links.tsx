@@ -26,11 +26,16 @@ export var ADMIN_LINKS = {
   // Student
   studentList: { path: "/dashboard/student-list", element: <StudentList /> },
   addStudent: { path: "/dashboard/add-student", element: <AddStudent /> },
+  updateStudent: { path: "/dashboard/update-student", element: <AddStudent /> },
   student: { path: "/dashboard/student", element: <StudentInfo /> },
+  studentWithId: { path: "/dashboard/student/:id", element: <StudentInfo /> },
   // Teacher
   addTeacher: { path: "/dashboard/add-teacher", element: <AddTeacher /> },
+  updateTeacher: { path: "/dashboard/update-teacher", element: <AddTeacher /> },
+
   teacherList: { path: "/dashboard/teacher-list", element: <TeacherList /> },
   teacher: { path: "/dashboard/teacher", element: <TeacherInfo /> },
+  teacherWithId: { path: "/dashboard/teacher/:id", element: <TeacherInfo /> },
   // Program
   program: { path: "/dashboard/program", element: <Program /> },
   programList: { path: "/dashboard/program-list", element: <ProgramList /> },

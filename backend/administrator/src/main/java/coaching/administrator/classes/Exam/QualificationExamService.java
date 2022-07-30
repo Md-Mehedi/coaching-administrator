@@ -4,24 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExamService {
+public class QualificationExamService {
 
     @Autowired
-    private ExamRepository repository;
+    private QualificationExamRepository repository;
 
-    public Exam saveExam(Exam exam) {
+    public QualificationExam saveQualificationExam(QualificationExam exam) {
         return repository.save(exam);
     }
 
-    public Exam getExamById(Integer id) {
+    public QualificationExam getQualificationExamById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 
-    public Exam getExamByName(String name) {
+    public QualificationExam getQualificationExamByName(String name) {
         return repository.findByName(name);
     }
 
-    public String deleteExam(Integer id) {
+    public String deleteQualificationExam(Integer id) {
         repository.deleteById(id);
         return "Exam with id : " + id + " deleted";
     }

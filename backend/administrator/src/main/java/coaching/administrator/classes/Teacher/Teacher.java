@@ -23,7 +23,7 @@ public class Teacher {
 
     @Id
     private Integer person_id;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     @MapsId
     private Person person;

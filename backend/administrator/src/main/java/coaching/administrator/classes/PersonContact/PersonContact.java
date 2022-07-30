@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.ContactType.ContactType;
 import coaching.administrator.classes.Person.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,11 +27,15 @@ public class PersonContact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional =
-    true)
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person person;
-    private String contactType;
+    // @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional =
+    // true)
+    // // @JoinColumn(name = "person_id", referencedColumnName = "id")
+    // private Person person;
+
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "contact_type_id", referencedColumnName = "id")
+    private ContactType contactType;
+
     private String number;
 
 }

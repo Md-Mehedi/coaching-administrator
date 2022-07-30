@@ -32,11 +32,6 @@ public class PersonContactController {
         return service.getPersonContactById(id);
     }
 
-    @GetMapping("/get-personContact-by-person/{id}")
-    public List<PersonContact> getPersonContactByPersonId(@PathVariable Integer personId) {
-        return service.getPersonContactByPersonId(personId);
-    }
-
     @DeleteMapping("/delete-personContact-by-id")
     public String deletePersonContact(@PathVariable Integer id) {
         return service.deletePersonContact(id);

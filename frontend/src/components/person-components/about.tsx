@@ -12,6 +12,8 @@ import {
   OverridableTypeMap,
   DefaultComponentProps,
 } from "@mui/material/OverridableComponent";
+import { Person } from "../../classes/person-info";
+import { getGender } from "./../../classes/person-info";
 
 export interface FieldProps<M extends OverridableTypeMap> {
   field: string;
@@ -28,7 +30,7 @@ export interface FieldProps<M extends OverridableTypeMap> {
 export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
   return (
     props.value && (
-      <Grid container direction="row" spacing={0} alignItems="center">
+      <Grid item container direction="row" spacing={0} alignItems="center">
         <Grid item>
           <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
             {props.field} : &nbsp;{" "}
@@ -41,7 +43,7 @@ export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
     )
   );
 }
-export default function About() {
+export default function About({ person }: { person?: Person }) {
   return (
     <div>
       <Accordion>
@@ -50,33 +52,20 @@ export default function About() {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Field field="Full name" value="Md. Raju Khan" />
-            </Grid>
-            <Grid item>
-              <Field field="Gender" value="Male" />
-            </Grid>
-            <Grid item>
-              <Field field="Date of birth" value="30/06/2004" />
-            </Grid>
-            <Grid item>
-              <Field field="Blood group" value="O+" />
-            </Grid>
-            <Grid item>
-              <Field field="Nationality" value="Bangladesh" />
-            </Grid>
-            <Grid item>
-              <Field field="Religion" value="Islam" />
-            </Grid>
-            <Grid item>
-              <Field
-                field="Institution name"
-                value="Kamarpara School and College"
-              />
-            </Grid>
-            <Grid item>
-              <Field field="Class roll" value="101" />
-            </Grid>
+            <Field field="Full name" value={person?.fullName} />
+            <Field field="Gender" value={getGender(person?.gender)} />
+            <Field field="Date of birth" value={person?.dateOfBirth} />
+            <Field field="Blood group" value={person?.bloodGroup} />
+            <Field field="Nationality" value={person?.nationality} />
+            <Field field="Religion" value={person?.religion?.name} />
+            <Field
+              field="Institution name"
+              value={person?.currentQualification?.institution?.name}
+            />
+            <Field
+              field="Group/Department"
+              value={person?.currentQualification?.department?.name}
+            />
           </Grid>
         </AccordionDetails>
       </Accordion>
@@ -86,18 +75,16 @@ export default function About() {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Field field="Father name" value="Md. Jalal Uddin" />
-            </Grid>
-            <Grid item>
-              <Field field="Father occupation" value="Driver" />
-            </Grid>
-            <Grid item>
-              <Field field="Mother name" value="Rina Akter" />
-            </Grid>
-            <Grid item>
-              <Field field="Mother occupation" value="Housewife" />
-            </Grid>
+            <Field field="Father name" value={person?.fatherName} />
+            <Field
+              field="Father occupation"
+              value={person?.fatherOccupation?.name}
+            />
+            <Field field="Mother name" value={person?.motherName} />
+            <Field
+              field="Mother occupation"
+              value={person?.motherOccupation?.name}
+            />
           </Grid>
         </AccordionDetails>
       </Accordion>
@@ -108,29 +95,26 @@ export default function About() {
         <AccordionDetails>
           <Grid container direction="column" spacing={2}>
             <Grid item>
-              <Field field="Email" value="123.attherate@gmail.com" />
+              <Field field="Email" value={person?.email} />
             </Grid>
-            <Grid item>
-              <Field field="Personal number" value="01945551189" />
-            </Grid>
-            <Grid item>
-              <Field field="Father number" value="01756193888" />
-            </Grid>
-            <Grid item>
-              <Field field="Mother number" value="01923559207" />
-            </Grid>
-            <Grid item>
+            {person?.contacts?.map((contact) => (
+              <Field
+                field={contact?.contactType?.name || "Number"}
+                value={contact.number}
+              />
+            ))}
+            {person?.presentAddress && (
               <Field
                 field="Present address"
-                value="Shaplar Mor, Kamrpara, Turag, Dhaka - 1230"
+                value={`${person?.presentAddress?.village}, ${person?.presentAddress?.upazila?.name}, ${person?.presentAddress?.upazila?.district?.name}, ${person?.presentAddress?.upazila?.district?.division.name}`}
               />
-            </Grid>
-            <Grid item>
+            )}
+            {person?.permanentAddress && (
               <Field
                 field="Permanent address"
-                value="Mostafapur, Madaripur Sadar, Madaripur, Dhaka"
+                value={`${person?.permanentAddress?.village}, ${person?.permanentAddress?.upazila?.name}, ${person?.permanentAddress?.upazila?.district?.name}, ${person?.permanentAddress?.upazila?.district?.division.name}`}
               />
-            </Grid>
+            )}
           </Grid>
         </AccordionDetails>
       </Accordion>
@@ -140,28 +124,36 @@ export default function About() {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container direction="column" spacing={3}>
-            <Grid item container direction="column" spacing={1}>
-              <Grid item>
-                <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
-                  SSC
-                </Typography>
+            {person?.eduQualifications?.map((qualification) => (
+              <Grid item container direction="column" spacing={1}>
+                <Grid item>
+                  <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
+                    {qualification.qualificationExam?.name}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Field
+                    field="Institution name"
+                    value={qualification.institution?.name}
+                  />
+                </Grid>
+                <Grid item>
+                  <Field
+                    field="Board"
+                    value={qualification.institution?.board?.name}
+                  />
+                </Grid>
+                <Grid item>
+                  <Field
+                    field="Passing year"
+                    value={qualification.passingYear}
+                  />
+                </Grid>
+                <Grid item>
+                  <Field field="GPA/CGPA" value={qualification.result} />
+                </Grid>
               </Grid>
-              <Grid item>
-                <Field
-                  field="Institution name"
-                  value="Uttara High School and College"
-                />
-              </Grid>
-              <Grid item>
-                <Field field="Board" value="Dhaka" />
-              </Grid>
-              <Grid item>
-                <Field field="Passing year" value="2018" />
-              </Grid>
-              <Grid item>
-                <Field field="GPA" value="5.00" />
-              </Grid>
-            </Grid>
+            ))}
           </Grid>
         </AccordionDetails>
       </Accordion>
