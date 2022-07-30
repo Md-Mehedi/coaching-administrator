@@ -28,6 +28,6 @@ public class Teacher {
     @MapsId
     private Person person;
 
-    private Float salary;
+    private Integer salary;
 
 }

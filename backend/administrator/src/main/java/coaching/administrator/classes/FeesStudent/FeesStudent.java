@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fees_history")
+@Table(name = "fees_student")
 public class FeesStudent {
 
     @Id
@@ -35,13 +35,13 @@ public class FeesStudent {
     @JoinColumn(name = "fees_id", referencedColumnName = "id")
     private Fees fees;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id", referencedColumnName = "person_id")
     private Student student;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
-    private Float amount;
+    private Integer amount;
 
 }

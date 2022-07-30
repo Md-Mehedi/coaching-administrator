@@ -23,4 +23,5 @@ public class FeeType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String type;
+    private String name;
 }
