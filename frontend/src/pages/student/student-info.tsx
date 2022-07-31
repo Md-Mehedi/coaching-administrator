@@ -69,7 +69,7 @@ export default function StudentInfo() {
           console.log("received student", response.data);
           setState({ ...state, loading: false, student: response.data });
         })
-        .catch((r) => apiCatch(r, enqueueSnackbar));
+        .catch((r) => apiCatch(enqueueSnackbar, r));
   }, [id]);
 
   const tabs: TabLayoutContent[] = [
@@ -100,7 +100,7 @@ export default function StudentInfo() {
           navigate(ADMIN_LINKS.studentList.path);
         })
         .catch((r) => {
-          apiCatch(r, enqueueSnackbar);
+          apiCatch(enqueueSnackbar, r);
           setState({ ...state, deleteLoading: false });
         });
     }

@@ -4,9 +4,9 @@ import { Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 type UpdateDeleteButtonsProps = {
-  deleteLoading?: boolean;
-  onUpdateClick?: (event) => void;
-  onDeleteClick?: (event) => void;
+  deleteLoading: boolean;
+  onUpdateClick: (event) => void;
+  onDeleteClick: (event) => void;
   updateButtonText?: string;
   deleteButtonText?: string;
 };

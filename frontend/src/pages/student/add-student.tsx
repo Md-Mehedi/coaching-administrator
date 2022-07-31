@@ -61,7 +61,7 @@ export default function AddStudent() {
           setLoading(false);
         })
         .catch((r) => {
-          apiCatch(r, enqueueSnackbar);
+          apiCatch(enqueueSnackbar, r);
           setLoading(false);
         });
     }

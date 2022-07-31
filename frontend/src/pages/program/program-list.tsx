@@ -7,20 +7,25 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { API } from "../../api";
+import { Program } from "../../classes/program-batch";
 import SpecialLink from "../../components/special-link";
-import { programs } from "../../data";
 import DialogLayout from "../../layouts/dialog-layout";
 import { ADMIN_LINKS } from "../../links";
-import CreateProgram from "./create-program";
+import { showSnackbar } from "../../tools/helper-functions";
+import { useSnackbar } from "notistack";
+import { apiCatch } from "./../../tools/helper-functions";
+import Loading from "../../components/loading";
+import CreateProgramDialog from "./create-program";
 
-function ProgramCards() {
+function ProgramCards({ programs }: { programs: Program[] }) {
   return (
     <Grid container spacing={2}>
-      {programs.map((item) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <SpecialLink href={ADMIN_LINKS.program.path}>
-            <Card>
+      {programs.map((program, idx) => (
+        <Grid item key={idx} xs={12} sm={6} md={4} lg={3} xl={2}>
+          <SpecialLink href={ADMIN_LINKS.program.path + "/" + program.id}>
+            <Card sx={{ width: "100%" }}>
               <CardActionArea>
                 <CardContent>
                   <Grid
@@ -29,7 +34,7 @@ function ProgramCards() {
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Typography variant="h5">{item.name}</Typography>
+                    <Typography variant="h5">{program.name}</Typography>
                   </Grid>
                 </CardContent>
               </CardActionArea>
@@ -42,31 +47,79 @@ function ProgramCards() {
 }
 
 export default function ProgramList() {
-  const [state, setState] = useState({
-    open: false,
+  const { enqueueSnackbar } = useSnackbar();
+  const verifier = useRef<any>();
+  const [state, setState] = useState<{
+    programs: Program[];
+    pageLoading: boolean;
+    dialogOpen: boolean;
+    saveLoading: boolean;
+    submitted: boolean;
+  }>({
+    programs: [],
+    pageLoading: true,
+    dialogOpen: false,
+    saveLoading: false,
+    submitted: false,
   });
+  useEffect(() => {
+    API.program
+      .getAll()
+      .then((response) => {
+        setState({
+          ...state,
+          programs: response.data,
+          pageLoading: false,
+          submitted: false,
+        });
+      })
+      .catch((r) => apiCatch(enqueueSnackbar, r));
+  }, [state.submitted]);
+
+  function handleSaveButtonClick(newProgram?: Program) {
+    if (newProgram && verifier.current()) {
+      setState({ ...state, saveLoading: true });
+      API.program
+        .add(newProgram)
+        .then((response) => {
+          showSnackbar(enqueueSnackbar, response.data);
+          setState({
+            ...state,
+            dialogOpen: false,
+            saveLoading: false,
+            submitted: true,
+          });
+        })
+        .catch((r) => {
+          setState({ ...state, saveLoading: false });
+          apiCatch(enqueueSnackbar, r);
+        });
+    }
+  }
   return (
-    <Grid container direction="column" spacing={3} alignItems="center">
-      <Grid item>
-        <Button
-          variant="contained"
-          startIcon={<AddCircleOutline />}
-          onClick={(event) => setState({ ...state, open: true })}
-        >
-          Add New Program
-        </Button>
+    <Loading loading={state.pageLoading}>
+      <Grid container direction="column" spacing={3} alignItems="center">
+        <Grid item>
+          <Button
+            variant="contained"
+            startIcon={<AddCircleOutline />}
+            onClick={(event) => setState({ ...state, dialogOpen: true })}
+          >
+            Add New Program
+          </Button>
+        </Grid>
+        <Grid item container>
+          <ProgramCards programs={state.programs} />
+        </Grid>
+        <CreateProgramDialog
+          open={state.dialogOpen}
+          onSaveClick={handleSaveButtonClick}
+          onClose={(event) => setState({ ...state, dialogOpen: false })}
+          saveLoading={state.saveLoading}
+          verifier={verifier}
+        />
       </Grid>
-      <Grid item>
-        <ProgramCards />
-      </Grid>
-      <DialogLayout
-        title="Create a program"
-        open={state.open}
-        onClose={() => setState({ ...state, open: false })}
-      >
-        <CreateProgram />
-      </DialogLayout>
-    </Grid>
+    </Loading>
   );
   // return (
   //   <Admin>

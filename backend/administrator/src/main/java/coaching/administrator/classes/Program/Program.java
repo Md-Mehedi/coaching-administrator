@@ -1,5 +1,6 @@
 package coaching.administrator.classes.Program;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -31,14 +32,14 @@ public class Program {
     private Integer id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
 
     private String description;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date startDate;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date endDate;
     private Integer admissionFee;
 

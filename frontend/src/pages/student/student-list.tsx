@@ -21,7 +21,7 @@ export function StudentList() {
         console.log(response);
         setState({ ...state, loading: false, students: response.data });
       })
-      .catch((r) => apiCatch(r, enqueueSnackbar));
+      .catch((r) => apiCatch(enqueueSnackbar, r));
   }, []);
   const [state, setState] = useState({
     loading: true,

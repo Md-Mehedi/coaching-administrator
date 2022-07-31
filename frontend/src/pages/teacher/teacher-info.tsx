@@ -66,7 +66,7 @@ export default function TeacherInfo() {
           setState({ ...state, loading: false, teacher: response.data });
         })
         .catch((r) => {
-          apiCatch(r, enqueueSnackbar);
+          apiCatch(enqueueSnackbar, r);
         });
   }, [id]);
   const tabs: TabLayoutContent[] = [
@@ -102,7 +102,7 @@ export default function TeacherInfo() {
           navigate(ADMIN_LINKS.teacherList.path);
         })
         .catch((r) => {
-          apiCatch(r, enqueueSnackbar);
+          apiCatch(enqueueSnackbar, r);
           setState({ ...state, deleteLoading: false });
         });
     }

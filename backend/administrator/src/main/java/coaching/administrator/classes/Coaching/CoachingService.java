@@ -3,6 +3,7 @@ package coaching.administrator.classes.Coaching;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonRepository;
 import coaching.administrator.classes.Person.PersonService;
@@ -21,6 +22,7 @@ public class CoachingService {
     }
 
     public Coaching getCoachingById(Integer id) {
+        Global.colorPrint("hello boss");
         return repository.findById(id).orElse(null);
     }
 

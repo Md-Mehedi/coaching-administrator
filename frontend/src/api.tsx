@@ -2,6 +2,7 @@ import axios from "axios";
 import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
 import { Coaching } from "./classes/coaching";
+import { Program } from "./classes/program-batch";
 
 const HOST = "http://localhost:7982";
 
@@ -24,6 +25,9 @@ function del(url, param = {}) {
   return axios.delete(HOST + url + createQueryParam(param));
 }
 export const API = {
+  /*****************/
+  /* Authorization */
+  /*****************/
   auth: {
     register: (email: string, password: string) =>
       postBody("/verify-admin", { email: email, password: password }),
@@ -32,6 +36,9 @@ export const API = {
     login: (email: string, password: string) =>
       postBody("/authenticate-admin", { email: email, password: password }),
   },
+  /********************/
+  /* User related api */
+  /********************/
   admin: {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
     getAdminById: (id: number) => get("/get-admin-by-id/" + id),
@@ -50,22 +57,8 @@ export const API = {
     delete: (id: number) => del("/delete-teacher-by-id/" + id),
     update: (student: Student) => put("/update-teacher", student),
   },
-  person: {
-    contacts: {
-      getContactTypes: () => get("/get-all-contactType"),
-    },
-  },
-  address: {
-    getDivisions: () => get("/get-all-divisions"),
-    getDistricts: (divisionId: number) =>
-      get("/get-all-district-by-division-id/" + divisionId),
-    getUpazilas: (districtId: number) =>
-      get("/get-all-upazila-by-district-id/" + districtId),
-  },
-  coaching: {
-    addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
-    getCoachingByAdminId: (adminId: number) =>
-      get("/get-coaching-by-admin-id/" + adminId),
+  contacts: {
+    getContactTypes: () => get("/get-all-contactType"),
   },
   religion: {
     getList: () => get("/get-all-religion"),
@@ -84,5 +77,27 @@ export const API = {
         get("/get-all-institution-by-boardId/" + id),
       getUniversityList: () => get(""),
     },
+  },
+  address: {
+    getDivisions: () => get("/get-all-divisions"),
+    getDistricts: (divisionId: number) =>
+      get("/get-all-district-by-division-id/" + divisionId),
+    getUpazilas: (districtId: number) =>
+      get("/get-all-upazila-by-district-id/" + districtId),
+  },
+  /************************/
+  /* Coaching related api */
+  /************************/
+  coaching: {
+    addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
+    getCoachingByAdminId: (adminId: number) =>
+      get("/get-coaching-by-admin-id/" + adminId),
+  },
+  program: {
+    add: (program: Program) => postBody("/add-program", program),
+    update: (program: Program) => put("/update-program", program),
+    delete: (id: number) => del("/delete-program-by-id/" + id),
+    getAll: () => get("/get-all-program"),
+    get: (id: number) => get("/get-program-by-id/" + id),
   },
 };

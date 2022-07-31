@@ -55,8 +55,7 @@ export function TeacherList() {
       .then((response) => {
         setState({ ...state, loading: false, teachers: response.data });
       })
-      .catch((r) => {
-        apiCatch(r, enqueueSnackbar);
+      .catch((r) => {apiCatch(enqueueSnackbar,r);
       });
   }, []);
 

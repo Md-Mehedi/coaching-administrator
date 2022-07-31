@@ -3,6 +3,10 @@ package coaching.administrator.classes.Program;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
 
 @Service
 public class ProgramService {
@@ -10,8 +14,12 @@ public class ProgramService {
     @Autowired
     private ProgramRepository repository;
 
-    public Program saveProgram(Program program) {
-        return repository.save(program);
+    @Autowired
+    private ObjectMapper mapper;
+
+    public ObjectNode saveProgram(Program program) {
+        repository.save(program);
+        return Global.createSuccessMessage("Program save successfully");
     }
 
     public Program getProgramById(Integer id) {
@@ -22,22 +30,14 @@ public class ProgramService {
         return repository.findByName(name);
     }
 
-    public String deleteProgram(Integer id) {
-
+    public ObjectNode deleteProgram(Integer id) {
         repository.deleteById(id);
-        return "Program with id : " + id + " deleted";
+        return Global.createSuccessMessage("Program deleted successfully");
     }
 
-    public Program updateProgram(Program program) {
-        Program oldProgram = repository.findById(program.getId()).orElse(null);
-
-        oldProgram.setName(program.getName());
-        oldProgram.setDescription(program.getDescription());
-        oldProgram.setStartDate(program.getStartDate());
-        oldProgram.setEndDate(program.getEndDate());
-        oldProgram.setAdmissionFee(program.getAdmissionFee());
-
-        return repository.save(oldProgram);
+    public ObjectNode updateProgram(Program program) {
+        repository.save(program);
+        return Global.createSuccessMessage("Program updated successfully");
     }
 
 }

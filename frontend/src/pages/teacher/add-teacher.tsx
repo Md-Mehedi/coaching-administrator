@@ -57,7 +57,7 @@ export default function AddTeacher() {
           setSaveLoading(false);
         })
         .catch((r) => {
-          apiCatch(r, enqueueSnackbar);
+          apiCatch(enqueueSnackbar, r);
           setSaveLoading(false);
         });
     }

@@ -11,9 +11,9 @@ export default function ShortInfo({
   onDeleteClick,
 }: {
   person?: Person;
-  deleteLoading?: boolean;
-  onUpdateClick?: () => void;
-  onDeleteClick?: () => void;
+  deleteLoading: boolean;
+  onUpdateClick: () => void;
+  onDeleteClick: () => void;
 }) {
   return (
     <Grid container spacing={3} alignItems="center">

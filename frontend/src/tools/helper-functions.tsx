@@ -33,7 +33,7 @@ export function updateArray<T>(array: T[], idx: number, newValue: T) {
   return newArray;
 }
 
-export function apiCatch(onRejected, enqueueSnackbar) {
+export function apiCatch(enqueueSnackbar, onRejected) {
   console.log("In axios catch", onRejected);
   let message = "";
   switch (onRejected.response.status) {

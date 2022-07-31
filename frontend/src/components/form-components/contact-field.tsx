@@ -94,7 +94,7 @@ export default function ContactInformation({
     contactTypes: [],
   });
   useEffect(() => {
-    API.person.contacts.getContactTypes().then((response) => {
+    API.contacts.getContactTypes().then((response) => {
       console.log("contact types", response.data);
       setState({ ...state, contactTypes: response.data });
     });
