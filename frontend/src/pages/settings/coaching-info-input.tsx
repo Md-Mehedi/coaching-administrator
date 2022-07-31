@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 import { Coaching } from "../../classes/coaching";
 import AddDialog from "../../components/add-dialog";
 import ImageUpload from "../../components/image-upload";
-import { errorVerify, showSnackbar } from "./../../tools/helper-functions";
+import {
+  emptyFieldChecking,
+  showSnackbar,
+} from "./../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import { API } from "./../../api";
 import AuthService from "../../services/auth-service";
@@ -43,7 +46,7 @@ export default function CoachingInformationInput() {
       { label: "Coaching name", field: coaching?.name },
       { field: coaching?.contactNo, label: "Contact no" },
     ];
-    if (errorVerify(enqueueSnackbar, requiredFields)) {
+    if (emptyFieldChecking(enqueueSnackbar, requiredFields)) {
       coaching &&
         API.admin
           .getAdminById(AuthService.getAdminId())

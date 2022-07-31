@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Student;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,14 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Coaching.Coaching;
+
 @RestController
 public class StudentController {
 
     @Autowired
     private StudentService service;
+    @Autowired
+    private StudentRepository repository;
 
     @PostMapping("/add-student")
-    public Student addStudent(Student student) {
+    public ObjectNode addStudent(@RequestBody Student student) {
+        student.getPerson().getCoaching().setId(5);
         return service.saveStudent(student);
     }
 
@@ -47,13 +56,18 @@ public class StudentController {
     }
 
     @PutMapping("/update-student")
-    public Student updateStudent(@RequestBody Student student) {
+    public ObjectNode updateStudent(@RequestBody Student student) {
         return service.updateStudent(student);
     }
 
     @DeleteMapping("/delete-student-by-id/{id}")
-    public String deleteStudent(@PathVariable Integer id) {
-        service.deleteStudent(id);
-        return "Student with id " + id + " deleted successfully";
+    public ObjectNode deleteStudent(@PathVariable Integer id) {
+        return service.deleteStudent(id);
     }
+
+    @GetMapping("/get-all-student")
+    public List<Student> getAllStudentByCoachingId() {
+        return repository.findAllByCoaching(5);
+    }
+
 }

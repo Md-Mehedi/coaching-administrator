@@ -1,10 +1,14 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import { Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 type SaveCancelButtonsProps = {
+  loading?: boolean;
   onSaveClick?: (event) => void;
   onCancelClick?: (event) => void;
+  saveButtonText?: string;
+  cancelButtonText?: string;
 };
 
 export default function SaveCancelButtons(props: SaveCancelButtonsProps) {
@@ -18,9 +22,15 @@ export default function SaveCancelButtons(props: SaveCancelButtonsProps) {
       spacing={2}
     >
       <Grid item>
-        <Button variant="contained" color="primary" onClick={props.onSaveClick}>
-          Save
-        </Button>
+        <LoadingButton
+          loading={props.loading}
+          loadingPosition="start"
+          variant="contained"
+          color="primary"
+          onClick={props.onSaveClick}
+        >
+          {props.saveButtonText || "Save"}
+        </LoadingButton>
       </Grid>
       <Grid item>
         <Button
@@ -28,7 +38,7 @@ export default function SaveCancelButtons(props: SaveCancelButtonsProps) {
           color="secondary"
           onClick={props.onCancelClick}
         >
-          Cancel
+          {props.cancelButtonText || "Cancel"}
         </Button>
       </Grid>
     </Grid>

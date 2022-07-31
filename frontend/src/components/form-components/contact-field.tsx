@@ -11,8 +11,8 @@ import {
   Button,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { PersonContact } from "../../classes/person-info";
-import { updateArray } from "../../tools/helper-functions";
+import { ContactType, PersonContact } from "../../classes/person-info";
+import { emptyFieldChecking, updateArray } from "../../tools/helper-functions";
 import DropDown from "../dropdown";
 import { API } from "./../../api";
 import MyTextfield from "./my-textfield";
@@ -22,49 +22,59 @@ function SingleContactInformation({
   onChange,
   onDelete,
   contactTypes,
+  verifier,
 }: {
   contact: PersonContact;
   onChange: (contact: PersonContact) => void;
   onDelete: () => void;
-  contactTypes: string[];
+  contactTypes: ContactType[];
+  verifier: any;
 }) {
+  verifier.current = (enqueueSnackbar) => {
+    let errorVerifyField = [
+      { label: "Contact type", field: contact.contactType },
+      { label: "Contact number", field: contact.number },
+    ];
+    return emptyFieldChecking(enqueueSnackbar, errorVerifyField);
+  };
   return (
-    <Grid container spacing={2} alignItems="center">
-      <Grid item xs={4}>
-        <DropDown
-          label="Contact type"
-          value={contact.contactType}
-          options={contactTypes}
-          optionLabel=""
-          onChange={(event, newValue) => {
-            console.log("New Value: ", newValue);
-            onChange({ ...contact, contactType: newValue || "" });
-          }}
-        />
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-between"
+      spacing={2}
+      alignItems="center"
+    >
+      <Grid item sx={{ flexGrow: 1 }}>
+        <Grid item container spacing={2}>
+          <Grid item xs={6}>
+            <DropDown
+              required
+              label="Contact type"
+              value={contact.contactType}
+              options={contactTypes}
+              optionLabel="name"
+              onChange={(event, newValue) => {
+                onChange({ ...contact, contactType: newValue || undefined });
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <MyTextfield
+              required
+              label="Number"
+              value={contact.number}
+              onChange={(event) =>
+                onChange({ ...contact, number: event.target.value })
+              }
+            />
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <MyTextfield
-          label="Number"
-          value={contact.number}
-          onChange={(event) =>
-            onChange({ ...contact, number: event.target.value })
-          }
-        />
-      </Grid>
-      <Grid item xs={2}>
+      <Grid item>
         <IconButton onClick={onDelete}>
           <DeleteForever />
         </IconButton>
-        {/* <IconButton
-          onClick={(event) => {
-            const info = state.contacts.filter(
-              (item, curIndex) => curIndex != idx
-            );
-            setState({ ...state, contacts: info });
-          }}
-        >
-          <DeleteForever />
-        </IconButton> */}
       </Grid>
     </Grid>
   );
@@ -72,23 +82,23 @@ function SingleContactInformation({
 export default function ContactInformation({
   contacts,
   onChange,
+  verifier,
 }: {
   contacts?: PersonContact[];
   onChange?: (newContacts: PersonContact[]) => void;
+  verifier?: any;
 }) {
   const [state, setState] = useState<{
-    contactTypes: string[];
+    contactTypes: ContactType[];
   }>({
     contactTypes: [],
   });
   useEffect(() => {
-    state.contactTypes ||
-      API.person.contacts.getContactTypes().then((response) => {
-        setState({ ...state, contactTypes: response.data });
-      });
+    API.contacts.getContactTypes().then((response) => {
+      console.log("contact types", response.data);
+      setState({ ...state, contactTypes: response.data });
+    });
   }, []);
-  console.log("in contact", contacts);
-  console.log("in contact", state.contactTypes);
 
   function addMoreNumberClicked(event) {
     let newContact: PersonContact = { contactType: state.contactTypes[0] };
@@ -109,8 +119,10 @@ export default function ContactInformation({
               onChange && onChange(updateArray(contacts, idx, newContact));
             }}
             onDelete={() => {
-              onChange && onChange(contacts.splice(idx));
+              contacts.splice(idx);
+              onChange && onChange(contacts);
             }}
+            verifier={verifier}
           />
         </Grid>
       ))}

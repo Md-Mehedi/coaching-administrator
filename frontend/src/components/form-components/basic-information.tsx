@@ -14,6 +14,7 @@ import AvatarUpload from "../avatar-upload";
 import DropDown from "../dropdown";
 import MyTextfield from "./my-textfield";
 import { API } from "./../../api";
+import { emptyFieldChecking } from "./../../tools/helper-functions";
 
 const GENDERS = [
   { id: "M", name: "Male" },
@@ -25,9 +26,11 @@ const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 export default function BasicInformation({
   person,
   setPerson,
+  verifier,
 }: {
   person?: Person;
   setPerson: (person: Person) => void;
+  verifier?: any;
 }) {
   const [religions, setReligions] = useState<Religion[]>([]);
   useEffect(() => {
@@ -36,7 +39,16 @@ export default function BasicInformation({
     });
   }, []);
 
-  console.log("Currently print", person);
+  verifier.current = (enqueueSnackbar) => {
+    console.log("checking", person);
+    let errorCheckingFields = [
+      { label: "Full name", field: person?.fullName },
+      { label: "Nickname", field: person?.nickName },
+      { label: "Gender", field: person?.gender },
+    ];
+    return emptyFieldChecking(enqueueSnackbar, errorCheckingFields);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item container alignItems="center">
@@ -44,6 +56,7 @@ export default function BasicInformation({
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <MyTextfield
+          required
           label="Full name"
           value={person?.fullName}
           onChange={(event) =>
@@ -53,6 +66,7 @@ export default function BasicInformation({
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <MyTextfield
+          required
           label="Nickname"
           value={person?.nickName}
           onChange={(event) =>
@@ -62,6 +76,7 @@ export default function BasicInformation({
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <DropDown
+          required
           label="Gender"
           options={GENDERS}
           optionLabel="name"

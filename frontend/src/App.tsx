@@ -16,7 +16,7 @@ function App() {
           // @ts-ignore
           dateAdapter={AdapterDateFns}
         >
-          <SnackbarProvider maxSnack={3}>
+          <SnackbarProvider maxSnack={3} >
             {/* <React.StrictMode> */}
             <Router />
             {/* </React.StrictMode> */}

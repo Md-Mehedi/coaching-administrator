@@ -2,6 +2,7 @@ import axios from "axios";
 import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
 import { Coaching } from "./classes/coaching";
+import { Program } from "./classes/program-batch";
 
 const HOST = "http://localhost:7982";
 
@@ -14,10 +15,19 @@ function postParam(url, param) {
 function postBody(url, body) {
   return post(url, body);
 }
+function put(url, body) {
+  return axios.put(HOST + url, body);
+}
 function get(url, param = {}) {
   return axios.get(HOST + url + createQueryParam(param));
 }
+function del(url, param = {}) {
+  return axios.delete(HOST + url + createQueryParam(param));
+}
 export const API = {
+  /*****************/
+  /* Authorization */
+  /*****************/
   auth: {
     register: (email: string, password: string) =>
       postBody("/verify-admin", { email: email, password: password }),
@@ -26,6 +36,9 @@ export const API = {
     login: (email: string, password: string) =>
       postBody("/authenticate-admin", { email: email, password: password }),
   },
+  /********************/
+  /* User related api */
+  /********************/
   admin: {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
     getAdminById: (id: number) => get("/get-admin-by-id/" + id),
@@ -33,14 +46,36 @@ export const API = {
   student: {
     add: (student: Student) => postBody("/add-student", student),
     get: (id: number) => get("/get-student-by-id/" + id),
+    getAll: () => get("/get-all-student"),
+    delete: (id: number) => del("/delete-student-by-id/" + id),
+    update: (student: Student) => put("/update-student", student),
   },
   teacher: {
     add: (teacher: Teacher) => postBody("/add-teacher", teacher),
     getById: (id: number) => get("/get-teacher-by-id/" + id),
+    getAll: () => get("/get-all-teacher"),
+    delete: (id: number) => del("/delete-teacher-by-id/" + id),
+    update: (student: Student) => put("/update-teacher", student),
   },
-  person: {
-    contacts: {
-      getContactTypes: () => get("/get-all-contactType"),
+  contacts: {
+    getContactTypes: () => get("/get-all-contactType"),
+  },
+  religion: {
+    getList: () => get("/get-all-religion"),
+    add: (religion: Religion) => postBody("/add-religion", religion),
+  },
+  occupation: {
+    getList: () => get("/get-all-occupation"),
+  },
+  qualification: {
+    getExamList: () => get("/get-all-qualification-exam"),
+    getBoardList: () => get("/get-all-board"),
+    getExamByName: (name: string) => get("/get-exam-by-name/" + name),
+    getDepartments: () => get("/get-all-department"),
+    institution: {
+      getListByBoard: (id: number) =>
+        get("/get-all-institution-by-boardId/" + id),
+      getUniversityList: () => get(""),
     },
   },
   address: {
@@ -50,26 +85,19 @@ export const API = {
     getUpazilas: (districtId: number) =>
       get("/get-all-upazila-by-district-id/" + districtId),
   },
+  /************************/
+  /* Coaching related api */
+  /************************/
   coaching: {
     addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
     getCoachingByAdminId: (adminId: number) =>
       get("/get-coaching-by-admin-id/" + adminId),
   },
-  religion: {
-    getList: () => get("/get-all-religion"),
-    add: (religion: Religion) => postBody("/add-religion", religion),
-  },
-  occupation: {
-    getList: () => get("get-all-occupation"),
-  },
-  board: {
-    getList: () => get("get-all-board"),
-  },
-  institution: {
-    getListByBoard: (id: number) => get("/get-all-institution-by-boardId" + id),
-    getUniversityList: () => get(""),
-  },
-  qualification: {
-    getExamByName: (name: string) => get("/get-exam-by-name/" + name),
+  program: {
+    add: (program: Program) => postBody("/add-program", program),
+    update: (program: Program) => put("/update-program", program),
+    delete: (id: number) => del("/delete-program-by-id/" + id),
+    getAll: () => get("/get-all-program"),
+    get: (id: number) => get("/get-program-by-id/" + id),
   },
 };

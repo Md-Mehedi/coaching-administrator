@@ -17,59 +17,64 @@ export default function AddressField(props: AddressFieldProps) {
     divisions: Division[];
     districts: District[];
     upazilas: Upazila[];
-    selectedDivision: Division | null;
-    selectedDistrict: District | null;
+    selectedDivision?: Division | null;
+    selectedDistrict?: District | null;
     address: Address;
   }>({
     divisions: [],
     districts: [],
     upazilas: [],
-    selectedDivision: null,
-    selectedDistrict: null,
-    address: new Address(),
+    selectedDivision: props.value?.upazila?.district?.division,
+    selectedDistrict: props.value?.upazila?.district,
+    address: props.value || new Address(),
   });
   function loadDivisions() {
     API.address.getDivisions().then((response) => {
-      console.log(response.data);
       setState({
         ...state,
         divisions: response.data,
         address: props.value || new Address(),
-        selectedDivision: props.value?.upazila?.district.division || null,
+        selectedDivision: props.value?.upazila?.district?.division || null,
         selectedDistrict: props.value?.upazila?.district || null,
       });
     });
   }
   function loadDistricts(division: Division | null) {
-    API.address.getDistricts(division?.id || -1).then((response) => {
-      console.log(response.data);
-      setState({
-        ...state,
-        selectedDivision: division,
-        selectedDistrict: null,
-        address: { ...state.address, upazila: null },
-        districts: response.data,
-      });
-      props.onChange && props.onChange({ ...state.address, upazila: null });
-    });
+    division
+      ? API.address.getDistricts(division?.id || -1).then((response) => {
+          setState({
+            ...state,
+            selectedDivision: division,
+            selectedDistrict: null,
+            address: { ...state.address, upazila: null },
+            districts: response.data,
+          });
+          props.onChange && props.onChange({ ...state.address, upazila: null });
+        })
+      : setState({ ...state, selectedDistrict: null, districts: [] });
   }
   function loadUpazilas(district: District | null) {
-    API.address.getUpazilas(district?.id || -1).then((response) => {
-      console.log(response.data);
-      setState({
-        ...state,
-        selectedDistrict: district,
-        address: { ...state.address },
-        upazilas: response.data,
-      });
-      props.onChange && props.onChange({ ...state.address, upazila: null });
-    });
+    district
+      ? API.address.getUpazilas(district?.id || -1).then((response) => {
+          setState({
+            ...state,
+            selectedDistrict: district,
+            address: { ...state.address, upazila: null },
+            upazilas: response.data,
+          });
+          props.onChange && props.onChange({ ...state.address, upazila: null });
+        })
+      : setState({
+          ...state,
+          upazilas: [],
+          address: { ...state.address, upazila: null },
+        });
   }
   useEffect(() => {
-    console.log(props.value);
+    setState({ ...state, address: props.value || new Address() });
     loadDivisions();
   }, [props.value]);
-  console.log(state);
+  console.log("Address : ", state.address);
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
@@ -81,6 +86,7 @@ export default function AddressField(props: AddressFieldProps) {
             label="Division"
             value={state.selectedDivision || null}
             onChange={(event, newValue) => {
+              setState({ ...state, selectedDivision: newValue });
               loadDistricts(newValue);
             }}
             options={state.divisions}
@@ -92,6 +98,7 @@ export default function AddressField(props: AddressFieldProps) {
             label="District"
             value={state.selectedDistrict || null}
             onChange={(event, newValue) => {
+              setState({ ...state, selectedDistrict: newValue });
               loadUpazilas(newValue);
             }}
             options={state.districts}

@@ -7,32 +7,98 @@ import {
   TextareaAutosize,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
 import AdminLayout from "../../layouts/admin-layout";
 import TextEditor from "./../../components/text-editor";
+import { Program } from "../../classes/program-batch";
+import MyTextfield from "./../../components/form-components/my-textfield";
+import { emptyFieldChecking } from "./../../tools/helper-functions";
+import { useSnackbar } from "notistack";
+import DialogLayout from "../../layouts/dialog-layout";
 
-type CreateProgramProps = {};
-type CreateProgramStates = {
-  programId: number;
-  subjectId: number;
+type CreateProgramProps = {
+  program?: Program;
+  onChange: (program: Program) => void;
+  verifier: any;
 };
 
-export default function CreateProgram(props: CreateProgramProps) {
+function CreateProgram(props: CreateProgramProps) {
+  const { enqueueSnackbar } = useSnackbar();
+  props.verifier.current = errorVerify;
+
+  function errorVerify() {
+    let success = true;
+    let data = [{ label: "Program name", field: props.program?.name }];
+    success = emptyFieldChecking(enqueueSnackbar, data);
+    return success;
+  }
+
   return (
-    <AdminLayout>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField fullWidth variant="outlined" label="Program Name" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextEditor />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField fullWidth variant="outlined" label="Admission Fees" />
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <MyTextfield
+          required
+          label="Program Name"
+          value={props.program?.name}
+          onChange={(event) =>
+            props.onChange &&
+            props.onChange({ ...props.program, name: event.target.value })
+          }
+        />
       </Grid>
-    </AdminLayout>
+      <Grid item xs={12}>
+        <TextEditor
+          label={"Description"}
+          value={props.program?.description}
+          onChange={(newValue) =>
+            props.onChange &&
+            props.onChange({ ...props.program, description: newValue })
+          }
+        />
+      </Grid>
+      {/* <Grid item xs={12} sm={6} md={4}>
+        <MyTextfield label="Admission Fees" />
+      </Grid> */}
+    </Grid>
+  );
+}
+
+export type CreateProgramDialogProps = {
+  open: boolean;
+  onClose: (event) => void;
+  program?: Program;
+  saveButtonText?: string;
+  cancelButtonText?: string;
+  onSaveClick?: (newProgram?: Program) => void;
+  onCancelClick?: (event) => void;
+  verifier: any;
+  saveLoading: boolean;
+};
+export default function CreateProgramDialog(props: CreateProgramDialogProps) {
+  const [state, setState] = useState<{ program?: Program }>({
+    program: new Program(),
+  });
+  useEffect(() => {
+    setState({ ...state, program: props.program });
+  }, [props.program]);
+
+  return (
+    <DialogLayout
+      open={props.open}
+      onClose={props.onClose}
+      primaryButtonText={props.saveButtonText}
+      onPrimaryButtonClick={(event) =>
+        props.onSaveClick && props.onSaveClick(state.program)
+      }
+      primaryButtonLoading={props.saveLoading}
+    >
+      <CreateProgram
+        program={state.program}
+        onChange={(newProgram) => setState({ ...state, program: newProgram })}
+        verifier={props.verifier}
+      />
+    </DialogLayout>
   );
 }

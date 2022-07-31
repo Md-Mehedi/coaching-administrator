@@ -40,7 +40,7 @@ public class ContactTypeController {
     }
 
     @GetMapping("/get-all-contactType")
-    public List<ContactType> deleteContactType() {
+    public List<ContactType> getAllContactType() {
         return service.getAllContactType();
     }
 }

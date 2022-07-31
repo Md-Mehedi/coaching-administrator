@@ -1,6 +1,8 @@
 
 package coaching.administrator.classes.Teacher;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +12,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
+
 @RestController
 public class TeacherController {
 
     @Autowired
     private TeacherService service;
 
+    @Autowired
+    private TeacherRepository repository;
+
     @PostMapping("/add-teacher")
-    public Teacher addTeacher(Teacher teacher) {
+    public ObjectNode addTeacher(@RequestBody Teacher teacher) {
+        Global.colorPrint(teacher);
         return service.saveTeacher(teacher);
     }
 
@@ -43,13 +53,17 @@ public class TeacherController {
     }
 
     @PutMapping("/update-teacher")
-    public Teacher updateTeacher(@RequestBody Teacher teacher) {
+    public ObjectNode updateTeacher(@RequestBody Teacher teacher) {
         return service.updateTeacher(teacher);
     }
 
     @DeleteMapping("/delete-teacher-by-id/{id}")
-    public String deleteTeacher(@PathVariable Integer id) {
-        service.deleteTeacher(id);
-        return "Teacher with id " + id + " deleted successfully";
+    public ObjectNode deleteTeacher(@PathVariable Integer id) {
+        return service.deleteTeacher(id);
+    }
+
+    @GetMapping("/get-all-teacher")
+    public List<Teacher> getAllStudentByCoachingId() {
+        return repository.findAllByCoaching(5);
     }
 }

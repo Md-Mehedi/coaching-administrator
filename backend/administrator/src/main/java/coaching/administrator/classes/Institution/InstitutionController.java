@@ -38,8 +38,8 @@ public class InstitutionController {
     }
 
     @GetMapping("/get-all-institution-by-boardId/{id}")
-    public List<Institution> getAllInstitutionByBoard(@PathVariable Integer boardId) {
-        return repository.findByBoardId(boardId);
+    public List<Institution> getAllInstitutionByBoard(@PathVariable Integer id) {
+        return repository.findByBoardId(id);
     }
 
     @DeleteMapping("/delete-institution-by-id")

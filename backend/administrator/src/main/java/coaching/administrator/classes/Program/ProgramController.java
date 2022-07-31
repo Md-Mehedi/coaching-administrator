@@ -12,26 +12,29 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Coaching.Coaching;
+import coaching.administrator.classes.Coaching.CoachingService;
+import coaching.administrator.classes.Global.Global;
+
 @RestController
 public class ProgramController {
 
     @Autowired
     private ProgramService service;
     @Autowired
+    private CoachingService coachingService;
+    @Autowired
     private ProgramRepository repository;
 
     @PostMapping("/add-program")
-    public String addAdmin(@RequestBody Program program) {
-
-        try {
-            System.out.println("\033[31minside add program\033[0m");
-            service.saveProgram(program);
-        } catch (Exception e) {
-            service.deleteProgram(program.getId());
-            System.out.println("\033[31minside Exception in add program\033[0m");
-            e.printStackTrace();
-        }
-        return null;
+    public ObjectNode addProgram(@RequestBody Program program) {
+        Coaching coaching = coachingService.getCoachingById(5);
+        // Coaching coaching = new CoachingService().getCoachingById(5);
+        Global.colorPrint(coaching);
+        program.setCoaching(coaching);
+        return service.saveProgram(program);
     }
 
     @GetMapping("/get-program-by-id/{id}")
@@ -39,24 +42,23 @@ public class ProgramController {
         return service.getProgramById(id);
     }
 
-    @GetMapping("/get-program-by-name/{name}")
-    public Program getProgramByName(@PathVariable String name) {
-        return service.getProgramByName(name);
-    }
+    // @GetMapping("/get-program-by-name/{name}")
+    // public Program getProgramByName(@PathVariable String name) {
+    // return service.getProgramByName(name);
+    // }
 
-    @GetMapping("/get-all-program-by-coaching-id/{id}")
-    public List<Program> getProgramByCoachingId(@PathVariable Integer id) {
-        return repository.findByCoachingId(id);
+    @GetMapping("/get-all-program")
+    public List<Program> getAllProgram() {
+        return repository.findByCoachingId(5);
     }
 
     @PutMapping("/update-program")
-    public Program updateProgram(@RequestBody Program program) {
+    public ObjectNode updateProgram(@RequestBody Program program) {
         return service.updateProgram(program);
     }
 
     @DeleteMapping("/delete-program-by-id/{id}")
-    public String deleteProgram(@PathVariable Integer id) {
-        service.deleteProgram(id);
-        return "Program with id " + id + " deleted successfully";
+    public ObjectNode deleteProgram(@PathVariable Integer id) {
+        return service.deleteProgram(id);
     }
 }

@@ -49,8 +49,8 @@ export default function AddDialog(props: AddDialogProps) {
           props.onClose && props.onClose(event);
           event.stopPropagation();
         }}
-        primaryButtonClick={props.saveButtonClick}
-        secondaryButtonClick={props.cancelButtonClick}
+        onPrimaryButtonClick={props.saveButtonClick}
+        onSecondaryButtonClick={props.cancelButtonClick}
       >
         {props?.children}
       </DialogLayout>

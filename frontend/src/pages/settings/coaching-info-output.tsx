@@ -50,7 +50,7 @@ export default function CoachingInformationOutput() {
             <Typography variant="h5">{coaching?.name}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1">{`${coaching?.address.village}, ${coaching?.address.upazila?.name}, ${coaching?.address.upazila?.district.name}, ${coaching?.address.upazila?.district.division.name}`}</Typography>
+            <Typography variant="body1">{`${coaching?.address?.village}, ${coaching?.address?.upazila?.name}, ${coaching?.address?.upazila?.district?.name}, ${coaching?.address?.upazila?.district?.division?.name}`}</Typography>
           </Grid>
           <Grid
             item

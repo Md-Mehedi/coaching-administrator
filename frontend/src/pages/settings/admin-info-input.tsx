@@ -14,7 +14,7 @@ import AvatarUpload from "../../components/avatar-upload";
 import { blood_group } from "../../data";
 import { useSnackbar } from "notistack";
 import { API } from "./../../api";
-import { errorVerify, showSnackbar } from "../../tools/helper-functions";
+import { emptyFieldChecking, showSnackbar } from "../../tools/helper-functions";
 import AuthService from "../../services/auth-service";
 import axios from "axios";
 
@@ -52,7 +52,7 @@ export default function AdminInfoInput() {
       { label: "Gender", field: admin?.person?.gender },
       { label: "Date of birth", field: admin?.person?.dateOfBirth },
     ];
-    if (errorVerify(enqueueSnackbar, requiredFields)) {
+    if (emptyFieldChecking(enqueueSnackbar, requiredFields)) {
       admin &&
         API.admin.addAdmin(admin).then((response) => {
           if (response.status == 200) {
