@@ -43,8 +43,8 @@ export default function AddTeacher() {
   console.log("Current teacher", teacher);
 
   function postTeacher() {
-    setSaveLoading(true);
     if (errorVerify() && teacher) {
+      setSaveLoading(true);
       let api: any = null;
       if (state) {
         api = API.teacher.update;

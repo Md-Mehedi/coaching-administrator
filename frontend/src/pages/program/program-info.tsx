@@ -3,7 +3,6 @@ import { useSnackbar } from "notistack";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../../api";
-import { Program } from "../../classes/program-batch";
 import { Field } from "../../components/person-components/about";
 import TabLayout, { TabLayoutContent } from "../../layouts/tab-layout";
 import { apiCatch, showSnackbar } from "../../tools/helper-functions";
@@ -17,6 +16,7 @@ import { ADMIN_LINKS } from "../../links";
 import DialogLayout from "../../layouts/dialog-layout";
 import CreateProgram from "./create-program";
 import CreateProgramDialog from "./create-program";
+import { Program } from "../../classes/coaching";
 
 export default function ProgramInfo() {
   const { id } = useParams();

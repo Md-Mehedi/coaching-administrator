@@ -13,3 +13,18 @@ export class Coaching {
   youtubeLink?: string;
   image?: string;
 }
+
+export class Program {
+  id?: number;
+  name?: string;
+  coaching?: Coaching;
+  description?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+export class Subject {
+  id?: number;
+  name?: string;
+  openingDate?: Date;
+  coaching?: Coaching;
+}

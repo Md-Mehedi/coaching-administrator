@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Coaching.Coaching;
+import coaching.administrator.classes.Coaching.CoachingService;
+import coaching.administrator.classes.Global.Global;
 
 @RestController
 public class StudentController {
@@ -27,10 +29,12 @@ public class StudentController {
     private StudentService service;
     @Autowired
     private StudentRepository repository;
+    @Autowired
+    private CoachingService coachingService;
 
     @PostMapping("/add-student")
     public ObjectNode addStudent(@RequestBody Student student) {
-        student.getPerson().getCoaching().setId(5);
+        student.getPerson().setCoaching(coachingService.getCoachingById(1));
         return service.saveStudent(student);
     }
 
@@ -67,7 +71,7 @@ public class StudentController {
 
     @GetMapping("/get-all-student")
     public List<Student> getAllStudentByCoachingId() {
-        return repository.findAllByCoaching(5);
+        return repository.findAllByCoaching(Global.coachingId);
     }
 
 }

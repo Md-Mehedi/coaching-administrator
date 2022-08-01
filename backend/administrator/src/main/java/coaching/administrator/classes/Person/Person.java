@@ -21,7 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.FetchMode;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 
 import coaching.administrator.classes.Address.Address;
@@ -55,29 +57,29 @@ public class Person implements Serializable {
     @JoinColumn(name = "present_adrs_id", referencedColumnName = "id")
     private Address presentAddress;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "father_ocptn_id", referencedColumnName = "id")
     private Occupation fatherOccupation;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "mother_ocptn_id", referencedColumnName = "id")
     private Occupation motherOccupation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "religion_id", referencedColumnName = "id")
     private Religion religion;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private List<EduQualification> eduQualifications;
+    private Set<EduQualification> eduQualifications;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private List<PersonContact> contacts;
+    private Set<PersonContact> contacts;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "current_qualification_id", referencedColumnName = "id")

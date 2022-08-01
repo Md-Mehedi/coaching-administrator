@@ -1,4 +1,5 @@
 import { API } from "../api";
+import { Coaching } from "./coaching";
 
 export class Division {
   id: number;
@@ -36,19 +37,6 @@ export class Institution {
   name?: string;
   type?: string;
   board?: Board | null;
-}
-export class Coaching {
-  id: number;
-  name: string;
-  email: string;
-  description: string;
-  address: Address;
-  contactNo: string;
-  registrationTime: Date;
-  whatsappNo: Date;
-  facebookLink: string;
-  youtubeLink: string;
-  image: string;
 }
 export class QualificationExam {
   id?: number;

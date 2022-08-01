@@ -7,6 +7,7 @@ import { API } from "../../api";
 import SpecialLink from "../../components/special-link";
 import AuthLayout, { ForgotPassword } from "../../layouts/auth-layout";
 import { ADMIN_LINKS, USER_LINKS } from "../../links";
+import { LoadingButton } from "@mui/lab";
 
 function RegistrationConfirm() {
   return (
@@ -103,6 +104,7 @@ export function Register() {
     password: "",
     againPassword: "",
     submit: false,
+    loading: false,
   });
 
   function errorVerify() {
@@ -121,13 +123,15 @@ export function Register() {
   function handleRegisterClick(event) {
     console.log(state);
     if (errorVerify()) {
+      setState({ ...state, loading: true });
       API.auth
         .register(state.email, state.password)
         .then((response) => {
           enqueueSnackbar(response.data.message, {
             variant: response.data.success ? "success" : "error",
           });
-          response.data.success && setState({ ...state, submit: true });
+          response.data.success &&
+            setState({ ...state, submit: true, loading: false });
         })
         .catch((onRejected) => {
           console.log(onRejected);
@@ -214,14 +218,15 @@ export function Register() {
             </Grid>
 
             <Grid item container>
-              <Button
+              <LoadingButton
+                loading={state.loading}
                 fullWidth
                 variant="contained"
                 color="primary"
                 onClick={handleRegisterClick}
               >
                 Register
-              </Button>
+              </LoadingButton>
             </Grid>
             <Grid item container justifyContent="space-between">
               <Grid item>

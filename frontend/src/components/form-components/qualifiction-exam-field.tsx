@@ -71,7 +71,10 @@ export default function QualificationExamResultField(
       },
       { label: "Group/Department", field: props.qualification?.department },
     ];
-    return emptyFieldChecking(enqueueSnackbar, errorVerifyField);
+    if (errorVerifyField.map((item) => item.field).map((item) => item)) {
+      return emptyFieldChecking(enqueueSnackbar, errorVerifyField);
+    }
+    return true;
   };
 
   return (

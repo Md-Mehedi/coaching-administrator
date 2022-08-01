@@ -1,9 +1,14 @@
 package coaching.administrator.classes.Subject;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
 
 @Service
 public class SubjectService {
@@ -11,8 +16,15 @@ public class SubjectService {
     @Autowired
     private SubjectRepository repository;
 
-    public Subject saveSubject(Subject subject) {
-        return repository.save(subject);
+    public ObjectNode saveSubject(Subject subject) {
+        subject.setOpeningDate(new Date());
+        repository.save(subject);
+        return Global.createSuccessMessage("Subject save successfully");
+    }
+
+    public ObjectNode updateSubject(Subject subject) {
+        repository.save(subject);
+        return Global.createSuccessMessage("Subject update successfully");
     }
 
     public Subject getSubjectById(Integer id) {
@@ -27,9 +39,9 @@ public class SubjectService {
         return repository.findAll();
     }
 
-    public String deleteSubject(Integer id) {
+    public ObjectNode deleteSubject(Integer id) {
         repository.deleteById(id);
-        return "Subject with id : " + id + " deleted";
+        return Global.createSuccessMessage("Subject delete successfully");
     }
 
 }

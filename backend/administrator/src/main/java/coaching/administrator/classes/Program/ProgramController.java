@@ -30,8 +30,8 @@ public class ProgramController {
 
     @PostMapping("/add-program")
     public ObjectNode addProgram(@RequestBody Program program) {
-        Coaching coaching = coachingService.getCoachingById(5);
-        // Coaching coaching = new CoachingService().getCoachingById(5);
+        Coaching coaching = coachingService.getCoachingById(1);
+        // Coaching coaching = new CoachingService().getCoachingbyId(1);
         Global.colorPrint(coaching);
         program.setCoaching(coaching);
         return service.saveProgram(program);

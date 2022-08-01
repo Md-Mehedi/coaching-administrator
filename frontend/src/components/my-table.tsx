@@ -124,7 +124,7 @@ export default function MyTable<RowData extends object>(
   );
 }
 
-export function onRowDelete(data, setData, func = () => {}) {
+export function onRowDelete(data, setData, func = (newData) => {}) {
   return (oldData) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -134,11 +134,11 @@ export function onRowDelete(data, setData, func = () => {}) {
         dataDelete.splice(index, 1);
         setData(dataDelete);
         resolve(1);
-        func();
-      }, 1000);
+        func(oldData);
+      }, 100);
     });
 }
-export function onRowUpdate(data, setData, func = () => {}) {
+export function onRowUpdate(data, setData, func = (newData) => {}) {
   return (newData, oldData) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -148,18 +148,19 @@ export function onRowUpdate(data, setData, func = () => {}) {
         dataUpdate[index] = newData;
         setData(dataUpdate);
         resolve(1);
-        func();
-      }, 1000);
+        func(newData);
+      }, 100);
     });
 }
 
-export function onRowAdd(data, setData, func = () => {}) {
+export function onRowAdd(data, setData, func = (newData) => {}) {
   return (newData) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {
         setData([newData, ...data]);
         resolve(1);
-      }, 1000);
+        func(newData);
+      }, 100);
     });
 }
 

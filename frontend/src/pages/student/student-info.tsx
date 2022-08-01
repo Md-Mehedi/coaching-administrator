@@ -92,7 +92,7 @@ export default function StudentInfo() {
   function handleDeleteClick() {
     if (id) {
       setState({ ...state, deleteLoading: true });
-      API.teacher
+      API.student
         .delete(parseInt(id))
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);

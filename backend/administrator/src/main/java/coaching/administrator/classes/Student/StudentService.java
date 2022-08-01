@@ -2,6 +2,7 @@ package coaching.administrator.classes.Student;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -21,6 +22,7 @@ public class StudentService {
     @Autowired
     private PersonService personService;
 
+    @Transactional
     public ObjectNode saveStudent(Student student) {
         ObjectNode node = mapper.createObjectNode();
         // PasswordEncoder pEncoder = new PasswordEncoder();

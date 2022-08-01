@@ -28,7 +28,8 @@ public class Institution implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.REFRESH }, fetch = FetchType.EAGER)
     @JoinColumn(name = "board_id", referencedColumnName = "id")
     private Board board;
 

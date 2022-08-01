@@ -1,3 +1,4 @@
+select
 select * from fees
 
 
@@ -30,3 +31,39 @@ WHERE
     -- don't kill the connections to other databases
     AND datname = 'dcet64lv7go83l'
     ;
+
+
+
+
+select * from subject;
+
+
+
+
+
+------------------- Mehedi ----------------------
+select
+select * from student;
+update person set coaching_id=5 
+-- alter table person drop CONSTRAINT uk_ipuv2udv3fk0pcuq4yxwlw3yw
+drop table edu_qualification cascade;
+
+select *     from student st, person p  where st.person_id = p.id and p.coaching_id =3
+
+select * from coaching;
+delete from coaching where id <> 5
+update 
+
+select * from person where id = 97
+
+select * from admin 
+
+alter table subject drop CONSTRAINT uk_jxc480634gv90rkb7pa0cx8tw;
+SELECT con.*
+       FROM pg_catalog.pg_constraint con
+            INNER JOIN pg_catalog.pg_class rel
+                       ON rel.oid = con.conrelid
+            INNER JOIN pg_catalog.pg_namespace nsp
+                       ON nsp.oid = connamespace
+       WHERE nsp.nspname = 'public'
+             AND rel.relname = 'person'

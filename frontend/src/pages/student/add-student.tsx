@@ -47,8 +47,8 @@ export default function AddStudent() {
   console.log("Current student", student);
 
   function postStudent() {
-    setLoading(true);
     if (errorVerify() && student) {
+      setLoading(true);
       let api: any = null;
       if (state) {
         api = API.student.update;

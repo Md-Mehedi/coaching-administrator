@@ -12,11 +12,11 @@ import SaveCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
 import AdminLayout from "../../layouts/admin-layout";
 import TextEditor from "./../../components/text-editor";
-import { Program } from "../../classes/program-batch";
 import MyTextfield from "./../../components/form-components/my-textfield";
 import { emptyFieldChecking } from "./../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import DialogLayout from "../../layouts/dialog-layout";
+import { Program } from "../../classes/coaching";
 
 type CreateProgramProps = {
   program?: Program;

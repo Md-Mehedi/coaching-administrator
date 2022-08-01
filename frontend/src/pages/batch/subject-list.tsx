@@ -1,37 +1,91 @@
-import React, { useState } from "react";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API } from "../../api";
+import { Subject } from "../../classes/coaching";
 import MyTable, { onRowAdd, onRowUpdate } from "../../components/my-table";
 import { onRowDelete } from "./../../components/my-table";
+import { apiCatch, showSnackbar } from "./../../tools/helper-functions";
 
 export default function SubjectList() {
-  const [state, setState] = useState({
-    columns: [
-      { title: "ID", field: "id", editable: "never" },
-      { title: "Name", field: "name", editable: "always" },
-      { title: "Opening Date", field: "date", editable: "never" },
-    ],
-    data: [
-      { id: 1, name: "Physics", date: "20-03-2019" },
-      { id: 2, name: "Chemistry", date: "20-03-2019" },
-      { id: 3, name: "Biology", date: "20-03-2019" },
-      { id: 4, name: "Mathematics", date: "20-03-2019" },
-      { id: 5, name: "Higher Mathematics", date: "20-03-2019" },
-      { id: 6, name: "ICT", date: "20-03-2019" },
-    ],
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const columns = [
+    { title: "ID", field: "id", editable: "never" },
+    { title: "Name", field: "name", editable: "always" },
+    { title: "Opening Date", field: "openingDate", editable: "never" },
+  ];
+  const [state, setState] = useState<{
+    subjects: Subject[];
+    loading: boolean;
+    submitted: boolean;
+  }>({
+    subjects: [],
+    loading: true,
+    submitted: false,
   });
+  useEffect(() => {
+    API.subject
+      .getAll()
+      .then((response) => {
+        console.log(response.data);
+        setState({
+          ...state,
+          subjects: response.data,
+          loading: false,
+          submitted: false,
+        });
+      })
+      .catch((r) => apiCatch(enqueueSnackbar, r));
+  }, [state.submitted]);
+
   return (
     <MyTable
       // @ts-ignore
-      columns={state.columns}
-      data={state.data}
+      columns={columns}
+      data={state.subjects}
+      isLoading={state.loading}
       editable={{
-        onRowAdd: onRowAdd(state.data, (newData) =>
-          setState({ ...state, data: newData })
+        onRowAdd: onRowAdd(
+          state.subjects,
+          (newData) => setState({ ...state, subjects: newData, loading: true }),
+          (newSubject) => {
+            newSubject &&
+              API.subject
+                .add(newSubject)
+                .then((response) => {
+                  showSnackbar(enqueueSnackbar, response.data);
+                  setState({ ...state, submitted: true, loading: true });
+                })
+                .catch((r) => apiCatch(enqueueSnackbar, r));
+          }
         ),
-        onRowUpdate: onRowUpdate(state.data, (newData) =>
-          setState({ ...state, data: newData })
+        onRowUpdate: onRowUpdate(
+          state.subjects,
+          (newData) => setState({ ...state, subjects: newData, loading: true }),
+          (newSubject) => {
+            newSubject &&
+              API.subject
+                .update(newSubject)
+                .then((response) => {
+                  showSnackbar(enqueueSnackbar, response.data);
+                  setState({ ...state, submitted: true });
+                })
+                .catch((r) => apiCatch(enqueueSnackbar, r));
+          }
         ),
-        onRowDelete: onRowDelete(state.data, (newData) =>
-          setState({ ...state, data: newData })
+        onRowDelete: onRowDelete(
+          state.subjects,
+          (newData) => setState({ ...state, subjects: newData }),
+          (subject) => {
+            subject &&
+              API.subject
+                .delete(subject.id)
+                .then((response) => {
+                  showSnackbar(enqueueSnackbar, response.data);
+                })
+                .catch((r) => apiCatch(enqueueSnackbar, r));
+          }
         ),
       }}
     />

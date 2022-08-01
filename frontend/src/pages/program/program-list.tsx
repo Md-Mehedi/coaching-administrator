@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { API } from "../../api";
-import { Program } from "../../classes/program-batch";
 import SpecialLink from "../../components/special-link";
 import DialogLayout from "../../layouts/dialog-layout";
 import { ADMIN_LINKS } from "../../links";
@@ -18,6 +17,7 @@ import { useSnackbar } from "notistack";
 import { apiCatch } from "./../../tools/helper-functions";
 import Loading from "../../components/loading";
 import CreateProgramDialog from "./create-program";
+import { Program } from "../../classes/coaching";
 
 function ProgramCards({ programs }: { programs: Program[] }) {
   return (

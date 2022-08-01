@@ -5,9 +5,9 @@ import TextEditor from "../../components/text-editor";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material/styles";
 import { API } from "../../api";
-import { Coaching } from "../../classes/person-info";
 import AuthService from "../../services/auth-service";
 import SpecialLink from "../../components/special-link";
+import { Coaching } from "../../classes/coaching";
 
 const useStyle = makeStyles((theme: Theme) => ({
   justifyContent: {

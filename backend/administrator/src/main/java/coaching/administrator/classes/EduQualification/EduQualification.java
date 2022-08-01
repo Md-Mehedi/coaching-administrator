@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import coaching.administrator.classes.Department.Department;
 import coaching.administrator.classes.Exam.QualificationExam;
 import coaching.administrator.classes.Institution.Institution;
-import coaching.administrator.classes.Person.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,9 @@ public class EduQualification implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @ManyToOne(optional = true, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    // @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinColumn(name = "qualification_exam_id", referencedColumnName = "id")
     private QualificationExam qualificationExam;
 
@@ -40,14 +41,19 @@ public class EduQualification implements Serializable {
     // // @JoinColumn(name = "person_id", referencedColumnName = "id")
     // private Person person;
 
-    @ManyToOne(optional = true, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    // @ManyToOne(optional = true, cascade = CascadeType.REFRESH, fetch =
+    // FetchType.EAGER)
+    @ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    // @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinColumn(name = "institution_id", referencedColumnName = "id")
     private Institution institution;
 
     private Integer passingYear;
     private String result;
 
-    @ManyToOne(optional = true, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
+    // @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 

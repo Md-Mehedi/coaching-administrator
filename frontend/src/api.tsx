@@ -1,8 +1,7 @@
 import axios from "axios";
 import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
-import { Coaching } from "./classes/coaching";
-import { Program } from "./classes/program-batch";
+import { Coaching, Program, Subject } from "./classes/coaching";
 
 const HOST = "http://localhost:7982";
 
@@ -99,5 +98,12 @@ export const API = {
     delete: (id: number) => del("/delete-program-by-id/" + id),
     getAll: () => get("/get-all-program"),
     get: (id: number) => get("/get-program-by-id/" + id),
+  },
+  subject: {
+    add: (subject: Subject) => postBody("/add-subject", subject),
+    getAll: () => get("/get-all-subjects"),
+    get: (id: number) => get("/get-subject-by-id/" + id),
+    delete: (id: number) => del("/delete-subject-by-id/" + id),
+    update: (subject: Subject) => put("/update-subject", subject),
   },
 };
