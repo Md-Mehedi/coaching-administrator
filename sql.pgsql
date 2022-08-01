@@ -30,3 +30,9 @@ WHERE
     -- don't kill the connections to other databases
     AND datname = 'dcet64lv7go83l'
     ;
+
+delete from todo;
+
+drop table customer CASCADE;
+drop table todo CASCADE;
+
