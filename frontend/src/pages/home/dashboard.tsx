@@ -82,6 +82,12 @@ const dashboard_pages: DrawerLayoutPage[] = [
     link: ADMIN_LINKS.test.path,
     children: [],
   },
+  {
+    icon: <InboxOutlined />,
+    title: "AddCustomer",
+    link: ADMIN_LINKS.addCustomer.path,
+    children: [],
+  }
 ];
 
 export const dashboardLinks: string[] = [];

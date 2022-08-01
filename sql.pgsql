@@ -67,3 +67,8 @@ SELECT con.*
                        ON nsp.oid = connamespace
        WHERE nsp.nspname = 'public'
              AND rel.relname = 'person'
+delete from todo;
+
+drop table customer CASCADE;
+drop table todo CASCADE;
+

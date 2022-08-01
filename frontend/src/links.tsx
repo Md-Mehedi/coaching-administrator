@@ -18,6 +18,8 @@ import Home from "./pages/home/home";
 import SubjectList from "./pages/batch/subject-list";
 import DuesList from "./pages/financial/dues-list";
 import ConfirmAdmin from "./pages/auth/confirm-admin";
+import AddCustomer from './pages/Utsa/add-customer';
+import AddToDo from "./pages/Utsa/add-toDo";
 
 export var ADMIN_LINKS = {
   home: { path: "/dashboard/home", element: <Home /> },
@@ -49,6 +51,8 @@ export var ADMIN_LINKS = {
   expenseList: { path: "/dashboard/expense", element: <ExpenseList /> },
   // Other
   test: { path: "/dashboard/test", element: <Test /> },
+  todo: { path: "/dashboard/AddTodo", element: <AddToDo /> },
+  addCustomer: { path: "/dashboard/add-customer", element: <AddCustomer /> },
 };
 
 export var USER_LINKS = {
