@@ -6,77 +6,151 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SaveCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
 import AdminLayout from "../../layouts/admin-layout";
 import Events from "../class-time/events";
+import { Batch, Program, Subject } from "../../classes/coaching";
+import MyTextfield from "./../../components/form-components/my-textfield";
+import { API } from "../../api";
+import { apiCatch, emptyFieldChecking } from "./../../tools/helper-functions";
+import { useSnackbar } from "notistack";
+import DropDown from "../../components/dropdown";
+import DialogLayout from "../../layouts/dialog-layout";
 
-type CreateBatchProps = {};
+type CreateBatchProps = {
+  batch?: Batch;
+  onChange: (batch: Batch) => void;
+  verifier: any;
+};
 type CreateBatchState = {
-  programId: number;
-  subjectId: number;
+  subjects: Subject[];
 };
 
-export default function CreateBatch(props: CreateBatchProps) {
+export function CreateBatch(props: CreateBatchProps) {
+  const { enqueueSnackbar } = useSnackbar();
+  props.verifier.current = errorVerify;
   const [state, setState] = useState<CreateBatchState>({
-    programId: 0,
-    subjectId: 0,
+    subjects: [],
   });
+  useEffect(() => {
+    API.subject
+      .getAll()
+      .then((res) => {
+        setState({ ...state, subjects: res.data });
+      })
+      .catch((r) => apiCatch(enqueueSnackbar, r));
+  }, []);
+  function errorVerify() {
+    let success = true;
+    let data = [
+      { label: "Batch name", field: props.batch?.name },
+      { label: "Subject", field: props.batch?.subject },
+      { label: "Monthly fees", field: props.batch?.monthlyFees },
+    ];
+    success = emptyFieldChecking(enqueueSnackbar, data);
+    return success;
+  }
+
   return (
-    <AdminLayout>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField fullWidth variant="outlined" label="Name" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl fullWidth>
-            <InputLabel>Select Program</InputLabel>
-            <Select
-              value={state.programId}
-              label="Select Program"
-              onChange={(event) => {
-                setState({
-                  ...state,
-                  programId: event.target.value as number,
-                });
-                console.log(event);
-              }}
-            >
-              <MenuItem value={0}>-- Select Program --</MenuItem>
-              {programs.map((item) => (
-                <MenuItem value={item.id}>{item.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl fullWidth>
-            <InputLabel>Select Subject</InputLabel>
-            <Select
-              value={state.subjectId}
-              label="Select Subject"
-              onChange={(event) => {
-                setState({
-                  ...state,
-                  subjectId: event.target.value as number,
-                });
-              }}
-            >
-              <MenuItem value={0}>-- Select Subject --</MenuItem>
-              {subjects.map((item) => (
-                <MenuItem value={item.id}>{item.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField fullWidth variant="outlined" label="Monthly Fees" />
-        </Grid>
-        <Grid item xs={12}>
-          <Events />
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <MyTextfield
+          label="Name"
+          required
+          value={props.batch?.name}
+          onChange={(event) =>
+            props.onChange({ ...props.batch, name: event.target.value })
+          }
+        />
       </Grid>
-    </AdminLayout>
+      {/* <Grid item xs={12} sm={6} md={4}>
+        <FormControl fullWidth>
+          <InputLabel>Select Program</InputLabel>
+          <Select
+            value={state.programId}
+            label="Select Program"
+            onChange={(event) => {
+              setState({
+                ...state,
+                programId: event.target.value as number,
+              });
+              console.log(event);
+            }}
+          >
+            <MenuItem value={0}>-- Select Program --</MenuItem>
+            {programs.map((item) => (
+              <MenuItem value={item.id}>{item.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid> */}
+      <Grid item xs={12} sm={6} md={4}>
+        <DropDown
+          label="Select subject"
+          required
+          disableUserChoice
+          value={props.batch?.subject}
+          options={state.subjects}
+          optionLabel="name"
+          onChange={(event, newValue) => {
+            props.onChange({ ...props.batch, subject: newValue || undefined });
+          }}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <MyTextfield
+          label="Monthly Fees"
+          required
+          type="number"
+          value={props.batch?.monthlyFees}
+          onChange={(event) =>
+            props.onChange({
+              ...props.batch,
+              monthlyFees: parseInt(event.target.value),
+            })
+          }
+        />
+      </Grid>
+    </Grid>
+  );
+}
+export type CreateBatchDialogProps = {
+  open: boolean;
+  onClose: (event) => void;
+  batch?: Batch;
+  saveButtonText?: string;
+  cancelButtonText?: string;
+  onSaveClick?: (newBatch?: Batch) => void;
+  onCancelClick?: (event) => void;
+  verifier: any;
+  saveLoading: boolean;
+};
+export default function CreateBatchDialog(props: CreateBatchDialogProps) {
+  const [state, setState] = useState<{ batch?: Batch }>({
+    batch: new Batch(),
+  });
+  useEffect(() => {
+    setState({ ...state, batch: props.batch });
+  }, [props.batch]);
+
+  return (
+    <DialogLayout
+      title="Create a batch"
+      open={props.open}
+      onClose={props.onClose}
+      primaryButtonText={props.saveButtonText}
+      onPrimaryButtonClick={(event) =>
+        props.onSaveClick && props.onSaveClick(state.batch)
+      }
+      primaryButtonLoading={props.saveLoading}
+    >
+      <CreateBatch
+        batch={state.batch}
+        onChange={(newBatch) => setState({ ...state, batch: newBatch })}
+        verifier={props.verifier}
+      />
+    </DialogLayout>
   );
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Occupation.Occupation;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
 
@@ -25,8 +26,6 @@ public class StudentService {
     @Transactional
     public ObjectNode saveStudent(Student student) {
         ObjectNode node = mapper.createObjectNode();
-        // PasswordEncoder pEncoder = new PasswordEncoder();
-        // student.setPassword(pEncoder.getEncodedPassword(student.getPerson().getPassword()));
         repository.save(student);
         Global.colorPrint(student);
         Global.colorPrint(student.getPerson());

@@ -59,6 +59,18 @@ const dashboard_pages: DrawerLayoutPage[] = [
     children: [],
   },
   {
+    icon: <EventAvailable />,
+    title: "Room",
+    link: ADMIN_LINKS.roomList.path,
+    children: [],
+  },
+  {
+    icon: <EventAvailable />,
+    title: "Subject",
+    link: ADMIN_LINKS.subjectList.path,
+    children: [],
+  },
+  {
     icon: <CurrencyExchange />,
     title: "Expense",
     link: ADMIN_LINKS.expenseList.path,
@@ -87,7 +99,7 @@ const dashboard_pages: DrawerLayoutPage[] = [
     title: "AddCustomer",
     link: ADMIN_LINKS.addCustomer.path,
     children: [],
-  }
+  },
 ];
 
 export const dashboardLinks: string[] = [];

@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
+
 @RestController
 public class BatchController {
 
@@ -21,9 +25,8 @@ public class BatchController {
     private BatchRepository repository;
 
     @PostMapping("/add-batch")
-    public Batch addBatch(@RequestBody Batch batch) {
-        System.out.println("\033[31minside add batch\033[0m");
-
+    public ObjectNode addBatch(@RequestBody Batch batch) {
+        Global.colorPrint((batch));
         return service.saveBatch(batch);
     }
 
@@ -33,22 +36,23 @@ public class BatchController {
     }
 
     @GetMapping("/get-all-batch-by-program-id/{programId}")
-    public List<Batch> getAllBatchByProgramId(Integer programId) {
+    public List<Batch> getAllBatchByProgramId(@PathVariable Integer programId) {
+        Global.colorPrint((programId));
         return service.getAllBatchByProgramId(programId);
     }
 
-    @GetMapping("/get-batch-by-name/{name}")
-    public Batch getBatchByName(@PathVariable String name) {
-        return service.getBatchByName(name);
-    }
+    // @GetMapping("/get-batch-by-name/{name}")
+    // public Batch getBatchByName(@PathVariable String name) {
+    // return service.getBatchByName(name);
+    // }
 
     @PutMapping("update-batch")
-    public Batch updateBatch(@RequestBody Batch batch) {
-        return repository.save(batch);
+    public ObjectNode updateBatch(@RequestBody Batch batch) {
+        return service.updateBatch(batch);
     }
 
-    @DeleteMapping("/delete-batch-by-id")
-    public String deleteBatch(@PathVariable Integer id) {
+    @DeleteMapping("/delete-batch-by-id/{id}")
+    public ObjectNode deleteBatch(@PathVariable Integer id) {
         return service.deleteBatch(id);
     }
 }

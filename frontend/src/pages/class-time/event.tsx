@@ -1,3 +1,4 @@
+import { DateSelectArg } from "@fullcalendar/react";
 import { Add, ClearOutlined } from "@mui/icons-material";
 import {
   Button,
@@ -14,32 +15,59 @@ import {
 } from "@mui/material";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { rooms } from "../../data";
 import { teachers } from "./../../data";
+import { Teacher } from "./../../classes/person-info";
+import { Room } from "../../classes/coaching";
+import { API } from "../../api";
+import DropDown from "../../components/dropdown";
 
 type EventStates = {
   date: Date | null;
   startTime: Date | null;
   endTime: Date | null;
-  teacherId: number | null;
-  roomId: number | null;
-  untilDate: Date | null;
+  selectedTeacher: Teacher | null;
+  selectedRoom: Room | null;
+  // date: Date | null;
+  // startTime: Date | null;
+  // endTime: Date | null;
+  // teacherId: number | null;
+  // roomId: number | null;
+  // untilDate: Date | null;
 };
 type EventProps = {
-  title: string;
+  info?: DateSelectArg;
+  title?: string;
   disableRepeat?: boolean;
   onDeleteClick?: (event) => void;
 };
 export default function Event(props: EventProps) {
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
   const [state, setState] = useState<EventStates>({
     date: new Date(),
     startTime: new Date(),
     endTime: new Date(),
-    untilDate: null,
-    teacherId: 0,
-    roomId: 0,
+    selectedTeacher: null,
+    selectedRoom: null,
   });
+  useEffect(() => {
+    API.teacher.getAll().then((response) => {
+      setTeachers(response.data);
+    });
+    API.room.getAll().then((response) => {
+      setRooms(response.data);
+    });
+    setState({
+      ...state,
+      date: new Date(props.info?.startStr || ""),
+      startTime: new Date(props.info?.startStr || ""),
+      endTime: new Date(props.info?.endStr || ""),
+    });
+  }, []);
+  console.log(state);
+
   return (
     <Card>
       <CardHeader
@@ -93,7 +121,7 @@ export default function Event(props: EventProps) {
               renderInput={(params) => <TextField fullWidth {...params} />}
             />
           </Grid>
-          {!props.disableRepeat && (
+          {/* {!props.disableRepeat && (
             <Grid item xs={12} sm={6} md={4}>
               <MobileDatePicker
                 label="Repeat until"
@@ -107,48 +135,30 @@ export default function Event(props: EventProps) {
                 renderInput={(params) => <TextField fullWidth {...params} />}
               />
             </Grid>
-          )}
+          )} */}
           <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel>Teacher</InputLabel>
-              <Select
-                value={state.teacherId}
-                label="Teacher"
-                onChange={(event) => {
-                  setState({
-                    ...state,
-                    teacherId: event.target.value as number,
-                  });
-                  console.log(event);
-                }}
-              >
-                <MenuItem value={0}>-- Select Teacher --</MenuItem>
-                {teachers.map((item) => (
-                  <MenuItem value={item.id}>{item.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <DropDown
+              label="Teacher"
+              disableUserChoice
+              options={teachers}
+              optionLabel="person.fullName"
+              value={state.selectedTeacher}
+              onChange={(event, newValue) => {
+                setState({ ...state, selectedTeacher: newValue });
+              }}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel>Room</InputLabel>
-              <Select
-                value={state.roomId}
-                label="Room"
-                onChange={(event) => {
-                  setState({
-                    ...state,
-                    roomId: event.target.value as number,
-                  });
-                  console.log(event);
-                }}
-              >
-                <MenuItem value={0}>-- Select Room --</MenuItem>
-                {rooms.map((item) => (
-                  <MenuItem value={item.id}>{item.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <DropDown
+              label="Room"
+              disableUserChoice
+              options={rooms}
+              optionLabel="name"
+              value={state.selectedRoom}
+              onChange={(event, newValue) => {
+                setState({ ...state, selectedRoom: newValue });
+              }}
+            />
           </Grid>
         </Grid>
       </CardContent>

@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 public class RoomController {
@@ -21,9 +24,7 @@ public class RoomController {
     private RoomRepository repository;
 
     @PostMapping("/add-room")
-    public Room addRoom(@RequestBody Room room) {
-        System.out.println("\033[31minside add room\033[0m");
-
+    public ObjectNode addRoom(@RequestBody Room room) {
         return service.saveRoom(room);
     }
 
@@ -48,7 +49,14 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete-room-by-id")
-    public String deleteRoom(@PathVariable Integer id) {
+    public ObjectNode deleteRoom(@PathVariable Integer id) {
         return service.deleteRoom(id);
+    }
+
+    @PutMapping("/update-room")
+    public ObjectNode updateRoom(@RequestBody Room room) {
+        System.out.println("\033[31minside add room\033[0m");
+
+        return service.saveRoom(room);
     }
 }

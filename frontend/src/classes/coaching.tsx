@@ -28,3 +28,16 @@ export class Subject {
   openingDate?: Date;
   coaching?: Coaching;
 }
+export class Room {
+  id?: number;
+  name?: string;
+  studentCapacity?: number;
+  coaching?: Coaching;
+}
+export class Batch {
+  id?: number;
+  name?: string;
+  monthlyFees?: number;
+  program?: Program;
+  subject?: Subject;
+}

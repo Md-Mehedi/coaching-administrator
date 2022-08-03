@@ -30,7 +30,7 @@ public class ProgramController {
 
     @PostMapping("/add-program")
     public ObjectNode addProgram(@RequestBody Program program) {
-        Coaching coaching = coachingService.getCoachingById(1);
+        Coaching coaching = coachingService.getCoachingById(Global.coachingId);
         // Coaching coaching = new CoachingService().getCoachingbyId(1);
         Global.colorPrint(coaching);
         program.setCoaching(coaching);
@@ -49,7 +49,7 @@ public class ProgramController {
 
     @GetMapping("/get-all-program")
     public List<Program> getAllProgram() {
-        return repository.findByCoachingId(5);
+        return repository.findByCoachingId(Global.coachingId);
     }
 
     @PutMapping("/update-program")

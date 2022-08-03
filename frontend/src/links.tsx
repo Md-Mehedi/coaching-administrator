@@ -15,11 +15,12 @@ import { Register } from "./pages/auth/register";
 import Settings from "./pages/settings/settings";
 import ExamDetails from "./pages/exam/exam-info";
 import Home from "./pages/home/home";
-import SubjectList from "./pages/batch/subject-list";
+import SubjectList from "./pages/coaching/subject-list";
 import DuesList from "./pages/financial/dues-list";
 import ConfirmAdmin from "./pages/auth/confirm-admin";
-import AddCustomer from './pages/Utsa/add-customer';
+import AddCustomer from "./pages/Utsa/add-customer";
 import AddToDo from "./pages/Utsa/add-toDo";
+import RoomList from "./pages/coaching/room-list";
 
 export var ADMIN_LINKS = {
   home: { path: "/dashboard/home", element: <Home /> },
@@ -44,8 +45,10 @@ export var ADMIN_LINKS = {
   exam: { path: "/dashboard/exam", element: <ExamDetails /> },
   // Batch
   batch: { path: "/dashboard/batch", element: <Batch /> },
+  batchWithId: { path: "/dashboard/batch/:id", element: <Batch /> },
   // Subject
   subjectList: { path: "/dashboard/subject-list", element: <SubjectList /> },
+  roomList: { path: "/dashboard/room-list", element: <RoomList /> },
   // Financial
   duesList: { path: "/dashboard/dues", element: <DuesList /> },
   expenseList: { path: "/dashboard/expense", element: <ExpenseList /> },

@@ -30,7 +30,7 @@ function ProgramCards({ programs }: { programs: Program[] }) {
                 <CardContent>
                   <Grid
                     container
-                    sx={{ height: 130 }}
+                    sx={{ height: 130, textAlign: "center" }}
                     justifyContent="center"
                     alignItems="center"
                   >

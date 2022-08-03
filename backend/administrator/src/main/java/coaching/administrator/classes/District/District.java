@@ -29,7 +29,7 @@ public class District implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "division_id", referencedColumnName = "id")
     public Division division;
     // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy

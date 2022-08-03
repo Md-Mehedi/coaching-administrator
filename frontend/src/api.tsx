@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
-import { Coaching, Program, Subject } from "./classes/coaching";
+import { Batch, Coaching, Program, Room, Subject } from "./classes/coaching";
 
 const HOST = "http://localhost:7982";
 
@@ -105,5 +105,20 @@ export const API = {
     get: (id: number) => get("/get-subject-by-id/" + id),
     delete: (id: number) => del("/delete-subject-by-id/" + id),
     update: (subject: Subject) => put("/update-subject", subject),
+  },
+  room: {
+    add: (room: Room) => postBody("/add-room", room),
+    getAll: () => get("/get-all-rooms"),
+    get: (id: number) => get("/get-room-by-id/" + id),
+    delete: (id: number) => del("/delete-room-by-id/" + id),
+    update: (room: Room) => put("/update-room", room),
+  },
+  batch: {
+    add: (batch: Batch) => postBody("/add-batch", batch),
+    getAll: (programId: number) =>
+      get("/get-all-batch-by-program-id/" + programId),
+    get: (id: number) => get("/get-batch-by-id/" + id),
+    delete: (id: number) => del("/delete-batch-by-id/" + id),
+    update: (batch: Batch) => put("/update-batch", batch),
   },
 };

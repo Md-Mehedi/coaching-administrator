@@ -51,6 +51,7 @@ function SingleContactInformation({
             <DropDown
               required
               label="Contact type"
+              disableUserChoice
               value={contact.contactType}
               options={contactTypes}
               optionLabel="name"
@@ -63,6 +64,7 @@ function SingleContactInformation({
             <MyTextfield
               required
               label="Number"
+              type="number"
               value={contact.number}
               onChange={(event) =>
                 onChange({ ...contact, number: event.target.value })

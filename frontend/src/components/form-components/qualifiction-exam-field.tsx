@@ -102,6 +102,7 @@ export default function QualificationExamResultField(
           <DropDown
             required
             label="Exam name"
+            disableUserChoice
             value={props?.qualification?.qualificationExam}
             options={exams}
             optionLabel="name"
@@ -117,6 +118,7 @@ export default function QualificationExamResultField(
           <DropDown
             required
             label="Board"
+            disableUserChoice
             value={props?.qualification?.institution?.board || selectedBoard}
             options={boards}
             optionLabel="name"
@@ -133,6 +135,7 @@ export default function QualificationExamResultField(
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             required
+            disableUserChoice
             label="Institution Name"
             value={props.qualification?.institution}
             options={institutions}
@@ -149,6 +152,7 @@ export default function QualificationExamResultField(
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             required
+            disableUserChoice
             label="Group / Department"
             value={props.qualification?.department}
             options={departments}

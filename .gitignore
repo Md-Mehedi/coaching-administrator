@@ -11,3 +11,4 @@ backend/.git
 *.sh
 *.bat
 snip.txt
+sql.pgsql
