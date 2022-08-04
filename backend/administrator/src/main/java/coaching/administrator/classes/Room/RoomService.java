@@ -5,14 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
+
 @Service
 public class RoomService {
 
     @Autowired
     private RoomRepository repository;
 
-    public Room saveRoom(Room room) {
-        return repository.save(room);
+    public ObjectNode saveRoom(Room room) {
+        repository.save(room);
+        return Global.createSuccessMessage("Subject save successfully");
+    }
+
+    public ObjectNode updateRoom(Room room) {
+        repository.save(room);
+        return Global.createSuccessMessage("Subject update successfully");
     }
 
     public Room getRoomById(Integer id) {
@@ -27,9 +37,9 @@ public class RoomService {
         return repository.findAll();
     }
 
-    public String deleteRoom(Integer id) {
+    public ObjectNode deleteRoom(Integer id) {
         repository.deleteById(id);
-        return "Room with id : " + id + " deleted";
+        return Global.createSuccessMessage("Subject delete successfully");
     }
 
 }

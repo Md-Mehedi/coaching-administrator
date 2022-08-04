@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { API } from "../../api";
 import { Subject } from "../../classes/coaching";
 import MyTable, { onRowAdd, onRowUpdate } from "../../components/my-table";
-import { onRowDelete } from "./../../components/my-table";
-import { apiCatch, showSnackbar } from "./../../tools/helper-functions";
+import { onRowDelete } from "../../components/my-table";
+import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 
 export default function SubjectList() {
   const { enqueueSnackbar } = useSnackbar();

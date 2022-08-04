@@ -64,6 +64,6 @@ public class TeacherController {
 
     @GetMapping("/get-all-teacher")
     public List<Teacher> getAllStudentByCoachingId() {
-        return repository.findAllByCoaching(5);
+        return repository.findAllByCoaching(Global.coachingId);
     }
 }

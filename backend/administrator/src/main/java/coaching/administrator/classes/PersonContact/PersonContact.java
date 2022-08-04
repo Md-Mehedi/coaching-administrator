@@ -1,6 +1,5 @@
 package coaching.administrator.classes.PersonContact;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import coaching.administrator.classes.ContactType.ContactType;
 import coaching.administrator.classes.Person.Person;
@@ -32,7 +34,8 @@ public class PersonContact {
     // // @JoinColumn(name = "person_id", referencedColumnName = "id")
     // private Person person;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @Cascade({ CascadeType.SAVE_UPDATE })
     @JoinColumn(name = "contact_type_id", referencedColumnName = "id")
     private ContactType contactType;
 

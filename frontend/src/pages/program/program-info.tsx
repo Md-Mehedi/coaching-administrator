@@ -54,7 +54,7 @@ export default function ProgramInfo() {
     },
     {
       title: "Batch",
-      element: <ProgramBatchList />,
+      element: <ProgramBatchList program={state.program} />,
     },
     {
       title: "Enrolled Students",

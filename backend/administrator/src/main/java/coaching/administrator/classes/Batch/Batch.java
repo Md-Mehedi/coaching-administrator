@@ -32,11 +32,11 @@ public class Batch implements Serializable {
     private String name;
     private Integer monthlyFees;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id", referencedColumnName = "id")
     private Program program;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;
 

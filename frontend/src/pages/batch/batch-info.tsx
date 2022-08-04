@@ -7,51 +7,126 @@ import { IBatch, batches } from "../../data";
 import TabLayout from "../../layouts/tab-layout";
 import { Field } from "../../components/person-components/about";
 import BatchAttendance from "./batch-attendance";
+import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { API } from "../../api";
+import { apiCatch, showSnackbar } from "./../../tools/helper-functions";
+import { useSnackbar } from "notistack";
+import UpdateDeleteButtons from "../../components/update-delete-buttons";
+import { Batch } from "../../classes/coaching";
+import { useNavigate } from "react-router-dom";
+import { ADMIN_LINKS } from "./../../links";
+import Loading from "../../components/loading";
+import CreateBatchDialog from "./create-batch";
 
-const data: IBatch = batches[0];
-
-const tabs = [
-  {
-    title: "Routine",
-    element: <BatchRoutine />,
-  },
-  {
-    title: "Attendance",
-    element: <BatchAttendance />,
-  },
-  {
-    title: "Students",
-    element: <BatchStudents />,
-  },
-  {
-    title: "Students History",
-    element: <BatchStudentHistory />,
-  },
-];
-export default function Batch() {
+export default function BatchInfo() {
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const verifier = useRef<any>();
+  const [state, setState] = useState<{
+    createBatchOpen: boolean;
+    updateBatchUpdateLoading: boolean;
+    batch: Batch;
+    deleteLoading: boolean;
+    pageLoading: boolean;
+  }>({
+    batch: new Batch(),
+    createBatchOpen: false,
+    updateBatchUpdateLoading: false,
+    deleteLoading: false,
+    pageLoading: true,
+  });
+  useEffect(() => {
+    id &&
+      API.batch
+        .get(parseInt(id))
+        .then((res) => {
+          setState({ ...state, batch: res.data, pageLoading: false });
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
+  }, [id]);
+  function handleUpdateClick() {
+    setState({ ...state, createBatchOpen: true });
+  }
+  function handleUpdateBatchUpdateClick(newBatch?: Batch) {
+    if (newBatch) {
+      setState({ ...state, updateBatchUpdateLoading: true });
+      API.batch.update(newBatch).then((response) => {
+        showSnackbar(enqueueSnackbar, response.data);
+        setState({
+          ...state,
+          createBatchOpen: false,
+          updateBatchUpdateLoading: false,
+          batch: newBatch,
+        });
+      });
+    }
+  }
+  function handleDeleteClick() {
+    if (state.batch?.id) {
+      setState({ ...state, deleteLoading: true });
+      API.batch
+        .delete(state.batch?.id)
+        .then((response) => {
+          showSnackbar(enqueueSnackbar, response.data);
+          setState({ ...state, deleteLoading: false });
+          navigate(-1);
+        })
+        .catch((r) => {
+          setState({ ...state, deleteLoading: false });
+          apiCatch(enqueueSnackbar, r);
+        });
+    }
+  }
+  const tabs = [
+    {
+      title: "Routine",
+      element: <BatchRoutine />,
+    },
+    {
+      title: "Attendance",
+      element: <BatchAttendance />,
+    },
+    {
+      title: "Students",
+      element: <BatchStudents />,
+    },
+    {
+      title: "Students History",
+      element: <BatchStudentHistory />,
+    },
+  ];
   return (
     // <Admin>
-    <Grid container direction="column" spacing={2}>
-      <Grid item container spacing={2} alignItems="center">
-        <Grid item xs={12} md={6}>
-          <Card sx={{ width: "100%" }}>
-            <CardContent>
-              <Grid item container direction="column" spacing={1}>
-                <Grid item>
-                  <Typography variant="h4">
-                    {"Batch : "} {data.name}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Field field="Program name" value={data.program?.name} />
-                </Grid>
-                <Grid item>
-                  <Field field="Subject" value={data.subject?.name} />
-                </Grid>
-                <Grid item>
-                  <Field field="Monthly fees" value={data.monthlyFees} />
-                </Grid>
-                <Grid item>
+    <Loading loading={state.pageLoading}>
+      <Grid container direction="column" spacing={2}>
+        <Grid item container spacing={2} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <Card sx={{ width: "100%" }}>
+              <CardContent>
+                <Grid item container direction="column" spacing={1}>
+                  <Grid item>
+                    <Typography variant="h4">
+                      {"Batch : "} {state.batch?.name}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Field
+                      field="Program name"
+                      value={state.batch?.program?.name}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Field field="Subject" value={state.batch?.subject?.name} />
+                  </Grid>
+                  <Grid item>
+                    <Field
+                      field="Monthly fees"
+                      value={state.batch?.monthlyFees}
+                    />
+                  </Grid>
+                  {/* <Grid item>
                   <Field
                     field="Assigned teacher(s)"
                     value={data.assignedTeachers.map((item, index) => (
@@ -61,29 +136,34 @@ export default function Batch() {
                       </>
                     ))}
                   />
+                </Grid> */}
                 </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Grid container direction="row" spacing={2} justifyContent="center">
-            <Grid item>
-              <Button variant="contained">Update</Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="secondary">
-                Delete
-              </Button>
-            </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <UpdateDeleteButtons
+              deleteLoading={state.deleteLoading}
+              onUpdateClick={handleUpdateClick}
+              onDeleteClick={handleDeleteClick}
+            />
           </Grid>
         </Grid>
-      </Grid>
 
-      <Grid item container>
-        <TabLayout tabs={tabs} />
+        <Grid item container>
+          <TabLayout tabs={tabs} />
+        </Grid>
       </Grid>
-    </Grid>
+      <CreateBatchDialog
+        open={state.createBatchOpen}
+        batch={state.batch}
+        onSaveClick={handleUpdateBatchUpdateClick}
+        onClose={(event) => setState({ ...state, createBatchOpen: false })}
+        saveButtonText="Update"
+        saveLoading={state.updateBatchUpdateLoading}
+        verifier={verifier}
+      />
+    </Loading>
     // </Admin>
   );
 }

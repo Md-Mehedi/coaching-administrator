@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 import coaching.administrator.classes.Board.Board;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,8 +30,7 @@ public class Institution implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "board_id", referencedColumnName = "id")
     private Board board;
 

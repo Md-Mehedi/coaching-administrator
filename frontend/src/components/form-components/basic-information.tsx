@@ -78,6 +78,7 @@ export default function BasicInformation({
         <DropDown
           required
           label="Gender"
+          disableUserChoice
           options={GENDERS}
           optionLabel="name"
           value={GENDERS.find((item) => item.id == person?.gender)}
@@ -111,6 +112,7 @@ export default function BasicInformation({
       <Grid item xs={12} sm={6} md={4}>
         <DropDown
           label="Blood group"
+          disableUserChoice
           value={person?.bloodGroup}
           options={BLOOD_GROUPS}
           optionLabel=""

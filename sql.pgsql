@@ -38,8 +38,16 @@ SELECT * from coaching;
 
 select * from subject;
 
-
-
+update person set nick_name='Ali' where id='4';
+update person set nick_name='Akbar' where id='5';
+update person set nick_name='Mehedi' where id='7';
+update person set nick_name='Rupom' where id='12';
+update person set nick_name='Sakib' where id='13';
+update person set nick_name='Nafiz' where id='15';
+update person set nick_name='Aman' where id='17';
+update person set nick_name='Tanvir' where id='20';
+select * from person;
+update institution set name='City College' where id=8
 
 
 
@@ -55,11 +63,12 @@ drop table edu_qualification cascade;
 
 select *     from student st, person p  where st.person_id = p.id and p.coaching_id =3
 
-select * from coaching;
-delete from coaching where id <> 5
+select * from teacher;
+delete from teacher where person_id = 26
 update 
 
-select * from person where id = 97
+update batch set program_id=2 where program_id is null;
+select * from batch
 
 select * from admin 
 
@@ -77,3 +86,8 @@ delete from todo;
 drop table customer CASCADE;
 drop table todo CASCADE;
 
+s
+
+insert into occupation (name) values('Driver');
+insert into occupation (name) values('Housewife');
+insert into occupation (name) values('Businessman');
