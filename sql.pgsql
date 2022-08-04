@@ -32,10 +32,15 @@ WHERE
     AND datname = 'dcet64lv7go83l'
     ;
 
+SELECT * from coaching;
 
 
 
 select * from subject;
+
+
+
+
 
 
 

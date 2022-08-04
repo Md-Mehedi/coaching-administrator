@@ -35,6 +35,8 @@ public class Subject implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String subjectType;
+
     // @Column(nullable = true)
     @Temporal(TemporalType.DATE)
     private Date openingDate;
