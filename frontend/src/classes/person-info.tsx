@@ -18,6 +18,7 @@ export class Upazila {
 export class Address {
   id: number;
   village: string = "";
+  wardNo: string = "";
   upazila?: Upazila | null;
 }
 export class Occupation {

@@ -72,3 +72,7 @@ delete from todo;
 drop table customer CASCADE;
 drop table todo CASCADE;
 
+
+
+
+

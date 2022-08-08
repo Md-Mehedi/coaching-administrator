@@ -2,7 +2,6 @@ package coaching.administrator.classes.Person;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -21,9 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 
 import coaching.administrator.classes.Address.Address;
