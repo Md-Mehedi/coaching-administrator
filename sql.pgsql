@@ -32,6 +32,7 @@ WHERE
     AND datname = 'dcet64lv7go83l'
     ;
 
+SELECT * from coaching;
 
 
 
@@ -47,6 +48,10 @@ update person set nick_name='Aman' where id='17';
 update person set nick_name='Tanvir' where id='20';
 select * from person;
 update institution set name='City College' where id=8
+
+
+
+
 
 
 ------------------- Mehedi ----------------------

@@ -14,6 +14,7 @@ export default function SubjectList() {
     { title: "ID", field: "id", editable: "never" },
     { title: "Name", field: "name", editable: "always" },
     { title: "Opening Date", field: "openingDate", editable: "never" },
+    { title: "Type", field: "subjectType", editable: "always" },
   ];
   const [state, setState] = useState<{
     subjects: Subject[];
