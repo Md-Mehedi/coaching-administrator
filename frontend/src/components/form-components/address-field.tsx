@@ -73,8 +73,8 @@ export default function AddressField(props: AddressFieldProps) {
   useEffect(() => {
     setState({ ...state, address: props.value || new Address() });
     loadDivisions();
-  }, [props.value]);
-  console.log("Address : ", state.address);
+  }, []);
+  console.log("Address : ", state);
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
@@ -84,8 +84,10 @@ export default function AddressField(props: AddressFieldProps) {
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             label="Division"
+            disableUserChoice
             value={state.selectedDivision || null}
             onChange={(event, newValue) => {
+              console.log("in division onchange", newValue);
               setState({ ...state, selectedDivision: newValue });
               loadDistricts(newValue);
             }}
@@ -96,6 +98,7 @@ export default function AddressField(props: AddressFieldProps) {
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             label="District"
+            disableUserChoice
             value={state.selectedDistrict || null}
             onChange={(event, newValue) => {
               setState({ ...state, selectedDistrict: newValue });
@@ -108,6 +111,7 @@ export default function AddressField(props: AddressFieldProps) {
         <Grid item xs={12} sm={6} md={4}>
           <DropDown
             label="Upazila"
+            disableUserChoice
             value={state.address?.upazila || null}
             onChange={(event, newValue) => {
               setState({

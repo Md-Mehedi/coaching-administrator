@@ -87,7 +87,7 @@ export default function StudentInfo() {
     },
   ];
   function handleUpdateClick() {
-    navigate(ADMIN_LINKS.updateTeacher.path, { state: state.student });
+    navigate(ADMIN_LINKS.updateStudent.path, { state: state.student });
   }
   function handleDeleteClick() {
     if (id) {

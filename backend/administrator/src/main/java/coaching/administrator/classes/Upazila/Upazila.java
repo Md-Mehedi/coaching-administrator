@@ -28,7 +28,7 @@ public class Upazila implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "district_id", referencedColumnName = "id")
     private District district;
     // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy

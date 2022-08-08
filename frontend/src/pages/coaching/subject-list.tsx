@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { API } from "../../api";
 import { Subject } from "../../classes/coaching";
 import MyTable, { onRowAdd, onRowUpdate } from "../../components/my-table";
-import { onRowDelete } from "./../../components/my-table";
-import { apiCatch, showSnackbar } from "./../../tools/helper-functions";
+import { onRowDelete } from "../../components/my-table";
+import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 
 export default function SubjectList() {
   const { enqueueSnackbar } = useSnackbar();
@@ -14,6 +14,7 @@ export default function SubjectList() {
     { title: "ID", field: "id", editable: "never" },
     { title: "Name", field: "name", editable: "always" },
     { title: "Opening Date", field: "openingDate", editable: "never" },
+    { title: "Type", field: "subjectType", editable: "always" },
   ];
   const [state, setState] = useState<{
     subjects: Subject[];

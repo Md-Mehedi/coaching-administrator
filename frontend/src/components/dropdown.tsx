@@ -1,3 +1,4 @@
+import { AddCircle } from "@mui/icons-material";
 import {
   FormControl,
   InputLabel,
@@ -8,6 +9,8 @@ import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
   AutocompleteValue,
+  IconButton,
+  Grid,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -40,6 +43,7 @@ export interface DropDownProps<
   label: string;
   optionLabel: string;
   required?: boolean;
+  disableUserChoice?: boolean;
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
 }
 export default function DropDown<
@@ -69,6 +73,19 @@ export default function DropDown<
       renderInput={(params) => (
         <TextField
           {...params}
+          // InputProps={{
+          //   endAdornment: props.disableUserChoice ? (
+          //     params.InputProps.endAdornment
+          //   ) : (
+          //     <Grid container direction="column">
+          //       <Grid item>
+          //         <IconButton>
+          //           <AddCircle />
+          //         </IconButton>
+          //       </Grid>
+          //     </Grid>
+          //   ),
+          // }}
           required={required}
           onClick={(event) => {
             event.preventDefault();
@@ -120,26 +137,40 @@ export default function DropDown<
       // }}
       onClose={(event) => {
         if (!localSelectedValue) {
+          let inputValue = state.inputValue;
           // if (state.inputValue == "") return;
           let val = props.options.find((item) => {
             if (props.optionLabel) {
-              return state.inputValue == item[props.optionLabel];
+              return (
+                state.inputValue.toLowerCase() ==
+                item[props.optionLabel].toLowerCase()
+              );
             } else {
               //@ts-ignore
-              return state.inputValue == item;
+              return state.inputValue.toLowerCase() == item.toLowerCase();
             }
           });
           if (!val) {
-            val = props.optionLabel
-              ? JSON.parse(`{"${props.optionLabel}":"${state.inputValue}"}`)
-              : state.inputValue;
+            if (props.disableUserChoice) {
+              inputValue = "";
+            } else {
+              val = props.optionLabel
+                ? JSON.parse(`{"${props.optionLabel}":"${state.inputValue}"}`)
+                : state.inputValue;
+            }
           }
+          console.log("In dropdown onChange", val);
           props.onChange &&
             // @ts-ignore
             props.onChange(event, val, "createOption");
-          // @ts-ignore
-          setState({ ...state, selectedValue: val });
+          setState({
+            ...state,
+            // @ts-ignore
+            selectedValue: val,
+            inputValue: inputValue,
+          });
         } else {
+          console.log("In dropdown onChange else ", localSelectedValue);
           props.onChange &&
             // @ts-ignore
             props.onChange(event, localSelectedValue, "createOption");
@@ -180,6 +211,9 @@ export default function DropDown<
       getOptionLabel={(option: T) =>
         props.optionLabel ? option[props.optionLabel] : option
       }
+      InputProps={{
+        endAdornment: <AddCircle />,
+      }}
     />
   );
 }

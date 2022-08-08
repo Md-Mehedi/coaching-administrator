@@ -3,6 +3,7 @@ package coaching.administrator.classes.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coaching.administrator.classes.Occupation.Occupation;
 import coaching.administrator.classes.Security.PasswordEncoder;
 
 @Service
@@ -60,5 +61,9 @@ public class PersonService {
 
         return repository.save(oldPerson);
     }
+
+    // public void setFatherOccupation(Person person, Occupation occupation) {
+    // repository.setFatherOccupation(person.getId(), occupation.getId());
+    // }
 
 }
