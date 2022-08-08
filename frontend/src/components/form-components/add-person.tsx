@@ -2,7 +2,7 @@ import { Grid, Card, CardContent } from "@mui/material";
 import React, { useRef } from "react";
 import { Person } from "../../classes/person-info";
 import addStudent from "../../pages/student/add-student";
-import SaveCancelButtons from "../save-cancel-buttons";
+import SaveDeleteCancelButtons from "../save-cancel-buttons";
 import AddressField from "./address-field";
 import BasicInformation from "./basic-information";
 import ContactInformation from "./contact-field";

@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "../../links";
 import { showSnackbar } from "../../tools/helper-functions";
 import { LoadingButton } from "@mui/lab";
+import { apiCatch } from "./../../tools/helper-functions";
 
 // const useStyles: any = makeStyles((theme: Theme) => ({
 //   root: {
@@ -119,15 +120,20 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
   function handleLoginClick(event) {
     if (errorVerify()) {
       setState({ ...state, loading: true });
-      API.auth.login(state.email, state.password).then((response) => {
-        if (response.status == 200) {
-          showSnackbar(enqueueSnackbar, response.data, () => {
-            setState({ ...state, loading: false });
-            localStorage.setItem("adminId", response.data.adminId);
-            navigate(ADMIN_LINKS.settings.path);
-          });
-        }
-      });
+      API.auth
+        .login(state.email, state.password)
+        .then((response) => {
+          if (response.status == 200) {
+            showSnackbar(enqueueSnackbar, response.data, () => {
+              setState({ ...state, loading: false });
+              if (response.data.success) {
+                localStorage.setItem("adminId", response.data.adminId);
+                navigate(ADMIN_LINKS.settings.path);
+              }
+            });
+          }
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
     }
   }
   return (

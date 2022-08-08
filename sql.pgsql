@@ -76,13 +76,15 @@ SELECT con.*
                        ON nsp.oid = connamespace
        WHERE nsp.nspname = 'public'
              AND rel.relname = 'person'
-delete from todo;
+delete from class_time;
 
-drop table customer CASCADE;
+drop table class_time CASCADE;
 drop table todo CASCADE;
 
-s
+select * from class_time;
 
-insert into occupation (name) values('Driver');
-insert into occupation (name) values('Housewife');
-insert into occupation (name) values('Businessman');
+insert into class_type (type) values('CLASS');
+insert into class_type (type) values('EXAM');
+insert into class_type (type) values('EVENT');
+insert into class_type (type) values('CANCEL');
+

@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SaveCancelButtons from "../../components/save-cancel-buttons";
+import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import TextEditor from "../../components/text-editor";
 import MaterialTable from "material-table";
 import { exams, examTypes, teachers } from "../../data";

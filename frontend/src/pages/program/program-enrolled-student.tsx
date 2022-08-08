@@ -61,7 +61,7 @@ export default function ProgramEnrolledStudent() {
         open={state.open}
         onClose={(event) => setState({ ...state, open: false })}
         title="Add student"
-        primaryButtonText="Add"
+        saveButtonText="Add"
       >
         <SearchByNameOrIdField />
       </DialogLayout>

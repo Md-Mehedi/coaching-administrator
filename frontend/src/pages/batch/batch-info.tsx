@@ -43,6 +43,7 @@ export default function BatchInfo() {
         .get(parseInt(id))
         .then((res) => {
           setState({ ...state, batch: res.data, pageLoading: false });
+          console.log("retrieve batch : ", res.data);
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
   }, [id]);
@@ -82,7 +83,7 @@ export default function BatchInfo() {
   const tabs = [
     {
       title: "Routine",
-      element: <BatchRoutine />,
+      element: <BatchRoutine batch={state.batch} />,
     },
     {
       title: "Attendance",
