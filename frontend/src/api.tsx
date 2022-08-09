@@ -1,7 +1,14 @@
 import axios from "axios";
 import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
-import { Batch, Coaching, Program, Room, Subject } from "./classes/coaching";
+import {
+  Batch,
+  ClassTime,
+  Coaching,
+  Program,
+  Room,
+  Subject,
+} from "./classes/coaching";
 
 const HOST = "http://localhost:7982";
 
@@ -120,5 +127,15 @@ export const API = {
     get: (id: number) => get("/get-batch-by-id/" + id),
     delete: (id: number) => del("/delete-batch-by-id/" + id),
     update: (batch: Batch) => put("/update-batch", batch),
+  },
+  classTime: {
+    add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
+    getAllByBatchId: (batchId: number) =>
+      get("/get-all-classTime-by-batchId/" + batchId),
+    get: (id: number) => get("/get-classTime-by-id/" + id),
+    delete: (id: number) => del("/delete-classTime-by-id/" + id),
+    update: (classTime: ClassTime) => put("/update-class", classTime),
+    saveAll: (classTimes: ClassTime[]) =>
+      postBody("/save-all-classTime", classTimes),
   },
 };

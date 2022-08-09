@@ -16,7 +16,7 @@ import QualificationExamResultField from "../../components/form-components/quali
 import MyTextfield from "../../components/form-components/my-textfield";
 import ParentInformation from "../../components/form-components/parent-information";
 import PersonQualification from "../../components/form-components/person-qualification-exam-details";
-import SaveCancelButtons from "../../components/save-cancel-buttons";
+import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 import { useLocation, useParams } from "react-router-dom";
 import AddPerson from "../../components/form-components/add-person";
@@ -82,7 +82,7 @@ export default function AddTeacher() {
         />
       </Grid>
       <Grid item>
-        <SaveCancelButtons
+        <SaveDeleteCancelButtons
           saveButtonText={state ? "Update" : "Save"}
           loading={saveLoading}
           onSaveClick={(event) => postTeacher()}

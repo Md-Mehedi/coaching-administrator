@@ -1,9 +1,9 @@
 package coaching.administrator.classes.ClassTime;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,12 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import coaching.administrator.classes.Batch.Batch;
 import coaching.administrator.classes.ClassType.ClassType;
-import coaching.administrator.classes.Day.Day;
 import coaching.administrator.classes.Room.Room;
 import coaching.administrator.classes.Teacher.Teacher;
 import lombok.AllArgsConstructor;
@@ -34,35 +33,30 @@ public class ClassTime implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startTime;
-
+    private Date startDateTime;
     private Integer duration;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "class_type_id", referencedColumnName = "id")
     private ClassType classType;
+    private Integer day;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "batch_id", referencedColumnName = "id")
-    private Batch batch;
+    // @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch =
+    // FetchType.EAGER)
+    // @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    // private Batch batch;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "day_id", referencedColumnName = "id")
-    private Day day;
-
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    @JsonBackReference
+    private Batch batch;
+
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_id", referencedColumnName = "person_id")
     private Teacher teacher;
 }

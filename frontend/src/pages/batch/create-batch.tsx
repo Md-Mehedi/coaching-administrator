@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import SaveCancelButtons from "../../components/save-cancel-buttons";
+import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
 import AdminLayout from "../../layouts/admin-layout";
 import Events from "../class-time/events";
@@ -140,8 +140,8 @@ export default function CreateBatchDialog(props: CreateBatchDialogProps) {
       title="Create a batch"
       open={props.open}
       onClose={props.onClose}
-      primaryButtonText={props.saveButtonText}
-      onPrimaryButtonClick={(event) =>
+      saveButtonText={props.saveButtonText}
+      onSaveButtonClick={(event) =>
         props.onSaveClick && props.onSaveClick(state.batch)
       }
       primaryButtonLoading={props.saveLoading}

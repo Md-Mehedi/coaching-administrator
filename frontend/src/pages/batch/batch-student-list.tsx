@@ -69,7 +69,7 @@ export default function BatchStudents() {
           open={state.open}
           onClose={(event) => setState({ ...state, open: false })}
           title="Add student"
-          primaryButtonText="Add"
+          saveButtonText="Add"
         >
           <SearchByNameOrIdField />
         </DialogLayout>

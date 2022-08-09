@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SaveCancelButtons from "../../components/save-cancel-buttons";
+import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import AddressField from "../../components/form-components/address-field";
 import ContactInformation from "../../components/form-components/contact-field";
 import QualificationExamResultField from "../../components/form-components/qualifiction-exam-field";
@@ -45,6 +45,11 @@ export default function AddStudent() {
   const [saveLoading, setLoading] = useState(false);
 
   console.log("Current student", student);
+  useEffect(() => {
+    if (state) {
+      setStudent(state as Student);
+    }
+  }, [state]);
 
   function postStudent() {
     if (errorVerify() && student) {
@@ -87,7 +92,7 @@ export default function AddStudent() {
         />
       </Grid>
       <Grid item>
-        <SaveCancelButtons
+        <SaveDeleteCancelButtons
           saveButtonText={state ? "Update" : "Save"}
           loading={saveLoading}
           onSaveClick={(event) => postStudent()}

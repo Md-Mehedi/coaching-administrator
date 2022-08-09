@@ -81,11 +81,12 @@ SELECT con.*
                        ON nsp.oid = connamespace
        WHERE nsp.nspname = 'public'
              AND rel.relname = 'person'
-delete from todo;
+delete from class_time;
 
-drop table customer CASCADE;
+drop table class_time CASCADE;
 drop table todo CASCADE;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -98,3 +99,12 @@ insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');
 insert into occupation (name) values('Businessman');
 >>>>>>> 7c6c90ea135ef173d01e849da7f8993dd50e63ad
+=======
+select * from class_time;
+
+insert into class_type (type) values('CLASS');
+insert into class_type (type) values('EXAM');
+insert into class_type (type) values('EVENT');
+insert into class_type (type) values('CANCEL');
+
+>>>>>>> 9e9ec4e42310cd3052a95b2b0d4287af70cfedbe
