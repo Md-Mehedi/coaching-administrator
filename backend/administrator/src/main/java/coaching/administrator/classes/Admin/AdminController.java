@@ -4,7 +4,6 @@ package coaching.administrator.classes.Admin;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Global.PersonType;
+import coaching.administrator.classes.Person.Person;
+import coaching.administrator.classes.Person.PersonRepository;
+
 @RestController
 public class AdminController {
 
     @Autowired
     private AdminService service;
+
+    @Autowired
+    PersonRepository personRepository;
 
     @PostMapping("/verify-admin")
     public ObjectNode verifyAdmin(@RequestBody Map<String, Object> adminMap) {
@@ -44,7 +51,11 @@ public class AdminController {
 
     @GetMapping("/get-admin-by-id/{id}")
     public Admin getAdminById(@PathVariable Integer id) {
-        return service.getAdminById(id);
+
+        Person person = personRepository.findByEmail(Global.getCurrentUserEmail());
+        if (person.getPersonType().equals(PersonType.SUPER_ADMIN.getName()))
+            return service.getAdminById(id);
+        return null;
     }
 
     @GetMapping("/helloworld")

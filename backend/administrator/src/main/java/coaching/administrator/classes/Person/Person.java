@@ -98,11 +98,14 @@ public class Person implements Serializable {
     private String email;
     private String fatherName;
     private String motherName;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date joiningDate;
     private String bloodGroup;
+
     private String nationality;
     private String personType;
     @Type(type = "org.hibernate.type.BinaryType")

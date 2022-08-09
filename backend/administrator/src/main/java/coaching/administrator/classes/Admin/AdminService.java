@@ -9,11 +9,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Global.APIMessage;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Global.PersonType;
 import coaching.administrator.classes.Person.ConfirmationToken;
 import coaching.administrator.classes.Person.ConfirmationTokenRepository;
 import coaching.administrator.classes.Person.EmailService;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @Service
 public class AdminService {
@@ -32,6 +34,7 @@ public class AdminService {
     public Admin saveAdmin(Admin admin) {
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // admin.setPassword(pEncoder.getEncodedPassword(admin.getPerson().getPassword()));
+        admin.getPerson().setPersonType(PersonType.ADMIN.getName());
         return repository.save(admin);
     }
 
@@ -77,20 +80,23 @@ public class AdminService {
         // String encodedPasssword = pEncoder.getEncodedPassword(password);
         Admin admin = getAdminByEmail(email);
 
-        if (admin == null)
+        if (admin == null) {
             return node
                     .put("success", false)
                     .put("message", "User not found. Please, register first.");
-        else if (!password.equals(admin.getPerson().getPassword()))
+        } else if (!password.equals(admin.getPerson().getPassword()))
             return node
                     .put("success", false)
                     .put("message", "Password does not match");
-        else if (password.equals(admin.getPerson().getPassword()))
+        else if (password.equals(admin.getPerson().getPassword())) {
+            JwtUtils jwt = new JwtUtils();
+            String token = jwt.generateJwtToken(email);
             return node
+                    .put("token", token)
                     .put("success", true)
                     .put("message", "Login successful")
                     .put("adminId", admin.getPerson().getId());
-        else
+        } else
             return node
                     .put("success", false)
                     .put("message", "Server error. Try again.");
