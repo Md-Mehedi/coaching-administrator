@@ -7,11 +7,13 @@ type SaveCancelButtonsProps = {
   loading?: boolean;
   onSaveClick?: (event) => void;
   onCancelClick?: (event) => void;
+  onDeleteClick?: (event) => void;
   saveButtonText?: string;
   cancelButtonText?: string;
+  deleteButtonText?: string;
 };
 
-export default function SaveCancelButtons(props: SaveCancelButtonsProps) {
+export default function SaveDeleteCancelButtons(props: SaveCancelButtonsProps) {
   return (
     <Grid
       item
@@ -32,6 +34,18 @@ export default function SaveCancelButtons(props: SaveCancelButtonsProps) {
           {props.saveButtonText || "Save"}
         </LoadingButton>
       </Grid>
+      {
+        props.onDeleteClick && 
+      <Grid item>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={props.onDeleteClick}
+        >
+          {props.cancelButtonText || "Delete"}
+        </Button>
+      </Grid>
+        }
       <Grid item>
         <Button
           variant="contained"

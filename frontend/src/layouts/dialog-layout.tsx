@@ -9,17 +9,19 @@ import {
 import React from "react";
 import CreateProgram from "../pages/program/create-program";
 import { LoadingButton } from "@mui/lab";
-import SaveCancelButtons from "./../components/save-cancel-buttons";
+import SaveDeleteCancelButtons from "./../components/save-cancel-buttons";
 
 export interface DialogLayoutProps {
   open?: boolean;
   onClose?: (event) => void;
-  children: JSX.Element | JSX.Element[];
+  children?: JSX.Element | JSX.Element[];
   title?: string;
-  primaryButtonText?: string;
-  onPrimaryButtonClick?: (event) => void;
-  secondaryButtonText?: string;
-  onSecondaryButtonClick?: (event) => void;
+  saveButtonText?: string;
+  onSaveButtonClick?: (event) => void;
+  cancelButtonText?: string;
+  onCancelButtonClick?: (event) => void;
+  deleteButtonText?: string;
+  onDeleteButtonClick?: (event) => void;
   fullWidth?: boolean;
   primaryButtonLoading?: boolean;
 }
@@ -47,16 +49,16 @@ export default function DialogLayout(props: DialogLayoutProps) {
           justifyContent="center"
           alignItems="center"
         >
-          <SaveCancelButtons
+          <SaveDeleteCancelButtons
             loading={props.primaryButtonLoading}
-            saveButtonText={props.primaryButtonText}
-            cancelButtonText={props.secondaryButtonText}
-            onSaveClick={props.onPrimaryButtonClick}
+            saveButtonText={props.saveButtonText}
+            cancelButtonText={props.cancelButtonText}
+            onSaveClick={props.onSaveButtonClick}
             onCancelClick={(event) => {
-              props.onSecondaryButtonClick &&
-                props.onSecondaryButtonClick(event);
+              props.onCancelButtonClick && props.onCancelButtonClick(event);
               props.onClose && props.onClose(event);
             }}
+            onDeleteClick={props.onDeleteButtonClick}
           />
           {/* <Grid item>
             <LoadingButton

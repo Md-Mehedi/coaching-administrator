@@ -106,13 +106,13 @@ export default function About({ person }: { person?: Person }) {
             {person?.presentAddress && (
               <Field
                 field="Present address"
-                value={`${person?.presentAddress?.village}, ${person?.presentAddress?.upazila?.name}, ${person?.presentAddress?.upazila?.district?.name}, ${person?.presentAddress?.upazila?.district?.division.name}`}
+                value={`${person?.presentAddress?.village},${person?.presentAddress?.wardNo}, ${person?.presentAddress?.upazila?.name}, ${person?.presentAddress?.upazila?.district?.name}, ${person?.presentAddress?.upazila?.district?.division.name}`}
               />
             )}
             {person?.permanentAddress && (
               <Field
                 field="Permanent address"
-                value={`${person?.permanentAddress?.village}, ${person?.permanentAddress?.upazila?.name}, ${person?.permanentAddress?.upazila?.district?.name}, ${person?.permanentAddress?.upazila?.district?.division.name}`}
+                value={`${person?.permanentAddress?.village},${person?.permanentAddress?.wardNo}, ${person?.permanentAddress?.upazila?.name}, ${person?.permanentAddress?.upazila?.district?.name}, ${person?.permanentAddress?.upazila?.district?.division.name}`}
               />
             )}
           </Grid>

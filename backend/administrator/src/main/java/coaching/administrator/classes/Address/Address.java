@@ -32,6 +32,7 @@ public class Address implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "upazila_id", referencedColumnName = "id")
     private Upazila upazila;
+    private String wardNo;
     // @OneToOne(mappedBy = "presentAddress", fetch = FetchType.LAZY)
     // private Person personPresent;
     // @OneToOne(mappedBy = "permanentAddress", fetch = FetchType.LAZY)

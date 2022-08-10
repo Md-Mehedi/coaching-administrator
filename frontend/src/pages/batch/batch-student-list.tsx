@@ -2,6 +2,7 @@ import { Grid, Avatar } from "@mui/material";
 import MaterialTable from "material-table";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Student } from "../../classes/person-info";
 import MyTable, { onRowDelete } from "../../components/my-table";
 import SearchByNameOrIdField from "../../components/search-by-name-or-id-field";
 import UpdateButton from "../../components/update-button";
@@ -69,9 +70,14 @@ export default function BatchStudents() {
           open={state.open}
           onClose={(event) => setState({ ...state, open: false })}
           title="Add student"
-          primaryButtonText="Add"
+          saveButtonText="Add"
         >
-          <SearchByNameOrIdField />
+          <SearchByNameOrIdField
+            selectedStudent={null}
+            onChange={function (newStudent: Student | Student[] | null): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </DialogLayout>
       </Grid>
       <Grid item container>

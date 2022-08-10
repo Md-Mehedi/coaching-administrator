@@ -249,80 +249,13 @@ SELECT con.*
                        ON nsp.oid = connamespace
        WHERE nsp.nspname = 'public'
              AND rel.relname = 'person'
-delete from todo;
+delete from class_time;
 
-drop table customer CASCADE;
+drop table class_time CASCADE;
 drop table todo CASCADE;
 
-
+s
 
 insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');
-
-
-
----Utsa-------
-
--- Board Insertion
-insert into Board (name) values('Dhaka') ;
-insert into Board (name) values('Chittagong');
-insert into Board (name) values('Comilla');
-insert into Board (name) values('Barisal');
-insert into Board (name) values('Dinajpur');
-insert into Board (name) values('Jessore');
-insert into Board (name) values('Rajshahi');
-insert into Board (name) values('Sylhet');
-insert into Board (name) values('Mymensingh');
-insert into Board (name) values('Madrasah');
-insert into Board (name) values('Technical');
-
-
-
-
-insert into institution (name, board_id) values('Government Laboratory High School',1);
-insert into institution (name, board_id) values('Ideal School and College',1);
-insert into institution (name, board_id) values('L. Jubilee High School & College',1);
-insert into institution (name, board_id) values('Kabi Nazrul Government College',1);
-insert into institution (name, board_id) values('Kalshi Islamia High School',1);
-insert into institution (name, board_id) values('Kurmitola High School & College',1);
-insert into institution (name, board_id) values('Manarat Dhaka International School and College',1);
-insert into institution (name, board_id) values('Mastermind School',1);
-insert into institution (name, board_id) values('Matuail Adarsha High School',1);
-insert into institution (name, board_id) values('Milestone College',1);
-insert into institution (name, board_id) values('Motijheel Government Boys’ High School',1);
-
-
-
-insert into institution (name, board_id) values('CHITTAGONG COLLEGE',2);
-insert into institution (name, board_id) values('GOVT. HAZI MUHAMMAD MOHSIN COLLEGE',2);
-insert into institution (name, board_id) values('CHITTAGONG GOVT. CITY COLLEGE',2);
-insert into institution (name, board_id) values('CHITTAGONG CANTONMENT PUBLIC COLLEGE',2);
-insert into institution (name, board_id) values('CHITTAGONG GOVT. GIRLS’ COLLEGE',2);
-insert into institution (name, board_id) values('GOVT. COMMERCE COLLEGE',2);
-insert into institution (name, board_id) values('CANTONMENT ENGLISH SCHOOL & COLLEGE',2);
-insert into institution (name, board_id) values('ISPAHANI PUBLIC SCHOOL & COLLEGE',2);
-insert into institution (name, board_id) values('HAZERA-TAJU DEGREE COLLEGE',2);
-insert into institution (name, board_id) values('FAUJDARHAT CADET COLLEGE',2);
-insert into institution (name, board_id) values('CHITTAGONG GOVT. HIGH SCHOOL',2);
-
-
-insert into institution (name, board_id) values('Chittagong Collegiate School',2);
-insert into institution (name, board_id) values('Govt. Muslim High School',2);
-insert into institution (name, board_id) values('Dr.Kashtagir Government Girls School',2);
-insert into institution (name, board_id) values('Nasirabad Government High School',2);
-insert into institution (name, board_id) values('Baklia Government High School',2);
-insert into institution (name, board_id) values('Chittagong Cantonment Public School and College',2);
-insert into institution (name, board_id) values('Bangladesh Navy School and College, Chittagong',2);
-insert into institution (name, board_id) values('Chittagong Government Girls’ High School',2);
-insert into institution (name, board_id) values('Bangladesh Mohila Samity Girls’ High School & College',2);
-insert into institution (name, board_id) values('Ispahani Public School and College',2);
-
-
-
-
-
-
-
-
-
-
+insert into occupation (name) values('Businessman');

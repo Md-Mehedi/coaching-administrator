@@ -1,12 +1,39 @@
 import axios from "axios";
 import { Admin, Religion, Student, Teacher } from "./classes/person-info";
 import createQueryParam from "./tools/create-query-param";
-import { Batch, Coaching, Program, Room, Subject } from "./classes/coaching";
+import {
+  Batch,
+  ClassTime,
+  Coaching,
+  Program,
+  Room,
+  Subject,
+} from "./classes/coaching";
 
 const HOST = "http://localhost:7982";
 
+export function authHeaders() {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    return {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+      },
+    };
+  } else {
+    return {
+      headers: {
+        Authorization: "",
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+      },
+    };
+  }
+}
+
 function post(url, body = {}, param = {}) {
-  return axios.post(HOST + url + createQueryParam(param), body);
+  return axios.post(HOST + url + createQueryParam(param), body, authHeaders());
 }
 function postParam(url, param) {
   return post(url, {}, param);
@@ -15,25 +42,28 @@ function postBody(url, body) {
   return post(url, body);
 }
 function put(url, body) {
-  return axios.put(HOST + url, body);
+  return axios.put(HOST + url, body, authHeaders());
 }
 function get(url, param = {}) {
-  return axios.get(HOST + url + createQueryParam(param));
+  return axios.get(HOST + url + createQueryParam(param), authHeaders());
 }
 function del(url, param = {}) {
-  return axios.delete(HOST + url + createQueryParam(param));
+  return axios.delete(HOST + url + createQueryParam(param), authHeaders());
 }
 export const API = {
-  /*****************/
-  /* Authorization */
-  /*****************/
+  /******************/
+  /* Authentication */
+  /******************/
   auth: {
     register: (email: string, password: string) =>
-      postBody("/verify-admin", { email: email, password: password }),
+      postBody("/auth/verify-admin", { email: email, password: password }),
     confirmAdmin: (token: string) =>
-      postParam("/confirm-admin", { token: token }),
+      postParam("/auth/confirm-admin", { token: token }),
     login: (email: string, password: string) =>
-      postBody("/authenticate-admin", { email: email, password: password }),
+      postBody("/auth/authenticate-admin", {
+        email: email,
+        password: password,
+      }),
   },
   /********************/
   /* User related api */
@@ -41,6 +71,7 @@ export const API = {
   admin: {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
     getAdminById: (id: number) => get("/get-admin-by-id/" + id),
+    getAdmin: () => get("/get-admin"),
   },
   student: {
     add: (student: Student) => postBody("/add-student", student),
@@ -98,6 +129,10 @@ export const API = {
     delete: (id: number) => del("/delete-program-by-id/" + id),
     getAll: () => get("/get-all-program"),
     get: (id: number) => get("/get-program-by-id/" + id),
+    getEnrolledStudents: (programId: number) =>
+      get("/get-all-students-by-programId/" + programId),
+    addStudent: (programId: number, studentId: number) =>
+      post("/add-enrolledProgram/" + programId + "/" + studentId),
   },
   subject: {
     add: (subject: Subject) => postBody("/add-subject", subject),
@@ -120,5 +155,15 @@ export const API = {
     get: (id: number) => get("/get-batch-by-id/" + id),
     delete: (id: number) => del("/delete-batch-by-id/" + id),
     update: (batch: Batch) => put("/update-batch", batch),
+  },
+  classTime: {
+    add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
+    getAllByBatchId: (batchId: number) =>
+      get("/get-all-classTime-by-batchId/" + batchId),
+    get: (id: number) => get("/get-classTime-by-id/" + id),
+    delete: (id: number) => del("/delete-classTime-by-id/" + id),
+    update: (classTime: ClassTime) => put("/update-class", classTime),
+    saveAll: (classTimes: ClassTime[]) =>
+      postBody("/save-all-classTime", classTimes),
   },
 };

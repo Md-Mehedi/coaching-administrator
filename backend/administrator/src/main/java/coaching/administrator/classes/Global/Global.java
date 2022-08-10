@@ -1,16 +1,18 @@
 package coaching.administrator.classes.Global;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import coaching.administrator.classes.Admin.Admin;
 import coaching.administrator.classes.Admin.AdminService;
-import coaching.administrator.classes.Coaching.Coaching;
-import coaching.administrator.classes.Coaching.CoachingRepository;
 import coaching.administrator.classes.Coaching.CoachingService;
+import coaching.administrator.classes.Security.services.UserDetailsImpl;
+import lombok.Data;
 
+@Data
 public class Global {
 
     @Autowired
@@ -36,4 +38,15 @@ public class Global {
     public static ObjectNode createSuccessMessage(String message) {
         return createMessage(message, true);
     }
+
+    // public static String getCurrentUserEmail() {
+    // if
+    // (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser"))
+    // return "";
+    // UserDetailsImpl userDetails = (UserDetailsImpl)
+    // SecurityContextHolder.getContext().getAuthentication()
+    // .getPrincipal();
+    // Global.colorPrint(userDetails.getEmail());
+    // return userDetails.getEmail();
+    // }
 }

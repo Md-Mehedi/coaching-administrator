@@ -5,11 +5,15 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
 } from "@mui/material";
@@ -19,38 +23,40 @@ import React, { useEffect, useState } from "react";
 import { rooms } from "../../data";
 import { teachers } from "./../../data";
 import { Teacher } from "./../../classes/person-info";
-import { Room } from "../../classes/coaching";
+import { ClassTime, Room } from "../../classes/coaching";
 import { API } from "../../api";
 import DropDown from "../../components/dropdown";
+import MyTextfield from "../../components/form-components/my-textfield";
+import { DatePicker } from "@mui/lab";
+import DialogLayout, { DialogLayoutProps } from "./../../layouts/dialog-layout";
+import {
+  add,
+  countToDate,
+  dateToCount,
+  duration,
+} from "../../tools/helper-functions";
+import { durationToEndTime } from "./../../tools/helper-functions";
 
 type EventStates = {
-  date: Date | null;
-  startTime: Date | null;
-  endTime: Date | null;
-  selectedTeacher: Teacher | null;
-  selectedRoom: Room | null;
-  // date: Date | null;
-  // startTime: Date | null;
-  // endTime: Date | null;
-  // teacherId: number | null;
-  // roomId: number | null;
+  // repeatAllowed: boolean;
+  repeatType: string;
   // untilDate: Date | null;
+  // count: number;
 };
 type EventProps = {
-  info?: DateSelectArg;
-  title?: string;
+  classTime: ClassTime;
+  onChange: (newClassTime: ClassTime) => void;
   disableRepeat?: boolean;
   onDeleteClick?: (event) => void;
 };
-export default function Event(props: EventProps) {
+export function Event(props: EventProps) {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [state, setState] = useState<EventStates>({
-    date: new Date(),
-    startTime: new Date(),
-    endTime: new Date(),
-    selectedTeacher: null,
-    selectedRoom: null,
+    // repeatAllowed: true,
+    repeatType: "specific",
+    // untilDate: new Date(),
+    // count: 1,
   });
   useEffect(() => {
     API.teacher.getAll().then((response) => {
@@ -59,109 +65,261 @@ export default function Event(props: EventProps) {
     API.room.getAll().then((response) => {
       setRooms(response.data);
     });
-    setState({
-      ...state,
-      date: new Date(props.info?.startStr || ""),
-      startTime: new Date(props.info?.startStr || ""),
-      endTime: new Date(props.info?.endStr || ""),
-    });
-  }, []);
-  console.log(state);
+    console.log("in useEffect", dateToCount(props.classTime));
+    // setState({
+    //   ...state,
+    //   repeatAllowed: dateToCount(props.classTime) > 1,
+    //   repeatType: props.classTime.endDate ? "specific" : "forever",
+    //   count: dateToCount(props.classTime),
+    // });
+    // setState({
+    //   ...state,
+    //   date: new Date(props.info?.startStr || ""),
+    //   startTime: new Date(props.info?.startStr || ""),
+    //   endTime: new Date(props.info?.endStr || ""),
+    //   untilDate: new Date(props.info?.endStr || ""),
+    // });
+  }, [props.classTime]);
 
   return (
-    <Card>
-      <CardHeader
-        title={props.title}
-        action={
-          !props.disableRepeat && (
-            <IconButton onClick={props.onDeleteClick}>
-              <ClearOutlined />
-            </IconButton>
-          )
-        }
-      />
-      <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <MobileDatePicker
-              label="Date"
-              value={state.date}
-              onChange={(newValue) => {
-                setState({
-                  ...state,
-                  date: newValue,
-                });
-              }}
-              renderInput={(params) => <TextField fullWidth {...params} />}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <TimePicker
-              label="Start time"
-              value={state.startTime}
-              onChange={(newValue) =>
-                setState({
-                  ...state,
-                  startTime: newValue,
-                })
+    <Grid container spacing={2}>
+      <Grid item xs={12} sm={6} md={4}>
+        <MobileDatePicker
+          label="Date"
+          value={props.classTime?.startDateTime}
+          onChange={(newValue) => {
+            props.onChange({
+              ...props.classTime,
+              startDateTime: newValue,
+              day: newValue?.getDay(),
+            });
+          }}
+          renderInput={(params) => <TextField fullWidth {...params} />}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <TimePicker
+          label="Start time"
+          value={props.classTime?.startDateTime}
+          onChange={(newValue) =>
+            props.onChange({
+              ...props.classTime,
+              startDateTime: newValue,
+            })
+          }
+          renderInput={(params) => <TextField fullWidth {...params} />}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <TimePicker
+          label="End time"
+          value={durationToEndTime(props.classTime)}
+          onChange={(newValue) =>
+            props.onChange({
+              ...props.classTime,
+              duration: newValue
+                ? duration(props.classTime.startDateTime, newValue)
+                : 0,
+            })
+          }
+          renderInput={(params) => <TextField fullWidth {...params} />}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <DropDown
+          label="Teacher"
+          disableUserChoice
+          options={teachers}
+          optionLabel="person.fullName"
+          value={props.classTime.teacher}
+          onChange={(event, newValue) =>
+            props.onChange({
+              ...props.classTime,
+              teacher: newValue || undefined,
+            })
+          }
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <DropDown
+          label="Room"
+          disableUserChoice
+          options={rooms}
+          optionLabel="name"
+          value={props.classTime.room}
+          onChange={(event, newValue) =>
+            props.onChange({
+              ...props.classTime,
+              room: newValue || undefined,
+            })
+          }
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container direction="column" spacing={1}>
+          {/* <Grid item>
+            <FormControlLabel
+              label="Repeat"
+              control={
+                <Checkbox
+                  checked={dateToCount(props.classTime) >= 2}
+                  onChange={(event) => {
+                    if (dateToCount(props.classTime) >= 2) {
+                      props.onChange({
+                        ...props.classTime,
+                        endDate: add(
+                          props.classTime.startDateTime || new Date()
+                        ),
+                      });
+                    } else {
+                      props.onChange({
+                        ...props.classTime,
+                        endDate: add(
+                          props.classTime.startDateTime || new Date(),
+                          20
+                        ),
+                      });
+                    }
+                  }}
+                />
               }
-              renderInput={(params) => <TextField fullWidth {...params} />}
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <TimePicker
-              label="End time"
-              value={state.endTime}
-              onChange={(newValue) =>
-                setState({
-                  ...state,
-                  endTime: newValue,
-                })
-              }
-              renderInput={(params) => <TextField fullWidth {...params} />}
-            />
-          </Grid>
-          {/* {!props.disableRepeat && (
-            <Grid item xs={12} sm={6} md={4}>
-              <MobileDatePicker
-                label="Repeat until"
-                value={state.untilDate}
-                onChange={(newValue) => {
-                  setState({
-                    ...state,
-                    untilDate: newValue,
-                  });
-                }}
-                renderInput={(params) => <TextField fullWidth {...params} />}
-              />
+          </Grid> */}
+          {/* {dateToCount(props.classTime) >= 2 && ( */}
+          <Grid item container alignItems="center">
+            <Grid item xs={6}>
+              <FormControl>
+                <RadioGroup
+                  value={state.repeatType}
+                  onChange={(event) => {
+                    setState({ ...state, repeatType: event.target.value });
+                    let endDate;
+                    switch (event.target.value) {
+                      case "don't repeat":
+                        props.onChange({
+                          ...props.classTime,
+                          endDate: add(
+                            props.classTime.startDateTime || new Date()
+                          ),
+                        });
+                        break;
+                      case "forever":
+                        props.onChange({
+                          ...props.classTime,
+                          endDate: undefined,
+                        });
+                        break;
+                      case "specific":
+                        if (!props.classTime.endDate) {
+                          props.onChange({
+                            ...props.classTime,
+                            endDate: add(
+                              props.classTime.startDateTime || new Date(),
+                              8
+                            ),
+                          });
+                        }
+                        break;
+                      case "until":
+                        if (!props.classTime.endDate) {
+                          props.onChange({
+                            ...props.classTime,
+                            endDate: add(
+                              props.classTime.startDateTime || new Date(),
+                              8
+                            ),
+                          });
+                        }
+                    }
+                  }}
+                >
+                  <FormControlLabel
+                    value="don't repeat"
+                    control={<Radio />}
+                    label="Don't repeat"
+                  />
+                  <FormControlLabel
+                    value="forever"
+                    control={<Radio />}
+                    label="Forever"
+                  />
+                  <FormControlLabel
+                    value="specific"
+                    control={<Radio />}
+                    label="Specific number of times"
+                  />
+                  <FormControlLabel
+                    value="until"
+                    control={<Radio />}
+                    label="Until"
+                  />
+                </RadioGroup>
+              </FormControl>
             </Grid>
-          )} */}
-          <Grid item xs={12} sm={6} md={4}>
-            <DropDown
-              label="Teacher"
-              disableUserChoice
-              options={teachers}
-              optionLabel="person.fullName"
-              value={state.selectedTeacher}
-              onChange={(event, newValue) => {
-                setState({ ...state, selectedTeacher: newValue });
-              }}
-            />
+            <Grid item xs={6}>
+              <>
+                {state.repeatType == "specific" && (
+                  <MyTextfield
+                    label="Count"
+                    value={dateToCount(props.classTime)}
+                    type="number"
+                    onChange={(event) =>
+                      props.onChange({
+                        ...props.classTime,
+                        endDate:
+                          countToDate(
+                            props.classTime,
+                            parseInt(event.target.value)
+                          ) || undefined,
+                      })
+                    }
+                  />
+                )}
+                {state.repeatType == "until" && (
+                  <DatePicker
+                    label="Until date"
+                    value={props.classTime.endDate}
+                    onChange={(newValue) =>
+                      props.onChange({
+                        ...props.classTime,
+                        endDate: newValue || undefined,
+                      })
+                    }
+                    renderInput={(params) => <MyTextfield {...params} />}
+                  />
+                )}
+              </>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DropDown
-              label="Room"
-              disableUserChoice
-              options={rooms}
-              optionLabel="name"
-              value={state.selectedRoom}
-              onChange={(event, newValue) => {
-                setState({ ...state, selectedRoom: newValue });
-              }}
-            />
-          </Grid>
+          {/* )} */}
         </Grid>
-      </CardContent>
-    </Card>
+      </Grid>
+    </Grid>
+  );
+}
+export interface AddEventDialogProps extends DialogLayoutProps {
+  classTime: ClassTime;
+  onSave?: () => void;
+  onDelete?: () => void;
+  onChange: (newClassTime: ClassTime) => void;
+  hideDelete?: boolean;
+}
+export default function AddEventDialog(props: AddEventDialogProps) {
+  // const [state, setState] = useState<{ classTime: ClassTime }>({
+  //   classTime: new ClassTime(),
+  // });
+  // useEffect(() => {
+  //   setState({ ...state, classTime: props.classTime });
+  // }, [props.classTime]);
+
+  return (
+    <DialogLayout
+      open={props.open}
+      onClose={props.onClose}
+      onSaveButtonClick={props.onSave}
+      onDeleteButtonClick={props.hideDelete ? undefined : props.onDelete}
+    >
+      <Event classTime={props.classTime} onChange={props.onChange} />
+    </DialogLayout>
   );
 }

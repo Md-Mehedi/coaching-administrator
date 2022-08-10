@@ -20,7 +20,7 @@ export default function Events(props: EventsProps) {
     <Grid container direction="column" spacing={2}>
       {state.events.map((event, index) => (
         <Grid item>
-          <Event
+          {/* <Event
             title={event.title}
             disableRepeat={props.disableRepeat}
             onDeleteClick={(event) => {
@@ -34,7 +34,7 @@ export default function Events(props: EventsProps) {
                 events: newEvents,
               });
             }}
-          />
+          /> */}
         </Grid>
       ))}
       <Grid item>

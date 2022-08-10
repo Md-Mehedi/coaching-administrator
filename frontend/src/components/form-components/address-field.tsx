@@ -150,6 +150,31 @@ export default function AddressField(props: AddressFieldProps) {
             }}
           />
         </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="Ward No"
+            value={state.address?.wardNo}
+            onChange={(event) => {
+              setState({
+                ...state,
+                address: { ...state.address, wardNo: event.target.value },
+              });
+            }}
+            onBlur={(event) => {
+              setState({
+                ...state,
+                address: { ...state.address, wardNo: event.target.value },
+              });
+              props.onChange &&
+                props.onChange({
+                  ...state.address,
+                  wardNo: event.target.value,
+                });
+            }}
+          />
+        </Grid>
       </Grid>
     </Grid>
   );

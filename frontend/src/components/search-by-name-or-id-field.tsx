@@ -1,40 +1,47 @@
 import { Grid, Box, TextField, Autocomplete } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { API } from "../api";
+import { Student } from "../classes/person-info";
+import DropDown from "./dropdown";
 
 export type SearchByNameOrIdFieldProps = {
   multiple?: boolean;
+  selectedStudent: Student | Student[] | null;
+  onChange: (newStudent: Student | Student[] | null) => void;
 };
 export default function SearchByNameOrIdField(
   props: SearchByNameOrIdFieldProps
 ) {
   const [state, setState] = useState<{
-    selectedValue:
-      | { id: string; name: string }
-      | { id: string; name: string }[]
-      | null;
+    students: Student[];
+    // selectedValue: Student | Student[] | null;
   }>({
-    selectedValue: props.multiple ? [] : null,
+    students: [],
+    // selectedValue: props.multiple ? [] : null,
   });
-  const students = [
-    { id: "2312001", name: "Aman" },
-    { id: "2312002", name: "Nasir" },
-    { id: "2212003", name: "Shemu" },
-    { id: "2112005", name: "Runa" },
-    { id: "2312006", name: "Al Amin" },
-  ];
+  useEffect(() => {
+    API.student.getAll().then((response) => {
+      setState({ ...state, students: response.data });
+    });
+  }, []);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <Autocomplete
+        <DropDown
+          label="Add students"
           multiple={props.multiple}
           filterSelectedOptions={props.multiple}
-          value={state.selectedValue}
+          value={props.selectedStudent}
           onChange={(event, newValue) => {
-            setState({ ...state, selectedValue: newValue });
+            props.onChange(newValue);
+            // setState({ ...state, selectedValue: newValue });
           }}
-          options={students}
+          options={state.students}
           autoHighlight
-          getOptionLabel={(option) => option.id + " - " + option.name}
+          getOptionLabel={(option) =>
+            option.person?.id + " - " + option.person?.fullName
+          }
           // renderOption={(props, option) => (
           //   <Box
           //     component="li"

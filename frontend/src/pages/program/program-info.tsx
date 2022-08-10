@@ -58,7 +58,7 @@ export default function ProgramInfo() {
     },
     {
       title: "Enrolled Students",
-      element: <ProgramEnrolledStudent />,
+      element: <ProgramEnrolledStudent program={state.program} />,
     },
   ];
   function handleUpdateClick(event) {

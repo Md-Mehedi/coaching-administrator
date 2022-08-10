@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MyTable from "../../components/my-table";
 import { students } from "../../data";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +7,28 @@ import { onRowDelete } from "../../components/my-table";
 import DialogLayout from "../../layouts/dialog-layout";
 import { Autocomplete, Avatar, Grid } from "@mui/material";
 import SearchByNameOrIdField from "../../components/search-by-name-or-id-field";
+import { API } from "./../../api";
+import { EnrolledProgram, Program } from "../../classes/coaching";
+import { useSnackbar } from "notistack";
+import { apiCatch, showSnackbar } from "./../../tools/helper-functions";
+import { Student } from "../../classes/person-info";
 
-export default function ProgramEnrolledStudent() {
-  const [state, setState] = useState({
+export default function ProgramEnrolledStudent({
+  program,
+}: {
+  program: Program;
+}) {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const [state, setState] = useState<{
+    open: boolean;
+    column: any;
+    enrolledStudents: Student[];
+    selectedStudent: Student | null;
+  }>({
     open: false,
     column: [
-      { title: "Roll no", field: "id" },
+      { title: "Roll no", field: "person.id" },
       {
         title: "Photo",
         field: "photo",
@@ -31,16 +47,48 @@ export default function ProgramEnrolledStudent() {
           </Grid>
         ),
       },
-      { title: "Name", field: "fullName" },
+      { title: "Name", field: "person.fullName" },
       { title: "Enrolled Date", field: "enrolledDate" },
     ],
-    data: students.map((item) => ({ ...item, enrolledDate: "30/04/2022" })),
+    enrolledStudents: [],
+    selectedStudent: null,
   });
-  const navigate = useNavigate();
+  useEffect(() => {
+    program.id &&
+      API.program
+        .getEnrolledStudents(program.id)
+        .then((response) => {
+          let students: Student[] = response.data;
+          setState({
+            ...state,
+            enrolledStudents: students,
+          });
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
+  }, []);
+
+  function handleAddClick(event) {
+    if (program.id && state.selectedStudent?.person?.id) {
+      API.program
+        .addStudent(program.id, state.selectedStudent.person.id)
+        .then((response) => {
+          showSnackbar(enqueueSnackbar, response.data);
+          setState({
+            ...state,
+            enrolledStudents: state.selectedStudent
+              ? [...state.enrolledStudents, state.selectedStudent]
+              : state.enrolledStudents,
+            open: false,
+          });
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
+    }
+  }
+
   return (
     <>
       <MyTable
-        data={state.data}
+        data={state.enrolledStudents}
         // @ts-ignore
         columns={state.column}
         onRowClick={(event, rowData) => {
@@ -51,8 +99,8 @@ export default function ProgramEnrolledStudent() {
           setState({ ...state, open: true });
         }}
         editable={{
-          onRowDelete: onRowDelete(state.data, (newData) =>
-            setState({ ...state, data: newData })
+          onRowDelete: onRowDelete(state.enrolledStudents, (newData) =>
+            setState({ ...state, enrolledStudents: newData })
           ),
         }}
       />
@@ -61,9 +109,15 @@ export default function ProgramEnrolledStudent() {
         open={state.open}
         onClose={(event) => setState({ ...state, open: false })}
         title="Add student"
-        primaryButtonText="Add"
+        saveButtonText="Add"
+        onSaveButtonClick={handleAddClick}
       >
-        <SearchByNameOrIdField />
+        <SearchByNameOrIdField
+          selectedStudent={state.selectedStudent}
+          onChange={(newStudent) =>
+            setState({ ...state, selectedStudent: newStudent as Student })
+          }
+        />
       </DialogLayout>
     </>
   );

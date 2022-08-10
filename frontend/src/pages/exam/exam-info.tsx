@@ -17,6 +17,7 @@ import DialogLayout from "../../layouts/dialog-layout";
 import SearchByNameOrIdField from "../../components/search-by-name-or-id-field";
 import AddExam from "./add-exam";
 import { onRowDelete, onRowUpdate } from "../../components/my-table";
+import { Student } from "../../classes/person-info";
 
 function ExamShortInfo() {
   const [state, setState] = useState({ open: false });
@@ -135,7 +136,12 @@ function ExamMarkUpload() {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <SearchByNameOrIdField />
+        <SearchByNameOrIdField
+          selectedStudent={null}
+          onChange={function (newStudent: Student | Student[] | null): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </Grid>
       <Grid item xs={12} sm={6}>
         <TextField fullWidth variant="outlined" label="CQ" />
