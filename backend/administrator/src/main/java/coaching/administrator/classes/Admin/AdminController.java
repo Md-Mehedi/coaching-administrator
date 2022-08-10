@@ -4,6 +4,8 @@ package coaching.administrator.classes.Admin;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Global.Global;
-import coaching.administrator.classes.Global.PersonType;
+import coaching.administrator.classes.Global.UserType;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonRepository;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
+import coaching.administrator.classes.Security.services.UserDetailsImpl;
 
 @RestController
+@CrossOrigin(origins = Global.FRONTEND_PATH, maxAge = 3600)
 public class AdminController {
 
     @Autowired
@@ -30,7 +35,7 @@ public class AdminController {
     @Autowired
     PersonRepository personRepository;
 
-    @PostMapping("/verify-admin")
+    @PostMapping("/auth/verify-admin")
     public ObjectNode verifyAdmin(@RequestBody Map<String, Object> adminMap) {
 
         String email = (String) adminMap.get("email");
@@ -38,7 +43,7 @@ public class AdminController {
         return service.verifyAdmin(email, password);
     }
 
-    @RequestMapping(value = "/confirm-admin", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/auth/confirm-admin", method = { RequestMethod.GET, RequestMethod.POST })
     public ObjectNode confirmAdmin(@RequestParam("token") String confirmationToken) {
 
         return service.confirmAdmin(confirmationToken);
@@ -49,13 +54,10 @@ public class AdminController {
         return service.addAdmin(admin);
     }
 
-    @GetMapping("/get-admin-by-id/{id}")
-    public Admin getAdminById(@PathVariable Integer id) {
-
-        Person person = personRepository.findByEmail(Global.getCurrentUserEmail());
-        if (person.getPersonType().equals(PersonType.SUPER_ADMIN.getName()))
-            return service.getAdminById(id);
-        return null;
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
+    @GetMapping("/get-admin")
+    public Admin getAdmin() {
+        return service.getAdminById(JwtUtils.getUserId());
     }
 
     @GetMapping("/helloworld")
@@ -79,7 +81,7 @@ public class AdminController {
         return service.updateAdmin(admin);
     }
 
-    @PostMapping("/authenticate-admin")
+    @PostMapping("/auth/authenticate-admin")
     public ObjectNode authenticateAdmin(@RequestBody Map<String, String> adminMap) {
 
         String email = adminMap.get("email");

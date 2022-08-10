@@ -39,13 +39,14 @@ public class Global {
         return createMessage(message, true);
     }
 
-    public static String getCurrentUserEmail() {
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser"))
-            return "";
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        Global.colorPrint(userDetails.getEmail());
-        return userDetails.getEmail();
-
-    }
+    // public static String getCurrentUserEmail() {
+    // if
+    // (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser"))
+    // return "";
+    // UserDetailsImpl userDetails = (UserDetailsImpl)
+    // SecurityContextHolder.getContext().getAuthentication()
+    // .getPrincipal();
+    // Global.colorPrint(userDetails.getEmail());
+    // return userDetails.getEmail();
+    // }
 }

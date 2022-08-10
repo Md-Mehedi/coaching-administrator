@@ -41,7 +41,7 @@ export interface DropDownProps<
   FreeSolo extends boolean | undefined = true
 > extends AutocompleteProps<T, Multiple, DisableClearable, FreeSolo> {
   label: string;
-  optionLabel: string;
+  optionLabel?: string;
   required?: boolean;
   disableUserChoice?: boolean;
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
@@ -100,6 +100,10 @@ export default function DropDown<
           }}
         />
       )}
+      // @ts-ignore
+      getOptionLabel={(option: T) =>
+        props.optionLabel ? option[props.optionLabel] : option
+      }
       {...others}
       //@ts-ignore
       value={props.value || null}
@@ -207,10 +211,6 @@ export default function DropDown<
           },
         },
       }}
-      // @ts-ignore
-      getOptionLabel={(option: T) =>
-        props.optionLabel ? option[props.optionLabel] : option
-      }
       InputProps={{
         endAdornment: <AddCircle />,
       }}

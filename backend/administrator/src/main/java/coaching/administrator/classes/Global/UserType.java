@@ -1,11 +1,11 @@
 package coaching.administrator.classes.Global;
 
-public enum PersonType {
-    SUPER_ADMIN("SUPERADMIN"), ADMIN("ADMIN"), STUDENT("STUDENT"), TEACHER("TEACHER");
+public enum UserType {
+    SUPER_ADMIN("SUPER_ADMIN"), COACHING_ADMIN("COACHING_ADMIN"), STUDENT("STUDENT"), TEACHER("TEACHER");
 
     String name;
 
-    private PersonType(String name) {
+    private UserType(String name) {
         this.name = name;
     }
 

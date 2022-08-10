@@ -24,7 +24,7 @@ export default function AdminInformationOutput() {
   const classes = useStyle();
   const [admin, setAdmin] = useState<Admin | null>();
   useEffect(() => {
-    API.admin.getAdminById(AuthService.getAdminId()).then((response) => {
+    API.admin.getAdmin().then((response) => {
       setAdmin(response.data);
     });
   }, []);

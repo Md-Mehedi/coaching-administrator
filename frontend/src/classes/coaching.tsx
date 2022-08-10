@@ -1,4 +1,4 @@
-import { Address, Student, Teacher } from "./person-info";
+import { Address, Person, Student, Teacher } from "./person-info";
 import { DateSelectArg } from "@fullcalendar/react";
 
 export class Coaching {
@@ -22,6 +22,19 @@ export class Program {
   description?: string;
   startDate?: Date;
   endDate?: Date;
+}
+export class EnrolledProgram {
+  id: number;
+  enrolledDate?: Date;
+  program?: Program;
+  student?: Student;
+  constructor(programId: number, studentId: number) {
+    this.program = new Program();
+    this.program.id = programId;
+    this.student = new Student();
+    this.student.person = new Person();
+    this.student.person.id = studentId;
+  }
 }
 export class Subject {
   id?: number;

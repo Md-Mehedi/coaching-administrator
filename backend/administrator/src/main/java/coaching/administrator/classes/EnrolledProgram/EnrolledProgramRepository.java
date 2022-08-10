@@ -10,9 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface EnrolledProgramRepository extends JpaRepository<EnrolledProgram, Integer> {
 
-    Optional<EnrolledProgram> findById(Integer id);
+        Optional<EnrolledProgram> findById(Integer id);
 
-    @Query(value = "select * from enrolled_program " +
-            " where coaching_id = :coachingId", nativeQuery = true)
-    List<EnrolledProgram> findAllByCoachingId(@Param("coachingId") Integer coachingId);
+        @Query(value = "select * from enrolled_program " +
+                        " where program_id = :programId", nativeQuery = true)
+        List<EnrolledProgram> findByProgramId(@Param("programId") Integer programId);
+
+        @Query(value = "select * from enrolled_program " +
+                        " where coaching_id = :coachingId", nativeQuery = true)
+        List<EnrolledProgram> findAllByCoachingId(@Param("coachingId") Integer coachingId);
 }

@@ -33,13 +33,13 @@ public class EnrolledProgram implements Serializable {
     private Integer id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date enrolledDate;
+    private Date enrolledDate = new Date();
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id", referencedColumnName = "id")
     private Program program;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id", referencedColumnName = "person_id")
     private Student student;
 }

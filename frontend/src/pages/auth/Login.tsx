@@ -127,7 +127,9 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
             showSnackbar(enqueueSnackbar, response.data, () => {
               setState({ ...state, loading: false });
               if (response.data.success) {
+                localStorage.clear();
                 localStorage.setItem("adminId", response.data.adminId);
+                localStorage.setItem("token", response.data.token);
                 navigate(ADMIN_LINKS.settings.path);
               }
             });

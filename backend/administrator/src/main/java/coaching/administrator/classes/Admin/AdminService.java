@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Global.APIMessage;
 import coaching.administrator.classes.Global.Global;
-import coaching.administrator.classes.Global.PersonType;
+import coaching.administrator.classes.Global.UserType;
 import coaching.administrator.classes.Person.ConfirmationToken;
 import coaching.administrator.classes.Person.ConfirmationTokenRepository;
 import coaching.administrator.classes.Person.EmailService;
@@ -34,7 +34,7 @@ public class AdminService {
     public Admin saveAdmin(Admin admin) {
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // admin.setPassword(pEncoder.getEncodedPassword(admin.getPerson().getPassword()));
-        admin.getPerson().setPersonType(PersonType.ADMIN.getName());
+        admin.getPerson().setPersonType("Role_" + UserType.COACHING_ADMIN);
         return repository.save(admin);
     }
 
@@ -140,6 +140,7 @@ public class AdminService {
                 // admin.setActivated("T");
                 person.setPassword(token.getPassword());
                 person.setEmail(token.getEmail());
+                person.setPersonType("Role_" + UserType.COACHING_ADMIN);
                 // personService.savePerson(person);
                 // person = personService.getPersonByEmail(token.getEmail());
                 Admin admin = new Admin();

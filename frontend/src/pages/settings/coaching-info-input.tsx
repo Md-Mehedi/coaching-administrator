@@ -23,7 +23,7 @@ export default function CoachingInformationInput() {
     setCoaching({ ...coaching, ...object });
   }
   useEffect(() => {
-    API.admin.getAdminById(AuthService.getAdminId()).then((response) => {
+    API.admin.getAdmin().then((response) => {
       console.log(response.data);
       setAdmin(response.data);
       setCoaching(response.data.person.coaching);

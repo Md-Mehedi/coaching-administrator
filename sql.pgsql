@@ -86,20 +86,9 @@ delete from class_time;
 drop table class_time CASCADE;
 drop table todo CASCADE;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-
-
-=======
-s
-
 insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');
 insert into occupation (name) values('Businessman');
->>>>>>> 7c6c90ea135ef173d01e849da7f8993dd50e63ad
-=======
 select * from class_time;
 
 insert into class_type (type) values('CLASS');
@@ -107,4 +96,10 @@ insert into class_type (type) values('EXAM');
 insert into class_type (type) values('EVENT');
 insert into class_type (type) values('CANCEL');
 
->>>>>>> 9e9ec4e42310cd3052a95b2b0d4287af70cfedbe
+select * from institution;
+select * from edu_qualification;
+update edu_qualification set institution_id=14 where institution_id<14
+select * from enrolled_program;
+delete from enrolled_program where id = 3;
+
+update person set person_type='ROLE_COACHING_ADMIN' where id=1

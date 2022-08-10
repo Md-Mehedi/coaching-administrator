@@ -22,12 +22,15 @@ export default function AdminInfoInput() {
   const [admin, setAdmin] = useState<Admin>();
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
-    axios
-      .get("http://localhost:7982/get-admin-by-id/" + AuthService.getAdminId())
-      .then((response) => {
-        console.log(response.data);
-        setAdmin(response.data);
-      });
+    API.admin.getAdmin().then((response) => {
+      setAdmin(response.data);
+    });
+    // axios
+    //   .get("http://localhost:7982/get-admin-by-id/" + AuthService.getAdminId())
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setAdmin(response.data);
+    //   });
     // setAdmin({
     //   ...admin,
     //   person_id: parseInt(AuthService.getAdminId() || ""),

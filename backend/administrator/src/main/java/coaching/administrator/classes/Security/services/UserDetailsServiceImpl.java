@@ -1,8 +1,5 @@
 package coaching.administrator.classes.Security.services;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonRepository;
 
@@ -21,11 +19,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Override
   @Transactional
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+  public UserDetailsImpl loadUserByUsername(String email) throws UsernameNotFoundException {
     Person person = personRepository.findByEmail(email);
+    Global.colorPrint("Person retrieve");
+    Global.colorPrint(person);
 
-    if (person == null)
-    {
+    if (person == null) {
       new UsernameNotFoundException("User Not Found with email: " + email);
       return null;
     }
