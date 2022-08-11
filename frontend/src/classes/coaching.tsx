@@ -102,3 +102,11 @@ export class ClassType {
   id?: number;
   type?: string;
 }
+
+export class Expense {
+  id?: number;
+  amount?: number;
+  time?: Date;
+  description?: string;
+  coaching?: Coaching;
+}

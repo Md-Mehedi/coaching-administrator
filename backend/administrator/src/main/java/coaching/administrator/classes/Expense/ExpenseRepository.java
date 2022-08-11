@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
-    List<Expense> findAllByCoachingId(Integer coachingId);
+    List<Expense> findByCoachingId(Integer coachingId);
     
     @Query(value = " select * " +
             " from expense e " +

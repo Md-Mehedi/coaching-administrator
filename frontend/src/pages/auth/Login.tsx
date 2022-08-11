@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "../../links";
 import { showSnackbar } from "../../tools/helper-functions";
 import { LoadingButton } from "@mui/lab";
-import { apiCatch } from "./../../tools/helper-functions";
+import { apiCatch } from "../../tools/helper-functions";
 
 // const useStyles: any = makeStyles((theme: Theme) => ({
 //   root: {

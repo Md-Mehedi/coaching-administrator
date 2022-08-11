@@ -5,6 +5,7 @@ import {
   Batch,
   ClassTime,
   Coaching,
+  Expense,
   Program,
   Room,
   Subject,
@@ -165,5 +166,12 @@ export const API = {
     update: (classTime: ClassTime) => put("/update-class", classTime),
     saveAll: (classTimes: ClassTime[]) =>
       postBody("/save-all-classTime", classTimes),
+  },
+  expense: {
+    add: (expense: Expense) => postBody("/add-expense", expense),
+    getAll: () => get("/get-all-expenses"),
+    get: (id: number) => get("/get-expense-by-id/" + id),
+    delete: (id: number) => del("/delete-expense-by-id/" + id),
+    update: (expense: Expense) => put("/update-expense", expense),
   },
 };

@@ -30,15 +30,13 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Temporal(TemporalType.DATE)
+    private Date expenseDate = new Date();
+    private String details;
+    private Integer amount;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
-
-    private String description;
-    private Integer amount;
 
 }
