@@ -260,6 +260,8 @@ insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');
 insert into occupation (name) values('Businessman');
 
+
+
 insert into board (name) values('Barisal');
 insert into board (name) values('Chittagong');
 insert into board (name) values('Comilla');
@@ -400,19 +402,3 @@ insert into institution (name,board_id) values('Srimongol Govt. College',8);
 insert into institution (name,board_id) values('Sunamganj Govt. College',8);
 insert into institution (name,board_id) values('Modonmohon College',8);
 insert into institution (name,board_id) values('Sylhet Commerce College',8);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
