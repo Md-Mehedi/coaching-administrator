@@ -12,3 +12,5 @@ backend/.git
 *.bat
 snip.txt
 sql.pgsql
+.idea
+backend\administrator\src\main\resources\application.properties

@@ -11,5 +11,4 @@ public class AdministratorApplication {
 		SpringApplication.run(AdministratorApplication.class, args);
 		System.out.println("\033[31minside Hello Coaching Administrator\033[0m");
 	}
-
 }
