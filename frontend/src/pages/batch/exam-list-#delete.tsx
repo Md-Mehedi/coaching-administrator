@@ -18,7 +18,7 @@ import MaterialTable from "material-table";
 import { exams, examTypes, teachers } from "../../data";
 import { AddCircleOutline } from "@mui/icons-material";
 import { moment } from "../../App";
-import AdminLayout from "../../layouts/admin-layout";
+import WebLayout from "../../layouts/web-layout";
 import Events from "../class-time/events";
 import { ADMIN_LINKS } from "../../links";
 import { useNavigate } from "react-router-dom";

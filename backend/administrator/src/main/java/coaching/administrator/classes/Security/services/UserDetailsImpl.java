@@ -35,11 +35,15 @@ public class UserDetailsImpl implements UserDetails {
 		Global.colorPrint("in userdetailsimpl build");
 		GrantedAuthority authority = new SimpleGrantedAuthority(user.getPersonType());
 		List<GrantedAuthority> authorities = List.of(authority);
+		Integer coachingId = null;
+		if (user.getCoaching() != null) {
+			coachingId = user.getCoaching().getId();
+		}
 		return new UserDetailsImpl(
 				user.getId(),
 				user.getEmail(),
 				user.getPassword(),
-				user.getCoaching().getId(),
+				coachingId,
 				authorities);
 	}
 

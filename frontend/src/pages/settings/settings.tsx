@@ -10,12 +10,12 @@ import AdminList from "./admin-list";
 import PasswordChange from "./password-change";
 
 const tabs: TabLayoutContent[] = [
-  { title: "Admin List", element: <AdminList /> },
-  { title: "Coaching Information Input", element: <CoachingInfoInput /> },
-  { title: "Coaching Information Output", element: <CoachingInfoOutput /> },
-  { title: "Admin Information Input", element: <AdminInfoInput /> },
-  { title: "Admin Information Output", element: <AdminInfoOutput /> },
-  { title: "Password Change", element: <PasswordChange /> },
+  // { title: "Admin List", element: <AdminList /> },
+  // { title: "Coaching Information Input", element: <CoachingInfoInput /> },
+  { title: "Coaching", element: <CoachingInfoOutput /> },
+  // { title: "Admin Information Input", element: <AdminInfoInput /> },
+  { title: "Personal Info", element: <AdminInfoOutput /> },
+  // { title: "Password Change", element: <PasswordChange /> },
 ];
 // const tabs: TabLayoutContent[] = [
 //   { title: "Coaching Information", element: <CoachingInformationOutput /> },

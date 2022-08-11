@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.Coaching.CoachingService;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @RestController
 public class StudentController {
@@ -34,13 +35,22 @@ public class StudentController {
 
     @PostMapping("/add-student")
     public ObjectNode addStudent(@RequestBody Student student) {
-        student.getPerson().setCoaching(coachingService.getCoachingById(1));
+        student.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
         return service.saveStudent(student);
     }
 
+    // #TODO Update
     @GetMapping("/get-student-by-id/{id}")
-    public Student getStudentById(@PathVariable Integer id) {
-        return service.getStudentById(id);
+    public ObjectNode getStudentById(@PathVariable Integer id) {
+        Student fetchedStudent = service.getStudentById(id);
+        if (fetchedStudent == null) {
+            return Global.createErrorMessage("Student not found");
+        }
+        if (fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            return Global.createSuccessMessage("Student found")
+                    .putPOJO("object", fetchedStudent);
+        }
+        return Global.createErrorMessage("Not authorized to get");
     }
 
     // @GetMapping("/helloworld")
@@ -49,29 +59,43 @@ public class StudentController {
     // return "Hello Spring Boot";
     // }
 
-    @GetMapping("/get-student-by-full-name/{name}")
-    public Student getStudentByFullName(@PathVariable String name) {
-        return service.getStudentByFullName(name);
-    }
+    // @GetMapping("/get-student-by-full-name/{name}")
+    // public Student getStudentByFullName(@PathVariable String name) {
+    // return service.getStudentByFullName(name);
+    // }
 
-    @GetMapping("/get-student-by-eamil/{email}")
-    public Student getStudentByEmail(@PathVariable String email) {
-        return service.getStudentByEmail(email);
-    }
+    // @GetMapping("/get-student-by-eamil/{email}")
+    // public Student getStudentByEmail(@PathVariable String email) {
+    // return service.getStudentByEmail(email);
+    // }
 
     @PutMapping("/update-student")
     public ObjectNode updateStudent(@RequestBody Student student) {
-        return service.updateStudent(student);
+        Student fetchedStudent = service.getStudentById(student.getPerson_id());
+        if (fetchedStudent == null) {
+            return Global.createErrorMessage("Student not found");
+        }
+        if (fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            return service.updateStudent(student);
+        }
+        return Global.createErrorMessage("Not authorized to update");
     }
 
     @DeleteMapping("/delete-student-by-id/{id}")
     public ObjectNode deleteStudent(@PathVariable Integer id) {
-        return service.deleteStudent(id);
+        Student student = service.getStudentById(id);
+        if (student == null) {
+            return Global.createErrorMessage("Student not found");
+        }
+        if (student.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            return service.deleteStudent(id);
+        }
+        return Global.createErrorMessage("Not authorized to delete");
     }
 
     @GetMapping("/get-all-student")
     public List<Student> getAllStudentByCoachingId() {
-        return repository.findAllByCoaching(Global.coachingId);
+        return repository.findAllByCoaching(JwtUtils.getCoachingId());
     }
 
 }

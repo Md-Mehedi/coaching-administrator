@@ -74,6 +74,7 @@ public class Person implements Serializable {
     private Religion religion;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @Cascade(CascadeType.ALL)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;
 

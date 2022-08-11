@@ -6,6 +6,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import { ADMIN_LINKS, USER_LINKS } from "./links";
+import Filter from "./pages/filter";
 import Dashboard from "./pages/home/dashboard";
 import PageNotFound from "./pages/page-not-found";
 import AddTeacher from "./pages/teacher/add-teacher";
@@ -31,7 +32,11 @@ export default function Router() {
             <Route
               key={idx}
               path={item.link}
-              element={<Dashboard element={item.element} />}
+              element={
+                <Filter>
+                  <Dashboard element={item.element} />
+                </Filter>
+              }
             />
             {/* <Route
               key={idx + 100}

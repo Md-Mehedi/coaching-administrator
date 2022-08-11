@@ -99,7 +99,8 @@ insert into class_type (type) values('CANCEL');
 select * from institution;
 select * from edu_qualification;
 update edu_qualification set institution_id=14 where institution_id<14
-select * from enrolled_program;
+select * from coaching where id =1;
 delete from enrolled_program where id = 3;
 
 update person set person_type='ROLE_COACHING_ADMIN' where id=1
+select * from person;

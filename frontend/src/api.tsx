@@ -9,31 +9,16 @@ import {
   Room,
   Subject,
 } from "./classes/coaching";
+import AuthService from "./services/auth-service";
 
 const HOST = "http://localhost:7982";
 
-export function authHeaders() {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    return {
-      headers: {
-        Authorization: "Bearer " + token,
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-      },
-    };
-  } else {
-    return {
-      headers: {
-        Authorization: "",
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-      },
-    };
-  }
-}
-
 function post(url, body = {}, param = {}) {
-  return axios.post(HOST + url + createQueryParam(param), body, authHeaders());
+  return axios.post(
+    HOST + url + createQueryParam(param),
+    body,
+    AuthService.getHeaders()
+  );
 }
 function postParam(url, param) {
   return post(url, {}, param);
@@ -42,13 +27,19 @@ function postBody(url, body) {
   return post(url, body);
 }
 function put(url, body) {
-  return axios.put(HOST + url, body, authHeaders());
+  return axios.put(HOST + url, body, AuthService.getHeaders());
 }
 function get(url, param = {}) {
-  return axios.get(HOST + url + createQueryParam(param), authHeaders());
+  return axios.get(
+    HOST + url + createQueryParam(param),
+    AuthService.getHeaders()
+  );
 }
 function del(url, param = {}) {
-  return axios.delete(HOST + url + createQueryParam(param), authHeaders());
+  return axios.delete(
+    HOST + url + createQueryParam(param),
+    AuthService.getHeaders()
+  );
 }
 export const API = {
   /******************/
@@ -70,8 +61,9 @@ export const API = {
   /********************/
   admin: {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
-    getAdminById: (id: number) => get("/get-admin-by-id/" + id),
+    // getAdminById: (id: number) => get("/get-admin-by-id/" + id),
     getAdmin: () => get("/get-admin"),
+    isAllowedToProceed: () => get("/is-allowed-to-proceed"),
   },
   student: {
     add: (student: Student) => postBody("/add-student", student),

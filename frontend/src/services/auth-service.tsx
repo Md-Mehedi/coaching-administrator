@@ -1,7 +1,14 @@
 import axios from "axios";
 import { API } from "../api";
+import { Coaching } from "../classes/coaching";
+import { Admin } from "../classes/person-info";
 
 let AuthService = {
+  login(token: string, admin: Admin) {
+    localStorage.clear();
+    localStorage.setItem("token", token);
+    localStorage.setItem("admin", JSON.stringify(admin));
+  },
   // register(email: string, password: string) {
   //   return axios.post(API.auth.register, { email: email, password: password });
   // }
@@ -82,21 +89,44 @@ let AuthService = {
   //     return this.getCurrentUser().photo;
   //   } else return undefined;
   // }
-  getAdminId() {
-    return parseInt(localStorage.getItem("adminId") || "-1");
+  setAdmin(admin: Admin) {
+    localStorage.setItem("admin", JSON.stringify(admin));
+  },
+  getAdmin(): Admin | undefined {
+    return localStorage.getItem("admin")
+      ? JSON.parse(localStorage.getItem("admin") || "")
+      : undefined;
+  },
+  getCoaching(): Coaching | undefined {
+    return this.getAdmin()?.person?.coaching;
+  },
+  getId() {
+    return this.getAdmin()?.person?.id;
+  },
+  getCoachingId() {
+    return this.getCoaching()?.id;
+  },
+  getToken() {
+    return localStorage.getItem("token");
+  },
+  getHeaders() {
+    const token = this.getToken();
+
+    if (token) {
+      return {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+        },
+      };
+    } else {
+      return {
+        headers: {
+          Authorization: "",
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+        },
+      };
+    }
   },
 };
-export function authHeaders() {
-  const user = JSON.parse(localStorage.getItem("user") + "");
-
-  if (user && user.token) {
-    return {
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
-    };
-  } else {
-    return { headers: {} };
-  }
-}
 export default AuthService;

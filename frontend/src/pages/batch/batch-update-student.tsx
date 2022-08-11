@@ -3,7 +3,7 @@ import MaterialTable from "material-table";
 import { useState } from "react";
 import UpdateButton from "../../components/update-button";
 import { students } from "../../data";
-import AdminLayout from "../../layouts/admin-layout";
+import WebLayout from "../../layouts/web-layout";
 
 export default function BatchUpdateStudent() {
   const [state, setState] = useState({
@@ -41,7 +41,7 @@ export default function BatchUpdateStudent() {
     ],
   });
   return (
-    <AdminLayout>
+    <WebLayout>
       <Grid container direction="column" spacing={2}>
         <Grid item container>
           <MaterialTable
@@ -76,6 +76,6 @@ export default function BatchUpdateStudent() {
           <UpdateButton />
         </Grid>
       </Grid>
-    </AdminLayout>
+    </WebLayout>
   );
 }

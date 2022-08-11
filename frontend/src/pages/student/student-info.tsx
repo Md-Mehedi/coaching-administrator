@@ -66,8 +66,14 @@ export default function StudentInfo() {
       API.student
         .get(parseInt(id))
         .then((response) => {
-          console.log("received student", response.data);
-          setState({ ...state, loading: false, student: response.data });
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            console.log("received student", response.data.object);
+            setState({
+              ...state,
+              loading: false,
+              student: response.data.object,
+            });
+          });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
   }, [id]);

@@ -21,6 +21,7 @@ import ConfirmAdmin from "./pages/auth/confirm-admin";
 import AddCustomer from "./pages/Utsa/add-customer";
 import AddToDo from "./pages/Utsa/add-toDo";
 import RoomList from "./pages/coaching/room-list";
+import AdminCoachingInput from "./pages/auth/admin-coaching-input";
 
 export var ADMIN_LINKS = {
   home: { path: "/dashboard/home", element: <Home /> },
@@ -67,4 +68,8 @@ export var USER_LINKS = {
     element: <ConfirmAdmin />,
   },
   forgotPassword: { path: "/auth/forgot-password", element: <Login /> },
+  adminCoachingInput: {
+    path: "/auth/admin-coaching",
+    element: <AdminCoachingInput />,
+  },
 };

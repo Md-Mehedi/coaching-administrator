@@ -14,6 +14,10 @@ export function generateVariant(success: boolean): OptionsObject {
 }
 
 export function showSnackbar(enqueueSnackbar, data, onSuccess = () => {}) {
+  if (data.object) {
+    data.success && onSuccess();
+    return;
+  }
   data.message &&
     enqueueSnackbar(data.message, {
       variant: data.success ? "success" : "error",
@@ -48,8 +52,11 @@ export function apiCatch(enqueueSnackbar, onRejected) {
     case 0:
       message = "Server is not running";
       break;
+    case 401:
+      message = `Unauthorized`;
+      break;
     case 404:
-      message = `API not found.`;
+      message = `API not found`;
       break;
     case 500:
       message = `Server error`;

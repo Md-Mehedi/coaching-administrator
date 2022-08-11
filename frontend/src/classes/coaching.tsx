@@ -91,12 +91,6 @@ export class ClassTime {
     this.teacher = classTime?.teacher;
     this.batch = classTime?.batch;
   }
-  // set(info: DateSelectArg) {
-  //   this.startDateTime = new Date(info.startStr);
-  //   let day1 = new Date(info.startStr);
-  //   let day2 = new Date(info.endStr);
-  //   this.duration = (day2.getTime() - day1.getTime()) / (1000 * 60);
-  // }
 }
 export class ClassType {
   id?: number;
