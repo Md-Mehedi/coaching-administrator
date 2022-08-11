@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
-import AdminLayout from "../../layouts/admin-layout";
+import WebLayout from "../../layouts/web-layout";
 import Events from "../class-time/events";
 import { Batch, Program, Subject } from "../../classes/coaching";
 import MyTextfield from "./../../components/form-components/my-textfield";

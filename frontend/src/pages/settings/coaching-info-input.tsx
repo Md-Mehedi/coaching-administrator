@@ -15,53 +15,26 @@ import { API } from "./../../api";
 import AuthService from "../../services/auth-service";
 import { Admin } from "../../classes/person-info";
 
-export default function CoachingInformationInput() {
+export default function CoachingInformationInput({
+  coaching,
+  onChange,
+  verifier,
+}: {
+  coaching: Coaching;
+  onChange: (newCoaching: Coaching) => void;
+  verifier: any;
+}) {
+  verifier.current = errorVerifier;
   const { enqueueSnackbar } = useSnackbar();
-  const [coaching, setCoaching] = useState<Coaching | null>();
-  const [admin, setAdmin] = useState<Admin | null>();
   function updateCoaching(object) {
-    setCoaching({ ...coaching, ...object });
+    onChange({ ...coaching, ...object });
   }
-  useEffect(() => {
-    API.admin.getAdmin().then((response) => {
-      console.log(response.data);
-      setAdmin(response.data);
-      setCoaching(response.data.person.coaching);
-    });
-    // API.coaching
-    //   .getCoachingByAdminId(AuthService.getAdminId())
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setCoaching(response.data);
-    //     // @ts-ignore
-    //     setAdmin({
-    //       ...admin,
-    //       //@ts-ignore
-    //       person: { ...admin?.person, coaching: response.data },
-    //     });
-    //   });
-  }, []);
-  function handleSubmitClicked(event) {
+  function errorVerifier() {
     const requiredFields = [
       { label: "Coaching name", field: coaching?.name },
-      { field: coaching?.contactNo, label: "Contact no" },
+      { label: "Contact no", field: coaching?.contactNo },
     ];
-    if (emptyFieldChecking(enqueueSnackbar, requiredFields)) {
-      coaching &&
-        API.admin
-          .getAdminById(AuthService.getAdminId())
-          .then((responseAdmin) => {
-            API.admin
-              .addAdmin({
-                ...responseAdmin.data,
-                // @ts-ignore
-                person: { ...responseAdmin.data.person, coaching: coaching },
-              })
-              .then((response) => {
-                showSnackbar(enqueueSnackbar, response.data);
-              });
-          });
-    }
+    return emptyFieldChecking(enqueueSnackbar, requiredFields);
   }
   return (
     <Grid container spacing={2}>
@@ -165,29 +138,9 @@ export default function CoachingInformationInput() {
           title="Address"
           value={coaching?.address}
           onChange={(newAddress) =>
-            setCoaching({ ...coaching, address: newAddress })
+            onChange({ ...coaching, address: newAddress })
           }
         />
-      </Grid>
-      <Grid
-        item
-        container
-        direction="row"
-        spacing={2}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Grid item>
-          <Button variant="contained" onClick={handleSubmitClicked}>
-            Submit
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained">Save</Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained">Cancel</Button>
-        </Grid>
       </Grid>
     </Grid>
   );

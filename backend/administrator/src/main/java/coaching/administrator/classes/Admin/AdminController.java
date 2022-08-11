@@ -60,26 +60,26 @@ public class AdminController {
         return service.getAdminById(JwtUtils.getUserId());
     }
 
-    @GetMapping("/helloworld")
-    public String helloWorld() {
-        System.out.println("\033[31minside spring boot hello world.\033[0m");
-        return "Hello Spring Boot";
-    }
+    // @GetMapping("/helloworld")
+    // public String helloWorld() {
+    // System.out.println("\033[31minside spring boot hello world.\033[0m");
+    // return "Hello Spring Boot";
+    // }
 
-    @GetMapping("/get-admin-by-full-name/{name}")
-    public Admin getAdminByFullName(@PathVariable String name) {
-        return service.getAdminByFullName(name);
-    }
+    // @GetMapping("/get-admin-by-full-name/{name}")
+    // public Admin getAdminByFullName(@PathVariable String name) {
+    // return service.getAdminByFullName(name);
+    // }
 
-    @GetMapping("/get-admin-by-email/{email}")
-    public Admin getAdminByEmail(@PathVariable String email) {
-        return service.getAdminByEmail(email);
-    }
+    // @GetMapping("/get-admin-by-email/{email}")
+    // public Admin getAdminByEmail(@PathVariable String email) {
+    // return service.getAdminByEmail(email);
+    // }
 
-    @PutMapping("/update-admin-by-id")
-    public Admin updateAdmin(@RequestBody Admin admin) {
-        return service.updateAdmin(admin);
-    }
+    // @PutMapping("/update-admin-by-id")
+    // public Admin updateAdmin(@RequestBody Admin admin) {
+    // return service.updateAdmin(admin);
+    // }
 
     @PostMapping("/auth/authenticate-admin")
     public ObjectNode authenticateAdmin(@RequestBody Map<String, String> adminMap) {
@@ -88,5 +88,21 @@ public class AdminController {
         String password = adminMap.get("password");
         return service.authenticateAdmin(email, password);
 
+    }
+
+    @GetMapping("/is-allowed-to-proceed")
+    public ObjectNode isAllowedToProceed() {
+        Integer adminId = JwtUtils.getUserId();
+        Person person = personRepository.findById(adminId).orElse(null);
+        if (person != null) {
+            if (person.getFullName().isEmpty()) {
+                return Global.createErrorMessage("Please provide your information at first to proceed");
+            }
+            if (person.getCoaching() == null) {
+                return Global.createErrorMessage("Please provide your coaching information at first to proceed");
+            }
+            return null;
+        }
+        return Global.createErrorMessage("Admin id not found");
     }
 }

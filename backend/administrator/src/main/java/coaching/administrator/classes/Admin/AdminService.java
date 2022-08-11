@@ -34,7 +34,7 @@ public class AdminService {
     public Admin saveAdmin(Admin admin) {
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // admin.setPassword(pEncoder.getEncodedPassword(admin.getPerson().getPassword()));
-        admin.getPerson().setPersonType("Role_" + UserType.COACHING_ADMIN);
+        admin.getPerson().setPersonType("ROLE_" + UserType.COACHING_ADMIN);
         return repository.save(admin);
     }
 
@@ -95,7 +95,7 @@ public class AdminService {
                     .put("token", token)
                     .put("success", true)
                     .put("message", "Login successful")
-                    .put("adminId", admin.getPerson().getId());
+                    .putPOJO("admin", admin);
         } else
             return node
                     .put("success", false)
@@ -140,7 +140,6 @@ public class AdminService {
                 // admin.setActivated("T");
                 person.setPassword(token.getPassword());
                 person.setEmail(token.getEmail());
-                person.setPersonType("Role_" + UserType.COACHING_ADMIN);
                 // personService.savePerson(person);
                 // person = personService.getPersonByEmail(token.getEmail());
                 Admin admin = new Admin();

@@ -10,7 +10,6 @@ import {
 import React, { useEffect, useState } from "react";
 import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import { programs, subjects } from "./../../data";
-import AdminLayout from "../../layouts/admin-layout";
 import TextEditor from "./../../components/text-editor";
 import MyTextfield from "./../../components/form-components/my-textfield";
 import { emptyFieldChecking } from "./../../tools/helper-functions";

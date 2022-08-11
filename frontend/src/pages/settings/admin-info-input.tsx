@@ -18,51 +18,35 @@ import { emptyFieldChecking, showSnackbar } from "../../tools/helper-functions";
 import AuthService from "../../services/auth-service";
 import axios from "axios";
 
-export default function AdminInfoInput() {
-  const [admin, setAdmin] = useState<Admin>();
+export default function AdminInfoInput({
+  admin,
+  onChange,
+  verifier,
+}: {
+  admin: Admin;
+  onChange: (newAdmin: Admin) => void;
+  verifier: any;
+}) {
+  verifier.current = errorVerifier;
   const { enqueueSnackbar } = useSnackbar();
-  useEffect(() => {
-    API.admin.getAdmin().then((response) => {
-      setAdmin(response.data);
-    });
-    // axios
-    //   .get("http://localhost:7982/get-admin-by-id/" + AuthService.getAdminId())
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setAdmin(response.data);
-    //   });
-    // setAdmin({
-    //   ...admin,
-    //   person_id: parseInt(AuthService.getAdminId() || ""),
-    //   person: { ...admin?.person, id: parseInt(AuthService.getAdminId() || "") },
-    // });
-  }, [AuthService.getAdminId()]);
-
-  function updateAdmin(object) {
-    //@ts-ignore
-    setAdmin({
-      ...admin,
-      person: {
-        ...admin?.person,
-        ...object,
-      },
-    });
-  }
-  function handleSubmitClick(event) {
+  function errorVerifier() {
     const requiredFields = [
       { label: "Full name", field: admin?.person?.fullName },
       { label: "Nickname", field: admin?.person?.nickName },
       { label: "Gender", field: admin?.person?.gender },
       { label: "Date of birth", field: admin?.person?.dateOfBirth },
     ];
-    if (emptyFieldChecking(enqueueSnackbar, requiredFields)) {
-      admin &&
-        API.admin.addAdmin(admin).then((response) => {
-          if (response.status == 200) {
-            showSnackbar(enqueueSnackbar, response.data);
-          }
-        });
-    }
+    return emptyFieldChecking(enqueueSnackbar, requiredFields);
+  }
+  function updateAdmin(object) {
+    //@ts-ignore
+    onChange({
+      ...admin,
+      person: {
+        ...admin?.person,
+        ...object,
+      },
+    });
   }
   return (
     <Grid container spacing={2}>
@@ -142,26 +126,6 @@ export default function AdminInfoInput() {
             ))}
           </Select>
         </FormControl>
-      </Grid>
-      <Grid
-        item
-        container
-        direction="row"
-        spacing={2}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Grid item>
-          <Button variant="contained" onClick={handleSubmitClick}>
-            Submit
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained">Save</Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained">Cancel</Button>
-        </Grid>
       </Grid>
     </Grid>
   );

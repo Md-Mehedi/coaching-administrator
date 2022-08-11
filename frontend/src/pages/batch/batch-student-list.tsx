@@ -1,7 +1,9 @@
 import { Grid, Avatar } from "@mui/material";
 import MaterialTable from "material-table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API } from "../../api";
+import { Batch } from "../../classes/coaching";
 import { Student } from "../../classes/person-info";
 import MyTable, { onRowDelete } from "../../components/my-table";
 import SearchByNameOrIdField from "../../components/search-by-name-or-id-field";
@@ -10,7 +12,7 @@ import { students } from "../../data";
 import DialogLayout from "../../layouts/dialog-layout";
 import { ADMIN_LINKS } from "../../links";
 
-export default function BatchStudents() {
+export default function BatchStudents({ batch }: { batch: Batch }) {
   const navigate = useNavigate();
   const [state, setState] = useState({
     open: false,
@@ -44,6 +46,9 @@ export default function BatchStudents() {
     ],
     data: students,
   });
+  useEffect(() => {
+    // API.batch.
+  }, []);
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item container>

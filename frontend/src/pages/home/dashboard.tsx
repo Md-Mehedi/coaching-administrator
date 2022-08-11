@@ -8,7 +8,6 @@ import Header from "../../components/header";
 import DrawerLayout, { DrawerLayoutPage } from "../../layouts/drawer-layout";
 import WebLayout from "../../layouts/web-layout";
 import { ADMIN_LINKS } from "../../links";
-import AdminLayout from "./../../layouts/admin-layout";
 
 console.log("Dashboard ", ADMIN_LINKS);
 const dashboard_pages: DrawerLayoutPage[] = [
@@ -117,8 +116,8 @@ export default function Dashboard({
   element: JSX.Element | JSX.Element[];
 }) {
   return (
-    <AdminLayout>
+    <WebLayout>
       <DrawerLayout pages={dashboard_pages} currentElement={element} />
-    </AdminLayout>
+    </WebLayout>
   );
 }

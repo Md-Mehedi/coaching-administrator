@@ -8,6 +8,7 @@ import SpecialLink from "../../components/special-link";
 import AuthLayout, { ForgotPassword } from "../../layouts/auth-layout";
 import { ADMIN_LINKS, USER_LINKS } from "../../links";
 import { LoadingButton } from "@mui/lab";
+import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 
 function RegistrationConfirm() {
   return (
@@ -19,9 +20,9 @@ function RegistrationConfirm() {
         </Typography>
       </Grid>
       <Grid item>
-        <SpecialLink href={ADMIN_LINKS.settings.path}>
+        <SpecialLink href={USER_LINKS.login.path}>
           <Button fullWidth variant="contained">
-            Go to home
+            Go to Login
           </Button>
         </SpecialLink>
       </Grid>
@@ -127,16 +128,14 @@ export function Register() {
       API.auth
         .register(state.email, state.password)
         .then((response) => {
-          enqueueSnackbar(response.data.message, {
-            variant: response.data.success ? "success" : "error",
-          });
-          response.data.success &&
+          showSnackbar(enqueueSnackbar, response.data);
+          if (response.data.success) {
             setState({ ...state, submit: true, loading: false });
+          } else {
+            setState({ ...state, loading: false });
+          }
         })
-        .catch((onRejected) => {
-          console.log(onRejected);
-          // alert("no internet connection");
-        });
+        .catch((r) => apiCatch(enqueueSnackbar, r));
     }
   }
   return (
