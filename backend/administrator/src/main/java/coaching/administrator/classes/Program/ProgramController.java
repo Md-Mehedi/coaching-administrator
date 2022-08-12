@@ -29,7 +29,7 @@ public class ProgramController {
     @Autowired
     private ProgramRepository repository;
 
-    @PostMapping("/add-program/{coachingId}")
+    @PostMapping("/add-program")
     public ObjectNode addProgram(@RequestBody Program program) {
         Coaching coaching = coachingService.getCoachingById(JwtUtils.getCoachingId());
         // Coaching coaching = new CoachingService().getCoachingbyId(1);

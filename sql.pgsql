@@ -260,6 +260,9 @@ insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');
 insert into occupation (name) values('Businessman');
 
+DROP TABLE BOARD CASCADE;
+DROP TABLE INSTITUTION CASCADE;
+
 
 
 insert into board (name) values('Barisal');
@@ -402,3 +405,11 @@ insert into institution (name,board_id) values('Srimongol Govt. College',8);
 insert into institution (name,board_id) values('Sunamganj Govt. College',8);
 insert into institution (name,board_id) values('Modonmohon College',8);
 insert into institution (name,board_id) values('Sylhet Commerce College',8);
+
+
+
+select * from expense;
+
+select details, to_char(e.expense_date, 'MM')  from expense e  where e.coaching_id = 3  and to_char(e.expense_date, 'MM') = '08' and to_char(e.expense_date, 'YYYY') = '2022'
+
+

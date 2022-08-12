@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Coaching.CoachingService;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @RestController
 public class ExpenseController {
@@ -30,7 +31,7 @@ public class ExpenseController {
 
     @PostMapping("/add-expense")
     public ObjectNode addExpense(@RequestBody Expense expense) {
-        expense.setCoaching(coachingService.getCoachingById(1));
+        expense.setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
         return service.saveExpense(expense);
     }
 
@@ -46,13 +47,15 @@ public class ExpenseController {
 
     @GetMapping("/get-all-expenses")
     public List<Expense> getExpenses() {
-        return repository.findByCoachingId(Global.coachingId);
+        return repository.findByCoachingId(JwtUtils.getCoachingId());
     }
 
-    // @GetMapping("/get-expense-by-coaching-id-month-year/{coachingId}/{month}/{year}")
-    // public Expense getExpenseByCoachingIdMonthYear(@PathVariable Integer coachingId,@PathVariable String month,@PathVariable Integer year) {
-    //     return repository.findByCoachingIdMonthYear(coachingId,month,Integer.toString(year));
-    // }
+    @GetMapping("/get-expense-by-coaching-id-month-year/{month}/{year}")
+    public List<Expense> getExpenseByCoachingIdMonthYear(@PathVariable Integer month, @PathVariable Integer year) {
+        Global.colorPrint(JwtUtils.getCoachingId() + " " + month + " " + year);
+        return repository.findByCoachingIdMonthYear(JwtUtils.getCoachingId(),
+                month < 10 ? "0" + month.toString() : month.toString(), year.toString());
+    }
 
     @DeleteMapping("/delete-expense-by-id/{id}")
     public ObjectNode deleteExpense(@PathVariable Integer id) {

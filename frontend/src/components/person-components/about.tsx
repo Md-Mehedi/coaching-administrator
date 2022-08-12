@@ -29,7 +29,7 @@ export interface FieldProps<M extends OverridableTypeMap> {
  */
 export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
   return (
-    props.value && (
+    props.value ? (
       <Grid item container direction="row" spacing={0} alignItems="center">
         <Grid item>
           <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
@@ -40,7 +40,7 @@ export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
           <Typography {...props.valueProps}>{props.value} </Typography>
         </Grid>
       </Grid>
-    )
+    ): <></>
   );
 }
 export default function About({ person }: { person?: Person }) {

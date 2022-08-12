@@ -17,7 +17,9 @@ public class ExpenseService {
     public ExpenseRepository repository;
 
     public ObjectNode saveExpense(Expense expense) {
-        expense.setExpenseDate(new Date());
+        if(expense.getExpenseDate() == null) {
+            expense.setExpenseDate(new Date());
+        }
         repository.save(expense);
         return Global.createSuccessMessage("Expense save successfully");
     }
