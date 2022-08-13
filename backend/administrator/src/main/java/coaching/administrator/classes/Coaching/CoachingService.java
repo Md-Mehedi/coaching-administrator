@@ -1,7 +1,10 @@
 package coaching.administrator.classes.Coaching;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Person.Person;
@@ -17,7 +20,14 @@ public class CoachingService {
     @Autowired
     private PersonService personService;
 
-    public Coaching saveCoaching(Coaching coaching) {
+    public Coaching saveCoaching(Coaching coaching, MultipartFile image) {
+
+        try {
+            coaching.setImage(image.getBytes());
+        } catch (IOException e) {
+            Global.colorPrint("error in coaching image");
+            e.printStackTrace();
+        }
         return repository.save(coaching);
     }
 

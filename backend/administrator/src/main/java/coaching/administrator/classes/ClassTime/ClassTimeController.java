@@ -59,6 +59,11 @@ public class ClassTimeController {
         return repository.findAllByStudentId(id);
     }
 
+    @GetMapping("/get-all-classTime-by-roomId/{id}")
+    public List<ClassTime> getClassTimeByRoomId(@PathVariable Integer id) {
+        return repository.findAllByRoomId(id);
+    }
+
     @DeleteMapping("/update-classTime")
     public ClassTime deleteClassTime(@RequestBody ClassTime classTime) {
         return repository.save(classTime);

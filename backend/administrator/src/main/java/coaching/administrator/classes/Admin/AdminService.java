@@ -3,11 +3,11 @@ package coaching.administrator.classes.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import coaching.administrator.classes.Global.APIMessage;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Global.UserType;
 import coaching.administrator.classes.Person.ConfirmationToken;
@@ -102,7 +102,7 @@ public class AdminService {
                     .put("message", "Server error. Try again.");
     }
 
-    public ObjectNode addAdmin(Admin admin) {
+    public ObjectNode addAdmin(Admin admin, MultipartFile image) {
 
         ObjectNode node = mapper.createObjectNode();
         try {
@@ -110,6 +110,9 @@ public class AdminService {
 
             // personService.savePerson(admin);
             System.out.println("Admin id : " + admin.getPerson().getId());
+            Person person = admin.getPerson();
+            person.setImage(image.getBytes());
+            admin.setPerson(person);
             saveAdmin(admin);
 
             return node

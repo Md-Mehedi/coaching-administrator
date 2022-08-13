@@ -1,11 +1,15 @@
 package coaching.administrator.classes.Teacher;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
 
@@ -20,10 +24,17 @@ public class TeacherService {
     @Autowired
     private PersonService personService;
 
-    public ObjectNode saveTeacher(Teacher teacher) {
+    public ObjectNode saveTeacher(Teacher teacher, MultipartFile image) {
         ObjectNode node = mapper.createObjectNode();
         // PasswordEncoder pEncoder = new PasswordEncoder();
         // teacher.setPassword(pEncoder.getEncodedPassword(teacher.getPerson().getPassword()));
+        Person person = teacher.getPerson();
+        try {
+            person.setImage(image.getBytes());
+        } catch (IOException e) {
+            Global.colorPrint("error in teacher image");
+            e.printStackTrace();
+        }
         repository.save(teacher);
         return node.put("success", true)
                 .put("message", "Teacher added successfully");

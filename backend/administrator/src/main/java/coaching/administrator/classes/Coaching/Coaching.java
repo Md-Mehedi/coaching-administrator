@@ -10,13 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.Type;
 
 import coaching.administrator.classes.Address.Address;
 import coaching.administrator.classes.Room.Room;
@@ -48,7 +47,7 @@ public class Coaching {
     private Integer whatsappNo;
     private String facebookLink;
     private String youtubeLink;
-    @Type(type = "org.hibernate.type.BinaryType")
+    @Lob
     private byte[] image;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "coaching")

@@ -1,8 +1,11 @@
 package coaching.administrator.classes.Student;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,8 +27,16 @@ public class StudentService {
     private PersonService personService;
 
     @Transactional
-    public ObjectNode saveStudent(Student student) {
+    public ObjectNode saveStudent(Student student, MultipartFile image) {
         ObjectNode node = mapper.createObjectNode();
+        Person person = student.getPerson();
+        try {
+            person.setImage(image.getBytes());
+        } catch (IOException e) {
+            Global.colorPrint("error in student image");
+            e.printStackTrace();
+        }
+        student.setPerson(person);
         repository.save(student);
         Global.colorPrint(student);
         Global.colorPrint(student.getPerson());
