@@ -129,7 +129,7 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
               setState({ ...state, loading: false });
               if (response.data.success) {
                 AuthService.login(response.data.token, response.data.admin);
-                navigate(ADMIN_LINKS.settings.path);
+                navigate(ADMIN_LINKS.home.path);
               }
             });
           }

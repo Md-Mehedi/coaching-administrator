@@ -135,14 +135,14 @@ function ExamSubjectInfo() {
 function ExamMarkUpload() {
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <SearchByNameOrIdField
           selectedStudent={null}
           onChange={function (newStudent: Student | Student[] | null): void {
             throw new Error("Function not implemented.");
           }}
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} sm={6}>
         <TextField fullWidth variant="outlined" label="CQ" />
       </Grid>

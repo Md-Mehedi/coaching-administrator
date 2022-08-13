@@ -56,6 +56,12 @@ export class Batch {
   subject?: Subject;
   classTimes?: ClassTime[];
 }
+export class StudentBatch {
+  id?: number;
+  startDate?: Date;
+  batch?: Batch;
+  student?: Student;
+}
 ////////        Routine - attendance
 export class Attendance {
   id?: number;

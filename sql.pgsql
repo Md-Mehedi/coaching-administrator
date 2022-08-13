@@ -275,3 +275,13 @@ delete from enrolled_program where id = 3;
 
 update person set person_type='ROLE_COACHING_ADMIN' where id=1
 select * from person;
+
+select p.id, p.nick_name, p.full_name, st.person_id
+from student st, person p  
+where st.person_id = p.id and p.coaching_id = 3
+
+update  person p
+set coaching_id=1 where id = 84;
+where t.person_id = p.id
+
+select * from person where full_name='utsa'

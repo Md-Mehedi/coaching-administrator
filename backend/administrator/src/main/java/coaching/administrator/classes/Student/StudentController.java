@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Coaching.Coaching;
@@ -94,8 +95,20 @@ public class StudentController {
     }
 
     @GetMapping("/get-all-student")
-    public List<Student> getAllStudentByCoachingId() {
+    public List<Student> getAllStudent() {
         return repository.findAllByCoaching(JwtUtils.getCoachingId());
+    }
+
+    @GetMapping("/get-all-student-minimal")
+    public List<Object> getAllStudentMinimal() {
+        List<Object> list = repository.findAllStudentMinimalByCoachingId(JwtUtils.getCoachingId());
+        Global.colorPrint(list);
+        ObjectMapper mapper = new ObjectMapper();
+        Object node = mapper.createObjectNode();
+        // list.forEach(item -> {
+        // node.putPojo("id", item[0]);
+        // });
+        return list;
     }
 
 }

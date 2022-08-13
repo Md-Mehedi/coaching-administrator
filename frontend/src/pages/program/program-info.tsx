@@ -41,17 +41,23 @@ export default function ProgramInfo() {
       API.program
         .get(parseInt(id))
         .then((response) => {
-          console.log("fetched program", response.data);
-          setState({ ...state, program: response.data, pageLoading: false });
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            console.log("fetched program", response.data);
+            setState({
+              ...state,
+              program: response.data.object,
+              pageLoading: false,
+            });
+          });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
   }, [id]);
 
   const tabs: TabLayoutContent[] = [
-    {
-      title: "Exam",
-      element: <ProgramExam />,
-    },
+    // {
+    //   title: "Exam",
+    //   element: <ProgramExam />,
+    // },
     {
       title: "Batch",
       element: <ProgramBatchList program={state.program} />,

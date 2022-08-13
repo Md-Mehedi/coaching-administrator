@@ -18,8 +18,9 @@ import ParentInformation from "../../components/form-components/parent-informati
 import PersonQualification from "../../components/form-components/person-qualification-exam-details";
 import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import { apiCatch, showSnackbar } from "../../tools/helper-functions";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddPerson from "../../components/form-components/add-person";
+import { ADMIN_LINKS } from "./../../links";
 
 type AddTeacherState = {
   boards: Board[];
@@ -28,6 +29,7 @@ type AddTeacherState = {
 };
 export default function AddTeacher() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   console.log(state);
   const { enqueueSnackbar } = useSnackbar();
   const [teacher, setTeacher] = useState<Teacher>(new Teacher());
@@ -55,6 +57,7 @@ export default function AddTeacher() {
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
           setSaveLoading(false);
+          navigate(ADMIN_LINKS.teacherList.path);
         })
         .catch((r) => {
           apiCatch(enqueueSnackbar, r);

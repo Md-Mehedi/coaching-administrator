@@ -20,6 +20,7 @@ export default function ProgramEnrolledStudent({
 }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [students, setStudents] = useState<Student[]>([]);
   const [state, setState] = useState<{
     open: boolean;
     column: any;
@@ -65,6 +66,9 @@ export default function ProgramEnrolledStudent({
           });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
+    API.student.getAll().then((res) => {
+      setStudents(res.data);
+    });
   }, []);
 
   function handleAddClick(event) {
@@ -92,7 +96,7 @@ export default function ProgramEnrolledStudent({
         // @ts-ignore
         columns={state.column}
         onRowClick={(event, rowData) => {
-          navigate(ADMIN_LINKS.student.path);
+          navigate(ADMIN_LINKS.student.path + "/" + rowData?.person?.id);
         }}
         addButtonText="Add student"
         onAddButtonClick={(event) => {
@@ -113,6 +117,7 @@ export default function ProgramEnrolledStudent({
         onSaveButtonClick={handleAddClick}
       >
         <SearchByNameOrIdField
+          students={students}
           selectedStudent={state.selectedStudent}
           onChange={(newStudent) =>
             setState({ ...state, selectedStudent: newStudent as Student })

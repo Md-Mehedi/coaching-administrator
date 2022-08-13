@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Coaching.CoachingService;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @RestController
 public class TeacherController {
@@ -25,9 +27,13 @@ public class TeacherController {
     @Autowired
     private TeacherRepository repository;
 
+    @Autowired
+    private CoachingService coachingService;
+
     @PostMapping("/add-teacher")
     public ObjectNode addTeacher(@RequestBody Teacher teacher) {
-        Global.colorPrint(teacher);
+        teacher.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
+
         return service.saveTeacher(teacher);
     }
 

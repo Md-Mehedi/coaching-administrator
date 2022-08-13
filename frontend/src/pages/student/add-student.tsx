@@ -30,7 +30,8 @@ import { useSnackbar } from "notistack";
 import PersonQualification from "../../components/form-components/person-qualification-exam-details";
 import AddPerson from "./../../components/form-components/add-person";
 import { apiCatch } from "./../../tools/helper-functions";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ADMIN_LINKS } from "../../links";
 
 type AddStudentState = {
   boards: Board[];
@@ -39,6 +40,7 @@ type AddStudentState = {
 };
 export default function AddStudent() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [student, setStudent] = useState<Student>(new Student());
   const personVerifier = useRef(null);
@@ -64,6 +66,7 @@ export default function AddStudent() {
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
           setLoading(false);
+          navigate(ADMIN_LINKS.studentList.path);
         })
         .catch((r) => {
           apiCatch(enqueueSnackbar, r);

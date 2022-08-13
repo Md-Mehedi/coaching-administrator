@@ -63,12 +63,13 @@ export const API = {
     addAdmin: (admin: Admin) => postBody("/add-admin", admin),
     // getAdminById: (id: number) => get("/get-admin-by-id/" + id),
     getAdmin: () => get("/get-admin"),
-    isAllowedToProceed: () => get("/is-allowed-to-proceed"),
+    // isAllowedToProceed: () => get("/is-allowed-to-proceed"),
   },
   student: {
     add: (student: Student) => postBody("/add-student", student),
     get: (id: number) => get("/get-student-by-id/" + id),
     getAll: () => get("/get-all-student"),
+    getAllMinimal: () => get("/get-all-student-minimal"),
     delete: (id: number) => del("/delete-student-by-id/" + id),
     update: (student: Student) => put("/update-student", student),
   },
@@ -147,6 +148,10 @@ export const API = {
     get: (id: number) => get("/get-batch-by-id/" + id),
     delete: (id: number) => del("/delete-batch-by-id/" + id),
     update: (batch: Batch) => put("/update-batch", batch),
+    addStudent: (batchId: number, studentId: number) =>
+      postBody("/add-studentBatch/" + batchId + "/" + studentId, {}),
+    getAllStudentBatch: (batchId: number) =>
+      get("/get-all-studentBatch-by-batch-id/" + batchId),
   },
   classTime: {
     add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
