@@ -14,56 +14,80 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Coaching.CoachingService;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @RestController
 public class TeacherController {
 
     @Autowired
     private TeacherService service;
-
     @Autowired
     private TeacherRepository repository;
+    @Autowired
+    private CoachingService coachingService;
 
     @PostMapping("/add-teacher")
     public ObjectNode addTeacher(@RequestBody Teacher teacher) {
-        Global.colorPrint(teacher);
+        teacher.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
         return service.saveTeacher(teacher);
     }
 
+    // #TODO Update
     @GetMapping("/get-teacher-by-id/{id}")
-    public Teacher getTeacherById(@PathVariable Integer id) {
-        return service.getTeacherById(id);
-    }
-
-    // @GetMapping("/helloworld")
-    // public String helloWorld() {
-    // System.out.println("\033[31minside spring boot hello world.\033[0m");
-    // return "Hello Spring Boot";
-    // }
-
-    @GetMapping("/get-teacher-by-full-name/{name}")
-    public Teacher getTeacherByFullName(@PathVariable String name) {
-        return service.getTeacherByFullName(name);
-    }
-
-    @GetMapping("/get-teacher-by-eamil/{email}")
-    public Teacher getTeacherByEmail(@PathVariable String email) {
-        return service.getTeacherByEmail(email);
+    public ObjectNode getTeacherById(@PathVariable Integer id)
+    {
+        Teacher fetchedTeacher = service.getTeacherById(id);
+        if (fetchedTeacher == null)
+        {
+            return Global.createErrorMessage("Teacher Not Found");
+        }
+        if (fetchedTeacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId())
+        {
+            return Global.createSuccessMessage("Teacher Found")
+                    .putPOJO("object", fetchedTeacher);
+        }
+        return Global.createErrorMessage("Not Authorized to get");
     }
 
     @PutMapping("/update-teacher")
     public ObjectNode updateTeacher(@RequestBody Teacher teacher) {
-        return service.updateTeacher(teacher);
+        Teacher fetchedTeacher = service.getTeacherById(teacher.getPerson_id());
+        if (fetchedTeacher == null) {
+            return Global.createErrorMessage("Teacher not found");
+        }
+        if (fetchedTeacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            return service.updateTeacher(teacher);
+        }
+        return Global.createErrorMessage("Not authorized to update");
     }
 
     @DeleteMapping("/delete-teacher-by-id/{id}")
     public ObjectNode deleteTeacher(@PathVariable Integer id) {
-        return service.deleteTeacher(id);
+        Teacher fetchedTeacher = service.getTeacherById(id);
+        if (fetchedTeacher == null) {
+            return Global.createErrorMessage("Teacher not found");
+        }
+        if (fetchedTeacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            return service.deleteTeacher(id);
+        }
+        return Global.createErrorMessage("Not authorized to delete");
     }
 
     @GetMapping("/get-all-teacher")
-    public List<Teacher> getAllStudentByCoachingId() {
-        return repository.findAllByCoaching(Global.coachingId);
+    public List<Teacher> getAllTeacherByCoachingId() {
+        return repository.findAllByCoaching(JwtUtils.getCoachingId());
     }
+
+    // @GetMapping("/get-teacher-by-full-name/{name}")
+    // public Teacher getTeacherByFullName(@PathVariable String name) {
+    //     return service.getTeacherByFullName(name);
+    // }
+
+    // @GetMapping("/get-teacher-by-eamil/{email}")
+    // public Teacher getTeacherByEmail(@PathVariable String email) {
+    //     return service.getTeacherByEmail(email);
+    // }
+
 }

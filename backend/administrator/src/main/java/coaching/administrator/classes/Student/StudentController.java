@@ -53,22 +53,6 @@ public class StudentController {
         return Global.createErrorMessage("Not authorized to get");
     }
 
-    // @GetMapping("/helloworld")
-    // public String helloWorld() {
-    // System.out.println("\033[31minside spring boot hello world.\033[0m");
-    // return "Hello Spring Boot";
-    // }
-
-    // @GetMapping("/get-student-by-full-name/{name}")
-    // public Student getStudentByFullName(@PathVariable String name) {
-    // return service.getStudentByFullName(name);
-    // }
-
-    // @GetMapping("/get-student-by-eamil/{email}")
-    // public Student getStudentByEmail(@PathVariable String email) {
-    // return service.getStudentByEmail(email);
-    // }
-
     @PutMapping("/update-student")
     public ObjectNode updateStudent(@RequestBody Student student) {
         Student fetchedStudent = service.getStudentById(student.getPerson_id());
@@ -97,5 +81,21 @@ public class StudentController {
     public List<Student> getAllStudentByCoachingId() {
         return repository.findAllByCoaching(JwtUtils.getCoachingId());
     }
+
+    // @GetMapping("/helloworld")
+    // public String helloWorld() {
+    // System.out.println("\033[31minside spring boot hello world.\033[0m");
+    // return "Hello Spring Boot";
+    // }
+
+    // @GetMapping("/get-student-by-full-name/{name}")
+    // public Student getStudentByFullName(@PathVariable String name) {
+    // return service.getStudentByFullName(name);
+    // }
+
+    // @GetMapping("/get-student-by-eamil/{email}")
+    // public Student getStudentByEmail(@PathVariable String email) {
+    // return service.getStudentByEmail(email);
+    // }
 
 }
