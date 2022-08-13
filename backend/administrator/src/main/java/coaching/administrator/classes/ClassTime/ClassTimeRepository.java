@@ -25,4 +25,8 @@ public interface ClassTimeRepository extends JpaRepository<ClassTime, Integer> {
                         " where ct.batch_id = sb.batch_id and sb.student_id = :studentId ", nativeQuery = true)
         List<ClassTime> findAllByStudentId(@Param("studentId") Integer studentId);
 
+        @Query(value = " select *    "
+                        + " from class_time ct " +
+                        " where ct.room_id = :roomId ", nativeQuery = true)
+        List<ClassTime> findAllByRoomId(@Param("roomId") Integer roomId);
 }

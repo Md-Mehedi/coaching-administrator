@@ -26,10 +26,6 @@ public class EnrolledProgramController {
 
     @Autowired
     private EnrolledProgramRepository repository;
-    @Autowired
-    private ProgramService programService;
-    @Autowired
-    private StudentService studentService;
 
     @PostMapping("/add-enrolledProgram/{programId}/{studentId}")
     public ObjectNode addEnrolledProgram(@PathVariable Integer programId, @PathVariable Integer studentId) {
