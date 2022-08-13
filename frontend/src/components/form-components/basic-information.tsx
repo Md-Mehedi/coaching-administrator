@@ -52,7 +52,10 @@ export default function BasicInformation({
   return (
     <Grid container spacing={2}>
       <Grid item container alignItems="center">
-        <AvatarUpload />
+        <AvatarUpload
+          file={person?.image}
+          onChange={(newFile) => setPerson({ ...person, image: newFile })}
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <MyTextfield

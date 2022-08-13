@@ -22,6 +22,7 @@ import AddCustomer from "./pages/Utsa/add-customer";
 import AddToDo from "./pages/Utsa/add-toDo";
 import RoomList from "./pages/coaching/room-list";
 import AdminCoachingInput from "./pages/auth/admin-coaching-input";
+import Filter from "./pages/filter";
 
 export var ADMIN_LINKS = {
   home: { path: "/dashboard/home", element: <Home /> },
@@ -70,6 +71,8 @@ export var USER_LINKS = {
   forgotPassword: { path: "/auth/forgot-password", element: <Login /> },
   adminCoachingInput: {
     path: "/auth/admin-coaching",
-    element: <AdminCoachingInput />,
+    element: <Filter>
+      <AdminCoachingInput />
+      </Filter>,
   },
 };

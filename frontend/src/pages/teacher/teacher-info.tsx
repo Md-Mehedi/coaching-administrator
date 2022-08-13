@@ -20,6 +20,7 @@ import { API } from "../../api";
 import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 import Loading from "../../components/loading";
 import { ADMIN_LINKS } from "./../../links";
+import TeacherRoutine from "./teacher-routine";
 
 const data = [
   "Full name",
@@ -63,6 +64,7 @@ export default function TeacherInfo() {
       API.teacher
         .getById(parseInt(id))
         .then((response) => {
+          console.log(response);
           setState({ ...state, loading: false, teacher: response.data });
         })
         .catch((r) => {
@@ -79,9 +81,13 @@ export default function TeacherInfo() {
       element: <TeacherBatchList />,
     },
     {
-      title: "Withdrawn History",
-      element: <WithdrawnHistory />,
+      title: "Routine",
+      element: <TeacherRoutine teacher={state.teacher} />,
     },
+    // {
+    //   title: "Withdrawn History",
+    //   element: <WithdrawnHistory />,
+    // },
 
     // {
     //   title: "Batch",

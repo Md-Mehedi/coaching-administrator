@@ -51,7 +51,10 @@ export default function AdminInfoInput({
   return (
     <Grid container spacing={2}>
       <Grid item container alignItems="center">
-        <AvatarUpload onChange={(files) => updateAdmin({ image: files[0] })} />
+        <AvatarUpload
+          file={admin.person?.image}
+          onChange={(file) => updateAdmin({ image: file })}
+        />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <TextField

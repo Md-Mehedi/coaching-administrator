@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import coaching.administrator.classes.Global.APIMessage;
 
@@ -18,7 +20,7 @@ public class CoachingController {
     private CoachingService service;
 
     @PostMapping("/add-coaching")
-    public APIMessage addAdmin(@RequestBody Coaching coaching) {
+    public APIMessage addAdmin(@RequestPart("coaching") Coaching coaching, @RequestPart("image") MultipartFile image) {
 
         try {
             System.out.println("\033[31minside add coaching\033[0m");
@@ -28,7 +30,7 @@ public class CoachingController {
                 return new APIMessage(false, "Email already taken");
             }
 
-            service.saveCoaching(coaching);
+            service.saveCoaching(coaching, image);
             // coaching = service.getCoachingById(coaching.getId());
             return new APIMessage(true, "Information successfully submitted");
         } catch (Exception e) {

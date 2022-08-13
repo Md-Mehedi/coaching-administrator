@@ -12,7 +12,7 @@ export class Coaching {
   whatsappNo?: string;
   facebookLink?: string;
   youtubeLink?: string;
-  image?: string;
+  image?: File;
 }
 
 export class Program {
@@ -54,7 +54,7 @@ export class Batch {
   monthlyFees?: number;
   program?: Program;
   subject?: Subject;
-  classTimes?: ClassTime[];
+  // classTimes?: ClassTime[];
 }
 export class StudentBatch {
   id?: number;
@@ -101,4 +101,12 @@ export class ClassTime {
 export class ClassType {
   id?: number;
   type?: string;
+}
+
+export class Expense {
+  id?: number;
+  amount?: number;
+  time?: Date;
+  description?: string;
+  coaching?: Coaching;
 }

@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import coaching.administrator.classes.Coaching.Coaching;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,9 +39,7 @@ public class Program {
     private Coaching coaching;
 
     private String description;
-    @Temporal(TemporalType.TIME)
     private Date startDate;
-    @Temporal(TemporalType.TIME)
     private Date endDate;
     private Integer admissionFee;
 

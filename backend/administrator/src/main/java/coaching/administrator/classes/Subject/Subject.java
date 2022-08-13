@@ -40,6 +40,7 @@ public class Subject implements Serializable {
     // @Column(nullable = true)
     @Temporal(TemporalType.DATE)
     private Date openingDate = new Date();
+    
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "coaching_id", referencedColumnName = "id")
     private Coaching coaching;

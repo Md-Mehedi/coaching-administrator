@@ -17,6 +17,7 @@ import DialogLayout from "../../layouts/dialog-layout";
 import CreateProgram from "./create-program";
 import CreateProgramDialog from "./create-program";
 import { Program } from "../../classes/coaching";
+import ProgramRoutine from "./program-routine";
 
 export default function ProgramInfo() {
   const { id } = useParams();
@@ -58,6 +59,10 @@ export default function ProgramInfo() {
     //   title: "Exam",
     //   element: <ProgramExam />,
     // },
+    {
+      title: "Routine",
+      element: <ProgramRoutine program={state.program} />,
+    },
     {
       title: "Batch",
       element: <ProgramBatchList program={state.program} />,

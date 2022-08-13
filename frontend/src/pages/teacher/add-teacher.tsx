@@ -17,7 +17,11 @@ import MyTextfield from "../../components/form-components/my-textfield";
 import ParentInformation from "../../components/form-components/parent-information";
 import PersonQualification from "../../components/form-components/person-qualification-exam-details";
 import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
-import { apiCatch, showSnackbar } from "../../tools/helper-functions";
+import {
+  apiCatch,
+  createFormData,
+  showSnackbar,
+} from "../../tools/helper-functions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddPerson from "../../components/form-components/add-person";
 import { ADMIN_LINKS } from "./../../links";
@@ -53,7 +57,10 @@ export default function AddTeacher() {
       } else {
         api = API.teacher.add;
       }
-      api(teacher)
+
+      let image = teacher.person?.image;
+      teacher.person = { ...teacher.person, image: undefined };
+      api(createFormData(teacher, image))
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
           setSaveLoading(false);

@@ -18,7 +18,9 @@ export default function FileUploader(props: FileUploaderProps) {
   return (
     <AddDialog
       button={{ buttonLabel: props.uploadButtonText, icon: <></> }}
-      saveButtonClick={(event) => props.onChange && props.onChange(state.files)}
+      saveButtonClick={(event) => {
+        props.onChange && props.onChange(state.files);
+      }}
     >
       <Grid container direction="column" spacing={2}>
         {state.files.length > 0 && (

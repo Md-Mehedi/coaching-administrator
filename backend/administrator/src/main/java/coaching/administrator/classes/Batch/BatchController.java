@@ -26,7 +26,6 @@ public class BatchController {
 
     @PostMapping("/add-batch")
     public ObjectNode addBatch(@RequestBody Batch batch) {
-        Global.colorPrint((batch));
         return service.saveBatch(batch);
     }
 
@@ -37,7 +36,6 @@ public class BatchController {
 
     @GetMapping("/get-all-batch-by-program-id/{programId}")
     public List<Batch> getAllBatchByProgramId(@PathVariable Integer programId) {
-        Global.colorPrint((programId));
         return service.getAllBatchByProgramId(programId);
     }
 

@@ -1,5 +1,5 @@
 import { OptionsObject } from "notistack";
-import { CardContent } from "@mui/material";
+import { Avatar, CardContent, Grid } from "@mui/material";
 import {
   DateSelectArg,
   EventApi,
@@ -186,4 +186,36 @@ export function add(date: Date, num: number = 1) {
   let newDate = new Date(date);
   newDate.setDate(date.getDate() + num);
   return newDate;
+}
+
+export function createFormData(object: any, file?: File) {
+  const formData = new FormData();
+  formData.append(
+    "object",
+    new Blob([JSON.stringify(object)], {
+      type: "application/json",
+    })
+  );
+  formData.append("file", file || new Blob([]));
+  return formData;
+}
+
+export function resolveURL(image) {
+  return "data:image/jpeg;base64," + image;
+}
+
+export function avatarForTable(link) {
+  return (
+    <Grid container justifyContent="center">
+      <Avatar
+        src={resolveURL(link)}
+        alt=""
+        sx={{
+          border: 3,
+          height: 40,
+          width: 40,
+        }}
+      />
+    </Grid>
+  );
 }

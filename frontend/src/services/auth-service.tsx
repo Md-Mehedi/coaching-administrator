@@ -109,6 +109,15 @@ let AuthService = {
   getToken() {
     return localStorage.getItem("token");
   },
+  getAdminImage() {
+    return this.getAdmin()?.person?.image;
+  },
+  getCoachingImage() {
+    return this.getCoaching()?.image;
+  },
+  isLogin() {
+    return localStorage.length > 0;
+  },
   getHeaders() {
     const token = this.getToken();
 

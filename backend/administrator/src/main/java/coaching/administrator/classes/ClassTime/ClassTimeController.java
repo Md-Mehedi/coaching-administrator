@@ -40,7 +40,6 @@ public class ClassTimeController {
     @GetMapping("/get-all-classTime-by-batchId/{id}")
     public List<ClassTime> getClassTimeByBatchId(@PathVariable Integer id) {
         List<ClassTime> list = repository.findByBatchId(id);
-        Global.colorPrint(list.get(0).getStartDateTime());
         return list;
     }
 
@@ -57,6 +56,11 @@ public class ClassTimeController {
     @GetMapping("/get-all-classTime-by-studentId/{id}")
     public List<ClassTime> getClassTimeByStudentId(@PathVariable Integer id) {
         return repository.findAllByStudentId(id);
+    }
+
+    @GetMapping("/get-all-classTime-by-roomId/{id}")
+    public List<ClassTime> getClassTimeByRoomId(@PathVariable Integer id) {
+        return repository.findAllByRoomId(id);
     }
 
     @DeleteMapping("/update-classTime")

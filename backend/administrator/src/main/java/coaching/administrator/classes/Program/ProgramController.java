@@ -1,6 +1,7 @@
 
 package coaching.administrator.classes.Program;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ public class ProgramController {
     @Autowired
     private ProgramRepository repository;
 
-    @PostMapping("/add-program/{coachingId}")
+    @PostMapping("/add-program")
     public ObjectNode addProgram(@RequestBody Program program) {
         Coaching coaching = coachingService.getCoachingById(JwtUtils.getCoachingId());
         // Coaching coaching = new CoachingService().getCoachingbyId(1);
-        Global.colorPrint(coaching);
         program.setCoaching(coaching);
+        program.setStartDate(new Date());
         return service.saveProgram(program);
     }
 

@@ -28,19 +28,19 @@ export interface FieldProps<M extends OverridableTypeMap> {
  * @returns A React component.
  */
 export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
-  return (
-    props.value && (
-      <Grid item container direction="row" spacing={0} alignItems="center">
-        <Grid item>
-          <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
-            {props.field} : &nbsp;{" "}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Typography {...props.valueProps}>{props.value} </Typography>
-        </Grid>
+  return props.value ? (
+    <Grid item container direction="row" spacing={0} alignItems="center">
+      <Grid item>
+        <Typography sx={{ fontWeight: "bold" }} {...props.fieldProps}>
+          {props.field} : &nbsp;{" "}
+        </Typography>
       </Grid>
-    )
+      <Grid item>
+        <Typography {...props.valueProps}>{props.value} </Typography>
+      </Grid>
+    </Grid>
+  ) : (
+    <></>
   );
 }
 export default function About({ person }: { person?: Person }) {
@@ -66,6 +66,7 @@ export default function About({ person }: { person?: Person }) {
               field="Group/Department"
               value={person?.currentQualification?.department?.name}
             />
+            <Field field="Joining date" value={person?.joiningDate} />
           </Grid>
         </AccordionDetails>
       </Accordion>

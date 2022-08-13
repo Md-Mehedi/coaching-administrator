@@ -6,11 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -31,10 +35,12 @@ public class TeacherController {
     private CoachingService coachingService;
 
     @PostMapping("/add-teacher")
-    public ObjectNode addTeacher(@RequestBody Teacher teacher) {
+    // public ObjectNode addTeacher(@RequestBody Object teacher,
+    // @RequestPart("image") MultipartFile image) {
+    public ObjectNode addTeacher(@RequestPart("object") Teacher teacher, @RequestPart("file") MultipartFile image) {
         teacher.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
-
-        return service.saveTeacher(teacher);
+        return service.saveTeacher(teacher, image);
+        // return null;
     }
 
     @GetMapping("/get-teacher-by-id/{id}")
@@ -59,8 +65,8 @@ public class TeacherController {
     }
 
     @PutMapping("/update-teacher")
-    public ObjectNode updateTeacher(@RequestBody Teacher teacher) {
-        return service.updateTeacher(teacher);
+    public ObjectNode updateTeacher(@RequestPart("object") Teacher teacher, @RequestPart("file") MultipartFile image) {
+        return service.updateTeacher(teacher, image);
     }
 
     @DeleteMapping("/delete-teacher-by-id/{id}")

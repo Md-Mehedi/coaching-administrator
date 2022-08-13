@@ -9,7 +9,7 @@ import { ADMIN_LINKS } from "./../../links";
 import MyTable from "../../components/my-table";
 import Loading from "../../components/loading";
 import { API } from "../../api";
-import { apiCatch } from "./../../tools/helper-functions";
+import { apiCatch, avatarForTable } from "./../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import { Teacher } from "../../classes/person-info";
 
@@ -20,27 +20,34 @@ export function TeacherList() {
     loading: true,
     teachers: [],
     columns: [
-      { title: "Roll no", field: "person.id", editable: false },
-      // {
-      //   title: "Photo",
-      //   field: "photo",
-      //   editable: false,
-      //   render: (item) => (
-      //     <Grid container justifyContent="center">
-      //       <Avatar
-      //         src={item.content}
-      //         alt=""
-      //         sx={{
-      //           border: 3,
-      //           height: 40,
-      //           width: 40,
-      //         }}
-      //       />
-      //     </Grid>
-      //   ),
-      // },
-      { title: "Full name", field: "person.fullName", editable: false },
-      { title: "Nickname", field: "person.nickName", editable: false },
+      {
+        title: "ID",
+        field: "person.id",
+      },
+      {
+        title: "Photo",
+        field: "person.image",
+        render: (item) => avatarForTable(item.person.image),
+      },
+      {
+        title: "Full name",
+        field: "person.fullName",
+      },
+      {
+        title: "Joining date",
+        field: "person.joiningDate",
+      },
+      {
+        title: "Blood group",
+        field: "person.bloodGroup",
+      },
+      {
+        title: "Studying",
+        field: "person.currentQualification",
+        render: (item) => {
+          return `${item.person.currentQualification?.department.name}, ${item.person.currentQualification?.institution.name}`;
+        },
+      },
       // {
       //   title: "Fees",
       //   field: "fees",
@@ -55,7 +62,8 @@ export function TeacherList() {
       .then((response) => {
         setState({ ...state, loading: false, teachers: response.data });
       })
-      .catch((r) => {apiCatch(enqueueSnackbar,r);
+      .catch((r) => {
+        apiCatch(enqueueSnackbar, r);
       });
   }, []);
 

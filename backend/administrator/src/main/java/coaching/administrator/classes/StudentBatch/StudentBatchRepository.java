@@ -10,7 +10,7 @@ public interface StudentBatchRepository extends JpaRepository<StudentBatch, Inte
 
     // StudentBatch findByType(String typeName);
 
-    List<StudentBatch> findAll();
+    // List<StudentBatch> findAll();
 
     @Query(value = "select * from student_batch " +
             " where batch_id = :batchId", nativeQuery = true)

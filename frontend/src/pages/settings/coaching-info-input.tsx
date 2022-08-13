@@ -39,7 +39,11 @@ export default function CoachingInformationInput({
   return (
     <Grid container spacing={2}>
       <Grid item container alignItems="center" justifyContent="center">
-        <ImageUpload uploadButtonText="Upload logo" />
+        <ImageUpload
+          file={coaching.image}
+          onChange={(file) => updateCoaching({ image: file })}
+          uploadButtonText="Upload logo"
+        />
       </Grid>
       <Grid item container>
         <TextField

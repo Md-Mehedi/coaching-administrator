@@ -82,12 +82,12 @@ export default function BatchInfo() {
   }
   const tabs = [
     {
-      title: "Students",
-      element: <BatchStudents batch={state.batch} />,
-    },
-    {
       title: "Routine",
       element: <BatchRoutine batch={state.batch} />,
+    },
+    {
+      title: "Students",
+      element: <BatchStudents batch={state.batch} />,
     },
     {
       title: "Attendance",

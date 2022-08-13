@@ -4,22 +4,19 @@ package coaching.administrator.classes.Student;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.Coaching.CoachingService;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Security.jwt.JwtUtils;
@@ -35,9 +32,9 @@ public class StudentController {
     private CoachingService coachingService;
 
     @PostMapping("/add-student")
-    public ObjectNode addStudent(@RequestBody Student student) {
+    public ObjectNode addStudent(@RequestPart("object") Student student, @RequestPart("file") MultipartFile image) {
         student.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
-        return service.saveStudent(student);
+        return service.saveStudent(student, image);
     }
 
     // #TODO Update
@@ -71,13 +68,13 @@ public class StudentController {
     // }
 
     @PutMapping("/update-student")
-    public ObjectNode updateStudent(@RequestBody Student student) {
+    public ObjectNode updateStudent(@RequestPart("object") Student student, @RequestPart("file") MultipartFile image) {
         Student fetchedStudent = service.getStudentById(student.getPerson_id());
         if (fetchedStudent == null) {
             return Global.createErrorMessage("Student not found");
         }
         if (fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
-            return service.updateStudent(student);
+            return service.updateStudent(student, image);
         }
         return Global.createErrorMessage("Not authorized to update");
     }
@@ -102,7 +99,6 @@ public class StudentController {
     @GetMapping("/get-all-student-minimal")
     public List<Object> getAllStudentMinimal() {
         List<Object> list = repository.findAllStudentMinimalByCoachingId(JwtUtils.getCoachingId());
-        Global.colorPrint(list);
         ObjectMapper mapper = new ObjectMapper();
         Object node = mapper.createObjectNode();
         // list.forEach(item -> {

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import coaching.administrator.classes.Batch.Batch;
 import coaching.administrator.classes.ClassType.ClassType;
@@ -51,9 +52,9 @@ public class ClassTime implements Serializable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    // @JsonManagedReference
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
-    @JsonBackReference
     private Batch batch;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)

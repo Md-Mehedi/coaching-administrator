@@ -9,6 +9,7 @@ import { Admin, getGender } from "../../classes/person-info";
 import SpecialLink from "./../../components/special-link";
 import AdminCoachingInput from "./../auth/admin-coaching-input";
 import { USER_LINKS } from "../../links";
+import { resolveURL } from "../../tools/helper-functions";
 
 const useStyle = makeStyles((theme: Theme) => ({
   justifyContent: {
@@ -29,11 +30,15 @@ export default function AdminInformationOutput() {
   useEffect(() => {
     setAdmin(AuthService.getAdmin());
   }, []);
+  console.log("in admin output", admin);
   return (
     <Grid container direction="column" spacing={2} alignItems="center">
       <Grid item container spacing={3}>
         <Grid item xs={12} md={5} lg={4} className={classes.justifyContent}>
-          <Avatar sx={{ width: 150, height: 150 }} />
+          <Avatar
+            sx={{ width: 150, height: 150 }}
+            src={resolveURL(admin?.person?.image)}
+          />
         </Grid>
         <Grid item xs={12} md={7} lg={8}>
           <Grid container direction="column" spacing={1}>
