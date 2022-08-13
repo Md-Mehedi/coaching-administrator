@@ -577,3 +577,10 @@ select * from division
 -- ( 64, 'Mohongonj', 'মোহনগঞ্জ'),
 -- ( 64, 'Purbadhala', 'পূর্বধলা'),
 -- ( 64, 'Netrokona Sadar', 'নেত্রকোণা সদর');
+
+--        Religion ------------
+
+select * from religion
+
+insert into religion(name) VALUES('Islam'),('Hinduism'),('Buddhism'),('Christianity'),('Sikhism'),('Judaism'),('Others');
+

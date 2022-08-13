@@ -408,8 +408,8 @@ insert into institution (name,board_id) values('Sylhet Commerce College',8);
 
 
 
-select * from expense;
+select * from expense e order by e.expense_date;
 
-select details, to_char(e.expense_date, 'MM')  from expense e  where e.coaching_id = 3  and to_char(e.expense_date, 'MM') = '08' and to_char(e.expense_date, 'YYYY') = '2022'
+select *  from expense e  where e.coaching_id = 3  and to_char(e.expense_date, 'MM') = '08' and to_char(e.expense_date, 'YYYY') = '2022' order by e.expense_date;
 
-
+select * from occupation;
