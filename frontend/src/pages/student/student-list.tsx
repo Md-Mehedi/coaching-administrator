@@ -52,7 +52,7 @@ export function StudentList() {
       {
         title: "Gender",
         field: "person.gender",
-        render: (item) => (item === "M" ? "Male" : "Female"),
+        render: (item) => (item.person.gender === "M" ? "Male" : "Female"),
       },
       {
         title: "Religion",

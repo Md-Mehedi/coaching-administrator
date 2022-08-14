@@ -42,8 +42,10 @@ export default function BatchInfo() {
       API.batch
         .get(parseInt(id))
         .then((res) => {
-          setState({ ...state, batch: res.data, pageLoading: false });
-          console.log("retrieve batch : ", res.data);
+          showSnackbar(enqueueSnackbar, res.data, () => {
+            setState({ ...state, batch: res.data.object, pageLoading: false });
+            console.log("retrieve batch : ", res.data);
+          });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
   }, [id]);

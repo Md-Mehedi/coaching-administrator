@@ -51,9 +51,11 @@ export default function ProgramEnrolledStudent({
       API.program
         .getEnrolledStudents(program.id)
         .then((response) => {
-          setState({
-            ...state,
-            enrolledStudents: response.data,
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            setState({
+              ...state,
+              enrolledStudents: response.data.object,
+            });
           });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));

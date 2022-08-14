@@ -118,8 +118,8 @@ export const API = {
   /************************/
   coaching: {
     addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
-    getCoachingByAdminId: (adminId: number) =>
-      get("/get-coaching-by-admin-id/" + adminId),
+    // getCoachingByAdminId: (adminId: number) =>
+    //   get("/get-coaching-by-admin-id/" + adminId),
   },
   program: {
     add: (program: Program) => postBody("/add-program", program),
@@ -164,9 +164,9 @@ export const API = {
   },
   classTime: {
     add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
-    getAllByBatchId: (batchId: number) =>
-      get("/get-all-classTime-by-batchId/" + batchId),
-    get: (id: number) => get("/get-classTime-by-id/" + id),
+    // getAllByBatchId: (batchId: number) =>
+    //   get("/get-all-classTime-by-batchId/" + batchId),
+    // get: (id: number) => get("/get-classTime-by-id/" + id),
     delete: (id: number) => del("/delete-classTime-by-id/" + id),
     update: (classTime: ClassTime) => put("/update-class", classTime),
     saveAll: (classTimes: ClassTime[]) =>

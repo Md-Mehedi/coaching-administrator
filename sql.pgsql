@@ -408,7 +408,7 @@ insert into institution (name,board_id) values('Sylhet Commerce College',8);
 
 
 
-select * from expense;
+select * from expense e order by e.expense_date;
 
 insert into class_type (type) values('CLASS');
 insert into class_type (type) values('EXAM');
@@ -432,4 +432,5 @@ select * from person;
  select * from person
  select * from edu_qualification where id = 106
 
+select * from occupation;
 select * from program

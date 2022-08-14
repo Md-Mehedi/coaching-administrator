@@ -65,7 +65,13 @@ export default function TeacherInfo() {
         .getById(parseInt(id))
         .then((response) => {
           console.log(response);
-          setState({ ...state, loading: false, teacher: response.data });
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            setState({
+              ...state,
+              loading: false,
+              teacher: response.data.object,
+            });
+          });
         })
         .catch((r) => {
           apiCatch(enqueueSnackbar, r);

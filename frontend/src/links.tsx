@@ -14,18 +14,17 @@ import Test, { TabTest } from "./pages/test";
 import { Register } from "./pages/auth/register";
 import Settings from "./pages/settings/settings";
 import ExamDetails from "./pages/exam/exam-info";
-import Home from "./pages/home/home";
+import AdminHome from "./pages/home/admin-home";
 import SubjectList from "./pages/coaching/subject-list";
 import DuesList from "./pages/financial/dues-list";
 import ConfirmAdmin from "./pages/auth/confirm-admin";
-import AddCustomer from "./pages/Utsa/add-customer";
-import AddToDo from "./pages/Utsa/add-toDo";
 import RoomList from "./pages/coaching/room-list";
 import AdminCoachingInput from "./pages/auth/admin-coaching-input";
 import Filter from "./pages/filter";
+import Home from "./pages/home/home";
 
 export var ADMIN_LINKS = {
-  home: { path: "/dashboard/home", element: <Home /> },
+  home: { path: "/dashboard/home", element: <AdminHome /> },
   // Admin
   settings: { path: "/dashboard/setting", element: <Settings /> },
   // Student
@@ -56,12 +55,10 @@ export var ADMIN_LINKS = {
   expenseList: { path: "/dashboard/expense", element: <ExpenseList /> },
   // Other
   test: { path: "/dashboard/test", element: <Test /> },
-  todo: { path: "/dashboard/AddTodo", element: <AddToDo /> },
-  addCustomer: { path: "/dashboard/add-customer", element: <AddCustomer /> },
 };
 
 export var USER_LINKS = {
-  home: { path: "/dashboard/home", element: <StudentList /> },
+  home: { path: "/home", element: <Home /> },
   login: { path: "/auth/login", element: <Login /> },
   register: { path: "/auth/register", element: <Register /> },
   verifyAdmin: {
@@ -71,8 +68,10 @@ export var USER_LINKS = {
   forgotPassword: { path: "/auth/forgot-password", element: <Login /> },
   adminCoachingInput: {
     path: "/auth/admin-coaching",
-    element: <Filter>
-      <AdminCoachingInput />
-      </Filter>,
+    element: (
+      <Filter>
+        <AdminCoachingInput />
+      </Filter>
+    ),
   },
 };

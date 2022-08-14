@@ -44,6 +44,7 @@ export function Field<M extends OverridableTypeMap>(props: FieldProps<M>) {
   );
 }
 export default function About({ person }: { person?: Person }) {
+  console.log("person", person);
   return (
     <div>
       <Accordion>

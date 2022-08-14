@@ -3,6 +3,8 @@ package coaching.administrator.classes.Teacher;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +36,7 @@ public class TeacherService {
         }
     }
 
+    @Transactional
     public ObjectNode saveTeacher(Teacher teacher, MultipartFile image) {
         ObjectNode node = mapper.createObjectNode();
         teacher.getPerson().setJoiningDate(new Date());

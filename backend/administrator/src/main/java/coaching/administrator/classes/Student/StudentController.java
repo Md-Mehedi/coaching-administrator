@@ -37,7 +37,6 @@ public class StudentController {
         return service.saveStudent(student, image);
     }
 
-    // #TODO Update
     @GetMapping("/get-student-by-id/{id}")
     public ObjectNode getStudentById(@PathVariable Integer id) {
         Student fetchedStudent = service.getStudentById(id);
@@ -50,22 +49,6 @@ public class StudentController {
         }
         return Global.createErrorMessage("Not authorized to get");
     }
-
-    // @GetMapping("/helloworld")
-    // public String helloWorld() {
-    // System.out.println("\033[31minside spring boot hello world.\033[0m");
-    // return "Hello Spring Boot";
-    // }
-
-    // @GetMapping("/get-student-by-full-name/{name}")
-    // public Student getStudentByFullName(@PathVariable String name) {
-    // return service.getStudentByFullName(name);
-    // }
-
-    // @GetMapping("/get-student-by-eamil/{email}")
-    // public Student getStudentByEmail(@PathVariable String email) {
-    // return service.getStudentByEmail(email);
-    // }
 
     @PutMapping("/update-student")
     public ObjectNode updateStudent(@RequestPart("object") Student student, @RequestPart("file") MultipartFile image) {
@@ -95,6 +78,22 @@ public class StudentController {
     public List<Student> getAllStudent() {
         return repository.findAllByCoaching(JwtUtils.getCoachingId());
     }
+
+    // @GetMapping("/helloworld")
+    // public String helloWorld() {
+    // System.out.println("\033[31minside spring boot hello world.\033[0m");
+    // return "Hello Spring Boot";
+    // }
+
+    // @GetMapping("/get-student-by-full-name/{name}")
+    // public Student getStudentByFullName(@PathVariable String name) {
+    // return service.getStudentByFullName(name);
+    // }
+
+    // @GetMapping("/get-student-by-eamil/{email}")
+    // public Student getStudentByEmail(@PathVariable String email) {
+    // return service.getStudentByEmail(email);
+    // }
 
     @GetMapping("/get-all-student-minimal")
     public List<Object> getAllStudentMinimal() {

@@ -94,16 +94,22 @@ export default function Header() {
         </Grid>
         <Grid item>
           <Responsive displayIn={["Laptop", "Tablet"]}>
-            <Typography
-              className={classes.title}
-              variant="h6"
-              noWrap
-              style={{ cursor: "pointer" }}
-              // onClick={(event) => history.push("/home")}
-            >
-              Coaching Administrator
-            </Typography>
-            <Typography>{admin?.person?.coaching?.name}</Typography>
+            <SpecialLink disableUnderline href={USER_LINKS.home.path}>
+              <Typography
+                className={classes.title}
+                variant="h6"
+                noWrap
+                style={{ color: "white" }}
+                // onClick={(event) => history.push("/home")}
+              >
+                Coaching Administrator
+              </Typography>
+            </SpecialLink>
+            <SpecialLink disableUnderline href={ADMIN_LINKS.home.path}>
+              <Typography style={{ color: "white" }}>
+                {admin?.person?.coaching?.name}
+              </Typography>
+            </SpecialLink>
           </Responsive>
           <Responsive displayIn={["Mobile"]}>
             <Grid

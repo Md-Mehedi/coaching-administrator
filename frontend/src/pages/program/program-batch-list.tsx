@@ -36,11 +36,13 @@ export default function ProgramBatchList({ program }: { program?: Program }) {
       API.batch
         .getAll(program?.id)
         .then((res) => {
-          setState({
-            ...state,
-            batches: res.data,
-            pageLoading: false,
-            submitted: false,
+          showSnackbar(enqueueSnackbar, res.data, () => {
+            setState({
+              ...state,
+              batches: res.data.object,
+              pageLoading: false,
+              submitted: false,
+            });
           });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));

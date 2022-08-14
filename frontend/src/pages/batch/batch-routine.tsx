@@ -16,7 +16,9 @@ export default function BatchRoutine({ batch }: { batch: Batch }) {
   useEffect(() => {
     batch.id &&
       API.batch.getClassTimes(batch.id).then((res) => {
-        setClassTimes(res.data);
+        showSnackbar(enqueueSnackbar, res.data, () => {
+          setClassTimes(res.data.object);
+        });
       });
   }, []);
 

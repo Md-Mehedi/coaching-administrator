@@ -53,7 +53,9 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
       });
     batch.id &&
       API.batch.getAllStudentBatch(batch.id).then((res) => {
-        setState({ ...state, studentBatches: res.data });
+        showSnackbar(enqueueSnackbar, res.data, () => {
+          setState({ ...state, studentBatches: res.data.object });
+        });
         // Fetching enrolled student in program
         // batch.program?.id &&
         //   API.program
