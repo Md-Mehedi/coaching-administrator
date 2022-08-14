@@ -13,6 +13,7 @@ import { ADMIN_LINKS } from "../../links";
 import { StudentBatch } from "./../../classes/coaching";
 import { useSnackbar } from "notistack";
 import { apiCatch, showSnackbar } from "../../tools/helper-functions";
+import { avatarForTable } from "./../../tools/helper-functions";
 
 export default function BatchStudents({ batch }: { batch: Batch }) {
   const navigate = useNavigate();
@@ -27,32 +28,21 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
     open: false,
     selectedStudent: null,
     columns: [
-      { title: "Roll no", field: "student.person.id" },
+      { title: "ID", field: "student.person.id" },
       {
         title: "Photo",
         field: "photo",
         editable: false,
-        render: (item) => (
-          <Grid container justifyContent="center">
-            <Avatar
-              src={item.content}
-              alt=""
-              sx={{
-                border: 3,
-                height: 40,
-                width: 40,
-              }}
-            />
-          </Grid>
-        ),
+        render: (item) => avatarForTable(item.student.person.image),
       },
       { title: "Name", field: "student.person.fullName" },
-      {
-        title: "Fees",
-        field: "fees",
-        editable: false,
-        render: (item) => (item.fees != 0 ? item.fees : "FREE"),
-      },
+      { title: "Joining date", field: "startDate" },
+      // {
+      //   title: "Fees",
+      //   field: "fees",
+      //   editable: false,
+      //   render: (item) => (item.fees != 0 ? item.fees : "FREE"),
+      // },
     ],
     studentBatches: [],
   });

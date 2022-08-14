@@ -10,7 +10,11 @@ import SearchByNameOrIdField from "../../components/search-by-name-or-id-field";
 import { API } from "./../../api";
 import { EnrolledProgram, Program } from "../../classes/coaching";
 import { useSnackbar } from "notistack";
-import { apiCatch, showSnackbar } from "./../../tools/helper-functions";
+import {
+  apiCatch,
+  avatarForTable,
+  showSnackbar,
+} from "./../../tools/helper-functions";
 import { Student } from "../../classes/person-info";
 
 export default function ProgramEnrolledStudent({
@@ -24,48 +28,38 @@ export default function ProgramEnrolledStudent({
   const [state, setState] = useState<{
     open: boolean;
     column: any;
-    enrolledStudents: Student[];
+    enrolledStudents: EnrolledProgram[];
     selectedStudent: Student | null;
   }>({
     open: false,
     column: [
-      { title: "Roll no", field: "person.id" },
+      { title: "ID", field: "student.person.id" },
       {
         title: "Photo",
         field: "photo",
         editable: false,
-        render: (item) => (
-          <Grid container justifyContent="center">
-            <Avatar
-              src={item.content}
-              alt=""
-              sx={{
-                border: 3,
-                height: 40,
-                width: 40,
-              }}
-            />
-          </Grid>
-        ),
+        render: (item) => avatarForTable(item.student.person.image),
       },
-      { title: "Name", field: "person.fullName" },
+      { title: "Name", field: "student.person.fullName" },
       { title: "Enrolled Date", field: "enrolledDate" },
     ],
     enrolledStudents: [],
     selectedStudent: null,
   });
-  useEffect(() => {
+  function loadList() {
     program.id &&
       API.program
         .getEnrolledStudents(program.id)
         .then((response) => {
-          let students: Student[] = response.data;
           setState({
             ...state,
-            enrolledStudents: students,
+            enrolledStudents: response.data,
           });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
+  }
+  useEffect(() => {
+    loadList();
     API.student.getAll().then((res) => {
       setStudents(res.data);
     });
@@ -77,13 +71,15 @@ export default function ProgramEnrolledStudent({
         .addStudent(program.id, state.selectedStudent.person.id)
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
-          setState({
-            ...state,
-            enrolledStudents: state.selectedStudent
-              ? [...state.enrolledStudents, state.selectedStudent]
-              : state.enrolledStudents,
-            open: false,
-          });
+          setState({ ...state, open: false });
+          loadList();
+          // setState({
+          //   ...state,
+          //   enrolledStudents: state.selectedStudent
+          //     ? [...state.enrolledStudents, state.selectedStudent]
+          //     : state.enrolledStudents,
+          //   open: false,
+          // });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
     }
@@ -96,7 +92,9 @@ export default function ProgramEnrolledStudent({
         // @ts-ignore
         columns={state.column}
         onRowClick={(event, rowData) => {
-          navigate(ADMIN_LINKS.student.path + "/" + rowData?.person?.id);
+          navigate(
+            ADMIN_LINKS.student.path + "/" + rowData?.student?.person?.id
+          );
         }}
         addButtonText="Add student"
         onAddButtonClick={(event) => {

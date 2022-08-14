@@ -2,6 +2,7 @@
 package coaching.administrator.classes.EnrolledProgram;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class EnrolledProgramController {
         EnrolledProgram ep = new EnrolledProgram();
         ep.setStudent(s);
         ep.setProgram(p);
+        ep.setEnrolledDate(new Date());
         repository.save(ep);
         // repository.add(programId, studentId);
         // return
@@ -50,13 +52,8 @@ public class EnrolledProgramController {
     }
 
     @GetMapping("/get-all-students-by-programId/{programId}")
-    public List<Student> getAllEnrolledStudentByCoachingId(@PathVariable Integer programId) {
-        List<EnrolledProgram> list = repository.findByProgramId(programId);
-        ArrayList<Student> studentList = new ArrayList<Student>();
-        for (EnrolledProgram ep : list) {
-            studentList.add(ep.getStudent());
-        }
-        return studentList;
+    public List<EnrolledProgram> getAllEnrolledStudentByCoachingId(@PathVariable Integer programId) {
+        return repository.findByProgramId(programId);
     }
 
     // @GetMapping("/get-all-students-minimal-by-programId/{programId}")
