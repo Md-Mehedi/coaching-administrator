@@ -89,7 +89,6 @@ public class EnrolledProgramController {
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-students-by-programId/{programId}")
     public ObjectNode getAllEnrolledProgramByCoachingId(@PathVariable Integer programId) {
-
         Program fetchedProgram = programService.getProgramById(programId);
         if (fetchedProgram == null) {
             return Global.createErrorMessage("Program not found");
@@ -97,12 +96,8 @@ public class EnrolledProgramController {
 
         if (fetchedProgram.getCoaching().getId() == JwtUtils.getCoachingId()) {
             List<EnrolledProgram> enrolledPrograms = repository.findByProgramId(programId);
-            List<Student> students = new ArrayList<>();
-            for (EnrolledProgram ep : enrolledPrograms) {
-                students.add(ep.getStudent());
-            }
             return Global.createSuccessMessage("Students found")
-                    .putPOJO("object", students);
+                    .putPOJO("object", enrolledPrograms);
         }
 
         return Global.createErrorMessage("Not authorized to get enrolledPrograms Students");
@@ -160,7 +155,8 @@ public class EnrolledProgramController {
     // return Global.createErrorMessage("Not authorized to get enrolledPrograms");
     // }
 
-    @GetMapping("/auth/get-all-enrolledProgram-by-studentId/{studentId}")
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
+    @GetMapping("/get-all-enrolledProgram-by-studentId/{studentId}")
     public ObjectNode getAllEnrolledProgramByStudentId(@PathVariable Integer studentId) {
         Student fetchedStudent = studentService.getStudentById(studentId);
         if (fetchedStudent == null) {

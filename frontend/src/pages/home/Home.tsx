@@ -1,6 +1,6 @@
 import { Avatar, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
-import WebLayout from "./../../layouts/web-layout";
+import WebLayout from "../../layouts/web-layout";
 
 let services = [
   {

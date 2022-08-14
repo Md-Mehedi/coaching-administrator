@@ -52,10 +52,10 @@ public class StudentBatchController {
         return service.getStudentBatchById(id);
     }
 
-    @GetMapping("/get-all-studentBatch-by-batch-id/{batchId}")
-    public List<StudentBatch> getStudentBatches(@PathVariable Integer batchId) {
-        return repository.findByBatchId(batchId);
-    }
+    // @GetMapping("/get-all-studentBatch-by-batch-id/{batchId}")
+    // public List<StudentBatch> getStudentBatches(@PathVariable Integer batchId) {
+    // return repository.findByBatchId(batchId);
+    // }
 
     // @GetMapping("/get-studentBatch-by-name/{name}")
     // public StudentBatch getStudentBatchByName(@PathVariable String name) {
