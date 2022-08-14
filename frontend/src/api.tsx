@@ -165,6 +165,7 @@ export const API = {
     get: (id: number) => get("/get-expense-by-id/" + id),
     delete: (id: number) => del("/delete-expense-by-id/" + id),
     update: (expense: Expense) => put("/update-expense", expense),
-    filterMonthYear : (month: string, year: number) => get("/get-expense-by-coaching-id-month-year/" + month + "/" + year),
+    filterMonthYear: (month: string, year: number) =>
+      get("/get-expense-by-coaching-id-month-year/" + month + "/" + year),
   },
 };

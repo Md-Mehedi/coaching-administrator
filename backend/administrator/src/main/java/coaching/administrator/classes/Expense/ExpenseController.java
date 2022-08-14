@@ -36,7 +36,6 @@ public class ExpenseController {
         expense.setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
         return service.saveExpense(expense);
     }
-    
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @PutMapping("/update-expense")
@@ -48,9 +47,8 @@ public class ExpenseController {
         if (fetchedExpense.getCoaching().getId() == JwtUtils.getCoachingId()) {
             return service.updateExpense(expense);
         }
-        return Global.createErrorMessage("Not authorized to update");
+        return Global.createErrorMessage("Not authorized to update expense");
     }
-
 
     // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
@@ -64,16 +62,14 @@ public class ExpenseController {
             return Global.createSuccessMessage("Expense found")
                     .putPOJO("object", fetchedExpense);
         }
-        return Global.createErrorMessage("Not authorized to get");
+        return Global.createErrorMessage("Not authorized to get expense");
     }
-
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-expenses")
     public List<Expense> getExpenses() {
         return repository.findByCoachingIdOrderByExpenseDateDesc(JwtUtils.getCoachingId());
     }
-
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-expense-by-coaching-id-month-year/{month}/{year}")
@@ -82,7 +78,6 @@ public class ExpenseController {
         return repository.findByCoachingIdMonthYear(JwtUtils.getCoachingId(),
                 month < 10 ? "0" + month.toString() : month.toString(), year.toString());
     }
-
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @DeleteMapping("/delete-expense-by-id/{id}")
@@ -95,6 +90,6 @@ public class ExpenseController {
             repository.delete(fetchedExpense);
             return Global.createSuccessMessage("Expense deleted");
         }
-        return Global.createErrorMessage("Not authorized to delete");
+        return Global.createErrorMessage("Not authorized to delete expense");
     }
 }

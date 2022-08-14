@@ -47,7 +47,7 @@ public class SubjectController {
         if (fetchedSubject.getCoaching().getId() == JwtUtils.getCoachingId()) {
             return service.updateSubject(subject);
         }
-        return Global.createErrorMessage("Not authorized to update");
+        return Global.createErrorMessage("Not authorized to update subject");
     }
 
     // #TODO Update
@@ -62,7 +62,7 @@ public class SubjectController {
             return Global.createSuccessMessage("Subject found")
                     .putPOJO("object", fetchedSubject);
         }
-        return Global.createErrorMessage("Not authorized to get");
+        return Global.createErrorMessage("Not authorized to get subject");
     }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
@@ -83,7 +83,7 @@ public class SubjectController {
             repository.delete(fetchedSubject);
             return Global.createSuccessMessage("Subject deleted");
         }
-        return Global.createErrorMessage("Not authorized to delete");
+        return Global.createErrorMessage("Not authorized to delete subject");
     }
 
     // @GetMapping("/get-subject-by-name/{name}")

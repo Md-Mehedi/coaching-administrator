@@ -41,8 +41,7 @@ public class TeacherController {
     // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-teacher-by-id/{id}")
-    public ObjectNode getTeacherById(@PathVariable Integer id)
-    {
+    public ObjectNode getTeacherById(@PathVariable Integer id) {
         Teacher fetchedTeacher = service.getTeacherById(id);
         if (fetchedTeacher == null) {
             return Global.createErrorMessage("Teacher Not Found");
@@ -51,7 +50,7 @@ public class TeacherController {
             return Global.createSuccessMessage("Teacher Found")
                     .putPOJO("object", fetchedTeacher);
         }
-        return Global.createErrorMessage("Not Authorized to get");
+        return Global.createErrorMessage("Not Authorized to get teacher");
     }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
@@ -64,7 +63,7 @@ public class TeacherController {
         if (fetchedTeacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
             return service.updateTeacher(teacher);
         }
-        return Global.createErrorMessage("Not authorized to update");
+        return Global.createErrorMessage("Not authorized to update teacher");
     }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
@@ -77,7 +76,7 @@ public class TeacherController {
         if (fetchedTeacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
             return service.deleteTeacher(id);
         }
-        return Global.createErrorMessage("Not authorized to delete");
+        return Global.createErrorMessage("Not authorized to delete teacher");
     }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
@@ -88,12 +87,12 @@ public class TeacherController {
 
     // @GetMapping("/get-teacher-by-full-name/{name}")
     // public Teacher getTeacherByFullName(@PathVariable String name) {
-    //     return service.getTeacherByFullName(name);
+    // return service.getTeacherByFullName(name);
     // }
 
     // @GetMapping("/get-teacher-by-eamil/{email}")
     // public Teacher getTeacherByEmail(@PathVariable String email) {
-    //     return service.getTeacherByEmail(email);
+    // return service.getTeacherByEmail(email);
     // }
 
 }
