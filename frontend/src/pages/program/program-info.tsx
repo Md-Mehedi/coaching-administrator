@@ -120,7 +120,14 @@ export default function ProgramInfo() {
                     <TextEditor value={state.program.description} readOnly />
                   </Grid>
                 )}
-                <Field field="Starting date" value={state.program.startDate} />
+                {state.program.startDate && (
+                  <Field
+                    field="Starting date"
+                    value={new Date(
+                      state.program.startDate
+                    ).toLocaleDateString()}
+                  />
+                )}
                 <Field field="Ending date" value={state.program.endDate} />
               </Grid>
             </CardContent>

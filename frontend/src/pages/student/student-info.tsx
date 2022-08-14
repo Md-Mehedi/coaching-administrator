@@ -88,10 +88,10 @@ export default function StudentInfo() {
     //   title: "Exam",
     //   element: <StudentExamList />,
     // },
-    {
-      title: "Batch",
-      element: <StudentBatchDetails />,
-    },
+    // {
+    //   title: "Batch",
+    //   element: <StudentBatchDetails />,
+    // },
     {
       title: "Routine",
       element: <StudentRoutine student={state.student} />,

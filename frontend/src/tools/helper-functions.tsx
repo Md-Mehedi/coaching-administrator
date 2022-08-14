@@ -203,6 +203,9 @@ export function createFormData(object: any, file?: File) {
 export function resolveURL(image) {
   return "data:image/jpeg;base64," + image;
 }
+export function resolvePublicImage(imageName) {
+  return process.env.PUBLIC_URL + "/image/" + imageName;
+}
 
 export function avatarForTable(link) {
   return (

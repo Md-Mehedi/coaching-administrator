@@ -68,9 +68,9 @@ public class BatchController {
         }
         if (requestedProgram.getCoaching().getId() == JwtUtils.getCoachingId()) {
             List<Batch> fetchedBatch = service.getAllBatchByProgramId(programId);
-            if (fetchedBatch.isEmpty()) {
-                return Global.createErrorMessage("No Batch Found");
-            }
+            // if (fetchedBatch.isEmpty()) {
+            // return Global.createErrorMessage("No Batch Found");
+            // }
             return Global.createSuccessMessage("Batch list found for this program")
                     .putPOJO("object", fetchedBatch);
         } else {

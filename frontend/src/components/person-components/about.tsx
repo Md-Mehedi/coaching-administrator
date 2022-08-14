@@ -67,7 +67,12 @@ export default function About({ person }: { person?: Person }) {
               field="Group/Department"
               value={person?.currentQualification?.department?.name}
             />
-            <Field field="Joining date" value={person?.joiningDate} />
+            {person?.joiningDate && (
+              <Field
+                field="Joining date"
+                value={new Date(person.joiningDate).toLocaleDateString()}
+              />
+            )}
           </Grid>
         </AccordionDetails>
       </Accordion>

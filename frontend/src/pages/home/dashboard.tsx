@@ -10,61 +10,64 @@ import WebLayout from "../../layouts/web-layout";
 import { ADMIN_LINKS } from "../../links";
 
 console.log("Dashboard ", ADMIN_LINKS);
+function DashboardIcon(link) {
+  return <img src={process.env.PUBLIC_URL + "/image/" + link} width="40px" />;
+}
 const dashboard_pages: DrawerLayoutPage[] = [
   {
-    icon: <InboxOutlined />,
+    icon: DashboardIcon("students.png"),
     title: "Student",
     link: ADMIN_LINKS.studentList.path,
     children: [
-      {
-        icon: <InboxOutlined />,
-        title: "All Students",
-        link: ADMIN_LINKS.studentList.path,
-      },
-      {
-        icon: <InboxOutlined />,
-        title: "Add new student",
-        link: ADMIN_LINKS.addStudent.path,
-      },
+      // {
+      //   icon: <InboxOutlined />,
+      //   title: "All Students",
+      //   link: ADMIN_LINKS.studentList.path,
+      // },
+      // {
+      //   icon: <InboxOutlined />,
+      //   title: "Add new student",
+      //   link: ADMIN_LINKS.addStudent.path,
+      // },
     ],
   },
   {
-    icon: <InboxOutlined />,
+    icon: DashboardIcon("teachers.png"),
     title: "Teacher",
     link: ADMIN_LINKS.teacherList.path,
     children: [
-      {
-        icon: <InboxOutlined />,
-        title: "Add teacher",
-        link: ADMIN_LINKS.addTeacher.path,
-      },
-      {
-        icon: <InboxOutlined />,
-        title: "Teacher list",
-        link: ADMIN_LINKS.teacherList.path,
-      },
+      // {
+      //   icon: <InboxOutlined />,
+      //   title: "Add teacher",
+      //   link: ADMIN_LINKS.addTeacher.path,
+      // },
+      // {
+      //   icon: <InboxOutlined />,
+      //   title: "Teacher list",
+      //   link: ADMIN_LINKS.teacherList.path,
+      // },
     ],
   },
   {
-    icon: <EventAvailable />,
+    icon: DashboardIcon("programs.png"),
     title: "Program",
     link: ADMIN_LINKS.programList.path,
     children: [],
   },
   {
-    icon: <EventAvailable />,
+    icon: DashboardIcon("subjects.png"),
     title: "Subject",
     link: ADMIN_LINKS.subjectList.path,
     children: [],
   },
   {
-    icon: <EventAvailable />,
+    icon: DashboardIcon("rooms.png"),
     title: "Room",
     link: ADMIN_LINKS.roomList.path,
     children: [],
   },
   {
-    icon: <CurrencyExchange />,
+    icon: DashboardIcon("expense.png"),
     title: "Expense",
     link: ADMIN_LINKS.expenseList.path,
     children: [],
@@ -76,7 +79,7 @@ const dashboard_pages: DrawerLayoutPage[] = [
   //   children: [],
   // },
   {
-    icon: <InboxOutlined />,
+    icon: DashboardIcon("settings.png"),
     title: "Setting",
     link: ADMIN_LINKS.settings.path,
     children: [],

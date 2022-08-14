@@ -79,8 +79,8 @@ public class AdminService {
     public ObjectNode authenticateAdmin(String email, String password) {
         ObjectNode node = mapper.createObjectNode();
 
-        // PasswordEncoder pEncoder = new PasswordEncoder();
-        // String encodedPasssword = pEncoder.getEncodedPassword(password);
+        // PasswordEncoder pEncoder = new PasswEncoder();
+        // String encodedPasssword = pEncoder.getEordncodedPassword(password);
         Admin admin = getAdminByEmail(email);
 
         if (admin == null) {
@@ -117,10 +117,11 @@ public class AdminService {
             person.setImage(adminImage.getBytes());
             Coaching coaching = person.getCoaching();
             coaching.setImage(coachingImage.getBytes());
-            saveAdmin(admin);
+            Admin newAdmin = saveAdmin(admin);
             return node
                     .put("success", true)
-                    .put("message", "Information successfully submitted");
+                    .put("message", "Information successfully submitted")
+                    .putPOJO("object", newAdmin);
         } catch (Exception e) {
 
             System.out.println("\033[31minside Exception in add admin\033[0m");
