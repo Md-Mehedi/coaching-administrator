@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 
 import coaching.administrator.classes.Address.Address;
 import coaching.administrator.classes.Coaching.Coaching;
@@ -108,7 +110,8 @@ public class Person implements Serializable {
     private String nationality;
     private String personType;
 
-    @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
+    @Column(name = "image")
     private byte[] image;
 
 }

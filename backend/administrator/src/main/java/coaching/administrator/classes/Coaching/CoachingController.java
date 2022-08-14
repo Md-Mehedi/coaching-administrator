@@ -52,20 +52,20 @@ public class CoachingController {
     }
 
     // #TODO Update
-    @PreAuthorize("hasRole('COACHING_ADMIN')")
-    @GetMapping("/get-coaching-by-admin-id/{id}")
-    public ObjectNode getCoachingByAdminId(@PathVariable Integer id) {
-        Coaching coaching = service.getCoachingByAdminId(id);
-        if (coaching == null) {
-            return Global.createErrorMessage("Coaching not found");
-        }
-        if (coaching.getId() == JwtUtils.getCoachingId()) {
-            return Global.createSuccessMessage("Coaching found")
-                    .putPOJO("object", coaching);
-        } else {
-            return Global.createErrorMessage("Not eligible to fetch coaching");
-        }
-    }
+    // @PreAuthorize("hasRole('COACHING_ADMIN')")
+    // @GetMapping("/get-coaching-by-admin-id/{id}")
+    // public ObjectNode getCoachingByAdminId(@PathVariable Integer id) {
+    // Coaching coaching = service.getCoachingByAdminId(id);
+    // if (coaching == null) {
+    // return Global.createErrorMessage("Coaching not found");
+    // }
+    // if (coaching.getId() == JwtUtils.getCoachingId()) {
+    // return Global.createSuccessMessage("Coaching found")
+    // .putPOJO("object", coaching);
+    // } else {
+    // return Global.createErrorMessage("Not eligible to fetch coaching");
+    // }
+    // }
 
     @GetMapping("/get-coaching-by-name/{name}")
     public Coaching getCoachingByName(@PathVariable String name) {

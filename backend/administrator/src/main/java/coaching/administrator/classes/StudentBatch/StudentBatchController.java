@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,4 +65,13 @@ public class StudentBatchController {
 
         return "student batch with id " + id + " deleted";
     }
+
+    // @PreAuthorize("hasRole('COACHING_ADMIN')")
+    // @GetMapping("/get-all-studentBatch-by-program-id-student-id/{programId}/{studentId}")
+    // public List<StudentBatch> getStudentBatchByProgramIdStudentId(@PathVariable
+    // Integer programId,
+    // @PathVariable Integer studentId) {
+    // return service.getStudentBatchByProgramIdStudentId(programId, studentId);
+    // }
+
 }

@@ -113,8 +113,8 @@ export const API = {
   /************************/
   coaching: {
     addCoaching: (coaching: Coaching) => postBody("/add-coaching", coaching),
-    getCoachingByAdminId: (adminId: number) =>
-      get("/get-coaching-by-admin-id/" + adminId),
+    // getCoachingByAdminId: (adminId: number) =>
+    //   get("/get-coaching-by-admin-id/" + adminId),
   },
   program: {
     add: (program: Program) => postBody("/add-program", program),
@@ -126,6 +126,8 @@ export const API = {
       get("/get-all-students-by-programId/" + programId),
     addStudent: (programId: number, studentId: number) =>
       post("/add-enrolledProgram/" + programId + "/" + studentId),
+    getEnrolledProgram: (studentId: number) =>
+      get("/auth/get-all-enrolledProgram-by-studentId/" + studentId),
   },
   subject: {
     add: (subject: Subject) => postBody("/add-subject", subject),
@@ -148,6 +150,13 @@ export const API = {
     get: (id: number) => get("/get-batch-by-id/" + id),
     delete: (id: number) => del("/delete-batch-by-id/" + id),
     update: (batch: Batch) => put("/update-batch", batch),
+    getStudentBatchesByProgramStudent: (programId: number, studentId: number) =>
+      get(
+        "/get-all-studentBatch-by-program-id-student-id/" +
+          programId +
+          "/" +
+          studentId
+      ),
   },
   classTime: {
     add: (classTime: ClassTime) => postBody("/add-classTime", classTime),

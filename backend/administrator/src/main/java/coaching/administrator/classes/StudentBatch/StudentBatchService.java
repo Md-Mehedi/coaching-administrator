@@ -32,4 +32,9 @@ public class StudentBatchService {
         return "StudentBatch with id : " + id + " deleted";
     }
 
+    // public List<StudentBatch> getStudentBatchByProgramIdStudentId(Integer
+    // programId, Integer studentId) {
+    // return repository.findByProgramIdAndStudentId(programId, studentId);
+    // }
+
 }
