@@ -122,10 +122,11 @@ public class AdminService {
             person.setImage(adminImage.getBytes());
             Coaching coaching = person.getCoaching();
             coaching.setImage(coachingImage.getBytes());
-            saveAdmin(admin);
+            Admin newAdmin = saveAdmin(admin);
             return node
                     .put("success", true)
-                    .put("message", "Information successfully submitted");
+                    .put("message", "Information successfully submitted")
+                    .putPOJO("object", newAdmin);
         } catch (Exception e) {
 
             System.out.println("\033[31minside Exception in add admin\033[0m");

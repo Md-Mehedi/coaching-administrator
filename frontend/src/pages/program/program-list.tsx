@@ -23,9 +23,14 @@ function ProgramCards({ programs }: { programs: Program[] }) {
   return (
     <Grid container spacing={2}>
       {programs.map((program, idx) => (
-        <Grid item key={idx} xs={12} sm={6} md={4} lg={3} xl={2}>
-          <SpecialLink href={ADMIN_LINKS.program.path + "/" + program.id}>
-            <Card sx={{ width: "100%" }}>
+        <Grid item key={idx} xs={12} sm={6} md={4} lg={3} xl={3}>
+          <SpecialLink
+            disableUnderline
+            href={ADMIN_LINKS.program.path + "/" + program.id}
+          >
+            <Card
+              sx={{ width: "100%", backgroundColor: "#2F4B60", color: "white" }}
+            >
               <CardActionArea>
                 <CardContent>
                   <Grid

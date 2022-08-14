@@ -22,9 +22,13 @@ import RoomList from "./pages/coaching/room-list";
 import AdminCoachingInput from "./pages/auth/admin-coaching-input";
 import Filter from "./pages/filter";
 import Home from "./pages/home/home";
+import { Navigate } from "react-router-dom";
 
 export var ADMIN_LINKS = {
-  home: { path: "/dashboard/home", element: <AdminHome /> },
+  home: {
+    path: "/dashboard/home",
+    element: <Navigate to={"/dashboard/program-list"} />,
+  },
   // Admin
   settings: { path: "/dashboard/setting", element: <Settings /> },
   // Student

@@ -262,6 +262,7 @@ select * from person;
 
 select * from occupation;
 select * from program
+select * from exam
 
 select * from student_batch sb, student s, person p, batch b, program pr where sb.student_id = s.person_id and s.person_id = p.id and sb.batch_id = b.id and b.program_id = pr.id and pr.id = 1 and s.person_id = 1;
 

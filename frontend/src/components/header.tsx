@@ -27,7 +27,6 @@ export const HEADER_HEIGHT = 80;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: "#282C34",
       height: HEADER_HEIGHT,
       flexGrow: 1,
       padding: 5,
@@ -138,15 +137,6 @@ export default function Header() {
         <>
           {/* <Notification /> */}
           {/* {AuthService.getCurrentAccountType() === "Admin" && ( */}
-          {/* <Grid item>
-            <Tooltip title="Admin Dashboard">
-              <IconButton>
-                <Avatar>
-                  <Dashboard style={{ color: "white" }} />
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-          </Grid> */}
           <Grid item>
             <Typography>{admin?.person?.fullName}</Typography>
           </Grid>
@@ -173,6 +163,19 @@ export default function Header() {
               >
                 <SideMenuPopUp />
               </Popover> */}
+          </Grid>
+          <Grid item>
+            <Tooltip title="Admin Dashboard">
+              <IconButton
+                onClick={(event: React.MouseEvent<any>) =>
+                  navigate(ADMIN_LINKS.home.path)
+                }
+              >
+                <Avatar>
+                  <Dashboard style={{ color: "white" }} />
+                </Avatar>
+              </IconButton>
+            </Tooltip>
           </Grid>
         </>
         {/* ) : (
@@ -201,7 +204,13 @@ export default function Header() {
   return (
     <>
       <Grid id="header-root">
-        <AppBar className={classes.root} position="fixed">
+        <AppBar
+          className={classes.root}
+          sx={{
+            backgroundColor: "#282C34",
+          }}
+          position="fixed"
+        >
           <Grid
             container
             direction="row"

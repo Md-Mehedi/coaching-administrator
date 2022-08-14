@@ -82,10 +82,10 @@ export default function TeacherInfo() {
       title: "About",
       element: <About person={state.teacher.person} />,
     },
-    {
-      title: "Batch",
-      element: <TeacherBatchList />,
-    },
+    // {
+    //   title: "Batch",
+    //   element: <TeacherBatchList />,
+    // },
     {
       title: "Routine",
       element: <TeacherRoutine teacher={state.teacher} />,

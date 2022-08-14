@@ -59,14 +59,10 @@ export default function AdminCoachingInput() {
         API.admin
           .addAdmin(formData)
           .then((response) => {
-            showSnackbar(enqueueSnackbar, response.data);
-            state.admin.person = { ...state.admin.person, image: adminImage };
-            state.admin.person.coaching = {
-              ...state.admin.person.coaching,
-              image: coachingImage,
-            };
-            AuthService.setAdmin(state.admin);
-            navigate(-1);
+            showSnackbar(enqueueSnackbar, response.data, () => {
+              AuthService.setAdmin(response.data.object);
+              navigate(-1);
+            });
             // navigate(ADMIN_LINKS.home.path);
           })
           .catch((r) => apiCatch(enqueueSnackbar, r));
