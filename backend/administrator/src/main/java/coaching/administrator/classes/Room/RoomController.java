@@ -39,7 +39,6 @@ public class RoomController {
         return service.saveRoom(room);
     }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-room-by-id/{id}")
     public ObjectNode getRoomById(@PathVariable Integer id) {

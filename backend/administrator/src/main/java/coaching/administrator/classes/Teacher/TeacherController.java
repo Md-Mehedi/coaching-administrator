@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,12 +35,14 @@ public class TeacherController {
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @PostMapping("/add-teacher")
-    public ObjectNode addTeacher(@RequestPart("teacher") Teacher teacher, @RequestPart("image") MultipartFile image) {
+    // public ObjectNode addTeacher(@RequestBody Object teacher,
+    // @RequestPart("image") MultipartFile image) {
+    public ObjectNode addTeacher(@RequestPart("object") Teacher teacher, @RequestPart("file") MultipartFile image) {
         teacher.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
         return service.saveTeacher(teacher, image);
+        // return null;
     }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-teacher-by-id/{id}")
     public ObjectNode getTeacherById(@PathVariable Integer id) {
@@ -55,13 +59,13 @@ public class TeacherController {
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @PutMapping("/update-teacher")
-    public ObjectNode updateTeacher(@RequestBody Teacher teacher) {
+    public ObjectNode updateTeacher(@RequestPart("object") Teacher teacher, @RequestPart("file") MultipartFile image) {
         Teacher fetchedTeacher = service.getTeacherById(teacher.getPerson_id());
         if (fetchedTeacher == null) {
             return Global.createErrorMessage("Teacher not found");
         }
         if (fetchedTeacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
-            return service.updateTeacher(teacher);
+            return service.updateTeacher(teacher, image);
         }
         return Global.createErrorMessage("Not authorized to update teacher");
     }

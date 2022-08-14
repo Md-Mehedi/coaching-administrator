@@ -9,7 +9,7 @@ import FullCalendar, {
 import interactionPlugin from "@fullcalendar/interaction"; // for selectable
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { Grid } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClassTime } from "../classes/coaching";
 import {
   classTimeToEvent,
@@ -23,12 +23,14 @@ import { AxiosResponse } from "axios";
 import { apiCatch } from "./../tools/helper-functions";
 import { API } from "../api";
 export interface CalenderProps extends CalendarOptions {
-  preTaskBeforeSave: (classTimes: ClassTime[]) => void;
-  onSaveAPI: (classTimes: ClassTime[]) => any;
-  classTimes?: ClassTime[];
+  classTimes: ClassTime[];
   setTitle: (classTime: ClassTime) => string;
+  preTaskBeforeSave?: (classTimes: ClassTime[]) => void;
+  onSaveAPI?: (classTimes: ClassTime[]) => any;
+  readOnly?: boolean;
 }
 export default function Calender(props: CalenderProps) {
+  const verifier = useRef<any>();
   const { enqueueSnackbar } = useSnackbar();
   const [state, setState] = useState<{
     eventDialogOpen: boolean;
@@ -58,7 +60,7 @@ export default function Calender(props: CalenderProps) {
   }, [props.classTimes]);
 
   function save(classTimes: ClassTime[]) {
-    props.preTaskBeforeSave(classTimes);
+    props.preTaskBeforeSave && props.preTaskBeforeSave(classTimes);
     let afterRemove = state.classTimes.filter((item) => {
       let found = false;
       for (let i = 0; i < classTimes.length; i++) {
@@ -68,30 +70,31 @@ export default function Calender(props: CalenderProps) {
       }
       return !found;
     });
-    props
-      .onSaveAPI(classTimes)
-      .then((response) => {
-        showSnackbar(enqueueSnackbar, response.data);
-        setState({
-          ...state,
-          classTimes: [
-            ...afterRemove,
-            ...response.data.object.map((item) => new ClassTime(item)),
-          ],
-          events: [
-            ...afterRemove.map((item) =>
-              classTimeToEvent(item, props.setTitle(item))
-            ),
-            ...response.data.object.map((item) =>
-              classTimeToEvent(item, props.setTitle(item))
-            ),
-          ],
-          eventDialogOpen: false,
-          currentClassTime: null,
-          isNew: false,
-        });
-      })
-      .catch((r) => apiCatch(enqueueSnackbar, r));
+    props.onSaveAPI &&
+      props
+        .onSaveAPI(classTimes)
+        .then((response) => {
+          showSnackbar(enqueueSnackbar, response.data);
+          setState({
+            ...state,
+            classTimes: [
+              ...afterRemove,
+              ...response.data.object.map((item) => new ClassTime(item)),
+            ],
+            events: [
+              ...afterRemove.map((item) =>
+                classTimeToEvent(item, props.setTitle(item))
+              ),
+              ...response.data.object.map((item) =>
+                classTimeToEvent(item, props.setTitle(item))
+              ),
+            ],
+            eventDialogOpen: false,
+            currentClassTime: null,
+            isNew: false,
+          });
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
   }
   function remove(classTime: ClassTime) {
     let afterRemove = state.classTimes.filter(
@@ -117,7 +120,7 @@ export default function Calender(props: CalenderProps) {
   }
 
   function handleOnSaveClick() {
-    if (state.currentClassTime) {
+    if (state.currentClassTime && verifier.current()) {
       let newTimes = [state.currentClassTime];
       save(newTimes);
     }
@@ -139,7 +142,7 @@ export default function Calender(props: CalenderProps) {
           firstDay={6}
           slotMinTime={createDuration({ hour: 6 })}
           slotMaxTime={createDuration({ hour: 20 })}
-          selectable
+          selectable={!props.readOnly}
           select={(info) => {
             console.log(info);
             setState({
@@ -157,6 +160,7 @@ export default function Calender(props: CalenderProps) {
             ...props.headerToolbar,
           }}
           eventClick={(event) => {
+            if (props.readOnly) return;
             console.log("clicked event", event);
             setState({
               ...state,
@@ -187,6 +191,7 @@ export default function Calender(props: CalenderProps) {
               currentClassTime: null,
             });
           }}
+          verifier={verifier}
         />
       </Grid>
     </Grid>

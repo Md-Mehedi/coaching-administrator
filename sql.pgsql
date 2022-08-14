@@ -16,7 +16,7 @@ SELECT * from pg_stat_activity where usename = 'esnvxwgujgmyzy' and datname = 'd
 -- set idle session timeout to 5 minutes
 SET SESSION idle_in_transaction_session_timeout = '5min';
 
--- to delete all idle connections
+-- to delete all idle connections'
 SELECT 
     pg_terminate_backend(pid) 
 FROM 
@@ -238,9 +238,30 @@ insert into institution (name,board_id) values('Sylhet Commerce College',8);
 
 select * from expense e order by e.expense_date;
 
-select *  from expense e  where e.coaching_id = 3  and to_char(e.expense_date, 'MM') = '08' and to_char(e.expense_date, 'YYYY') = '2022' order by e.expense_date;
+insert into class_type (type) values('CLASS');
+insert into class_type (type) values('EXAM');
+insert into class_type (type) values('EVENT');
+insert into class_type (type) values('CANCEL');
+
+select * from institution;
+select * from edu_qualification;
+update edu_qualification set institution_id=14 where institution_id<14
+select * from coaching where id =1;
+delete from enrolled_program where id = 3;
+
+update person set person_type='ROLE_COACHING_ADMIN' where id=1
+select * from person;
+
+ select *
+ from class_time ct,teacher t 
+ where ct.teacher_id = t.person_id and t.person_id = 86
+
+ select * from coaching where id = 1
+ select * from person
+ select * from edu_qualification where id = 106
 
 select * from occupation;
+select * from program
 
 select * from student_batch sb, student s, person p, batch b, program pr where sb.student_id = s.person_id and s.person_id = p.id and sb.batch_id = b.id and b.program_id = pr.id and pr.id = 1 and s.person_id = 1;
 

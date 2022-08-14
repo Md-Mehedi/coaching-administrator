@@ -1,5 +1,7 @@
 package coaching.administrator.classes.Admin;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Global.UserType;
 import coaching.administrator.classes.Person.ConfirmationToken;
@@ -102,8 +105,8 @@ public class AdminService {
                     .put("message", "Server error. Try again.");
     }
 
-    public ObjectNode addAdmin(Admin admin, MultipartFile image) {
-
+    public ObjectNode addAdmin(Admin admin, MultipartFile adminImage, MultipartFile coachingImage) {
+        admin.getPerson().setJoiningDate(new Date());
         ObjectNode node = mapper.createObjectNode();
         try {
             System.out.println("\033[31minside add admin\033[0m");
@@ -111,10 +114,10 @@ public class AdminService {
             // personService.savePerson(admin);
             System.out.println("Admin id : " + admin.getPerson().getId());
             Person person = admin.getPerson();
-            person.setImage(image.getBytes());
-            admin.setPerson(person);
+            person.setImage(adminImage.getBytes());
+            Coaching coaching = person.getCoaching();
+            coaching.setImage(coachingImage.getBytes());
             saveAdmin(admin);
-
             return node
                     .put("success", true)
                     .put("message", "Information successfully submitted");

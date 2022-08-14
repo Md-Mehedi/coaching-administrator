@@ -43,7 +43,6 @@ public class BatchController {
         }
     }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-batch-by-id/{id}")
     public ObjectNode getBatchById(@PathVariable Integer id) {
@@ -59,7 +58,6 @@ public class BatchController {
         }
     }
 
-    // TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-batch-by-program-id/{programId}")
     public ObjectNode getAllBatchByProgramId(@PathVariable Integer programId) {

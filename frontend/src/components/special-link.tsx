@@ -6,7 +6,7 @@ export default function SpecialLink(props) {
   const navigate = useNavigate();
   return (
     <Link
-      underline="hover"
+      underline={props.disableUnderline ? "none" : "hover"}
       onClick={(event) => {
         navigate(props.href);
         props.onClick && props.onClick(event);

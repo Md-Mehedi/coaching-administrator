@@ -63,24 +63,23 @@ public class ClassTimeController {
         }
     }
 
-    // #TODO Update
-    @PreAuthorize("hasRole('COACHING_ADMIN')")
-    @GetMapping("/get-classTime-by-id/{id}")
-    public ObjectNode getClassTimeById(@PathVariable Integer id) {
-        ClassTime classTime = repository.findById(id).orElse(null);
-        if (classTime == null) {
-            return Global.createErrorMessage("Class time not found");
-        }
+    // @PreAuthorize("hasRole('COACHING_ADMIN')")
+    // @GetMapping("/get-classTime-by-id/{id}")
+    // public ObjectNode getClassTimeById(@PathVariable Integer id) {
+    // ClassTime classTime = repository.findById(id).orElse(null);
+    // if (classTime == null) {
+    // return Global.createErrorMessage("Class time not found");
+    // }
 
-        if (classTime.getBatch().getProgram().getCoaching().getId() == JwtUtils.getCoachingId()) {
-            return Global.createSuccessMessage("Class time found")
-                    .putPOJO("object", classTime);
-        } else {
-            return Global.createErrorMessage("Not elgible to fetch class time");
-        }
-    }
+    // if (classTime.getBatch().getProgram().getCoaching().getId() ==
+    // JwtUtils.getCoachingId()) {
+    // return Global.createSuccessMessage("Class time found")
+    // .putPOJO("object", classTime);
+    // } else {
+    // return Global.createErrorMessage("Not elgible to fetch class time");
+    // }
+    // }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-classTime-by-batchId/{id}")
     public ObjectNode getClassTimeByBatchId(@PathVariable Integer id) {
@@ -100,25 +99,15 @@ public class ClassTimeController {
         }
     }
 
-    // @GetMapping("/get-all-classTime-by-programId/{id}")
-    // public List<ClassTime> getClassTimeByProgramId(@PathVariable Integer id) {
-    // return repository.findAllByProgramId(id);
-    // }
+    @GetMapping("/get-all-classTime-by-programId/{id}")
+    public List<ClassTime> getClassTimeByProgramId(@PathVariable Integer id) {
+        return repository.findAllByProgramId(id);
+    }
 
-    // @GetMapping("/get-all-classTime-by-teacherId/{id}")
-    // public List<ClassTime> getClassTimeByTeacherId(@PathVariable Integer id) {
-    // return repository.findAllByTeacherId(id);
-    // }
-
-    // @GetMapping("/get-all-classTime-by-studentId/{id}")
-    // public List<ClassTime> getClassTimeByStudentId(@PathVariable Integer id) {
-    // return repository.findAllByStudentId(id);
-    // }
-
-    // @GetMapping("/get-all-classTime-by-roomId/{id}")
-    // public List<ClassTime> getClassTimeByRoomId(@PathVariable Integer id) {
-    // return repository.findAllByRoomId(id);
-    // }
+    @GetMapping("/get-all-classTime-by-teacherId/{id}")
+    public List<ClassTime> getClassTimeByTeacherId(@PathVariable Integer id) {
+        return repository.findAllByTeacherId(id);
+    }
 
     // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")

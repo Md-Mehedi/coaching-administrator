@@ -61,24 +61,29 @@ export const API = {
   /* User related api */
   /********************/
   admin: {
-    addAdmin: (admin: Admin) => postBody("/add-admin", admin),
+    addAdmin: (formData: FormData) => postBody("/add-admin", formData),
     // getAdminById: (id: number) => get("/get-admin-by-id/" + id),
     getAdmin: () => get("/get-admin"),
-    isAllowedToProceed: () => get("/is-allowed-to-proceed"),
+    // isAllowedToProceed: () => get("/is-allowed-to-proceed"),
   },
   student: {
-    add: (student: Student) => postBody("/add-student", student),
+    add: (formData: FormData) => postBody("/add-student", formData),
     get: (id: number) => get("/get-student-by-id/" + id),
     getAll: () => get("/get-all-student"),
+    getAllMinimal: () => get("/get-all-student-minimal"),
     delete: (id: number) => del("/delete-student-by-id/" + id),
-    update: (student: Student) => put("/update-student", student),
+    update: (formData: FormData) => put("/update-student", formData),
+    getClassTimes: (studentId: number) =>
+      get("/get-all-classTime-by-studentId/" + studentId),
   },
   teacher: {
-    add: (teacher: Teacher) => postBody("/add-teacher", teacher),
+    add: (formData: FormData) => postBody("/add-teacher", formData),
     getById: (id: number) => get("/get-teacher-by-id/" + id),
     getAll: () => get("/get-all-teacher"),
     delete: (id: number) => del("/delete-teacher-by-id/" + id),
-    update: (student: Student) => put("/update-teacher", student),
+    update: (formData: FormData) => put("/update-teacher", formData),
+    getClassTimes: (teacherId: number) =>
+      get("/get-all-classTime-by-teacherId/" + teacherId),
   },
   contacts: {
     getContactTypes: () => get("/get-all-contactType"),
@@ -126,8 +131,8 @@ export const API = {
       get("/get-all-students-by-programId/" + programId),
     addStudent: (programId: number, studentId: number) =>
       post("/add-enrolledProgram/" + programId + "/" + studentId),
-    getEnrolledProgram: (studentId: number) =>
-      get("/auth/get-all-enrolledProgram-by-studentId/" + studentId),
+    getClassTimes: (programId: number) =>
+      get("/get-all-classTime-by-programId/" + programId),
   },
   subject: {
     add: (subject: Subject) => postBody("/add-subject", subject),
@@ -150,6 +155,12 @@ export const API = {
     get: (id: number) => get("/get-batch-by-id/" + id),
     delete: (id: number) => del("/delete-batch-by-id/" + id),
     update: (batch: Batch) => put("/update-batch", batch),
+    addStudent: (batchId: number, studentId: number) =>
+      postBody("/add-studentBatch/" + batchId + "/" + studentId, {}),
+    getAllStudentBatch: (batchId: number) =>
+      get("/get-all-studentBatch-by-batch-id/" + batchId),
+    getClassTimes: (batchId: number) =>
+      get("/get-all-classTime-by-batchId/" + batchId),
     getStudentBatchesByProgramStudent: (programId: number, studentId: number) =>
       get(
         "/get-all-studentBatch-by-program-id-student-id/" +
@@ -160,9 +171,9 @@ export const API = {
   },
   classTime: {
     add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
-    getAllByBatchId: (batchId: number) =>
-      get("/get-all-classTime-by-batchId/" + batchId),
-    get: (id: number) => get("/get-classTime-by-id/" + id),
+    // getAllByBatchId: (batchId: number) =>
+    //   get("/get-all-classTime-by-batchId/" + batchId),
+    // get: (id: number) => get("/get-classTime-by-id/" + id),
     delete: (id: number) => del("/delete-classTime-by-id/" + id),
     update: (classTime: ClassTime) => put("/update-class", classTime),
     saveAll: (classTimes: ClassTime[]) =>

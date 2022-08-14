@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Coaching.CoachingService;
@@ -31,12 +32,11 @@ public class StudentController {
     private CoachingService coachingService;
 
     @PostMapping("/add-student")
-    public ObjectNode addStudent(@RequestPart("student") Student student, @RequestPart("image") MultipartFile image) {
+    public ObjectNode addStudent(@RequestPart("object") Student student, @RequestPart("file") MultipartFile image) {
         student.getPerson().setCoaching(coachingService.getCoachingById(JwtUtils.getCoachingId()));
         return service.saveStudent(student, image);
     }
 
-    // #TODO Update
     @GetMapping("/get-student-by-id/{id}")
     public ObjectNode getStudentById(@PathVariable Integer id) {
         Student fetchedStudent = service.getStudentById(id);
@@ -51,13 +51,13 @@ public class StudentController {
     }
 
     @PutMapping("/update-student")
-    public ObjectNode updateStudent(@RequestBody Student student) {
+    public ObjectNode updateStudent(@RequestPart("object") Student student, @RequestPart("file") MultipartFile image) {
         Student fetchedStudent = service.getStudentById(student.getPerson_id());
         if (fetchedStudent == null) {
             return Global.createErrorMessage("Student not found");
         }
         if (fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
-            return service.updateStudent(student);
+            return service.updateStudent(student, image);
         }
         return Global.createErrorMessage("Not authorized to update");
     }
@@ -75,7 +75,7 @@ public class StudentController {
     }
 
     @GetMapping("/get-all-student")
-    public List<Student> getAllStudentByCoachingId() {
+    public List<Student> getAllStudent() {
         return repository.findAllByCoaching(JwtUtils.getCoachingId());
     }
 
@@ -94,5 +94,16 @@ public class StudentController {
     // public Student getStudentByEmail(@PathVariable String email) {
     // return service.getStudentByEmail(email);
     // }
+
+    @GetMapping("/get-all-student-minimal")
+    public List<Object> getAllStudentMinimal() {
+        List<Object> list = repository.findAllStudentMinimalByCoachingId(JwtUtils.getCoachingId());
+        ObjectMapper mapper = new ObjectMapper();
+        Object node = mapper.createObjectNode();
+        // list.forEach(item -> {
+        // node.putPojo("id", item[0]);
+        // });
+        return list;
+    }
 
 }

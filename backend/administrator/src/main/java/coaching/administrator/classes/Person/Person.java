@@ -100,18 +100,17 @@ public class Person implements Serializable {
     private String fatherName;
     private String motherName;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Date joiningDate;
     private String bloodGroup;
 
     private String nationality;
     private String personType;
 
+    // @Lob
+    // private byte[] image;
     @Type(type = "org.hibernate.type.BinaryType")
     @Column(name = "image")
     private byte[] image;
-
 }

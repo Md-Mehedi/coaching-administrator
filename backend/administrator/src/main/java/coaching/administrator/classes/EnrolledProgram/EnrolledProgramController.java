@@ -86,7 +86,6 @@ public class EnrolledProgramController {
         return repository.findById(id);
     }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-students-by-programId/{programId}")
     public ObjectNode getAllEnrolledProgramByCoachingId(@PathVariable Integer programId) {
@@ -119,6 +118,17 @@ public class EnrolledProgramController {
         // }
         // return studentList;
     }
+
+    // @GetMapping("/get-all-students-minimal-by-programId/{programId}")
+    // public List<Student> getAllEnrolledStudentMinimalByCoachingId(@PathVariable
+    // Integer programId) {
+    // List<EnrolledProgram> list = repository.findByProgramId(programId);
+    // ArrayList<Student> studentList = new ArrayList<Student>();
+    // for (EnrolledProgram ep : list) {
+    // studentList.add(ep.getStudent());
+    // }
+    // return studentList;
+    // }
 
     // @GetMapping("/get-enrolledProgram-by-name/{name}")
     // public EnrolledProgram getEnrolledProgramByName(@PathVariable String

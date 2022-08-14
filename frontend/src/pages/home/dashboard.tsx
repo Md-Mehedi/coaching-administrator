@@ -64,41 +64,35 @@ const dashboard_pages: DrawerLayoutPage[] = [
     children: [],
   },
   {
-    icon: <EventAvailable />,
-    title: "Subject",
-    link: ADMIN_LINKS.subjectList.path,
-    children: [],
-  },
-  {
     icon: <CurrencyExchange />,
     title: "Expense",
     link: ADMIN_LINKS.expenseList.path,
     children: [],
   },
-  {
-    icon: <CurrencyExchange />,
-    title: "Dues",
-    link: ADMIN_LINKS.duesList.path,
-    children: [],
-  },
+  // {
+  //   icon: <CurrencyExchange />,
+  //   title: "Dues",
+  //   link: ADMIN_LINKS.duesList.path,
+  //   children: [],
+  // },
   {
     icon: <InboxOutlined />,
-    title: "Management",
+    title: "Setting",
     link: ADMIN_LINKS.settings.path,
     children: [],
   },
-  {
-    icon: <InboxOutlined />,
-    title: "Test",
-    link: ADMIN_LINKS.test.path,
-    children: [],
-  },
-  {
-    icon: <InboxOutlined />,
-    title: "AddCustomer",
-    link: ADMIN_LINKS.addCustomer.path,
-    children: [],
-  },
+  // {
+  //   icon: <InboxOutlined />,
+  //   title: "Test",
+  //   link: ADMIN_LINKS.test.path,
+  //   children: [],
+  // },
+  // {
+  //   icon: <InboxOutlined />,
+  //   title: "AddCustomer",
+  //   link: ADMIN_LINKS.addCustomer.path,
+  //   children: [],
+  // },
 ];
 
 export const dashboardLinks: string[] = [];

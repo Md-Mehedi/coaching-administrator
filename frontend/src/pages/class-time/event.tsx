@@ -34,8 +34,10 @@ import {
   countToDate,
   dateToCount,
   duration,
+  emptyFieldChecking,
 } from "../../tools/helper-functions";
 import { durationToEndTime } from "./../../tools/helper-functions";
+import { useSnackbar } from "notistack";
 
 type EventStates = {
   // repeatAllowed: boolean;
@@ -48,8 +50,10 @@ type EventProps = {
   onChange: (newClassTime: ClassTime) => void;
   disableRepeat?: boolean;
   onDeleteClick?: (event) => void;
+  verifier: any;
 };
 export function Event(props: EventProps) {
+  const { enqueueSnackbar } = useSnackbar();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [state, setState] = useState<EventStates>({
@@ -58,8 +62,10 @@ export function Event(props: EventProps) {
     // untilDate: new Date(),
     // count: 1,
   });
+  props.verifier.current = errorVerifier;
   useEffect(() => {
     API.teacher.getAll().then((response) => {
+      console.log(response.data);
       setTeachers(response.data);
     });
     API.room.getAll().then((response) => {
@@ -80,6 +86,13 @@ export function Event(props: EventProps) {
     //   untilDate: new Date(props.info?.endStr || ""),
     // });
   }, [props.classTime]);
+  function errorVerifier() {
+    let data = [
+      { label: "Room", field: props.classTime.room },
+      { label: "Teacher", field: props.classTime.teacher },
+    ];
+    return emptyFieldChecking(enqueueSnackbar, data);
+  }
 
   return (
     <Grid container spacing={2}>
@@ -130,7 +143,7 @@ export function Event(props: EventProps) {
           label="Teacher"
           disableUserChoice
           options={teachers}
-          optionLabel="person.fullName"
+          getOptionLabel={(option) => option.person?.fullName || ""}
           value={props.classTime.teacher}
           onChange={(event, newValue) =>
             props.onChange({
@@ -303,6 +316,7 @@ export interface AddEventDialogProps extends DialogLayoutProps {
   onDelete?: () => void;
   onChange: (newClassTime: ClassTime) => void;
   hideDelete?: boolean;
+  verifier: any;
 }
 export default function AddEventDialog(props: AddEventDialogProps) {
   // const [state, setState] = useState<{ classTime: ClassTime }>({
@@ -319,7 +333,11 @@ export default function AddEventDialog(props: AddEventDialogProps) {
       onSaveButtonClick={props.onSave}
       onDeleteButtonClick={props.hideDelete ? undefined : props.onDelete}
     >
-      <Event classTime={props.classTime} onChange={props.onChange} />
+      <Event
+        classTime={props.classTime}
+        onChange={props.onChange}
+        verifier={props.verifier}
+      />
     </DialogLayout>
   );
 }

@@ -22,6 +22,7 @@ import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import Loading from "../../components/loading";
 import { ADMIN_LINKS } from "../../links";
+import StudentRoutine from "./student-routine";
 
 const data = [
   "Full name",
@@ -83,13 +84,17 @@ export default function StudentInfo() {
       title: "About",
       element: <About person={state.student.person} />,
     },
-    {
-      title: "Exam",
-      element: <StudentExamList />,
-    },
+    // {
+    //   title: "Exam",
+    //   element: <StudentExamList />,
+    // },
     {
       title: "Batch",
       element: <StudentBatchDetails />,
+    },
+    {
+      title: "Routine",
+      element: <StudentRoutine student={state.student} />,
     },
   ];
   function handleUpdateClick() {

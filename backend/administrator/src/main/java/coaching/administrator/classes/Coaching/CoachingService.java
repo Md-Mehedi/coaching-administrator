@@ -25,14 +25,12 @@ public class CoachingService {
         try {
             coaching.setImage(image.getBytes());
         } catch (IOException e) {
-            Global.colorPrint("error in coaching image");
             e.printStackTrace();
         }
         return repository.save(coaching);
     }
 
     public Coaching getCoachingById(Integer id) {
-        Global.colorPrint("hello boss");
         return repository.findById(id).orElse(null);
     }
 

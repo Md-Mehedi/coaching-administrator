@@ -50,7 +50,6 @@ public class ExpenseController {
         return Global.createErrorMessage("Not authorized to update expense");
     }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-expense-by-id/{id}")
     public ObjectNode getExpenseById(@PathVariable Integer id) {

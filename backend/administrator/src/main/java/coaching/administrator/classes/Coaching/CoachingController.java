@@ -51,7 +51,6 @@ public class CoachingController {
         return service.getCoachingById(id);
     }
 
-    // #TODO Update
     // @PreAuthorize("hasRole('COACHING_ADMIN')")
     // @GetMapping("/get-coaching-by-admin-id/{id}")
     // public ObjectNode getCoachingByAdminId(@PathVariable Integer id) {

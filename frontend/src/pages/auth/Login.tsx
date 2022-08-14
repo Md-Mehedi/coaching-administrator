@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "../../links";
 import { showSnackbar } from "../../tools/helper-functions";
 import { LoadingButton } from "@mui/lab";
-import { apiCatch } from "./../../tools/helper-functions";
+import { apiCatch } from "../../tools/helper-functions";
 import AuthService from "../../services/auth-service";
 
 // const useStyles: any = makeStyles((theme: Theme) => ({
@@ -129,7 +129,7 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
               setState({ ...state, loading: false });
               if (response.data.success) {
                 AuthService.login(response.data.token, response.data.admin);
-                navigate(ADMIN_LINKS.settings.path);
+                navigate(ADMIN_LINKS.home.path);
               }
             });
           }

@@ -50,7 +50,6 @@ public class SubjectController {
         return Global.createErrorMessage("Not authorized to update subject");
     }
 
-    // #TODO Update
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-subject-by-id/{id}")
     public ObjectNode getSubjectById(@PathVariable Integer id) {

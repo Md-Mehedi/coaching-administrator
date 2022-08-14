@@ -82,7 +82,6 @@ public class JwtUtils {
   }
 
   public static UserDetailsImpl getUser() {
-    Global.colorPrint(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     return (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
 

@@ -9,6 +9,7 @@ import AuthService from "../../services/auth-service";
 import SpecialLink from "../../components/special-link";
 import { Coaching } from "../../classes/coaching";
 import { USER_LINKS } from "../../links";
+import { resolveURL } from "../../tools/helper-functions";
 
 const useStyle = makeStyles((theme: Theme) => ({
   justifyContent: {
@@ -30,11 +31,15 @@ export default function CoachingInformationOutput() {
   useEffect(() => {
     setCoaching(AuthService.getCoaching());
   }, []);
+  console.log("in coaching output", coaching);
   return (
     <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item container spacing={3} className={classes.justifyContent}>
         <Grid item xs={12} md={5} lg={4} className={classes.justifyContent}>
-          <Avatar sx={{ width: 200, height: 200 }} />
+          <Avatar
+            sx={{ width: 200, height: 200 }}
+            src={resolveURL(coaching?.image)}
+          />
         </Grid>
         <Grid item xs={12} md={7} lg={8}>
           <Grid

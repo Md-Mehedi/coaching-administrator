@@ -12,12 +12,12 @@ public interface ClassTimeRepository extends JpaRepository<ClassTime, Integer> {
 
         @Query(value = " select *    "
                         + " from class_time ct,batch b,program p " +
-                        " where ct.batch_id = b.id and b.program_id = p.id ", nativeQuery = true)
-        List<ClassTime> findAllByProgramId(Integer programId);
+                        " where ct.batch_id = b.id and b.program_id = p.id and p.id = :programId ", nativeQuery = true)
+        List<ClassTime> findAllByProgramId(@Param("programId") Integer programId);
 
         @Query(value = " select *    "
-                        + " from class_time ct,teacher t " +
-                        " where ct.teacher_id = t.person_id = :teacherId ", nativeQuery = true)
+                        + "from class_time ct " +
+                        " where ct.teacher_id = :teacherId ", nativeQuery = true)
         List<ClassTime> findAllByTeacherId(@Param("teacherId") Integer teacherId);
 
         @Query(value = " select *    "
@@ -29,4 +29,5 @@ public interface ClassTimeRepository extends JpaRepository<ClassTime, Integer> {
                         + " from class_time ct " +
                         " where ct.room_id = :roomId ", nativeQuery = true)
         List<ClassTime> findAllByRoomId(@Param("roomId") Integer roomId);
+
 }

@@ -17,6 +17,7 @@ import DialogLayout from "../../layouts/dialog-layout";
 import CreateProgram from "./create-program";
 import CreateProgramDialog from "./create-program";
 import { Program } from "../../classes/coaching";
+import ProgramRoutine from "./program-routine";
 
 export default function ProgramInfo() {
   const { id } = useParams();
@@ -41,16 +42,26 @@ export default function ProgramInfo() {
       API.program
         .get(parseInt(id))
         .then((response) => {
-          console.log("fetched program", response.data);
-          setState({ ...state, program: response.data, pageLoading: false });
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            console.log("fetched program", response.data);
+            setState({
+              ...state,
+              program: response.data.object,
+              pageLoading: false,
+            });
+          });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
   }, [id]);
 
   const tabs: TabLayoutContent[] = [
+    // {
+    //   title: "Exam",
+    //   element: <ProgramExam />,
+    // },
     {
-      title: "Exam",
-      element: <ProgramExam />,
+      title: "Routine",
+      element: <ProgramRoutine program={state.program} />,
     },
     {
       title: "Batch",
