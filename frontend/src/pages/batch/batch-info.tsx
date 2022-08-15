@@ -93,7 +93,7 @@ export default function BatchInfo() {
     },
     {
       title: "Attendance",
-      element: <BatchAttendance />,
+      element: <BatchAttendance batch={state.batch} />,
     },
     // {
     //   title: "Students History",

@@ -157,6 +157,8 @@ export const API = {
     update: (batch: Batch) => put("/update-batch", batch),
     addStudent: (batchId: number, studentId: number) =>
       postBody("/add-studentBatch/" + batchId + "/" + studentId, {}),
+    deleteStudent: (studentBatchId: number) =>
+      del("/delete-studentBatch-by-id/" + studentBatchId),
     getAllStudentBatch: (batchId: number) =>
       get("/get-all-studentBatch-by-batch-id/" + batchId),
     getClassTimes: (batchId: number) =>

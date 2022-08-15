@@ -71,7 +71,7 @@ public class RoomController {
     // }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
-    @DeleteMapping("/delete-room-by-id")
+    @DeleteMapping("/delete-room-by-id/{id}")
     public ObjectNode deleteRoom(@PathVariable Integer id) {
         Room fetchedRoom = service.getRoomById(id);
         if (fetchedRoom == null) {

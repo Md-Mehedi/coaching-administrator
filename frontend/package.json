@@ -22,6 +22,8 @@
     "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^0.27.2",
+    "devextreme": "^22.1.4",
+    "devextreme-react": "^22.1.4",
     "material-table": "^2.0.3",
     "moment": "^2.29.3",
     "mui-rte": "^2.0.1",

@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import coaching.administrator.classes.Batch.Batch;
+import coaching.administrator.classes.Batch.BatchRepository;
+import coaching.administrator.classes.Batch.BatchService;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Student.Student;
+import coaching.administrator.classes.Student.StudentService;
 import coaching.administrator.classes.StudentBatchHistory.StudentBatchHistory;
 import coaching.administrator.classes.StudentBatchHistory.StudentBatchHistoryRepository;
 
@@ -28,20 +31,27 @@ public class StudentBatchController {
 
     @Autowired
     private StudentBatchRepository repository;
+    @Autowired
+    private BatchService batchService;
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private StudentBatchHistoryRepository historyRepository;
 
     @PostMapping("/add-studentBatch/{batchId}/{studentId}")
     public ObjectNode addStudentBatch(@PathVariable Integer batchId, @PathVariable Integer studentId) {
-        Batch b = new Batch();
-        b.setId(batchId);
-        Student s = new Student();
-        s.setPerson_id(studentId);
+        Batch b = batchService.getBatchById(batchId);
+        if (b == null)
+            return Global.createErrorMessage("Batch not found");
+        Student s = studentService.getStudentById(studentId);
+        if (s == null)
+            return Global.createErrorMessage("Student not found");
         StudentBatch sb = new StudentBatch();
         sb.setBatch(b);
         sb.setStudent(s);
         sb.setStartDate(new Date());
+        Global.colorPrint(sb);
         repository.save(sb);
         return Global.createSuccessMessage("Student add successfully");
     }
@@ -61,19 +71,19 @@ public class StudentBatchController {
     // return service.getStudentBatchByName(name);
     // }
 
-    @DeleteMapping("/delete-studentBatch-by-id")
-    public String deleteStudentBatch(@PathVariable Integer id) {
+    @DeleteMapping("/delete-studentBatch-by-id/{id}")
+    public ObjectNode deleteStudentBatch(@PathVariable Integer id) {
 
-        StudentBatchHistory history = new StudentBatchHistory();
-        StudentBatch studentBatch = repository.findById(id).orElse(null);
-        history.setStartDate(studentBatch.getStartDate());
-        history.setEndDate(new Date());
-        history.setBatch(studentBatch.getBatch());
-        history.setStudent(studentBatch.getStudent());
-        historyRepository.save(history);
+        // StudentBatchHistory history = new StudentBatchHistory();
+        // StudentBatch studentBatch = repository.findById(id).orElse(null);
+        // history.setStartDate(studentBatch.getStartDate());
+        // history.setEndDate(new Date());
+        // history.setBatch(studentBatch.getBatch());
+        // history.setStudent(studentBatch.getStudent());
+        // historyRepository.save(history);
 
         service.deleteStudentBatch(id);
 
-        return "student batch with id " + id + " deleted";
+        return Global.createSuccessMessage("Student deleted successfully");
     }
 }

@@ -96,12 +96,12 @@ public class EnrolledProgramController {
 
         if (fetchedProgram.getCoaching().getId() == JwtUtils.getCoachingId()) {
             List<EnrolledProgram> enrolledPrograms = repository.findByProgramId(programId);
-            List<Student> students = new ArrayList<>();
-            for (EnrolledProgram ep : enrolledPrograms) {
-                students.add(ep.getStudent());
-            }
+            // List<Student> students = new ArrayList<>();
+            // for (EnrolledProgram ep : enrolledPrograms) {
+            // students.add(ep.getStudent());
+            // }
             return Global.createSuccessMessage("Students found")
-                    .putPOJO("object", students);
+                    .putPOJO("object", enrolledPrograms);
         }
 
         return Global.createErrorMessage("Not authorized to get enrolledPrograms Students");
