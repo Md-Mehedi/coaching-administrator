@@ -18,7 +18,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import coaching.administrator.classes.Batch.Batch;
 import coaching.administrator.classes.Batch.BatchService;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Room.Room;
+import coaching.administrator.classes.Room.RoomService;
 import coaching.administrator.classes.Security.jwt.JwtUtils;
+import coaching.administrator.classes.Teacher.Teacher;
+import coaching.administrator.classes.Teacher.TeacherService;
 
 @RestController
 public class ClassTimeController {
@@ -29,11 +33,34 @@ public class ClassTimeController {
     @Autowired
     private BatchService batchService;
 
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private TeacherService teacherService;
+
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @PostMapping("/add-classTime")
     public ObjectNode addClassTime(@RequestBody ClassTime classTime) {
-        repository.save(classTime);
-        return Global.createSuccessMessage("Class time added");
+        Batch batch = batchService.getBatchById(classTime.getBatch().getId());
+        Room room = roomService.getRoomById(classTime.getRoom().getId());
+        Teacher teacher = teacherService.getTeacherById(classTime.getTeacher().getPerson().getId());
+
+        if (batch == null || room == null || teacher == null) {
+            return Global.createErrorMessage("Batch, Room or Teacher not found");
+        }
+
+        if ((batch.getProgram().getCoaching().getId() == JwtUtils.getCoachingId())
+                && (room.getCoaching().getId() == JwtUtils.getCoachingId())
+                && (teacher.getPerson().getCoaching().getId() == JwtUtils.getCoachingId())) {
+            classTime.setBatch(batch);
+            classTime.setRoom(room);
+            classTime.setTeacher(teacher);
+            repository.save(classTime);
+            return Global.createSuccessMessage("Class time added successfully");
+        } else {
+            return Global.createErrorMessage("Not Authorized to add class time");
+        }
     }
 
     // @PreAuthorize("hasRole('COACHING_ADMIN')")

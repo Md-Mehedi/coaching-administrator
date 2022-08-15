@@ -1,0 +1,12 @@
+insert into board (name) values('Barisal');
+insert into board (name) values('Chittagong');
+insert into board (name) values('Comilla');
+insert into board (name) values('Dhaka');
+insert into board (name) values('Dinajpur');
+insert into board (name) values('Jessore');
+insert into board (name) values('Mymensingh');
+insert into board (name) values('Rajshahi');
+insert into board (name) values('Sylhet');
+insert into board (name) values('Madrasah');
+insert into board (name) values('Technical');
+insert into board (name) values('University');

@@ -31,4 +31,9 @@ public class StudentBatchService {
         repository.deleteById(id);
     }
 
+    // public List<StudentBatch> getStudentBatchByProgramIdStudentId(Integer
+    // programId, Integer studentId) {
+    // return repository.findByProgramIdAndStudentId(programId, studentId);
+    // }
+
 }

@@ -23,9 +23,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedDate;
 
 import coaching.administrator.classes.Address.Address;
 import coaching.administrator.classes.Coaching.Coaching;

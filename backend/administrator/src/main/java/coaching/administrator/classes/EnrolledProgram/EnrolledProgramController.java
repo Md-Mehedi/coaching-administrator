@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -88,7 +89,6 @@ public class EnrolledProgramController {
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-students-by-programId/{programId}")
     public ObjectNode getAllEnrolledProgramByCoachingId(@PathVariable Integer programId) {
-
         Program fetchedProgram = programService.getProgramById(programId);
         if (fetchedProgram == null) {
             return Global.createErrorMessage("Program not found");
@@ -96,10 +96,6 @@ public class EnrolledProgramController {
 
         if (fetchedProgram.getCoaching().getId() == JwtUtils.getCoachingId()) {
             List<EnrolledProgram> enrolledPrograms = repository.findByProgramId(programId);
-            // List<Student> students = new ArrayList<>();
-            // for (EnrolledProgram ep : enrolledPrograms) {
-            // students.add(ep.getStudent());
-            // }
             return Global.createSuccessMessage("Students found")
                     .putPOJO("object", enrolledPrograms);
         }
@@ -135,9 +131,42 @@ public class EnrolledProgramController {
     // return service.getEnrolledProgramByName(name);
     // }
 
-    @DeleteMapping("/delete-enrolledProgram-by-id")
-    public String deleteEnrolledProgram(@PathVariable Integer id) {
-        repository.deleteById(id);
-        return "Student Batch History with " + " id " + id + " deleted";
+    // @DeleteMapping("/delete-enrolledProgram-by-id")
+    // public String deleteEnrolledProgram(@PathVariable Integer id) {
+    // repository.deleteById(id);
+    // return "Student Batch History with " + " id " + id + " deleted";
+    // }
+
+    // // @PreAuthorize("hasRole('COACHING_ADMIN')")
+    // @GetMapping("/auth/get-all-enrolledProgram-by-studentId/{studentId}")
+    // public ObjectNode getAllEnrolledProgramByStudentId(@PathVariable Integer
+    // studentId) {
+    // Student fetchedStudent = studentService.getStudentById(studentId);
+    // if (fetchedStudent == null) {
+    // return Global.createErrorMessage("Student not found");
+    // }
+    // if (fetchedStudent.getPerson().getCoaching().getId() ==
+    // JwtUtils.getCoachingId()) {
+    // List<Map<String, Object>> enrolledPrograms =
+    // repository.findAllByStudentId(studentId);
+    // return Global.createSuccessMessage("EnrolledPrograms found")
+    // .putPOJO("object", enrolledPrograms);
+    // }
+    // return Global.createErrorMessage("Not authorized to get enrolledPrograms");
+    // }
+
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
+    @GetMapping("/get-all-enrolledProgram-by-studentId/{studentId}")
+    public ObjectNode getAllEnrolledProgramByStudentId(@PathVariable Integer studentId) {
+        Student fetchedStudent = studentService.getStudentById(studentId);
+        if (fetchedStudent == null) {
+            return Global.createErrorMessage("Student not found");
+        }
+        if (fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            List<EnrolledProgram> enrolledPrograms = repository.findByStudentId(studentId);
+            return Global.createSuccessMessage("EnrolledPrograms found").putPOJO("object", enrolledPrograms);
+            // .putPOJO("object", enrolledPrograms);
+        }
+        return Global.createErrorMessage("Not authorized to get enrolledPrograms");
     }
 }

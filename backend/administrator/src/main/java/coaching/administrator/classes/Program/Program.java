@@ -1,5 +1,6 @@
 package coaching.administrator.classes.Program;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "program")
-public class Program {
+public class Program implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

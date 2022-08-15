@@ -1,0 +1,16 @@
+insert into department (name) values
+('Science'),
+('Arts'),
+('Commerce'),
+('Humanities'),
+('Management'),
+('Law'),
+('Engineering'),
+('Medical'),
+('Education'),
+('Agriculture'),
+('IT'),
+('Sociology'),
+('Economics'),
+('IBA'),
+('Others');

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,9 @@ public interface EnrolledProgramRepository extends JpaRepository<EnrolledProgram
         @Query(value = "select * from enrolled_program " +
                         " where coaching_id = :coachingId", nativeQuery = true)
         List<EnrolledProgram> findAllByCoachingId(@Param("coachingId") Integer coachingId);
+
+        @Query(value = "select *" +
+                        " from enrolled_program ep" +
+                        " where ep.student_id = :studentId", nativeQuery = true)
+        List<EnrolledProgram> findByStudentId(@Param("studentId") Integer studentId);
 }

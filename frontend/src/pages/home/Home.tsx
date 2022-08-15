@@ -1,7 +1,7 @@
 import { Avatar, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
-import WebLayout from "./../../layouts/web-layout";
-import { resolvePublicImage } from "./../../tools/helper-functions";
+import WebLayout from "../../layouts/web-layout";
+import { resolvePublicImage } from "../../tools/helper-functions";
 
 let services = [
   {

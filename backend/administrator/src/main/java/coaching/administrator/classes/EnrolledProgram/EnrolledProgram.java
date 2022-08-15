@@ -35,7 +35,7 @@ public class EnrolledProgram implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date enrolledDate = new Date();
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id", referencedColumnName = "id")
     private Program program;
 
