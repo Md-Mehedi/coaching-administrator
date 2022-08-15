@@ -9,3 +9,4 @@ insert into board (name) values('Rajshahi');
 insert into board (name) values('Sylhet');
 insert into board (name) values('Madrasah');
 insert into board (name) values('Technical');
+insert into board (name) values('University');
