@@ -14,16 +14,19 @@ import { Responsive } from "../tools/Responsive";
 import { Dashboard } from "@mui/icons-material";
 import { makeStyles, createStyles } from "@mui/styles";
 import { Theme } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SpecialLink from "./special-link";
 import { USER_LINKS } from "../links";
+import AuthService from "./../services/auth-service";
+import { resolveURL } from "../tools/helper-functions";
+import { Admin } from "../classes/person-info";
+import { ADMIN_LINKS } from "./../links";
 
 export const HEADER_HEIGHT = 80;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: "#282C34",
       height: HEADER_HEIGHT,
       flexGrow: 1,
       padding: 5,
@@ -69,31 +72,43 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Header() {
   const classes = useStyles();
+  const navigate = useNavigate();
+  let admin = AuthService.getAdmin();
 
   function Logo() {
     return (
       <Grid container direction="row" alignItems="center" spacing={1}>
         <Grid item>
-          <Link to={USER_LINKS.home.path}>
-            <IconButton>
-              <img
-                className={classes.logo}
-                // src={require("assets/img/CourseOverflowIcon.png").default}
-              />
-            </IconButton>
-          </Link>
+          {admin?.person?.coaching?.image && (
+            <Link to={USER_LINKS.home.path}>
+              <IconButton>
+                <img
+                  className={classes.logo}
+                  src={resolveURL(admin?.person?.coaching?.image)}
+                  // src={require("assets/img/CourseOverflowIcon.png").default}
+                />
+              </IconButton>
+            </Link>
+          )}
         </Grid>
         <Grid item>
           <Responsive displayIn={["Laptop", "Tablet"]}>
-            <Typography
-              className={classes.title}
-              variant="h6"
-              noWrap
-              style={{ cursor: "pointer" }}
-              // onClick={(event) => history.push("/home")}
-            >
-              Coaching Administrator
-            </Typography>
+            <SpecialLink disableUnderline href={USER_LINKS.home.path}>
+              <Typography
+                className={classes.title}
+                variant="h6"
+                noWrap
+                style={{ color: "white" }}
+                // onClick={(event) => history.push("/home")}
+              >
+                Coaching Administrator
+              </Typography>
+            </SpecialLink>
+            <SpecialLink disableUnderline href={ADMIN_LINKS.home.path}>
+              <Typography style={{ color: "white" }}>
+                {admin?.person?.coaching?.name}
+              </Typography>
+            </SpecialLink>
           </Responsive>
           <Responsive displayIn={["Mobile"]}>
             <Grid
@@ -123,22 +138,15 @@ export default function Header() {
           {/* <Notification /> */}
           {/* {AuthService.getCurrentAccountType() === "Admin" && ( */}
           <Grid item>
-            <Tooltip title="Admin Dashboard">
-              <IconButton /* onClick={(event) => history.push("/admin")} */>
-                <Avatar>
-                  <Dashboard style={{ color: "white" }} />
-                </Avatar>
-              </IconButton>
-            </Tooltip>
+            <Typography>{admin?.person?.fullName}</Typography>
           </Grid>
-          {/* )} */}
           <Grid item style={{ display: "flex" }}>
             <IconButton
               onClick={(event: React.MouseEvent<any>) =>
-                setAnchorRef(event.currentTarget)
+                navigate(ADMIN_LINKS.settings.path)
               }
             >
-              <Avatar />
+              <Avatar src={resolveURL(admin?.person?.image)} />
             </IconButton>
             {/* <Popover
                 open={Boolean(anchorRef)}
@@ -155,6 +163,19 @@ export default function Header() {
               >
                 <SideMenuPopUp />
               </Popover> */}
+          </Grid>
+          <Grid item>
+            <Tooltip title="Admin Dashboard">
+              <IconButton
+                onClick={(event: React.MouseEvent<any>) =>
+                  navigate(ADMIN_LINKS.home.path)
+                }
+              >
+                <Avatar>
+                  <Dashboard style={{ color: "white" }} />
+                </Avatar>
+              </IconButton>
+            </Tooltip>
           </Grid>
         </>
         {/* ) : (
@@ -183,12 +204,19 @@ export default function Header() {
   return (
     <>
       <Grid id="header-root">
-        <AppBar className={classes.root} position="fixed">
+        <AppBar
+          className={classes.root}
+          sx={{
+            backgroundColor: "#282C34",
+          }}
+          position="fixed"
+        >
           <Grid
             container
             direction="row"
             alignItems="center"
             justifyContent="space-between"
+            sx={{ height: "100%" }}
           >
             <Grid item>
               <Logo />
@@ -198,19 +226,37 @@ export default function Header() {
               </Responsive> */}
             <Grid item>
               <Grid container direction="row" spacing={2} alignItems="center">
-                <Grid item>
-                  <IconSet />
-                </Grid>
-                <Grid item>
-                  <SpecialLink href={USER_LINKS.login.path}>
-                    <Button variant="contained">Login</Button>
-                  </SpecialLink>
-                </Grid>
-                <Grid item>
-                  <SpecialLink href={USER_LINKS.register.path}>
-                    <Button variant="contained">Register</Button>
-                  </SpecialLink>
-                </Grid>
+                {AuthService.isLogin() ? (
+                  <>
+                    <Grid item>
+                      <IconSet />
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        onClick={(event) => {
+                          localStorage.clear();
+                          navigate(USER_LINKS.login.path);
+                        }}
+                      >
+                        Logout
+                      </Button>
+                    </Grid>
+                  </>
+                ) : (
+                  <>
+                    <Grid item>
+                      <SpecialLink href={USER_LINKS.login.path}>
+                        <Button variant="contained">Login</Button>
+                      </SpecialLink>
+                    </Grid>
+                    <Grid item>
+                      <SpecialLink href={USER_LINKS.register.path}>
+                        <Button variant="contained">Register</Button>
+                      </SpecialLink>
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
           </Grid>

@@ -17,9 +17,14 @@ import MyTextfield from "../../components/form-components/my-textfield";
 import ParentInformation from "../../components/form-components/parent-information";
 import PersonQualification from "../../components/form-components/person-qualification-exam-details";
 import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
-import { apiCatch, showSnackbar } from "../../tools/helper-functions";
-import { useLocation, useParams } from "react-router-dom";
+import {
+  apiCatch,
+  createFormData,
+  showSnackbar,
+} from "../../tools/helper-functions";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddPerson from "../../components/form-components/add-person";
+import { ADMIN_LINKS } from "./../../links";
 
 type AddTeacherState = {
   boards: Board[];
@@ -28,6 +33,7 @@ type AddTeacherState = {
 };
 export default function AddTeacher() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   console.log(state);
   const { enqueueSnackbar } = useSnackbar();
   const [teacher, setTeacher] = useState<Teacher>(new Teacher());
@@ -51,10 +57,14 @@ export default function AddTeacher() {
       } else {
         api = API.teacher.add;
       }
-      api(teacher)
+
+      let image = teacher.person?.image;
+      teacher.person = { ...teacher.person, image: undefined };
+      api(createFormData(teacher, image))
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
           setSaveLoading(false);
+          navigate(ADMIN_LINKS.teacherList.path);
         })
         .catch((r) => {
           apiCatch(enqueueSnackbar, r);

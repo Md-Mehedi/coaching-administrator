@@ -24,7 +24,6 @@ public class TeacherPaymentController {
 
     @PostMapping("/add-TeacherPayment")
     public TeacherPayment addTeacherPayment(@RequestBody TeacherPayment TeacherPayment) {
-        Global.colorPrint(TeacherPayment);
         return repository.save(TeacherPayment);
     }
 

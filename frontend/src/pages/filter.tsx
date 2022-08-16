@@ -8,6 +8,7 @@ import AuthService from "./../services/auth-service";
 
 export default function Filter({ children }) {
   const { enqueueSnackbar } = useSnackbar();
+  const [passed, setPassed] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (!AuthService.getAdmin()) {
@@ -29,12 +30,15 @@ export default function Filter({ children }) {
       enqueueSnackbar("Please provide your information", { variant: "error" });
     }
     if (
-      !AuthService.getCoachingId() ||
-      AuthService.getAdmin()?.person?.fullName == ""
+      (!AuthService.getCoachingId() ||
+        AuthService.getAdmin()?.person?.fullName == "") &&
+      window.location.pathname != USER_LINKS.adminCoachingInput.path
     ) {
       navigate(USER_LINKS.adminCoachingInput.path);
+    } else {
+      setPassed(true);
     }
   }, [children]);
 
-  return <>{children}</>;
+  return <>{passed ? children : <></>}</>;
 }

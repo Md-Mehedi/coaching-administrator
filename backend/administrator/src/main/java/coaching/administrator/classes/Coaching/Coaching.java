@@ -1,9 +1,11 @@
 package coaching.administrator.classes.Coaching;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Type;
+
 import coaching.administrator.classes.Address.Address;
 import coaching.administrator.classes.Room.Room;
 import lombok.AllArgsConstructor;
@@ -28,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "coaching")
-public class Coaching {
+public class Coaching implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +51,8 @@ public class Coaching {
     private Integer whatsappNo;
     private String facebookLink;
     private String youtubeLink;
-    @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
+    @Column(name = "image")
     private byte[] image;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "coaching")

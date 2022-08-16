@@ -30,7 +30,6 @@ public class UserDetailsImpl implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public static UserDetailsImpl build(Person user) {
-		Global.colorPrint("in userdetailsimpl build");
 		GrantedAuthority authority = new SimpleGrantedAuthority(user.getPersonType());
 		List<GrantedAuthority> authorities = List.of(authority);
 		Integer coachingId = null;

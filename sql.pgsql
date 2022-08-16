@@ -1,175 +1,3 @@
-Abdul Kadir Mollah City College
-Adamjee Cantonment College
-Adhyapak Abdul Majid College
-Aeronautical College of Bangladesh
-Aeronautical Institute of Bangladesh
-Agricultural University College, Mymensingh
-Agriculture Training Institute
-Ahammad Uddin Shah Shishu Niketon School & College
-Amrita Lal Dey College
-Alekanda Govt College
-Ananda Mohan College
-Atomic Energy Research Establishment School and College
-Azam Khan Govt. Commerce College
-Bangla College
-Bangladesh Air Force Shaheen College
-Bangladesh Air Force Shaheen College, Dhaka
-Bangladesh Institute of Glass and Ceramics
-Bangladesh Institute of Marine Technology
-Bangladesh Marine Academy
-Bangladesh Navy College Dhaka
-Bangladesh Sweden Polytechnic Institute
-Barisal Government Model School and College [bn]
-Barisal Engineering College
-Barisal Government Women's College
-Barisal Polytechnic Institute
-BCIC College
-Bhandaria Government College
-Bijoy Smarani University College
-BPATC School and College
-Brahmanbaria Government College
-Brajalal College
-Brindaban Government College
-Brojomohun College
-Cambrian School and College
-Cantonment Public School and College, Rangpur
-Carmichael College
-Chandpur Polytechnic Institute
-Charfasson Degree College
-Chittagong College
-Chittagong Ideal School & College
-Chittagong Model School and College
-Chittagong Pali College
-Chowmuhani Government S.A College
-College of Aviation & Technology
-College of Development Alternative
-Comilla Government College
-Comilla Government Women's College
-Comilla Victoria Government College
-Dania College
-Dhaka City College
-Dhaka College
-Dhaka Commerce College
-Dhaka Imperial College
-Dhaka Polytechnic Institute
-Dhaka Residential Model College
-Dinajpur Government College
-Dinajpur Polytechnique Institute
-Eden Mohila College
-Engineering University School & College[10]
-Faridpur Engineering College
-Faridpur Polytechnic Institute
-Feni Government College
-Feni Polytechnic Institute
-Gazipur Cantonment College
-Gohira Degree College
-Gole Afroz College
-Gopaldi Nazrul Islam Babu College
-Government Akbar Ali College
-Government Azizul Haque College
-Government Barisal College
-Government City College, Chittagong
-Government College of Commerce, Chittagong
-Government Debendra College
-Government Hazi Mohammad Mohshin College
-Government K. M. H. College
-Government K.C. College Jhenaidah
-Government P.C. College, Bagerhat
-Government Physical Education College, Dhaka
-Government Rajendra College
-Government Shaheed Suhrawardy College
-Government Science College, Dhaka
-Government Syed Hatem Ali College
-Government Tolaram College
-Government Titumir College
-Govt. Sheikh Fazilatunnesa Mujib Mohila College
-Gunabati College
-Haji Abul Hossain Institute of Technology
-Hathazari Government University College
-Hazera Taju University College
-Heyako Banani University College
-Holy Cross College, Dhaka
-Ibne Taimiya School and College[11]
-Ideal School and College
-Ideal College
-Institute of Leather Engineering and Technology, University of Dhaka
-Ishwarganj Degree College
-Islamia Government College
-Ispahani Public School & College, Comilla
-Jahangirpur Govt. College
-Jamalpur Government College
-Jatir Janak Bangabandhu Sheikh Mujibur Rahman Govt. College
-Joypurhat Government College
-Kabi Nazrul Government College
-Khulna Govt. Girls College
-Khulna Public College
-Kurigram Government College
-M. E. H. Arif College
-Madan Mohan College
-Madhupur College
-Madhupur Shahid Smrity Higher Secondary School
-Maulana Mohammad Ali College
-Mohammadpur Government College
-Mirpur Bangla High School and College
-Mohammadpur Model School & College
-Mohammadpur Preparatory School & College
-Muminunnesa Women's College
-Murari Chand College
-Mymensingh Polytechnic Institute
-Naogaon Government College
-Narail Victoria College
-Narayanganj Government Mohila College
-Nawab Faizunnesa Government College
-Nazipur Government College
-Nazirhat College
-New Government Degree College, Rajshahi
-Noakhali Government College
-Noakhali Government Women's College
-Noakhali Science and Commerce School and College
-Notre Dame College, Mymensingh
-Pakundia Adarsha Mohila College
-Perdana College of Malaysia
-Police Lines School and College
-Polli Sree College
-Rahmat Iqbal College
-Rajshahi College
-RAJUK Uttara Model College
-Rangpur Government College
-Rangpur Engineering College[12]
-Rangpur Public School And College
-Rangunia College
-Raozan Government University College
-Royal Media College
-Safiuddin Sarker Academy and College
-Saidpur College
-Sapahar Government College
-Shyamoli Textile Engineering College
-Shaheed Abdur Rab Serniabat Textile Engineering College
-Shahidul Chowdhury Engineering College[13]
-Shahid A.H.M. Kamaruzzaman Govt. Degree College
-Shahid Syed Nazrul Islam College
-Shaikh Burhanuddin Post Graduate College
-Sherpur Government College
-Sonapur Degree College
-SOS Hermann Gmeiner College
-Sylhet Cadet College
-Sylhet Engineering College[14]
-Sylhet Government Women's College
-Sylhet Science And Technology College
-Tangail Polytechnic Institute
-Tejgaon College
-Tejgaon Mohila College
-Tetulia B. M. C. College
-Textile Engineering College, Chittagong
-Thakurgaon Government College
-Ullapara Science College
-United College of Aviation, Science & Management
-University Laboratory School and College
-Uttar Kattoli Alhaz Mostafa Hakim University College
-Uttara Town College
-
-
-
 alter table student drop cascade
 drop column end_date;
 
@@ -188,7 +16,7 @@ SELECT * from pg_stat_activity where usename = 'esnvxwgujgmyzy' and datname = 'd
 -- set idle session timeout to 5 minutes
 SET SESSION idle_in_transaction_session_timeout = '5min';
 
--- to delete all idle connections
+-- to delete all idle connections'
 SELECT 
     pg_terminate_backend(pid) 
 FROM 
@@ -408,8 +236,52 @@ insert into institution (name,board_id) values('Sylhet Commerce College',8);
 
 
 
-select * from expense;
+select * from expense e order by e.expense_date;
 
-select details, to_char(e.expense_date, 'MM')  from expense e  where e.coaching_id = 3  and to_char(e.expense_date, 'MM') = '08' and to_char(e.expense_date, 'YYYY') = '2022'
+insert into class_type (type) values('CLASS');
+insert into class_type (type) values('EXAM');
+insert into class_type (type) values('EVENT');
+insert into class_type (type) values('CANCEL');
+
+select * from institution;
+select * from edu_qualification;
+update edu_qualification set institution_id=14 where institution_id<14
+select * from coaching where id =1;
+delete from enrolled_program where id = 3;
+
+update person set person_type='ROLE_COACHING_ADMIN' where id=1
+select * from person;
+
+ select *
+ from class_time ct,teacher t 
+ where ct.teacher_id = t.person_id and t.person_id = 86
+
+ select * from coaching where id = 1
+ select * from person
+ select * from edu_qualification where id = 106
+
+select * from occupation;
+select * from program
+select * from exam
+
+select * from student_batch sb, student s, person p, batch b, program pr where sb.student_id = s.person_id and s.person_id = p.id and sb.batch_id = b.id and b.program_id = pr.id and pr.id = 1 and s.person_id = 1;
+
+select * from enrolled_program ep, student s, person p where ep.student_id = s.person_id and s.person_id = p.id and p.id = 1
+
+select * from enrolled_program;
+
+select ep.id, ep.enrolled_date, ep.program_id, ep.student_id from enrolled_program ep, student s, person p where ep.student_id = s.person_id and s.person_id = p.id and p.id = 20
 
 
+select * from enrolled_program ep  where ep.student_id = 20;
+
+
+UPDATE Person set email = 'asifahmedutsha@gmail.com' where email = 'asifahmedutsa@gmail.com';
+
+0
+
+delete from person where email like '%kaziwasif%' cascade
+
+
+select * from coaching
+delete from room cascade

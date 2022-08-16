@@ -86,7 +86,7 @@ export class Person {
   bloodGroup?: string;
   nationality?: string;
   personType?: string;
-  image?: string;
+  image?: File;
   currentQualification?: EduQualification;
   constructor() {
     // this.contacts = [];

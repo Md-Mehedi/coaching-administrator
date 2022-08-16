@@ -1,13 +1,17 @@
 package coaching.administrator.classes.Admin;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Global.UserType;
 import coaching.administrator.classes.Person.ConfirmationToken;
@@ -15,6 +19,7 @@ import coaching.administrator.classes.Person.ConfirmationTokenRepository;
 import coaching.administrator.classes.Person.EmailService;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @Service
@@ -32,7 +37,8 @@ public class AdminService {
     private EmailService emailService;
 
     public Admin saveAdmin(Admin admin) {
-        // PasswordEncoder pEncoder = new PasswordEncoder();
+        // BCryptBCryptBCryptPasswordEncoder pEncoder = new
+        // BCryptBCryptBCryptPasswordEncoder();
         // admin.setPassword(pEncoder.getEncodedPassword(admin.getPerson().getPassword()));
         admin.getPerson().setPersonType("ROLE_" + UserType.COACHING_ADMIN);
         return repository.save(admin);
@@ -76,9 +82,10 @@ public class AdminService {
     public ObjectNode authenticateAdmin(String email, String password) {
         ObjectNode node = mapper.createObjectNode();
 
-        // PasswordEncoder pEncoder = new PasswordEncoder();
-        // String encodedPasssword = pEncoder.getEncodedPassword(password);
+        // BCryptPasswordEncoder pEncoder = new BCryptPasswordEncoder();
         Admin admin = getAdminByEmail(email);
+        // boolean isPasswordMatch = pEncoder.matches(password,
+        // admin.getPerson().getPassword());
 
         if (admin == null) {
             return node
@@ -100,24 +107,29 @@ public class AdminService {
             return node
                     .put("success", false)
                     .put("message", "Server error. Try again.");
+
     }
 
-    public ObjectNode addAdmin(Admin admin, MultipartFile image) {
-
+    public ObjectNode addAdmin(Admin admin, MultipartFile adminImage, MultipartFile coachingImage) {
+        admin.getPerson().setJoiningDate(new Date());
         ObjectNode node = mapper.createObjectNode();
         try {
             System.out.println("\033[31minside add admin\033[0m");
 
             // personService.savePerson(admin);
             System.out.println("Admin id : " + admin.getPerson().getId());
-            Person person = admin.getPerson();
-            person.setImage(image.getBytes());
-            admin.setPerson(person);
-            saveAdmin(admin);
-
+            // Person person = admin.getPerson();
+            // person.setImage(adminImage.getBytes());
+            // Coaching coaching = person.getCoaching();
+            // coaching.setImage(coachingImage.getBytes());
+            // admin.setPerson(person);
+            admin.getPerson().setImage(adminImage.getBytes());
+            admin.getPerson().getCoaching().setImage(coachingImage.getBytes());
+            Admin newAdmin = saveAdmin(admin);
             return node
                     .put("success", true)
-                    .put("message", "Information successfully submitted");
+                    .put("message", "Information successfully submitted")
+                    .putPOJO("object", newAdmin);
         } catch (Exception e) {
 
             System.out.println("\033[31minside Exception in add admin\033[0m");
@@ -167,7 +179,8 @@ public class AdminService {
     }
 
     public ObjectNode verifyAdmin(String email, String password) {
-
+        // BCryptPasswordEncoder pEncoder = new BCryptPasswordEncoder();
+        // String encodedPasssword = pEncoder.encode(password);
         ObjectNode node = mapper.createObjectNode();
         try {
             Admin existingAdmin = getAdminByEmail(email);
@@ -177,6 +190,8 @@ public class AdminService {
                         .put("message", "Email already taken");
             }
 
+            // ConfirmationToken confirmationToken = new ConfirmationToken(email,
+            // encodedPasssword);
             ConfirmationToken confirmationToken = new ConfirmationToken(email, password);
             confirmationTokenRepository.save(confirmationToken);
             SimpleMailMessage mailMessage = new SimpleMailMessage();

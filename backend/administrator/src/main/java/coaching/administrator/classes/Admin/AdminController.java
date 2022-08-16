@@ -48,8 +48,9 @@ public class AdminController {
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @PostMapping("/add-admin")
-    public ObjectNode addAdmin(@RequestPart("admin") Admin admin, @RequestPart("image") MultipartFile image) {
-        return service.addAdmin(admin, image);
+    public ObjectNode addAdmin(@RequestPart("object") Admin admin, @RequestPart("file") MultipartFile adminImage,
+            @RequestPart("file") MultipartFile coachingImage) {
+        return service.addAdmin(admin, adminImage, coachingImage);
     }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")

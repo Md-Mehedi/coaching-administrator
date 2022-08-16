@@ -1,5 +1,6 @@
 package coaching.administrator.classes.Program;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import coaching.administrator.classes.Coaching.Coaching;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "program")
-public class Program {
+public class Program implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +40,7 @@ public class Program {
     private Coaching coaching;
 
     private String description;
-    @Temporal(TemporalType.TIME)
     private Date startDate;
-    @Temporal(TemporalType.TIME)
     private Date endDate;
     private Integer admissionFee;
 

@@ -7,7 +7,7 @@ import AdminInfoInput from "./../settings/admin-info-input";
 import { Admin } from "./../../classes/person-info";
 import { Coaching } from "../../classes/coaching";
 import { API } from "../../api";
-import { showSnackbar } from "../../tools/helper-functions";
+import { createFormData, showSnackbar } from "../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import { ADMIN_LINKS } from "../../links";
 import { useNavigate } from "react-router-dom";
@@ -47,12 +47,22 @@ export default function AdminCoachingInput() {
       if (coachingVerifier.current() && adminVerifier.current()) {
         setState({ ...state, submitLoading: true });
         console.log("submitted admin", state.admin);
+        let adminImage = state.admin.person?.image;
+        state.admin.person = { ...state.admin.person, image: undefined };
+        let coachingImage = state.admin.person.coaching?.image;
+        state.admin.person.coaching = {
+          ...state.admin.person.coaching,
+          image: undefined,
+        };
+        let formData = createFormData(state.admin, adminImage);
+        formData.append("coachingImage", coachingImage || new Blob([]));
         API.admin
-          .addAdmin(state.admin)
+          .addAdmin(formData)
           .then((response) => {
-            showSnackbar(enqueueSnackbar, response.data);
-            AuthService.setAdmin(state.admin);
-            navigate(-1);
+            showSnackbar(enqueueSnackbar, response.data, () => {
+              AuthService.setAdmin(response.data.object);
+              navigate(-1);
+            });
             // navigate(ADMIN_LINKS.home.path);
           })
           .catch((r) => apiCatch(enqueueSnackbar, r));

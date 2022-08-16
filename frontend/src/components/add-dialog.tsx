@@ -49,7 +49,10 @@ export default function AddDialog(props: AddDialogProps) {
           props.onClose && props.onClose(event);
           event.stopPropagation();
         }}
-        onSaveButtonClick={props.saveButtonClick}
+        onSaveButtonClick={(event) => {
+          props.saveButtonClick && props.saveButtonClick(event);
+          setState({ ...state, open: false });
+        }}
         onCancelButtonClick={props.cancelButtonClick}
       >
         {props?.children}

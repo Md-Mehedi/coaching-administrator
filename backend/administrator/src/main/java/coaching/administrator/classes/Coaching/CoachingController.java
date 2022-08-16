@@ -2,6 +2,7 @@
 package coaching.administrator.classes.Coaching;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import coaching.administrator.classes.Global.APIMessage;
+import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 
 @RestController
 public class CoachingController {
@@ -46,10 +51,20 @@ public class CoachingController {
         return service.getCoachingById(id);
     }
 
-    @GetMapping("/get-coaching-by-admin-id/{id}")
-    public Coaching getCoachingByAdminId(@PathVariable Integer id) {
-        return service.getCoachingByAdminId(id);
-    }
+    // @PreAuthorize("hasRole('COACHING_ADMIN')")
+    // @GetMapping("/get-coaching-by-admin-id/{id}")
+    // public ObjectNode getCoachingByAdminId(@PathVariable Integer id) {
+    // Coaching coaching = service.getCoachingByAdminId(id);
+    // if (coaching == null) {
+    // return Global.createErrorMessage("Coaching not found");
+    // }
+    // if (coaching.getId() == JwtUtils.getCoachingId()) {
+    // return Global.createSuccessMessage("Coaching found")
+    // .putPOJO("object", coaching);
+    // } else {
+    // return Global.createErrorMessage("Not eligible to fetch coaching");
+    // }
+    // }
 
     @GetMapping("/get-coaching-by-name/{name}")
     public Coaching getCoachingByName(@PathVariable String name) {

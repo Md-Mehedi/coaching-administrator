@@ -6,6 +6,7 @@ import DropDown from "./dropdown";
 
 export type SearchByNameOrIdFieldProps = {
   multiple?: boolean;
+  students: Student[];
   selectedStudent: Student | Student[] | null;
   onChange: (newStudent: Student | Student[] | null) => void;
 };
@@ -20,10 +21,11 @@ export default function SearchByNameOrIdField(
     // selectedValue: props.multiple ? [] : null,
   });
   useEffect(() => {
-    API.student.getAll().then((response) => {
-      setState({ ...state, students: response.data });
-    });
-  }, []);
+    setState({ ...state, students: props.students });
+    // API.student.getAll().then((response) => {
+    //   setState({ ...state, students: response.data });
+    // });
+  }, [props.students]);
 
   return (
     <Grid container spacing={1}>

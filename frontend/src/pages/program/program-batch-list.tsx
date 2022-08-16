@@ -31,16 +31,18 @@ export default function ProgramBatchList({ program }: { program?: Program }) {
     submitted: false,
   });
   useEffect(() => {
+    console.log("in useeffect", program?.id);
     program?.id &&
       API.batch
         .getAll(program?.id)
         .then((res) => {
-          console.log("in useeffect", res);
-          setState({
-            ...state,
-            batches: res.data,
-            pageLoading: false,
-            submitted: false,
+          showSnackbar(enqueueSnackbar, res.data, () => {
+            setState({
+              ...state,
+              batches: res.data.object,
+              pageLoading: false,
+              submitted: false,
+            });
           });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));

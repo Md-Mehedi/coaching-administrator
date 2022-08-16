@@ -1,6 +1,7 @@
 package coaching.administrator.classes.Student;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,20 +27,21 @@ public class StudentService {
     @Autowired
     private PersonService personService;
 
-    @Transactional
-    public ObjectNode saveStudent(Student student, MultipartFile image) {
-        ObjectNode node = mapper.createObjectNode();
+    public void saveImage(Student student, MultipartFile image) {
         Person person = student.getPerson();
         try {
             person.setImage(image.getBytes());
         } catch (IOException e) {
-            Global.colorPrint("error in student image");
             e.printStackTrace();
         }
-        student.setPerson(person);
+    }
+
+    @Transactional
+    public ObjectNode saveStudent(Student student, MultipartFile image) {
+        ObjectNode node = mapper.createObjectNode();
+        student.getPerson().setJoiningDate(new Date());
+        saveImage(student, image);
         repository.save(student);
-        Global.colorPrint(student);
-        Global.colorPrint(student.getPerson());
         return node.put("success", true)
                 .put("message", "Student added successfully");
     }
@@ -69,10 +71,11 @@ public class StudentService {
                 .put("message", "Student delete successfully");
     }
 
-    public ObjectNode updateStudent(Student student) {
+    public ObjectNode updateStudent(Student student, MultipartFile image) {
         ObjectNode node = mapper.createObjectNode();
         // personService.updatePerson(student);
         // Student newStudent = repository.findById(student.getId()).orElse(null);
+        saveImage(student, image);
         repository.save(student);
         return node.put("success", true)
                 .put("message", "Student update successfully");

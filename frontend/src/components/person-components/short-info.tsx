@@ -20,7 +20,10 @@ export default function ShortInfo({
       <Grid item xs={12} md={7}>
         <Grid container direction="row" spacing={2} alignItems="center">
           <Grid item>
-            <Avatar sx={{ width: 200, height: 200 }} />
+            <Avatar
+              sx={{ width: 200, height: 200 }}
+              src={"data:image/png;base64," + person?.image}
+            />
           </Grid>
           <Grid item>
             <Grid container direction="column" spacing={1}>

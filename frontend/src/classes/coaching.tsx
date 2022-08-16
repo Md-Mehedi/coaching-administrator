@@ -12,7 +12,7 @@ export class Coaching {
   whatsappNo?: string;
   facebookLink?: string;
   youtubeLink?: string;
-  image?: string;
+  image?: File;
 }
 
 export class Program {
@@ -54,7 +54,13 @@ export class Batch {
   monthlyFees?: number;
   program?: Program;
   subject?: Subject;
-  classTimes?: ClassTime[];
+  // classTimes?: ClassTime[];
+}
+export class StudentBatch {
+  id?: number;
+  startDate?: Date;
+  batch?: Batch;
+  student?: Student;
 }
 ////////        Routine - attendance
 export class Attendance {

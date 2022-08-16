@@ -3,6 +3,7 @@ package coaching.administrator.classes.Batch;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import coaching.administrator.classes.ClassTime.ClassTime;
@@ -43,9 +45,13 @@ public class Batch implements Serializable {
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;
 
-    @OneToMany(mappedBy = "batch", cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonManagedReference
+    // @OneToMany(mappedBy = "batch", cascade = javax.persistence.CascadeType.ALL,
+    // fetch = FetchType.EAGER, orphanRemoval = true)
     // @JoinColumn(name = "batch_id", referencedColumnName = "id")
-    private List<ClassTime> classTimes;
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "batch", cascade = { CascadeType.PERSIST,
+    // CascadeType.MERGE, CascadeType.DETACH,
+    // CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    // private List<ClassTime> classTimes;
 
 }

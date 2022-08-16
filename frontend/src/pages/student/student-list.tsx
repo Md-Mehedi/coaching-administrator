@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "../../links";
 import MyTable from "../../components/my-table";
 import { API } from "../../api";
-import { apiCatch } from "./../../tools/helper-functions";
+import {
+  apiCatch,
+  avatarForTable,
+  resolveURL,
+} from "./../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 
 export function StudentList() {
@@ -27,31 +31,39 @@ export function StudentList() {
     loading: true,
     students: [],
     studentsColumn: [
-      { title: "Roll no", field: "person.id", editable: false },
+      {
+        title: "Roll no",
+        field: "person.id",
+      },
       {
         title: "Photo",
-        field: "photo",
-        editable: false,
-        render: (item) => (
-          <Grid container justifyContent="center">
-            <Avatar
-              src={item.content}
-              alt=""
-              sx={{
-                border: 3,
-                height: 40,
-                width: 40,
-              }}
-            />
-          </Grid>
-        ),
+        field: "person.image",
+        render: (item) => avatarForTable(item.person.image),
       },
-      { title: "Name", field: "person.nickName", editable: false },
+      { title: "Name", field: "person.fullName" },
       {
-        title: "Fees",
-        field: "fees",
-        editable: false,
-        render: (item) => (item.fees != 0 ? item.fees : "FREE"),
+        title: "Joining date",
+        field: "person.joiningDate",
+      },
+      {
+        title: "Blood group",
+        field: "person.bloodGroup",
+      },
+      {
+        title: "Gender",
+        field: "person.gender",
+        render: (item) => (item.person.gender === "M" ? "Male" : "Female"),
+      },
+      {
+        title: "Religion",
+        field: "person.religion.name",
+      },
+      {
+        title: "Studying",
+        field: "person.currentQualification",
+        render: (item) => {
+          return `${item.person.currentQualification?.institution.name}`;
+        },
       },
     ],
   });

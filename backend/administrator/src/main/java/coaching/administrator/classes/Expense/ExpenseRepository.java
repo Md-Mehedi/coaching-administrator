@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
-    List<Expense> findByCoachingId(Integer coachingId);
+    List<Expense> findByCoachingIdOrderByExpenseDateDesc(Integer coachingId);
     
     @Query(value = " select * " +
             " from expense e " +
-            " where e.coaching_id = :coachingId  and to_char(e.expense_date, 'MM') = :month and to_char(e.expense_date, 'YYYY') = :year", nativeQuery = true)
+            " where e.coaching_id = :coachingId  and to_char(e.expense_date, 'MM') = :month and to_char(e.expense_date, 'YYYY') = :year order by e.expense_date", nativeQuery = true)
     List<Expense> findByCoachingIdMonthYear(@Param("coachingId") Integer coachingId,
                         @Param("month") String month,@Param("year") String year);
 
