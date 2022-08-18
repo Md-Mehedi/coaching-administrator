@@ -277,7 +277,18 @@ select * from enrolled_program ep  where ep.student_id = 20;
 
 UPDATE Person set email = 'asifahmedutsha@gmail.com' where email = 'asifahmedutsa@gmail.com';
 
-select name from occupation
+0
 
+delete from person where email like '%kaziwasif%' cascade
 
-select * from person
+<<<<<<< HEAD
+
+select * from coaching
+delete from room cascade
+=======
+select * from person;
+select * from admin;
+insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
+insert into admin (person_id) values(1);
+select * from student_batch
+>>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a

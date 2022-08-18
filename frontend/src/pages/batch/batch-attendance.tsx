@@ -1,34 +1,50 @@
-import React, { useState } from "react";
-import { Avatar, Grid, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Avatar, avatarClasses, Grid, TextField } from "@mui/material";
 import MyTable from "../../components/my-table";
 import DialogLayout from "../../layouts/dialog-layout";
 import { DatePicker } from "@mui/lab";
-import { Details } from "@mui/icons-material";
+import { Details, PanoramaFishEye } from "@mui/icons-material";
 import StudentInfo from "../student/student-info";
+import { API } from "../../api";
+import { avatarForTable } from "../../tools/helper-functions";
+import { Batch } from "../../classes/coaching";
+import { Teacher } from "../../classes/person-info";
+import DropDown from "../../components/dropdown";
 
-function AddAttendance() {
-  const [state, setState] = useState({
+function AddAttendance({ batch }: { batch: Batch }) {
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [state, setState] = useState<{
+    columns: any;
+    data: any;
+    detailOpen: boolean;
+    selectedStudent: any;
+    selectedTeacher: Teacher | null;
+    date: Date | null;
+  }>({
     columns: [
       {
         title: "Image",
         field: "image",
-        render: (rowData) => <Avatar />,
+        render: (rowData) => avatarForTable(rowData.student.person.image),
       },
-      { title: "Name", field: "name" },
+      { title: "Name", field: "student.person.fullName" },
     ],
-    data: [
-      { image: "", name: "Akib Nur" },
-      { image: "", name: "Akib Nur" },
-      { image: "", name: "Akib Nur" },
-      { image: "", name: "Akib Nur" },
-      { image: "", name: "Akib Nur" },
-      { image: "", name: "Akib Nur" },
-      { image: "", name: "Akib Nur" },
-    ],
+    data: [],
     date: null,
     detailOpen: false,
     selectedStudent: "",
+    selectedTeacher: null,
   });
+  useEffect(() => {
+    batch.id &&
+      API.batch.getAllStudentBatch(batch.id).then((response) => {
+        setState({ ...state, data: response.data });
+      });
+    API.teacher.getAll().then((response) => {
+      setTeachers(response.data);
+    });
+  }, []);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} sm={6}>
@@ -45,7 +61,16 @@ function AddAttendance() {
         />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Teacher" variant="outlined" />
+        <DropDown
+          options={teachers}
+          optionLabel="fullName"
+          getOptionLabel={(item) => item.person?.fullName || ""}
+          value={state.selectedTeacher}
+          onChange={(event, newTeacher) =>
+            setState({ ...state, selectedTeacher: newTeacher })
+          }
+          label={"Teacher"}
+        />
       </Grid>
       <Grid item xs={12}>
         <MyTable
@@ -58,7 +83,7 @@ function AddAttendance() {
           }}
           actions={[
             {
-              icon: () => <Details />,
+              icon: () => <PanoramaFishEye />,
               tooltip: "See Profile",
               position: "row",
               onClick: (event, rowData) =>
@@ -82,7 +107,7 @@ function AddAttendance() {
   );
 }
 
-export default function BatchAttendance() {
+export default function BatchAttendance({ batch }: { batch: Batch }) {
   const [state, setState] = useState({
     columns: [
       { title: "Date", field: "date" },
@@ -90,11 +115,11 @@ export default function BatchAttendance() {
       { title: "Attend Student Count", field: "attendStudentCount" },
     ],
     data: [
-      { date: "28-09-2022", teacher: "Ali", attendStudentCount: 20 },
-      { date: "28-09-2022", teacher: "Ali", attendStudentCount: 20 },
-      { date: "28-09-2022", teacher: "Ali", attendStudentCount: 20 },
-      { date: "28-09-2022", teacher: "Ali", attendStudentCount: 20 },
-      { date: "28-09-2022", teacher: "Ali", attendStudentCount: 20 },
+      { date: "03-10-2022", teacher: "Ali", attendStudentCount: 20 },
+      { date: "03-10-2022", teacher: "Mehedi", attendStudentCount: 30 },
+      { date: "01-10-2022", teacher: "Ali", attendStudentCount: 15 },
+      { date: "30-09-2022", teacher: "Ali", attendStudentCount: 20 },
+      { date: "28-09-2022", teacher: "Mehedi", attendStudentCount: 23 },
     ],
     addDialogOpen: false,
   });
@@ -113,7 +138,7 @@ export default function BatchAttendance() {
           open={state.addDialogOpen}
           onClose={(event) => setState({ ...state, addDialogOpen: false })}
         >
-          <AddAttendance />
+          <AddAttendance batch={batch} />
         </DialogLayout>
       </Grid>
     </Grid>

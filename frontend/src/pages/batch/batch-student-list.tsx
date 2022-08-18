@@ -24,7 +24,9 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
     selectedStudent: Student | null;
     columns: any;
     studentBatches: StudentBatch[];
+    reload: boolean;
   }>({
+    reload: false,
     open: false,
     selectedStudent: null,
     columns: [
@@ -36,7 +38,11 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
         render: (item) => avatarForTable(item.student.person.image),
       },
       { title: "Name", field: "student.person.fullName" },
-      { title: "Joining date", field: "startDate" },
+      {
+        title: "Joining date",
+        field: "startDate",
+        render: (rowData) => new Date(rowData.startDate).toDateString(),
+      },
       // {
       //   title: "Fees",
       //   field: "fees",
@@ -49,13 +55,11 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
   useEffect(() => {
     batch.program?.id &&
       API.program.getEnrolledStudents(batch.program?.id).then((response) => {
-        setStudents(response.data);
+        setStudents(response.data.object.map((item) => item.student));
       });
     batch.id &&
       API.batch.getAllStudentBatch(batch.id).then((res) => {
-        showSnackbar(enqueueSnackbar, res.data, () => {
-          setState({ ...state, studentBatches: res.data.object });
-        });
+        setState({ ...state, studentBatches: res.data });
         // Fetching enrolled student in program
         // batch.program?.id &&
         //   API.program
@@ -77,7 +81,7 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
         //       );
         //     });
       });
-  }, []);
+  }, [state.reload]);
   function handleAddClick(event) {
     if (batch.id && state.selectedStudent?.person?.id) {
       API.batch
@@ -96,6 +100,7 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
                 ]
               : state.studentBatches,
             open: false,
+            reload: !state.reload,
           });
         })
         .catch((r) => apiCatch(enqueueSnackbar, r));
@@ -119,9 +124,11 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
             setState({ ...state, open: true });
           }}
           editable={{
-            onRowDelete: onRowDelete(state.studentBatches, (newData) =>
-              setState({ ...state, studentBatches: newData })
-            ),
+            onRowDelete: onRowDelete(state.studentBatches, (oldData) => {
+              API.batch.deleteStudent(oldData.id).then((res) => {
+                showSnackbar(enqueueSnackbar, res.data);
+              });
+            }),
           }}
         />
         <DialogLayout

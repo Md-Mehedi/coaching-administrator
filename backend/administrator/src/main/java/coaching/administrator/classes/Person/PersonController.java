@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import coaching.administrator.classes.Global.Global;
-import net.bytebuddy.build.EntryPoint.Unvalidated;
 
 @RestController
 public class PersonController {

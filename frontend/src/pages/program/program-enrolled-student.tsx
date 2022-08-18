@@ -41,7 +41,11 @@ export default function ProgramEnrolledStudent({
         render: (item) => avatarForTable(item.student.person.image),
       },
       { title: "Name", field: "student.person.fullName" },
-      { title: "Enrolled Date", field: "enrolledDate" },
+      {
+        title: "Enrolled Date",
+        field: "enrolledDate",
+        render: (item) => new Date(item.enrolledDate).toLocaleDateString(),
+      },
     ],
     enrolledStudents: [],
     selectedStudent: null,

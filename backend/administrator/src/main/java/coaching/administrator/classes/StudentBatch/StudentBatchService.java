@@ -27,9 +27,8 @@ public class StudentBatchService {
         return repository.findAll();
     }
 
-    public String deleteStudentBatch(Integer id) {
+    public void deleteStudentBatch(Integer id) {
         repository.deleteById(id);
-        return "StudentBatch with id : " + id + " deleted";
     }
 
     // public List<StudentBatch> getStudentBatchByProgramIdStudentId(Integer

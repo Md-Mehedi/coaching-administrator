@@ -36,6 +36,8 @@ export function TeacherList() {
       {
         title: "Joining date",
         field: "person.joiningDate",
+        render: (rowData) =>
+          new Date(rowData.person.joiningDate).toLocaleString(),
       },
       {
         title: "Blood group",

@@ -1,7 +1,17 @@
+
 plugins {
 	id 'org.springframework.boot' version '2.7.2-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+}
+apply plugin: 'io.spring.dependency-management'
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+jar {
+    enabled = true
 }
 
 group = 'coaching'
@@ -23,8 +33,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'javax.xml.bind:jaxb-api:2.3.0'
 	implementation 'org.slf4j:slf4j-api:1.7.6'
-	implementation 'com.sun.xml.bind:jaxb-core:2.2.11'
-	implementation 'com.sun.xml.bind:jaxb-impl:2.2.11'
 	implementation 'javax.activation:activation:1.1.1'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	//implementation 'org.hibernate:hibernate-entitymanager:4.3.8.Final'
@@ -39,3 +47,72 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// springBoot {
+//     mainClassName = 'coaching.administrator.AdministratorApplication'
+// }
+
+jar {
+
+    enabled = true
+    baseName = 'coaching-admin'
+    version =  '0.0.1-SNAPSHOT'
+
+}
+bootJar {
+    classifier = 'boot'
+}
+
+
+// // Add these START
+// bootJar {
+//     archiveClassifier.set('boot')
+// }
+
+// jar {
+//     archiveClassifier.set('')
+// } 
+
+// task stage(type: Copy, dependsOn: [clean, build]) {
+//     from jar.archivePath
+//     into project.rootDir 
+//     rename {
+//         'app.jar'
+//     }
+// }
+
+// clean << {
+//     project.file('app.jar').delete()
+// }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
+// gradle.taskGraph.whenReady {
+//   taskGraph ->
+//     if (taskGraph.hasTask(stage)) {
+//       test.enabled = false
+//     }
+// }
+
+
+// clean << {
+//     project.file('app.jar').delete()
+// }
+
+// task stage(type: Copy, dependsOn: [clean, build]) {
+//     from jar.archivePath
+//     into project.rootDir
+//     rename {
+//         'app.jar'
+//     }
+// }
+// stage.mustRunAfter(clean)
+
+
+
+
+
+// clean << {
+//     project.file('app.jar').delete()
+
