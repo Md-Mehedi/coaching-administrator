@@ -262,7 +262,6 @@ select * from person;
 
 select * from occupation;
 select * from program
-select * from exam
 
 select * from student_batch sb, student s, person p, batch b, program pr where sb.student_id = s.person_id and s.person_id = p.id and sb.batch_id = b.id and b.program_id = pr.id and pr.id = 1 and s.person_id = 1;
 
@@ -282,6 +281,14 @@ UPDATE Person set email = 'asifahmedutsha@gmail.com' where email = 'asifahmeduts
 
 delete from person where email like '%kaziwasif%' cascade
 
+<<<<<<< HEAD
 
 select * from coaching
 delete from room cascade
+=======
+select * from person;
+select * from admin;
+insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
+insert into admin (person_id) values(1);
+select * from student_batch
+>>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a

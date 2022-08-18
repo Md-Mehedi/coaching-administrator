@@ -17,12 +17,12 @@ public class RoomService {
 
     public ObjectNode saveRoom(Room room) {
         repository.save(room);
-        return Global.createSuccessMessage("Subject save successfully");
+        return Global.createSuccessMessage("Room save successfully");
     }
 
     public ObjectNode updateRoom(Room room) {
         repository.save(room);
-        return Global.createSuccessMessage("Subject update successfully");
+        return Global.createSuccessMessage("Room update successfully");
     }
 
     public Room getRoomById(Integer id) {
@@ -39,7 +39,7 @@ public class RoomService {
 
     public ObjectNode deleteRoom(Integer id) {
         repository.deleteById(id);
-        return Global.createSuccessMessage("Subject delete successfully");
+        return Global.createSuccessMessage("Room delete successfully");
     }
 
 }

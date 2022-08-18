@@ -47,13 +47,19 @@ export default function AdminCoachingInput() {
       if (coachingVerifier.current() && adminVerifier.current()) {
         setState({ ...state, submitLoading: true });
         console.log("submitted admin", state.admin);
-        let adminImage = state.admin.person?.image;
-        state.admin.person = { ...state.admin.person, image: undefined };
-        let coachingImage = state.admin.person.coaching?.image;
-        state.admin.person.coaching = {
-          ...state.admin.person.coaching,
-          image: undefined,
-        };
+
+        let adminImage, coachingImage;
+        if (state.admin.person?.image?.name) {
+          adminImage = state.admin.person?.image;
+          state.admin.person = { ...state.admin.person, image: undefined };
+        }
+        if (state.admin.person?.coaching?.image?.name) {
+          coachingImage = state.admin.person?.coaching?.image;
+          state.admin.person.coaching = {
+            ...state.admin.person.coaching,
+            image: undefined,
+          };
+        }
         let formData = createFormData(state.admin, adminImage);
         formData.append("coachingImage", coachingImage || new Blob([]));
         API.admin

@@ -118,6 +118,7 @@ public class AdminService {
 
             // personService.savePerson(admin);
             System.out.println("Admin id : " + admin.getPerson().getId());
+
             // Person person = admin.getPerson();
             // person.setImage(adminImage.getBytes());
             // Coaching coaching = person.getCoaching();
@@ -125,6 +126,13 @@ public class AdminService {
             // admin.setPerson(person);
             admin.getPerson().setImage(adminImage.getBytes());
             admin.getPerson().getCoaching().setImage(coachingImage.getBytes());
+
+            Person person = admin.getPerson();
+            if (adminImage != null)
+                person.setImage(adminImage.getBytes());
+            Coaching coaching = person.getCoaching();
+            if (coachingImage != null)
+                coaching.setImage(coachingImage.getBytes());
             Admin newAdmin = saveAdmin(admin);
             return node
                     .put("success", true)

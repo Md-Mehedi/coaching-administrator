@@ -124,7 +124,7 @@ export default function MyTable<RowData extends object>(
   );
 }
 
-export function onRowDelete(data, setData, func = (newData) => {}) {
+export function onRowDelete(data, setData, func = (oldData) => {}) {
   return (oldData) =>
     new Promise((resolve, reject) => {
       setTimeout(() => {

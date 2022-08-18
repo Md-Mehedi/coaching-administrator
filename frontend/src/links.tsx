@@ -27,7 +27,7 @@ import { Navigate } from "react-router-dom";
 export var ADMIN_LINKS = {
   home: {
     path: "/dashboard/home",
-    element: <Navigate to={"/dashboard/program-list"} />,
+    element: <AdminHome />,
   },
   // Admin
   settings: { path: "/dashboard/setting", element: <Settings /> },

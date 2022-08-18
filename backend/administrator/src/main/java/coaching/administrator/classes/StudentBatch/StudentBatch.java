@@ -31,9 +31,7 @@ public class StudentBatch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate = new Date();
+    private Date startDate;
 
     // @Temporal(TemporalType.TIMESTAMP)
     // private Date endDate;

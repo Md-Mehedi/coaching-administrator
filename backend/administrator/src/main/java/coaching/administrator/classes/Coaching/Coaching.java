@@ -55,7 +55,8 @@ public class Coaching implements Serializable {
     @Column(name = "image")
     private byte[] image;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "coaching")
-    private Set<Room> rooms;
+    // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy =
+    // "coaching")
+    // private Set<Room> rooms;
 
 }
