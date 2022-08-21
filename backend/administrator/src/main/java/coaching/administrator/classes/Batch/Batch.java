@@ -48,10 +48,14 @@ public class Batch implements Serializable {
     // @OneToMany(mappedBy = "batch", cascade = javax.persistence.CascadeType.ALL,
     // fetch = FetchType.EAGER, orphanRemoval = true)
     // @JoinColumn(name = "batch_id", referencedColumnName = "id")
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "batch", cascade = { CascadeType.PERSIST,
-    // CascadeType.MERGE, CascadeType.DETACH,
-    // CascadeType.REFRESH }, fetch = FetchType.EAGER)
-    // private List<ClassTime> classTimes;
+    @JsonBackReference
+    @OneToMany(mappedBy = "batch", cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.DETACH,
+            CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    private List<ClassTime> classTimes;
+
+    public List<ClassTime> getClassTimes() {
+        return classTimes;
+    }
 
 }

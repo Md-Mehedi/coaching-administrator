@@ -28,15 +28,10 @@ public class ExamMark implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String exam_type;
-    private float mark;
+    private float examSubjectMark;
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_subject_id", referencedColumnName = "id")
     private ExamSubject examSubject;
-
-
-    // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy
-    // = "thana")
-    // private List<Thana> thanas;
 
 }
