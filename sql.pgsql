@@ -57,6 +57,8 @@ select coaching_id,count(*)
 from program 
 group by coaching_id
 
+select * from exam;
+
 
 -- expense in a ACCESSmonth
 select * from expense
@@ -122,7 +124,10 @@ delete from class_time;
 drop table class_time CASCADE;
 drop table todo CASCADE;
 
-s
+DROP TABLE EXAM CASCADE;
+DROP TABLE EXAM_SUBJECT CASCADE;
+DROP TABLE EXAM_MARK CASCADE;
+
 
 insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');

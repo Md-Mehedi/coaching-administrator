@@ -55,10 +55,10 @@ export default function ProgramInfo() {
   }, [id]);
 
   const tabs: TabLayoutContent[] = [
-    // {
-    //   title: "Exam",
-    //   element: <ProgramExam />,
-    // },
+    {
+      title: "Exam",
+      element: <ProgramExam />,
+    },
     {
       title: "Routine",
       element: <ProgramRoutine program={state.program} />,

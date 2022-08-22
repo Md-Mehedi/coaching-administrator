@@ -84,10 +84,10 @@ export default function StudentInfo() {
       title: "About",
       element: <About person={state.student.person} />,
     },
-    // {
-    //   title: "Exam",
-    //   element: <StudentExamList />,
-    // },
+    {
+      title: "Exam",
+      element: <StudentExamList />,
+    },
     // {
     //   title: "Batch",
     //   element: <StudentBatchDetails />,

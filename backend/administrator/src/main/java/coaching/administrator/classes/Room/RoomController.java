@@ -62,7 +62,7 @@ public class RoomController {
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-rooms")
     public List<Room> getRooms() {
-        return repository.findAllByCoachingId(JwtUtils.getCoachingId());
+        return repository.findByCoachingId(JwtUtils.getCoachingId());
     }
 
     // @GetMapping("/get-room-by-name/{name}")
