@@ -13,7 +13,7 @@ public interface TeacherPaymentRepository extends JpaRepository<TeacherPayment, 
             " where tp.teacher_id = :teacherId ", nativeQuery = true)
     List<TeacherPayment> findAllByTeacherId(@Param("teacherId") Integer teacherId);
 
-    // TeacherPayment findByFullName(String name);
+    // List<TeacherPayment> findAllByTeacherId(Integer teacherId);
 
     // TeacherPayment findByEmail(String email);
 }

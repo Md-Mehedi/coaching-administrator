@@ -35,6 +35,7 @@ public class Batch implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
     private Integer monthlyFees;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)

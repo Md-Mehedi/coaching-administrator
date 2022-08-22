@@ -2,17 +2,15 @@
 package coaching.administrator.classes.Teacher;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,10 +87,10 @@ public class TeacherController {
         return repository.findAllByCoaching(JwtUtils.getCoachingId());
     }
 
-    // @GetMapping("/get-teacher-by-full-name/{name}")
-    // public Teacher getTeacherByFullName(@PathVariable String name) {
-    // return service.getTeacherByFullName(name);
-    // }
+    @GetMapping("/get-teacher-count-by-coachingId/{coachingId}")
+    public List<Map<String, Object>> getTeacherCountByCoachingId(@PathVariable Integer coachingId) {
+        return repository.countByCoachingId(coachingId);
+    }
 
     // @GetMapping("/get-teacher-by-eamil/{email}")
     // public Teacher getTeacherByEmail(@PathVariable String email) {

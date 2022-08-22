@@ -3,6 +3,7 @@ package coaching.administrator.classes.Program;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,8 +64,13 @@ public class ProgramController {
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @GetMapping("/get-all-program")
-    public List<Program> getAllProgram() {
-        return repository.findByCoachingId(JwtUtils.getCoachingId());
+    public List<Program> getAllProgramByCoachingId() {
+        return repository.findAllByCoachingId(JwtUtils.getCoachingId());
+    }
+
+    @GetMapping("/get-progrm-count-by-coachingId/{coachingId}")
+    public List<Map<String, Object>> getProgramCountByCoachingId(@PathVariable Integer coachingId) {
+        return repository.countByCoachingId(coachingId);
     }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")

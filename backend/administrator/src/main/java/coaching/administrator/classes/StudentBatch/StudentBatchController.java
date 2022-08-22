@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -21,8 +21,6 @@ import coaching.administrator.classes.Batch.BatchService;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Student.Student;
 import coaching.administrator.classes.Student.StudentService;
-import coaching.administrator.classes.StudentBatchHistory.StudentBatchHistory;
-import coaching.administrator.classes.StudentBatchHistory.StudentBatchHistoryRepository;
 
 @RestController
 public class StudentBatchController {
@@ -33,12 +31,11 @@ public class StudentBatchController {
     @Autowired
     private StudentBatchRepository repository;
     @Autowired
+    private BatchRepository batchRepository;
+    @Autowired
     private BatchService batchService;
     @Autowired
     private StudentService studentService;
-
-    @Autowired
-    private StudentBatchHistoryRepository historyRepository;
 
     @PostMapping("/add-studentBatch/{batchId}/{studentId}")
     public ObjectNode addStudentBatch(@PathVariable Integer batchId, @PathVariable Integer studentId) {
@@ -95,5 +92,29 @@ public class StudentBatchController {
     // @PathVariable Integer studentId) {
     // return service.getStudentBatchByProgramIdStudentId(programId, studentId);
     // }
+    @PutMapping("/copy-student-batch")
+    public ObjectNode copyStudentBatch(@RequestParam Integer fromBatchId, @RequestParam Integer toBatchId) {
 
+        Batch fromBatch = batchRepository.findById(fromBatchId).orElse(null);
+        Batch toBatch = batchRepository.findById(toBatchId).orElse(null);
+        try {
+
+            List<StudentBatch> studentBatchList = repository.findAllByBatchId(fromBatchId);
+            for (StudentBatch studentBatch : studentBatchList) {
+                StudentBatch newStudentBatch = new StudentBatch();
+                Batch batch = new Batch();
+                batch.setId(toBatchId);
+                newStudentBatch.setBatch(batch);
+                newStudentBatch.setStudent(studentBatch.getStudent());
+                newStudentBatch.setStartDate(new Date());
+                repository.save(newStudentBatch);
+            }
+            return Global.createSuccessMessage(
+                    "All students copied from " + fromBatch.getName() + " to " + toBatch.getName() + " ");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Global.createErrorMessage("Something went wrong please try again !");
+        }
+
+    }
 }

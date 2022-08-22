@@ -31,6 +31,6 @@ public class TeacherPayment {
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private Batch batch;
 
-    private Integer amount;
+    private Integer amountPerDay;
 
 }

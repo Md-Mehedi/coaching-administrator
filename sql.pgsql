@@ -28,11 +28,51 @@ WHERE
     AND datname = 'dcet64lv7go83l'
     ;
 
+-- alternate only idle are deleted
+SELECT pg_terminate_backend(pid) FROM pg_stat_activity
+WHERE datname = 'dcet64lv7go83l'
+AND pid <> pg_backend_pid()
+AND state in ('idle');
+
+-- ilde connections are removed every 2 minutes
+alter system set idle_in_transaction_session_timeout='2min';
+
+-- see current connections
+SELECT * FROM pg_stat_activity where datname='dcet64lv7go83l';
+
 SELECT * from coaching;
+pg_stat_activity
+-- admin home page utility
+
+drop table monthly_fees cascade;
+
+-- batch count
+select count(*) count,p.coaching_id coachingId
+from batch b,program p
+where b.program_id = p.id and p.coaching_id = 5
+group by p.coaching_id
+
+-- program count
+select coaching_id,count(*)
+from program 
+group by coaching_id
 
 
+-- expense in a ACCESSmonth
+select * from expense
+where coaching_id = 5 AND
+EXTRACT(MONTH FROM expense_date) = 8
 
-select * from subject;
+-- total income in a month
+
+select sum(mf.amount) total,coaching_id
+from monthly_fees mf,batch b,program p,coaching c
+where mf.batch_id = b.id and b.program_id = p.id and p.coaching_id = c.id
+ and EXTRACT(MONTH FROM payment_date) = 8 and p.coaching = 5
+group by coaching_id
+
+drop table fees_history cascade;
+
 
 update person set nick_name='Ali' where id='4';
 update person set nick_name='Akbar' where id='5';
@@ -47,7 +87,7 @@ update institution set name='City College' where id=8
 
 
 
-
+select email from person
 
 
 ------------------- Mehedi ----------------------
@@ -281,14 +321,13 @@ UPDATE Person set email = 'asifahmedutsha@gmail.com' where email = 'asifahmeduts
 
 delete from person where email like '%kaziwasif%' cascade
 
-<<<<<<< HEAD
+
 
 select * from coaching
 delete from room cascade
-=======
+
 select * from person;
 select * from admin;
 insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
 insert into admin (person_id) values(1);
 select * from student_batch
->>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a

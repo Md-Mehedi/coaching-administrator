@@ -22,12 +22,12 @@ public class TeacherPaymentController {
     @Autowired
     private TeacherPaymentRepository repository;
 
-    @PostMapping("/add-TeacherPayment")
-    public TeacherPayment addTeacherPayment(@RequestBody TeacherPayment TeacherPayment) {
-        return repository.save(TeacherPayment);
+    @PostMapping("/add-teacher-payment")
+    public TeacherPayment addTeacherPayment(@RequestBody TeacherPayment teacherPayment) {
+        return repository.save(teacherPayment);
     }
 
-    @GetMapping("/get-TeacherPayment-by-id/{id}")
+    @GetMapping("/get-teacher-payment-by-id/{id}")
     public TeacherPayment getTeacherPaymentById(@PathVariable Integer id) {
         return repository.findById(id).orElse(null);
     }
@@ -38,12 +38,12 @@ public class TeacherPaymentController {
     // return "Hello Spring Boot";
     // }
 
-    @PutMapping("/update-TeacherPayment")
-    public TeacherPayment updateTeacherPayment(@RequestBody TeacherPayment TeacherPayment) {
-        return repository.save(TeacherPayment);
+    @PutMapping("/update-teacher-payment")
+    public TeacherPayment updateTeacherPayment(@RequestBody TeacherPayment teacherPayment) {
+        return repository.save(teacherPayment);
     }
 
-    @DeleteMapping("/delete-TeacherPayment-by-id/{id}")
+    @DeleteMapping("/delete-teacher-payment-by-id/{id}")
     public String deleteTeacherPayment(@PathVariable Integer id) {
         repository.deleteById(id);
         return "teacher payment with id " + id + " successfully deleted";
