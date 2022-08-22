@@ -111,4 +111,22 @@ public class BatchController {
             return Global.createErrorMessage("Not eligible to delete batch");
         }
     }
+
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
+    @GetMapping("/get-all-classTime-by-batchId/{id}")
+    public ObjectNode getClassTimeByBatchId(@PathVariable Integer id) {
+        // List<ClassTime> list = repository.findByBatchId(id);
+        // Global.colorPrint(list.get(0).getStartDateTime());
+        Batch batch = service.getBatchById(id);
+        if (batch == null) {
+            return Global.createErrorMessage("Batch not found");
+        }
+
+        if (batch.getProgram().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            return Global.createSuccessMessage("Class Time List Found")
+                    .putPOJO("object", batch.getClassTimes());
+        } else {
+            return Global.createErrorMessage("Not elgible to fetch Class Time List");
+        }
+    }
 }

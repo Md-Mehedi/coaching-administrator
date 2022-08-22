@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import coaching.administrator.classes.Exam.Exam;
 import coaching.administrator.classes.Exam.QualificationExam;
 import coaching.administrator.classes.Subject.Subject;
 import lombok.AllArgsConstructor;
@@ -32,14 +33,10 @@ public class ExamSubject implements Serializable {
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_id", referencedColumnName = "id")
-    private QualificationExam exam;
+    private Exam exam;
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;
-
-    // @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, mappedBy
-    // = "thana")
-    // private List<Thana> thanas;
 
 }
