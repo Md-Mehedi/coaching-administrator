@@ -134,7 +134,10 @@ export function LoginBox({ signOut }: { signOut: boolean }) {
             });
           }
         })
-        .catch((r) => apiCatch(enqueueSnackbar, r));
+        .catch((r) => {
+          setState({ ...state, loading: false });
+          apiCatch(enqueueSnackbar, r);
+        });
     }
   }
   return (

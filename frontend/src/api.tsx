@@ -190,4 +190,7 @@ export const API = {
     filterMonthYear: (month: string, year: number) =>
       get("/get-expense-by-coaching-id-month-year/" + month + "/" + year),
   },
+  csvImport: {
+    students: (formData: FormData) => post("/import-students", formData),
+  },
 };

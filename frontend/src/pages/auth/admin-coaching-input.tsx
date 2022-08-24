@@ -7,7 +7,10 @@ import AdminInfoInput from "./../settings/admin-info-input";
 import { Admin } from "./../../classes/person-info";
 import { Coaching } from "../../classes/coaching";
 import { API } from "../../api";
-import { createFormData, showSnackbar } from "../../tools/helper-functions";
+import {
+  createFormDataWithObjectAndFile,
+  showSnackbar,
+} from "../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import { ADMIN_LINKS } from "../../links";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +63,7 @@ export default function AdminCoachingInput() {
             image: undefined,
           };
         }
-        let formData = createFormData(state.admin, adminImage);
+        let formData = createFormDataWithObjectAndFile(state.admin, adminImage);
         formData.append("coachingImage", coachingImage || new Blob([]));
         API.admin
           .addAdmin(formData)

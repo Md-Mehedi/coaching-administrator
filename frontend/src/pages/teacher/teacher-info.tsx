@@ -90,10 +90,10 @@ export default function TeacherInfo() {
       title: "Routine",
       element: <TeacherRoutine teacher={state.teacher} />,
     },
-    // {
-    //   title: "Withdrawn History",
-    //   element: <WithdrawnHistory />,
-    // },
+    {
+      title: "Withdrawn History",
+      element: <WithdrawnHistory />,
+    },
 
     // {
     //   title: "Batch",

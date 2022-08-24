@@ -285,3 +285,17 @@ select * from admin;
 insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
 insert into admin (person_id) values(1);
 select * from student_batch
+update person set image=NULL where id = 5;
+update coaching set image=NULL where id = 5;
+
+select * from person where id = 6;
+select * from coaching where id = 6
+
+select * from contact_type;
+insert into contact_type (type) values('PHONE');
+update contact_type set name = 'Personal' where name = 'Own'
+select * from occupation;
+select * from person p, student s where p.id = s.person_id;
+select * from occupation where name = 'Businessman'
+delete from occupation where name is null
+select * from person;

@@ -188,7 +188,7 @@ export function add(date: Date, num: number = 1) {
   return newDate;
 }
 
-export function createFormData(object: any, file?: File) {
+export function createFormDataWithObjectAndFile(object: any, file?: File) {
   const formData = new FormData();
   formData.append(
     "object",
@@ -197,6 +197,16 @@ export function createFormData(object: any, file?: File) {
     })
   );
   formData.append("file", file || new Blob([]));
+  return formData;
+}
+export function createMultipartFromObject(object: any) {
+  const formData = new FormData();
+  formData.append(
+    "object",
+    new Blob([JSON.stringify(object)], {
+      type: "application/json",
+    })
+  );
   return formData;
 }
 

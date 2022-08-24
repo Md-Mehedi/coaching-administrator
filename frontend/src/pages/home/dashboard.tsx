@@ -72,12 +72,12 @@ const dashboard_pages: DrawerLayoutPage[] = [
     link: ADMIN_LINKS.expenseList.path,
     children: [],
   },
-  // {
-  //   icon: <CurrencyExchange />,
-  //   title: "Dues",
-  //   link: ADMIN_LINKS.duesList.path,
-  //   children: [],
-  // },
+  {
+    icon: <CurrencyExchange />,
+    title: "Dues",
+    link: ADMIN_LINKS.duesList.path,
+    children: [],
+  },
   {
     icon: DashboardIcon("settings.png"),
     title: "Setting",
