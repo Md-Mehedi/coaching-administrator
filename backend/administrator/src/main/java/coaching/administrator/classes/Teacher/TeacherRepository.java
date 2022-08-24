@@ -9,17 +9,17 @@ import org.springframework.data.repository.query.Param;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
 
-    @Query(value = " select *    "
-            + " from teacher t, person p " +
-            " where t.person_id = p.id and p.coaching_id = :coachingId ", nativeQuery = true)
-    List<Teacher> findAllByCoaching(@Param("coachingId") Integer coachingId);
+        @Query(value = " select *    "
+                        + " from teacher t, person p " +
+                        " where t.person_id = p.id and p.coaching_id = :coachingId ", nativeQuery = true)
+        List<Teacher> findAllByCoaching(@Param("coachingId") Integer coachingId);
 
-    @Query(value = " select count(*) count,p.coaching_id coachingId    "
-            + " from teacher t, person p " +
-            " where t.person_id = p.id and p.coaching_id = :coachingId ", nativeQuery = true)
-    List<Map<String, Object>> countByCoachingId(@Param("coachingId") Integer coachingId);
+        @Query(value = " select count(*) teacherCount,p.coaching_id coachingId    "
+                        + " from teacher t, person p " +
+                        " where t.person_id = p.id and p.coaching_id = :coachingId ", nativeQuery = true)
+        Map<String, Object> countByCoachingId(@Param("coachingId") Integer coachingId);
 
-    // Teacher findByFullName(String name);
+        // Teacher findByFullName(String name);
 
-    // Teacher findByEmail(String email);
+        // Teacher findByEmail(String email);
 }

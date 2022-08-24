@@ -15,9 +15,9 @@ public interface ProgramRepository extends JpaRepository<Program, Integer> {
 
     List<Program> findAllByCoachingId(Integer id);
 
-    @Query(value = " select count(*) count,p.coaching_id coachingId    "
+    @Query(value = " select count(*) programCount,p.coaching_id coachingId    "
             + " from program p " +
             " where  p.coaching_id = :coachingId ", nativeQuery = true)
-    List<Map<String, Object>> countByCoachingId(@Param("coachingId") Integer coachingId);
+    Map<String, Object> countByCoachingId(@Param("coachingId") Integer coachingId);
 
 }

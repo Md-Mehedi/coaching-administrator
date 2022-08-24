@@ -67,14 +67,35 @@ EXTRACT(MONTH FROM expense_date) = 8
 
 -- total income in a month
 
-select sum(mf.amount) total,coaching_id
+select sum(mf.amount) total,EXTRACT(MONTH FROM payment_date) as month
 from monthly_fees mf,batch b,program p,coaching c
 where mf.batch_id = b.id and b.program_id = p.id and p.coaching_id = c.id
- and EXTRACT(MONTH FROM payment_date) = 8 and p.coaching = 5
-group by coaching_id
+ and EXTRACT(year FROM payment_date) = 2022 and p.coaching_id = 5
+group by EXTRACT(MONTH FROM payment_date) 
+-- monthly fees by coaching id
+select ms.id,ms.amount,ms.due_Date,ms.payment_date,ms.batch_id,ms.student_id
+from monthly_fees ms,student s,person p 
+where ms.student_id = s.person_id and s.person_id = p.id and p.coaching_id = 5 
+
+-- find batch income by month_date
+select sum(mf.amount) total,mf.batch_id batchId 
+ from monthly_fees mf 
+ where mf.batch_id = 3
+and mf.payment_date is not null and EXTRACT(MONTH FROM payment_date) = 8 
+group by mf.batch_id
+
+
+-- find income by program
+
+select sum(mf.amount) total,p.id programId
+from monthly_fees mf,batch b, program p 
+where mf.batch_id = b.id and b.program_id = p.id
+ and p.id = 1 and mf.payment_date is not null and EXTRACT(MONTH FROM payment_date) = 8 
+group by p.id
 
 drop table fees_history cascade;
 
+select * from monthly_fees
 
 update person set nick_name='Ali' where id='4';
 update person set nick_name='Akbar' where id='5';

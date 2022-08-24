@@ -13,10 +13,10 @@ public interface BatchRepository extends JpaRepository<Batch, Integer> {
 
     List<Batch> findByProgramId(Integer programId);
 
-    @Query(value = " select count(*) count,p.coaching_id coachingId " +
+    @Query(value = " select count(*) batchCount,p.coaching_id coachingId " +
             " from batch b, program p " +
             " where b.program_id = p.id and p.coaching_id = 5 " +
             " group by p.coaching_id ", nativeQuery = true)
-    List<Map<String, Object>> countByCoachingId(@Param("coachingId") Integer coachingId);
+    Map<String, Object> countByCoachingId(@Param("coachingId") Integer coachingId);
 
 }

@@ -89,6 +89,9 @@ public class AdminController {
 
     }
 
+    @GetMapping("/get-card-info")
+    public 
+
     // @PreAuthorize("hasRole('COACHING_ADMIN')")
     // @GetMapping("/is-allowed-to-proceed")
     // public ObjectNode isAllowedToProceed() {

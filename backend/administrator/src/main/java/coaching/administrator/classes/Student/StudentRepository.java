@@ -19,10 +19,10 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
                         " where st.person_id = p.id and p.coaching_id = :coachingId ", nativeQuery = true)
         List<Object> findAllStudentMinimalByCoachingId(@Param("coachingId") Integer coachingId);
 
-        @Query(value = " select count(*) count,p.coaching_id coachingId    "
+        @Query(value = " select count(*) studentCount,p.coaching_id coachingId    "
                         + " from student t, person p " +
                         " where t.person_id = p.id and p.coaching_id = :coachingId ", nativeQuery = true)
-        List<Map<String, Object>> countByCoachingId(@Param("coachingId") Integer coachingId);
+        Map<String, Object> countByCoachingId(@Param("coachingId") Integer coachingId);
 
         // Student findByFullName(String name);
 
