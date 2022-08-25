@@ -17,6 +17,8 @@ import coaching.administrator.classes.ContactType.ContactTypeRepository;
 import coaching.administrator.classes.Department.Department;
 import coaching.administrator.classes.Department.DepartmentRepository;
 import coaching.administrator.classes.EduQualification.EduQualification;
+import coaching.administrator.classes.EnrolledProgram.EnrolledProgram;
+import coaching.administrator.classes.EnrolledProgram.EnrolledProgramRepository;
 import coaching.administrator.classes.Exam.QualificationExam;
 import coaching.administrator.classes.Exam.QualificationExamRepository;
 import coaching.administrator.classes.Global.Global;
@@ -31,6 +33,10 @@ import coaching.administrator.classes.Religion.ReligionRepository;
 import coaching.administrator.classes.Security.jwt.JwtUtils;
 import coaching.administrator.classes.Student.Student;
 import coaching.administrator.classes.Student.StudentRepository;
+import coaching.administrator.classes.StudentBatch.StudentBatch;
+import coaching.administrator.classes.StudentBatch.StudentBatchRepository;
+import coaching.administrator.classes.Teacher.Teacher;
+import coaching.administrator.classes.Teacher.TeacherRepository;
 import coaching.administrator.classes.Upazila.Upazila;
 import coaching.administrator.classes.Upazila.UpazilaRepository;
 
@@ -61,6 +67,11 @@ public class CSVServices {
   @Autowired
   private StudentRepository studentRepository;
 
+  @Autowired
+  private TeacherRepository teacherRepository;
+
+  private ArrayList<String> errorList;
+
   public enum ERROR {
     DATE_OF_BIRTH("Date of birth is not valid"),
     PRESENT_DIVISION("Present Address : Division is not valid"),
@@ -79,22 +90,21 @@ public class CSVServices {
     }
   }
 
-  private void addError(List<String> str, String error) {
-    str.add(error);
+  private void addError(String error) {
+    errorList.add(error);
   }
 
-  public List<String> addStudent(HashMap<String, String> object) {
+  public Person addPerson(HashMap<String, String> object) {
     for (String key : object.keySet()) {
       System.out.println(key + " : " + object.get(key));
 
     }
-    List<String> errorList = new ArrayList<>();
     // return errorList;
     Person person = new Person();
     person.setFullName(object.get("Full name"));
     person.setNickName(object.get("Nickname"));
     if (!object.get("Gender").equals("M") && object.get("Gender").equals("F")) {
-      addError(errorList, "Gender should be 'M' or 'F'");
+      addError("Gender should be 'M' or 'F'");
     } else {
       person.setGender(object.get("Gender"));
     }
@@ -106,7 +116,7 @@ public class CSVServices {
         Date date = simpleDateFormat.parse(object.get("Date of birth(dd-mm-yyyy)"));
         person.setDateOfBirth(date);
       } catch (Exception e) {
-        addError(errorList, "Date of birth is not in valid format");
+        addError("Date of birth is not in valid format");
       }
     }
     person.setBloodGroup(object.get("Blood group"));
@@ -124,7 +134,7 @@ public class CSVServices {
     if (object.get("Father's Occupation") != "") {
       Occupation occupation = occupationRepository.findByName(object.get("Father's Occupation"));
       if (occupation == null) {
-        addError(errorList, "Father's occupation is not found in database");
+        addError("Father's occupation is not found in database");
       } else {
         person.setFatherOccupation(occupation);
       }
@@ -134,7 +144,7 @@ public class CSVServices {
     if (object.get("Mother's Occupation") != "") {
       Occupation occupation = occupationRepository.findByName(object.get("Mother's Occupation"));
       if (occupation == null) {
-        addError(errorList, "Mother's occupation is not found in database");
+        addError("Mother's occupation is not found in database");
       } else {
         person.setMotherOccupation(occupation);
       }
@@ -145,7 +155,7 @@ public class CSVServices {
     if (object.get("Present Address (Upazila)") != "") {
       Upazila presentUpazila = upazilaRepository.findByName(object.get("Present Address (Upazila)"));
       if (presentUpazila == null) {
-        addError(errorList, "Present Address : Upazila is not valid");
+        addError("Present Address : Upazila is not valid");
       }
       present.setUpazila(presentUpazila);
     }
@@ -156,7 +166,7 @@ public class CSVServices {
     if (object.get("Permanent Address (Upazila)") != "") {
       Upazila permanentUpazila = upazilaRepository.findByName(object.get("Permanent Address (Upazila)"));
       if (permanentUpazila == null) {
-        addError(errorList, "Permanent Address : Upazila is not valid");
+        addError("Permanent Address : Upazila is not valid");
       }
       permanent.setUpazila(permanentUpazila);
     }
@@ -169,31 +179,31 @@ public class CSVServices {
       QualificationExam currentExam = qualificationExamRepository
           .findByName(object.get("Currently studying (Exam name)"));
       if (currentExam == null) {
-        addError(errorList, "Currently studying (Exam name) is not valid");
+        addError("Currently studying (Exam name) is not valid");
       }
       current.setQualificationExam(currentExam);
     } else {
-      addError(errorList, "Currently studying (Exam name) is not found");
+      addError("Currently studying (Exam name) is not found");
     }
     if (object.get("Currently studying (Institution name)") != "") {
       Institution currentInstitution = institutionRepository
           .findByName(object.get("Currently studying (Institution name)"));
       if (currentInstitution == null) {
-        addError(errorList, "Currently studying (Institution name) is not valid");
+        addError("Currently studying (Institution name) is not valid");
       }
       current.setInstitution(currentInstitution);
     } else {
-      addError(errorList, "Currently studying (Institution) is not found");
+      addError("Currently studying (Institution) is not found");
     }
     if (object.get("Currently studying (Group/Department name)") != "") {
       Department currentDepartment = departmentRepository
           .findByName(object.get("Currently studying (Group/Department name)"));
       if (currentDepartment == null) {
-        addError(errorList, "Currently studying (Group/Department name) is not valid");
+        addError("Currently studying (Group/Department name) is not valid");
       }
       current.setDepartment(currentDepartment);
     } else {
-      addError(errorList, "Currently studying (Group/Department) is not found");
+      addError("Currently studying (Group/Department) is not found");
     }
     person.setCurrentQualification(current);
 
@@ -206,19 +216,19 @@ public class CSVServices {
       Institution jscInstitution = institutionRepository
           .findByName(object.get("JSC Institution name"));
       if (jscInstitution == null) {
-        addError(errorList, "JSC Institution name is not valid");
+        addError("JSC Institution name is not valid");
       }
       jsc.setInstitution(jscInstitution);
       Department jscDepartment = departmentRepository
           .findByName(object.get("JSC Group name"));
       if (jscDepartment == null) {
-        addError(errorList, "JSC Group name is not valid");
+        addError("JSC Group name is not valid");
       }
       jsc.setDepartment(jscDepartment);
       try {
         jsc.setPassingYear(Integer.parseInt(object.get("JSC Passing year")));
       } catch (Exception e) {
-        addError(errorList, "JSC Passing year is not valid");
+        addError("JSC Passing year is not valid");
       }
       jsc.setResult((object.get("JSC Result")));
       qualifications.add(jsc);
@@ -232,19 +242,19 @@ public class CSVServices {
       Institution sscInstitution = institutionRepository
           .findByName(object.get("SSC Institution name"));
       if (sscInstitution == null) {
-        addError(errorList, "SSC Institution name is not valid");
+        addError("SSC Institution name is not valid");
       }
       ssc.setInstitution(sscInstitution);
       Department sscDepartment = departmentRepository
           .findByName(object.get("SSC Group name"));
       if (sscDepartment == null) {
-        addError(errorList, "SSC Group name is not valid");
+        addError("SSC Group name is not valid");
       }
       ssc.setDepartment(sscDepartment);
       try {
         ssc.setPassingYear(Integer.parseInt(object.get("SSC Passing year")));
       } catch (Exception e) {
-        addError(errorList, "SSC Passing year is not valid");
+        addError("SSC Passing year is not valid");
       }
       ssc.setResult((object.get("SSC Result")));
       qualifications.add(ssc);
@@ -258,19 +268,19 @@ public class CSVServices {
       Institution hscInstitution = institutionRepository
           .findByName(object.get("HSC Institution name"));
       if (hscInstitution == null) {
-        addError(errorList, "HSC Institution name is not valid");
+        addError("HSC Institution name is not valid");
       }
       hsc.setInstitution(hscInstitution);
       Department hscDepartment = departmentRepository
           .findByName(object.get("HSC Group name"));
       if (hscDepartment == null) {
-        addError(errorList, "HSC Group name is not valid");
+        addError("HSC Group name is not valid");
       }
       hsc.setDepartment(hscDepartment);
       try {
         hsc.setPassingYear(Integer.parseInt(object.get("HSC Passing year")));
       } catch (Exception e) {
-        addError(errorList, "HSC Passing year is not valid");
+        addError("HSC Passing year is not valid");
       }
       hsc.setResult((object.get("HSC Result")));
       qualifications.add(hsc);
@@ -293,9 +303,13 @@ public class CSVServices {
     contacts.add(mother);
     person.setContacts(contacts);
 
-    Student student = new Student();
-    student.setPerson(person);
+    return person;
+  }
 
+  public List<String> addStudent(HashMap<String, String> object) {
+    errorList = new ArrayList<>();
+    Student student = new Student();
+    student.setPerson(addPerson(object));
     if (errorList.size() == 0) {
       Global.colorPrint(student);
       Coaching coaching = new Coaching();
@@ -303,7 +317,63 @@ public class CSVServices {
       student.getPerson().setCoaching(coaching);
       student.getPerson().setJoiningDate(new Date());
       studentRepository.save(student);
-      studentRepository.flush();
+    }
+    return errorList;
+  }
+
+  public List<String> addTeacher(HashMap<String, String> object) {
+    System.out.println("\n\n\n\n\n\nadding teacher\n\n\n\n\n\n\n");
+    errorList = new ArrayList<>();
+    System.out.println();
+    Teacher teacher = new Teacher();
+    teacher.setPerson(addPerson(object));
+    if (errorList.size() == 0) {
+      Global.colorPrint(teacher);
+      Coaching coaching = new Coaching();
+      coaching.setId(JwtUtils.getCoachingId());
+      teacher.getPerson().setCoaching(coaching);
+      teacher.getPerson().setJoiningDate(new Date());
+      teacherRepository.save(teacher);
+    }
+    return errorList;
+  }
+
+  @Autowired
+  EnrolledProgramRepository enrolledProgramRepository;
+
+  public List<String> addStudentToProgram(Integer programId, HashMap<String, String> object) {
+    errorList = new ArrayList<>();
+    Integer studentId = null;
+    try {
+      studentId = Integer.parseInt(object.get("Student ID"));
+    } catch (Exception e) {
+      addError("Student ID is not valid");
+    }
+    EnrolledProgram exist = enrolledProgramRepository.findByProgramIdStudentId(programId, studentId);
+    if (exist != null) {
+      addError("Student already enrolled to this program");
+    } else {
+      enrolledProgramRepository.add(programId, studentId);
+    }
+    return errorList;
+  }
+
+  @Autowired
+  StudentBatchRepository studentBatchRepository;
+
+  public List<String> addStudentToBatch(Integer batchId, HashMap<String, String> object) {
+    errorList = new ArrayList<>();
+    Integer studentId = null;
+    try {
+      studentId = Integer.parseInt(object.get("Student ID"));
+    } catch (Exception e) {
+      addError("Student ID is not valid");
+    }
+    StudentBatch exist = studentBatchRepository.findByBatchIdStudentId(batchId, studentId);
+    if (exist != null) {
+      addError("Student already enrolled to this batch");
+    } else {
+      studentBatchRepository.add(batchId, studentId);
     }
     return errorList;
   }

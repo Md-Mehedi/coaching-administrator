@@ -299,3 +299,5 @@ select * from person p, student s where p.id = s.person_id;
 select * from occupation where name = 'Businessman'
 delete from occupation where name is null
 select * from person;
+insert into enrolled_program (program_id, student_id, enrolled_date) values(5, 18, now())
+select * from enrolled_program where program_id = 2;

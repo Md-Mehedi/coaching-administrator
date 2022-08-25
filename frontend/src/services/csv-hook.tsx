@@ -6,6 +6,7 @@ import CSVDownloader from "../tools/csv/csv-downloader";
 import { csvTemplate, parseCSV } from "../tools/csv/csv-template";
 import CSVUploader from "../tools/csv/csv-uploader";
 import {
+  apiCatch,
   createMultipartFromObject,
   showSnackbar,
 } from "../tools/helper-functions";
@@ -64,36 +65,43 @@ export default function CSVProvider({ children }) {
   }
   function uploadData(event) {
     if (state.importData.length == 0) {
-      enqueueSnackbar("Please select a file", { variant: "error" });
+      enqueueSnackbar(
+        "Please select a file. Length: " + state.importData.length,
+        { variant: "error" }
+      );
       return;
     }
     let object = parseCSV(state.templateData, state.importData);
     console.log(object);
     if (state.api) {
       let formData = createMultipartFromObject(object);
-      state.api(formData).then((response) => {
-        console.log("response", response);
-        let errorList = response.data;
-        console.log("error list", errorList);
-        if (state.importData.length > Object.keys(errorList).length) {
-          enqueueSnackbar(
-            `${
-              state.importData.length - Object.keys(errorList).length - 1
-            } import uploaded successfully`,
-            { variant: "success" }
-          );
-        }
-        if (Object.keys(errorList).length > 0) {
-          enqueueSnackbar(
-            `${
-              Object.keys(errorList).length
-            } import failed. Download the error list`,
-            { variant: "error" }
-          );
-          prepareCSVforErrorEntries(errorList);
-        }
-      });
-      setState({ ...state, dialogOpen: false });
+      console.log("form data", formData);
+      state
+        .api(formData)
+        .then((response) => {
+          console.log("response", response);
+          let errorList = response.data;
+          console.log("error list", errorList);
+          if (state.importData.length > Object.keys(errorList).length - 1) {
+            enqueueSnackbar(
+              `${
+                state.importData.length - Object.keys(errorList).length - 1
+              } row uploaded successfully. Please reload the page to see the changes`,
+              { variant: "success" }
+            );
+          }
+          if (Object.keys(errorList).length > 0) {
+            enqueueSnackbar(
+              `${
+                Object.keys(errorList).length
+              } import failed. Download the error list`,
+              { variant: "error" }
+            );
+            prepareCSVforErrorEntries(errorList);
+          }
+        })
+        .catch((res) => apiCatch(enqueueSnackbar, res));
+      setState({ ...state, dialogOpen: false, errorList: [] });
       enqueueSnackbar(
         "Data uploaded successfully. Please wait for confirmation.",
         { variant: "success" }
@@ -125,7 +133,7 @@ export default function CSVProvider({ children }) {
               <CSVDownloader
                 buttonLabel="Download Template"
                 data={state.templateData ? [state.templateData] : []}
-                fileName={state.templateFileName || "template.csv"}
+                fileName={state.templateFileName || "template"}
               />
             </Button>
           </Grid>
@@ -138,7 +146,10 @@ export default function CSVProvider({ children }) {
                 data = [];
                 console.log(trimmedData);
                 for (let i = 0; i < trimmedData.length; i++) {
-                  if (trimmedData[i].length > 1) {
+                  if (
+                    trimmedData[i].length > 1 ||
+                    (trimmedData[i].length == 1 && trimmedData[i][0] != "")
+                  ) {
                     data.push(trimmedData[i]);
                   }
                 }

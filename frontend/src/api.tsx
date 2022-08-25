@@ -170,6 +170,8 @@ export const API = {
           "/" +
           studentId
       ),
+    importFromAnotherBatch: (batchId: number, anotherBatchId: number) =>
+      post("/import-from-another-batch/" + batchId + "/" + anotherBatchId, {}),
   },
   classTime: {
     add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
@@ -192,5 +194,10 @@ export const API = {
   },
   csvImport: {
     students: (formData: FormData) => post("/import-students", formData),
+    teachers: (formData: FormData) => post("/import-teachers", formData),
+    enrolledProgram: (programId: number, formData: FormData) =>
+      post("/import-program-enrollment/" + programId, formData),
+    enrolledBatch: (batchId: number, formData: FormData) =>
+      post("/import-batch-enrollment/" + batchId, formData),
   },
 };

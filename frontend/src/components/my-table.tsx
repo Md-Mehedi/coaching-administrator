@@ -41,6 +41,7 @@ export interface MyTableProps<RowData extends object>
   onImportCSV?: (data: string[][]) => void;
   errorCSV?: string[][];
   importAPI?: (data) => void;
+  toolbarButtons?: JSX.Element[] | JSX.Element;
 }
 
 export default function MyTable<RowData extends object>(
@@ -51,6 +52,7 @@ export default function MyTable<RowData extends object>(
     onAddButtonClick,
     csvTemplate,
     csvTemplateFileName,
+    toolbarButtons,
     ...others
   } = props;
   const { openCSVImportDialog } = useCSV(
@@ -101,6 +103,7 @@ export default function MyTable<RowData extends object>(
                     sx={{ ...props.style, width: "100%" }}
                   />
                 </Grid>
+                <Grid item>{toolbarButtons}</Grid>
                 {csvTemplate && (
                   <>
                     <Grid item>

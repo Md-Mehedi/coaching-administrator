@@ -1,4 +1,4 @@
-import { Grid, Avatar } from "@mui/material";
+import { Grid, Avatar, Button } from "@mui/material";
 import MaterialTable from "material-table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,20 +14,26 @@ import { StudentBatch } from "./../../classes/coaching";
 import { useSnackbar } from "notistack";
 import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 import { avatarForTable } from "./../../tools/helper-functions";
+import { csvTemplate } from "./../../tools/csv/csv-template";
+import DropDown from "../../components/dropdown";
 
 export default function BatchStudents({ batch }: { batch: Batch }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [students, setStudents] = useState<Student[]>([]);
+  const [batches, setBatches] = useState<Batch[]>([]);
   const [state, setState] = useState<{
     open: boolean;
+    importFromAnotherBatchOpen: boolean;
     selectedStudent: Student | null;
     columns: any;
     studentBatches: StudentBatch[];
     reload: boolean;
+    selectedBatch: Batch | null;
   }>({
     reload: false,
     open: false,
+    importFromAnotherBatchOpen: false,
     selectedStudent: null,
     columns: [
       { title: "ID", field: "student.person.id" },
@@ -51,6 +57,7 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
       // },
     ],
     studentBatches: [],
+    selectedBatch: null,
   });
   useEffect(() => {
     batch.program?.id &&
@@ -59,28 +66,35 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
       });
     batch.id &&
       API.batch.getAllStudentBatch(batch.id).then((res) => {
-        setState({ ...state, studentBatches: res.data });
-        // Fetching enrolled student in program
-        // batch.program?.id &&
-        //   API.program
-        //     .getEnrolledStudents(batch.program?.id)
-        //     .then((response) => {
-        //       let studentBatch: StudentBatch[] = response.data;
-        //       let enrolledInProgram: Student[] = res.data;
-        //       setStudents(
-        //         enrolledInProgram.filter((student) => {
-        //           let found = false;
-        //           studentBatch.map((item) => {
-        //             if (item.student?.person?.id == student.person?.id) {
-        //               found = true;
-        //               return;
-        //             }
-        //           });
-        //           return !found;
-        //         })
-        //       );
-        //     });
+        console.log(res.data);
+        setState({ ...state, studentBatches: res.data.object });
       });
+    batch.program?.id &&
+      API.batch.getAll(batch.program?.id).then((res) => {
+        console.log("batches loaded", res.data);
+        setBatches(res.data.object.filter((item) => item.id != batch.id));
+      });
+
+    // Fetching enrolled student in program
+    // batch.program?.id &&
+    //   API.program
+    //     .getEnrolledStudents(batch.program?.id)
+    //     .then((response) => {
+    //       let studentBatch: StudentBatch[] = response.data;
+    //       let enrolledInProgram: Student[] = res.data;
+    //       setStudents(
+    //         enrolledInProgram.filter((student) => {
+    //           let found = false;
+    //           studentBatch.map((item) => {
+    //             if (item.student?.person?.id == student.person?.id) {
+    //               found = true;
+    //               return;
+    //             }
+    //           });
+    //           return !found;
+    //         })
+    //       );
+    //     });
   }, [state.reload]);
   function handleAddClick(event) {
     if (batch.id && state.selectedStudent?.person?.id) {
@@ -106,6 +120,28 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
         .catch((r) => apiCatch(enqueueSnackbar, r));
     }
   }
+  function handleImportFromAnotherBatch() {
+    if (batch.id && state.selectedBatch?.id) {
+      setState({ ...state, importFromAnotherBatchOpen: false });
+      enqueueSnackbar("Importing students from another batch...", {
+        variant: "info",
+      });
+      API.batch
+        .importFromAnotherBatch(batch.id, state.selectedBatch.id)
+        .then((response) => {
+          console.log("in import from another batch", response.data);
+          showSnackbar(enqueueSnackbar, response.data);
+          setState({
+            ...state,
+            importFromAnotherBatchOpen: false,
+            selectedBatch: null,
+            reload: !state.reload,
+          });
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
+    }
+  }
+  console.log("batch-student-list", state);
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item container>
@@ -130,6 +166,24 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
               });
             }),
           }}
+          csvTemplate={csvTemplate.enrollProgram}
+          csvTemplateFileName="enroll-batch"
+          importAPI={(formData) =>
+            batch.id
+              ? API.csvImport.enrolledBatch(batch.id, formData)
+              : Promise.reject()
+          }
+          toolbarButtons={
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={(event) =>
+                setState({ ...state, importFromAnotherBatchOpen: true })
+              }
+            >
+              Import from another batch
+            </Button>
+          }
         />
         <DialogLayout
           fullWidth
@@ -144,6 +198,27 @@ export default function BatchStudents({ batch }: { batch: Batch }) {
             selectedStudent={state.selectedStudent}
             onChange={(newStudent) => {
               setState({ ...state, selectedStudent: newStudent as Student });
+            }}
+          />
+        </DialogLayout>
+        <DialogLayout
+          fullWidth
+          open={state.importFromAnotherBatchOpen}
+          onClose={(event) =>
+            setState({ ...state, importFromAnotherBatchOpen: false })
+          }
+          title="Import from another batch"
+          saveButtonText="Import"
+          onSaveButtonClick={handleImportFromAnotherBatch}
+        >
+          <DropDown
+            fullWidth
+            label="Batch"
+            value={state.selectedBatch}
+            options={batches}
+            optionLabel="name"
+            onChange={(event, newValue) => {
+              setState({ ...state, selectedBatch: newValue });
             }}
           />
         </DialogLayout>
