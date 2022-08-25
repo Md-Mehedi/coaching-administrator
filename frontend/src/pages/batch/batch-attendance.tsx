@@ -3,21 +3,30 @@ import { Avatar, avatarClasses, Grid, TextField } from "@mui/material";
 import MyTable from "../../components/my-table";
 import DialogLayout from "../../layouts/dialog-layout";
 import { DatePicker } from "@mui/lab";
-import { Details, PanoramaFishEye } from "@mui/icons-material";
+import { Details, PanoramaFishEye, Visibility } from "@mui/icons-material";
 import StudentInfo from "../student/student-info";
 import { API } from "../../api";
-import { avatarForTable } from "../../tools/helper-functions";
+import { avatarForTable, showSnackbar } from "../../tools/helper-functions";
 import { Batch } from "../../classes/coaching";
-import { Teacher } from "../../classes/person-info";
+import { Student, Teacher } from "../../classes/person-info";
 import DropDown from "../../components/dropdown";
+import { useSnackbar } from "notistack";
+import { StudentBatch } from "./../../classes/coaching";
 
-function AddAttendance({ batch }: { batch: Batch }) {
+function AddAttendance({
+  batch,
+  onChange,
+}: {
+  batch: Batch;
+  onChange: (rows: StudentBatch[]) => void;
+}) {
+  const { enqueueSnackbar } = useSnackbar();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [state, setState] = useState<{
     columns: any;
-    data: any;
+    data: StudentBatch[];
     detailOpen: boolean;
-    selectedStudent: any;
+    selectedStudent: Student | null;
     selectedTeacher: Teacher | null;
     date: Date | null;
   }>({
@@ -32,13 +41,15 @@ function AddAttendance({ batch }: { batch: Batch }) {
     data: [],
     date: null,
     detailOpen: false,
-    selectedStudent: "",
+    selectedStudent: null,
     selectedTeacher: null,
   });
   useEffect(() => {
     batch.id &&
       API.batch.getAllStudentBatch(batch.id).then((response) => {
-        setState({ ...state, data: response.data });
+        showSnackbar(enqueueSnackbar, response.data, () => {
+          setState({ ...state, data: response.data.object });
+        });
       });
     API.teacher.getAll().then((response) => {
       setTeachers(response.data);
@@ -46,7 +57,7 @@ function AddAttendance({ batch }: { batch: Batch }) {
   }, []);
 
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={3}>
       <Grid item xs={12} sm={6}>
         <DatePicker
           label="Class Taken Date"
@@ -83,32 +94,38 @@ function AddAttendance({ batch }: { batch: Batch }) {
           }}
           actions={[
             {
-              icon: () => <PanoramaFishEye />,
+              icon: () => <Visibility />,
               tooltip: "See Profile",
               position: "row",
               onClick: (event, rowData) =>
                 setState({
                   ...state,
                   detailOpen: true,
-                  selectedStudent: "mehedi",
+                  selectedStudent: (rowData as StudentBatch).student || null,
                 }),
             },
           ]}
+          onSelectionChange={onChange}
         />
         <DialogLayout
           fullWidth
+          disableFooter
           open={state.detailOpen}
           onClose={(event) => setState({ ...state, detailOpen: false })}
         >
-          <StudentInfo />
+          <StudentInfo student={state.selectedStudent || undefined} />
         </DialogLayout>
       </Grid>
     </Grid>
   );
 }
-
 export default function BatchAttendance({ batch }: { batch: Batch }) {
-  const [state, setState] = useState({
+  const [state, setState] = useState<{
+    columns: any[];
+    data: any[];
+    addDialogOpen: boolean;
+    selectedStudents: StudentBatch[];
+  }>({
     columns: [
       { title: "Date", field: "date" },
       { title: "Teacher", field: "teacher" },
@@ -122,7 +139,9 @@ export default function BatchAttendance({ batch }: { batch: Batch }) {
       { date: "28-09-2022", teacher: "Mehedi", attendStudentCount: 23 },
     ],
     addDialogOpen: false,
+    selectedStudents: [],
   });
+  function handleUploadAttendance() {}
   return (
     <Grid container direction="column">
       <Grid item>
@@ -137,8 +156,14 @@ export default function BatchAttendance({ batch }: { batch: Batch }) {
         <DialogLayout
           open={state.addDialogOpen}
           onClose={(event) => setState({ ...state, addDialogOpen: false })}
+          onSaveButtonClick={handleUploadAttendance}
         >
-          <AddAttendance batch={batch} />
+          <AddAttendance
+            batch={batch}
+            onChange={(rows) => {
+              setState({ ...state, selectedStudents: rows });
+            }}
+          />
         </DialogLayout>
       </Grid>
     </Grid>
