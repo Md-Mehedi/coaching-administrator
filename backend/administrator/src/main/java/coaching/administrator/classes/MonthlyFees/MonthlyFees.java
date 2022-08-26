@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fees_history")
+@Table(name = "monthly_fees")
 public class MonthlyFees {
 
     @Id
@@ -40,8 +40,11 @@ public class MonthlyFees {
     private Batch batch;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date monthDate;
+    private Date dueDate;
 
-    private Float amount;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date paymentDate;
+
+    private Integer amount;
 
 }

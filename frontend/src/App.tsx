@@ -5,6 +5,7 @@ import { SnackbarProvider } from "notistack";
 import React from "react";
 import "./index.css";
 import Router from "./routes";
+import CSVProvider from "./services/csv-hook";
 import { lightTheme } from "./theme";
 
 export const moment = require("moment");
@@ -16,10 +17,12 @@ function App() {
           // @ts-ignore
           dateAdapter={AdapterDateFns}
         >
-          <SnackbarProvider maxSnack={3} >
-            {/* <React.StrictMode> */}
-            <Router />
-            {/* </React.StrictMode> */}
+          <SnackbarProvider maxSnack={3}>
+            <CSVProvider>
+              {/* <React.StrictMode> */}
+              <Router />
+              {/* </React.StrictMode> */}
+            </CSVProvider>
           </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>

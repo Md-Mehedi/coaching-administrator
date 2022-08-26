@@ -9,6 +9,7 @@ import {
   Program,
   Room,
   Subject,
+  TeacherPayment,
 } from "./classes/coaching";
 import AuthService from "./services/auth-service";
 
@@ -65,6 +66,7 @@ export const API = {
     // getAdminById: (id: number) => get("/get-admin-by-id/" + id),
     getAdmin: () => get("/get-admin"),
     // isAllowedToProceed: () => get("/is-allowed-to-proceed"),
+    getCardInfo: () => get("/get-card-info"),
   },
   student: {
     add: (formData: FormData) => postBody("/add-student", formData),
@@ -84,6 +86,25 @@ export const API = {
     update: (formData: FormData) => put("/update-teacher", formData),
     getClassTimes: (teacherId: number) =>
       get("/get-all-classTime-by-teacherId/" + teacherId),
+    getPaymentList: (teacherId: number) =>
+      get("/get-all-payment-by-teacher-id/" + teacherId),
+    addPayment: (teacherPayment: TeacherPayment) =>
+      post("/add-teacher-payment", teacherPayment),
+  },
+  teacherPayment: {
+    getAllByBatchId: (batchId: number) =>
+      get("/get-all-teacher-payment-by-batch-id/" + batchId),
+    delete: (id: number) => del("/delete-teacher-payment-by-id/" + id),
+    add: (teacherPayment: TeacherPayment) =>
+      post("/add-teacher-payment", teacherPayment),
+    update: (teacherPayment: TeacherPayment) =>
+      put("/update-teacher-payment", teacherPayment),
+    getAllOwedList: (teacherId: number) =>
+      get("/get-all-teacher-payment-owed-by-teacher-id/" + teacherId),
+    withdraw: (teacherPaymentOwedId: number) =>
+      get("/withdraw-teacher-payment-owed-by-id/" + teacherPaymentOwedId),
+    withdrawAll: (teacherId: number) =>
+      get("/withdraw-all-teacher-payment-owed-by-teacherId/" + teacherId),
   },
   contacts: {
     getContactTypes: () => get("/get-all-contactType"),
@@ -170,6 +191,8 @@ export const API = {
           "/" +
           studentId
       ),
+    importFromAnotherBatch: (batchId: number, anotherBatchId: number) =>
+      post("/import-from-another-batch/" + batchId + "/" + anotherBatchId, {}),
   },
   classTime: {
     add: (classTime: ClassTime) => postBody("/add-classTime", classTime),
@@ -189,5 +212,13 @@ export const API = {
     update: (expense: Expense) => put("/update-expense", expense),
     filterMonthYear: (month: string, year: number) =>
       get("/get-expense-by-coaching-id-month-year/" + month + "/" + year),
+  },
+  csvImport: {
+    students: (formData: FormData) => post("/import-students", formData),
+    teachers: (formData: FormData) => post("/import-teachers", formData),
+    enrolledProgram: (programId: number, formData: FormData) =>
+      post("/import-program-enrollment/" + programId, formData),
+    enrolledBatch: (batchId: number, formData: FormData) =>
+      post("/import-batch-enrollment/" + batchId, formData),
   },
 };

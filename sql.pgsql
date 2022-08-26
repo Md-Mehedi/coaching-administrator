@@ -28,15 +28,50 @@ WHERE
     AND datname = 'dcet64lv7go83l'
     ;
 
+-- alternate only idle are deleted
+SELECT pg_terminate_backend(pid) FROM pg_stat_activity
+WHERE datname = 'dcet64lv7go83l'
+AND pid <> pg_backend_pid()
+AND state in ('idle');
+
+-- ilde connections are removed every 2 minutes
+alter system set idle_in_transaction_session_timeout='2min';
+
+-- see current connections
+SELECT * FROM pg_stat_activity where datname='dcet64lv7go83l';
+
 SELECT * from coaching;
+pg_stat_activity
+-- admin home page utility
+
+drop table monthly_fees cascade;
+
+select count(*) teacherCount, p.coaching_id coachingId  
+from teacher t, person p 
+group by coachingId, t.person_id, p.id
+having t.person_id = p.id 
+and p.coaching_id = 5 
+
+select count(*) teacherCount, p.coaching_id
+from teacher t
+Inner JOIN person p
+on p.id = t.person_id
+where p.coaching_id = 5
+group by p.coaching_id
+
+-- batch count
+select count(*) count,p.coaching_id coachingId
+from batch b,program p
+where b.program_id = p.id and p.coaching_id = 5
+group by p.coaching_id
+
+-- program count
+select coaching_id,count(*)
+from program 
+group by coaching_id
 
 select * from exam;
 
-insert into exam(exam_id,)
-
-select * from program;
-
-insert into exam(name,result_date,program_id) values ('Physics 1st Paper','2022-08-24',2);
 
 
 select * from subject;
@@ -53,37 +88,15 @@ select * from person;
 update institution set name='City College' where id=8
 
 
-insert into exam(name,result_date,program_id) values ('Physics 1st Paper','2022-08-24',2);
-
-select * from exam where program_id = 2;
-
-select * from person
-
-select * from EXAM_SUBJECT
-
-select * from subject;
-
-select * from coaching where id = 5;
-
-insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper Written Full Marks Exam',1,9);
-
-select * from exam;
-select * from exam_subject;
-select * from exam_mark;
-select * from result;
-
-drop table exam_mark CASCADE;
-drop table result CASCADE;
-
-drop table exam_subject CASCADE;
 
 select * from exam_subject;
-
+select email from person
 
 
 ------------------- Mehedi ----------------------
 select
 select * from student;
+drop table teacher_payment cascade
 update person set coaching_id=5 
 -- alter table person drop CONSTRAINT uk_ipuv2udv3fk0pcuq4yxwlw3yw
 drop table edu_qualification cascade;
@@ -315,17 +328,17 @@ UPDATE Person set email = 'asifahmedutsha@gmail.com' where email = 'asifahmeduts
 
 delete from person where email like '%kaziwasif%' cascade
 
-<<<<<<< HEAD
+
 
 select * from coaching
 delete from room cascade
-=======
+
+select * from coaching
+delete from room cascade
+
 select * from person;
 select * from admin;
 insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
 insert into admin (person_id) values(1);
 select * from student_batch
 >>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
-
-
-select * from result;

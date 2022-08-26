@@ -89,8 +89,13 @@ public class JwtUtils {
     return getUser().getId();
   }
 
+  private static Integer coachingId = null;
+
   public static Integer getCoachingId() {
-    return getUser().getCoachingId();
+    if (coachingId == null) {
+      coachingId = getUser().getCoachingId();
+    }
+    return coachingId;
   }
 
   public static String getEmail() {

@@ -12,6 +12,7 @@ import { API } from "../../api";
 import { apiCatch, avatarForTable } from "./../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import { Teacher } from "../../classes/person-info";
+import { csvTemplate } from "../../tools/csv/csv-template";
 
 export function TeacherList() {
   const { enqueueSnackbar } = useSnackbar();
@@ -84,6 +85,9 @@ export function TeacherList() {
           }}
           addButtonText="Add Teacher"
           onAddButtonClick={(event) => navigate(ADMIN_LINKS.addTeacher.path)}
+          csvTemplate={csvTemplate.teacher}
+          csvTemplateFileName="teacher-list"
+          importAPI={API.csvImport.teachers}
         />
       </Grid>
     </Grid>

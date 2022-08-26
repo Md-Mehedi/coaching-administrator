@@ -1,9 +1,9 @@
 
 package coaching.administrator.classes.MonthlyFees;
 
-
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -56,8 +58,28 @@ public class MonthlyFeesController {
     }
 
     @GetMapping("/get-monthlyFees-by-dateRange/{startDate}/{endDate}")
-    public List<MonthlyFees> getMonthlyFeesByDateRange(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+    public List<MonthlyFees> getMonthlyFeesByDateRange(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         return repository.findAllByDateRange(startDate, endDate);
+    }
+
+    @GetMapping("/get-coaching-income-by-month")
+    List<Map<String, Object>> getCoachingIncomeByMonth(@RequestParam("coachingId") Integer coachingId,
+            @RequestParam("yearNo") Integer yearNo) {
+        return repository.findCoachingIncomeByMonth(coachingId, yearNo);
+    }
+
+    @GetMapping("/get-coaching-due-by-month")
+    List<Map<String, Object>> getCoachingDueByMonth(@RequestParam("coachingId") Integer coachingId,
+            @RequestParam("yearNo") Integer yearNo) {
+        return repository.findCoachingDueByMonth(coachingId, yearNo);
+    }
+
+    @PutMapping("/update-monthlyFees")
+    public MonthlyFees updateMonthlyFees(@RequestBody MonthlyFees monthlyFees) {
+        System.out.println("\033[31minside add monthlyFees\033[0m");
+
+        return service.saveMonthlyFees(monthlyFees);
     }
 
     @DeleteMapping("/delete-monthlyFees-by-id")

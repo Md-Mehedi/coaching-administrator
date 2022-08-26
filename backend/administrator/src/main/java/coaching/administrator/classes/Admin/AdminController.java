@@ -89,6 +89,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/get-card-info")
+    public ObjectNode getCardInfo() {
+        return service.getCardInfo(JwtUtils.getCoachingId());
+    }
+
     // @PreAuthorize("hasRole('COACHING_ADMIN')")
     // @GetMapping("/is-allowed-to-proceed")
     // public ObjectNode isAllowedToProceed() {

@@ -1,6 +1,6 @@
 import { Grid, Avatar, Typography, Button } from "@mui/material";
 import MaterialTable from "material-table";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SpecialLink from "../../components/special-link";
 import UpdateButton from "../../components/update-button";
 import { students } from "../../data";
@@ -14,6 +14,11 @@ import {
   resolveURL,
 } from "./../../tools/helper-functions";
 import { useSnackbar } from "notistack";
+import {
+  csvTemplate,
+  parseCSV as parseFromCSV,
+} from "../../tools/csv/csv-template";
+import { CSVContext } from "../../services/csv-hook";
 
 export function StudentList() {
   const { enqueueSnackbar } = useSnackbar();
@@ -83,6 +88,9 @@ export function StudentList() {
           }}
           addButtonText="Add Student"
           onAddButtonClick={(event) => navigate(ADMIN_LINKS.addStudent.path)}
+          csvTemplate={csvTemplate.student}
+          csvTemplateFileName="student-list"
+          importAPI={API.csvImport.students}
         />
       </Grid>
       {/* <Grid item container>

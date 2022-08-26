@@ -22,12 +22,14 @@ public class TeacherPaymentController {
     @Autowired
     private TeacherPaymentRepository repository;
 
-    @PostMapping("/add-TeacherPayment")
-    public TeacherPayment addTeacherPayment(@RequestBody TeacherPayment TeacherPayment) {
-        return repository.save(TeacherPayment);
+    @PostMapping("/add-teacher-payment")
+    public ObjectNode addTeacherPayment(@RequestBody TeacherPayment teacherPayment) {
+        Global.colorPrint(teacherPayment);
+        TeacherPayment tp = repository.save(teacherPayment);
+        return Global.createSuccessMessage("Teacher payment added").putPOJO("object", tp);
     }
 
-    @GetMapping("/get-TeacherPayment-by-id/{id}")
+    @GetMapping("/get-teacher-payment-by-id/{id}")
     public TeacherPayment getTeacherPaymentById(@PathVariable Integer id) {
         return repository.findById(id).orElse(null);
     }
@@ -38,19 +40,25 @@ public class TeacherPaymentController {
     // return "Hello Spring Boot";
     // }
 
-    @PutMapping("/update-TeacherPayment")
-    public TeacherPayment updateTeacherPayment(@RequestBody TeacherPayment TeacherPayment) {
-        return repository.save(TeacherPayment);
+    @PutMapping("/update-teacher-payment")
+    public ObjectNode updateTeacherPayment(@RequestBody TeacherPayment teacherPayment) {
+        repository.save(teacherPayment);
+        return Global.createSuccessMessage("Teacher payment update successfully");
     }
 
-    @DeleteMapping("/delete-TeacherPayment-by-id/{id}")
-    public String deleteTeacherPayment(@PathVariable Integer id) {
+    @DeleteMapping("/delete-teacher-payment-by-id/{id}")
+    public ObjectNode deleteTeacherPayment(@PathVariable Integer id) {
         repository.deleteById(id);
-        return "teacher payment with id " + id + " successfully deleted";
+        return Global.createSuccessMessage("Teacher is successfully deleted");
     }
 
     @GetMapping("/get-all-payment-by-teacher-id/{teacherId}")
     public List<TeacherPayment> getAllPaymentByTeacherId(@PathVariable Integer teacherId) {
         return repository.findAllByTeacherId(teacherId);
+    }
+
+    @GetMapping("/get-all-teacher-payment-by-batch-id/{batchId}")
+    public List<TeacherPayment> getAllTeachersByBatchId(@PathVariable Integer batchId) {
+        return repository.findByBatchId(batchId);
     }
 }

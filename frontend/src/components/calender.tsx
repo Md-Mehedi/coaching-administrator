@@ -133,7 +133,7 @@ export default function Calender(props: CalenderProps) {
 
   return (
     <Grid container direction="column" spacing={2} alignItems="center">
-      <Grid item container>
+      <Grid item container sx={{ height: "919px", width: "1135px" }}>
         <FullCalendar
           events={state.events}
           //@ts-ignore

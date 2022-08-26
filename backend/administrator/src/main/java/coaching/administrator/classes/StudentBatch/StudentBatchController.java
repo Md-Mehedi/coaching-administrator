@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -19,10 +19,9 @@ import coaching.administrator.classes.Batch.Batch;
 import coaching.administrator.classes.Batch.BatchRepository;
 import coaching.administrator.classes.Batch.BatchService;
 import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
 import coaching.administrator.classes.Student.Student;
 import coaching.administrator.classes.Student.StudentService;
-import coaching.administrator.classes.StudentBatchHistory.StudentBatchHistory;
-import coaching.administrator.classes.StudentBatchHistory.StudentBatchHistoryRepository;
 
 @RestController
 public class StudentBatchController {
@@ -33,12 +32,11 @@ public class StudentBatchController {
     @Autowired
     private StudentBatchRepository repository;
     @Autowired
+    private BatchRepository batchRepository;
+    @Autowired
     private BatchService batchService;
     @Autowired
     private StudentService studentService;
-
-    @Autowired
-    private StudentBatchHistoryRepository historyRepository;
 
     @PostMapping("/add-studentBatch/{batchId}/{studentId}")
     public ObjectNode addStudentBatch(@PathVariable Integer batchId, @PathVariable Integer studentId) {
@@ -48,6 +46,11 @@ public class StudentBatchController {
         Student s = studentService.getStudentById(studentId);
         if (s == null)
             return Global.createErrorMessage("Student not found");
+
+        StudentBatch exist = repository.findByBatchIdStudentId(batchId, studentId);
+        if (exist != null) {
+            return Global.createErrorMessage("Student already enrolled to this batch");
+        }
         StudentBatch sb = new StudentBatch();
         sb.setBatch(b);
         sb.setStudent(s);
@@ -57,15 +60,49 @@ public class StudentBatchController {
         return Global.createSuccessMessage("Student add successfully");
     }
 
+    @PostMapping("/import-from-another-batch/{batchId}/{anotherBatchId}")
+    public ObjectNode importFromAnotherBatch(@PathVariable Integer batchId, @PathVariable Integer anotherBatchId) {
+        Batch fetchedBatch = batchService.getBatchById(batchId);
+        if (fetchedBatch == null)
+            return Global.createErrorMessage("Batch not found");
+        Batch fetchedAnotherBatch = batchService.getBatchById(anotherBatchId);
+        if (fetchedAnotherBatch == null)
+            return Global.createErrorMessage("Another batch not found");
+        Integer count = 0;
+        List<StudentBatch> sbs = repository.findByBatchId(anotherBatchId);
+        for (StudentBatch sb : sbs) {
+            StudentBatch exist = repository.findByBatchIdStudentId(batchId, sb.getStudent().getPerson_id());
+            if (exist == null) {
+                exist = new StudentBatch();
+                exist.setBatch(fetchedBatch);
+                exist.setStudent(sb.getStudent());
+                exist.setStartDate(new Date());
+                repository.save(exist);
+                count++;
+            }
+        }
+        return Global.createSuccessMessage(count + " student import successfully");
+    }
+
     @GetMapping("/get-studentBatch-by-id/{id}")
     public StudentBatch getStudentBatchById(@PathVariable Integer id) {
         return service.getStudentBatchById(id);
     }
 
-    // @GetMapping("/get-all-studentBatch-by-batch-id/{batchId}")
-    // public List<StudentBatch> getStudentBatches(@PathVariable Integer batchId) {
-    // return repository.findByBatchId(batchId);
-    // }
+    @GetMapping("/get-all-studentBatch-by-batch-id/{batchId}")
+    public ObjectNode getStudentBatches(@PathVariable Integer batchId) {
+        Batch fetchedBatch = batchService.getBatchById(batchId);
+        if (fetchedBatch == null) {
+            return Global.createErrorMessage("Batch not found");
+        }
+
+        if (fetchedBatch.getProgram().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            List<StudentBatch> studentBatches = repository.findByBatchId(batchId);
+            return Global.createSuccessMessage("Students found")
+                    .putPOJO("object", studentBatches);
+        }
+        return Global.createErrorMessage("Not authorized to get enrolledPrograms Students");
+    }
 
     // @GetMapping("/get-studentBatch-by-name/{name}")
     // public StudentBatch getStudentBatchByName(@PathVariable String name) {
@@ -95,5 +132,32 @@ public class StudentBatchController {
     // @PathVariable Integer studentId) {
     // return service.getStudentBatchByProgramIdStudentId(programId, studentId);
     // }
+    // @PutMapping("/copy-student-batch")
+    // public ObjectNode copyStudentBatch(@RequestParam Integer fromBatchId,
+    // @RequestParam Integer toBatchId) {
 
+    // Batch fromBatch = batchRepository.findById(fromBatchId).orElse(null);
+    // Batch toBatch = batchRepository.findById(toBatchId).orElse(null);
+    // try {
+
+    // List<StudentBatch> studentBatchList =
+    // repository.findAllByBatchId(fromBatchId);
+    // for (StudentBatch studentBatch : studentBatchList) {
+    // StudentBatch newStudentBatch = new StudentBatch();
+    // Batch batch = new Batch();
+    // batch.setId(toBatchId);
+    // newStudentBatch.setBatch(batch);
+    // newStudentBatch.setStudent(studentBatch.getStudent());
+    // newStudentBatch.setStartDate(new Date());
+    // repository.save(newStudentBatch);
+    // }
+    // return Global.createSuccessMessage(
+    // "All students copied from " + fromBatch.getName() + " to " +
+    // toBatch.getName() + " ");
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return Global.createErrorMessage("Something went wrong please try again !");
+    // }
+
+    // }
 }

@@ -19,7 +19,7 @@ import PersonQualification from "../../components/form-components/person-qualifi
 import SaveDeleteCancelButtons from "../../components/save-cancel-buttons";
 import {
   apiCatch,
-  createFormData,
+  createFormDataWithObjectAndFile,
   showSnackbar,
 } from "../../tools/helper-functions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -60,7 +60,7 @@ export default function AddTeacher() {
 
       let image = teacher.person?.image;
       teacher.person = { ...teacher.person, image: undefined };
-      api(createFormData(teacher, image))
+      api(createFormDataWithObjectAndFile(teacher, image))
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
           setSaveLoading(false);

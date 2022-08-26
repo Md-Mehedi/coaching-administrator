@@ -25,7 +25,10 @@ import MyTextfield from "./../../components/form-components/my-textfield";
 import DropDown from "../../components/dropdown";
 import { Board } from "./../../classes/person-info";
 import { API } from "./../../api";
-import { createFormData, showSnackbar } from "../../tools/helper-functions";
+import {
+  createFormDataWithObjectAndFile,
+  showSnackbar,
+} from "../../tools/helper-functions";
 import { useSnackbar } from "notistack";
 import PersonQualification from "../../components/form-components/person-qualification-exam-details";
 import AddPerson from "./../../components/form-components/add-person";
@@ -64,11 +67,11 @@ export default function AddStudent() {
       }
       let image = student.person?.image;
       student.person = { ...student.person, image: undefined };
-      api(createFormData(student, image))
+      api(createFormDataWithObjectAndFile(student, image))
         .then((response) => {
           showSnackbar(enqueueSnackbar, response.data);
           setLoading(false);
-          navigate(ADMIN_LINKS.studentList.path);
+          // navigate(ADMIN_LINKS.studentList.path);
         })
         .catch((r) => {
           apiCatch(enqueueSnackbar, r);

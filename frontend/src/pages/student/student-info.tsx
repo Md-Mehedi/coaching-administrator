@@ -48,7 +48,7 @@ const data = [
   "Permanent Address",
 ];
 
-export default function StudentInfo() {
+export default function StudentInfo({ student }: { student?: Student }) {
   let { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -63,20 +63,24 @@ export default function StudentInfo() {
   });
 
   useEffect(() => {
-    id &&
-      API.student
-        .get(parseInt(id))
-        .then((response) => {
-          showSnackbar(enqueueSnackbar, response.data, () => {
-            console.log("received student", response.data.object);
-            setState({
-              ...state,
-              loading: false,
-              student: response.data.object,
+    if (student) {
+      setState({ ...state, student, loading: false });
+    } else {
+      id &&
+        API.student
+          .get(parseInt(id))
+          .then((response) => {
+            showSnackbar(enqueueSnackbar, response.data, () => {
+              console.log("received student", response.data.object);
+              setState({
+                ...state,
+                loading: false,
+                student: response.data.object,
+              });
             });
-          });
-        })
-        .catch((r) => apiCatch(enqueueSnackbar, r));
+          })
+          .catch((r) => apiCatch(enqueueSnackbar, r));
+    }
   }, [id]);
 
   const tabs: TabLayoutContent[] = [

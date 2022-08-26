@@ -16,6 +16,7 @@ import {
   showSnackbar,
 } from "./../../tools/helper-functions";
 import { Student } from "../../classes/person-info";
+import { csvTemplate } from "./../../tools/csv/csv-template";
 
 export default function ProgramEnrolledStudent({
   program,
@@ -55,6 +56,7 @@ export default function ProgramEnrolledStudent({
       API.program
         .getEnrolledStudents(program.id)
         .then((response) => {
+          console.log("in enroll program student load", response);
           showSnackbar(enqueueSnackbar, response.data, () => {
             setState({
               ...state,
@@ -111,6 +113,13 @@ export default function ProgramEnrolledStudent({
             setState({ ...state, enrolledStudents: newData })
           ),
         }}
+        csvTemplate={csvTemplate.enrollProgram}
+        csvTemplateFileName="enroll-program"
+        importAPI={(formData) =>
+          program.id
+            ? API.csvImport.enrolledProgram(program.id, formData)
+            : Promise.reject()
+        }
       />
       <DialogLayout
         fullWidth

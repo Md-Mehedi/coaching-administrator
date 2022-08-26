@@ -110,3 +110,16 @@ export class Expense {
   description?: string;
   coaching?: Coaching;
 }
+export class TeacherPayment {
+  id;
+  number;
+  teacher: Teacher;
+  batch: Batch;
+  amountPerDay: number;
+}
+export class TeacherPaymentOwed {
+  id: number;
+  teacherPayment: TeacherPayment;
+  owedDate: Date;
+  withdrawalDate: Date;
+}

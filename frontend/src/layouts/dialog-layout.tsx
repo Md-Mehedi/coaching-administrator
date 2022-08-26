@@ -24,6 +24,7 @@ export interface DialogLayoutProps {
   onDeleteButtonClick?: (event) => void;
   fullWidth?: boolean;
   primaryButtonLoading?: boolean;
+  disableFooter?: boolean;
 }
 
 export default function DialogLayout(props: DialogLayoutProps) {
@@ -41,36 +42,37 @@ export default function DialogLayout(props: DialogLayoutProps) {
           {props.children}
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Grid
-          container
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <SaveDeleteCancelButtons
-            loading={props.primaryButtonLoading}
-            saveButtonText={props.saveButtonText}
-            cancelButtonText={props.cancelButtonText}
-            onSaveClick={props.onSaveButtonClick}
-            onCancelClick={(event) => {
-              props.onCancelButtonClick && props.onCancelButtonClick(event);
-              props.onClose && props.onClose(event);
-            }}
-            onDeleteClick={props.onDeleteButtonClick}
-          />
-          {/* <Grid item>
+      {!props.disableFooter && (
+        <DialogActions>
+          <Grid
+            container
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SaveDeleteCancelButtons
+              loading={props.primaryButtonLoading}
+              saveButtonText={props.saveButtonText}
+              cancelButtonText={props.cancelButtonText}
+              onSaveClick={props.onSaveButtonClick}
+              onCancelClick={(event) => {
+                props.onCancelButtonClick && props.onCancelButtonClick(event);
+                props.onClose && props.onClose(event);
+              }}
+              onDeleteClick={props.onDeleteButtonClick}
+            />
+            {/* <Grid item>
             <LoadingButton
             loading={}
-              variant="contained"
-              color="primary"
-              onClick={(event) => {
-                if (props.primaryButtonClick) {
+            variant="contained"
+            color="primary"
+            onClick={(event) => {
+              if (props.primaryButtonClick) {
                   props.primaryButtonClick(event);
                 }
               }}
-            >
+              >
               {props.primaryButtonText || "Save"}
             </LoadingButt>
           </Grid>
@@ -82,12 +84,13 @@ export default function DialogLayout(props: DialogLayoutProps) {
                 props.onClose && props.onClose(event);
                 props.secondaryButtonClick && props.secondaryButtonClick(event);
               }}
-            >
+              >
               {props.secondaryButtonText || "Cancel"}
-            </Button>
-          </Grid> */}
-        </Grid>
-      </DialogActions>
+              </Button>
+            </Grid> */}
+          </Grid>
+        </DialogActions>
+      )}
     </Dialog>
   );
 }
