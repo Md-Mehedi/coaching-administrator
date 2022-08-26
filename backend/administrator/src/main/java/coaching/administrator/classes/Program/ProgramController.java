@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Batch.Batch;
 import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.Coaching.CoachingService;
 import coaching.administrator.classes.Global.Global;
@@ -97,4 +98,22 @@ public class ProgramController {
             return Global.createErrorMessage("Not eligible to delete program");
         }
     }
+
+    // @PreAuthorize("hasRole('COACHING_ADMIN')")
+    // @GetMapping("/get-examlist-by-program-id/{id}")
+    // public ObjectNode getExamListByProgramId(@PathVariable Integer id) {
+    // Program program = service.getProgramById(id);
+    // if (program == null) {
+    // return Global.createErrorMessage("Program not found");
+    // }
+    // if (program.getCoaching().getId() == JwtUtils.getCoachingId()) {
+    // return Global.createSuccessMessage("Exam List Found")
+    // .putPOJO("object", program.getExamList());
+
+    // } else {
+    // return Global.createErrorMessage("Not eligible to fetch exam list");
+    // }
+    // // return Global.createSuccessMessage("Exam List Found")
+    // // .putPOJO("object", program.getExamList());
+    // }
 }

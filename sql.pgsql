@@ -32,6 +32,11 @@ SELECT * from coaching;
 
 select * from exam;
 
+insert into exam(exam_id,)
+
+select * from program;
+
+insert into exam(name,result_date,program_id) values ('Physics 1st Paper','2022-08-24',2);
 
 
 select * from subject;
@@ -48,7 +53,31 @@ select * from person;
 update institution set name='City College' where id=8
 
 
+insert into exam(name,result_date,program_id) values ('Physics 1st Paper','2022-08-24',2);
 
+select * from exam where program_id = 2;
+
+select * from person
+
+select * from EXAM_SUBJECT
+
+select * from subject;
+
+select * from coaching where id = 5;
+
+insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper Written Full Marks Exam',1,9);
+
+select * from exam;
+select * from exam_subject;
+select * from exam_mark;
+select * from result;
+
+drop table exam_mark CASCADE;
+drop table result CASCADE;
+
+drop table exam_subject CASCADE;
+
+select * from exam_subject;
 
 
 
@@ -297,3 +326,6 @@ insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail
 insert into admin (person_id) values(1);
 select * from student_batch
 >>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
+
+
+select * from result;
