@@ -1,32 +1,51 @@
 package coaching.administrator.classes.Admin;
 
+import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Batch.BatchRepository;
 import coaching.administrator.classes.Coaching.Coaching;
+import coaching.administrator.classes.Expense.ExpenseRepository;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Global.UserType;
+import coaching.administrator.classes.MonthlyFees.MonthlyFeesRepository;
 import coaching.administrator.classes.Person.ConfirmationToken;
 import coaching.administrator.classes.Person.ConfirmationTokenRepository;
 import coaching.administrator.classes.Person.EmailService;
 import coaching.administrator.classes.Person.Person;
 import coaching.administrator.classes.Person.PersonService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import coaching.administrator.classes.Program.ProgramRepository;
 import coaching.administrator.classes.Security.jwt.JwtUtils;
+import coaching.administrator.classes.Student.StudentRepository;
+import coaching.administrator.classes.Teacher.TeacherRepository;
 
 @Service
 public class AdminService {
 
     @Autowired
     private AdminRepository repository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private ProgramRepository programRepository;
+    @Autowired
+    private BatchRepository batchRepository;
+    @Autowired
+    private ExpenseRepository expenseRepository;
+    @Autowired
+    private MonthlyFeesRepository monthlyFeesRepository;
     @Autowired
     private PersonService personService;
     @Autowired
@@ -118,6 +137,15 @@ public class AdminService {
 
             // personService.savePerson(admin);
             System.out.println("Admin id : " + admin.getPerson().getId());
+
+            // Person person = admin.getPerson();
+            // person.setImage(adminImage.getBytes());
+            // Coaching coaching = person.getCoaching();
+            // coaching.setImage(coachingImage.getBytes());
+            // admin.setPerson(person);
+            admin.getPerson().setImage(adminImage.getBytes());
+            admin.getPerson().getCoaching().setImage(coachingImage.getBytes());
+
             Person person = admin.getPerson();
             if (adminImage != null)
                 person.setImage(adminImage.getBytes());
@@ -213,6 +241,41 @@ public class AdminService {
         return node
                 .put("success", false)
                 .put("message", "Server error.Try again");
+    }
+
+    public ObjectNode getCardInfo(Integer coachingId) {
+
+        ObjectNode node = mapper.createObjectNode();
+        try {
+            Map<String, Object> teacherCount = teacherRepository.countByCoachingId(coachingId);
+            Map<String, Object> studentCount = studentRepository.countByCoachingId(coachingId);
+            Map<String, Object> programCount = programRepository.countByCoachingId(coachingId);
+            Map<String, Object> batchCount = batchRepository.countByCoachingId(coachingId);
+            // Date d = new Date();
+            // Integer yearNo = d.getYear();
+            // Integer monthNo = d.getMonth();
+            // Map<String, Object> totalIncome =
+            // monthlyFeesRepository.findTotalCoachingIncomeByMonth(coachingId, yearNo,
+            // monthNo);
+            // Map<String, Object> totalExpense =
+            // expenseRepository.findByTotalMonth(coachingId, monthNo, yearNo);
+
+            return node
+                    .put("teacherCount", (BigInteger) teacherCount.get("teacherCount"))
+                    .put("studentCount", (BigInteger) studentCount.get("studentCount"))
+                    .put("programCount", (BigInteger) programCount.get("programCount"))
+                    .put("batchCount", (BigInteger) batchCount.get("batchCount"))
+                    // .put("totalIncome", (Integer) totalIncome.get("totalIncome"))
+                    // .put("totalExpense", (Integer) totalExpense.get("totalExpense"))
+                    .put("success", true)
+                    .put("message", "Card info loaded successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return node
+                    .put("success", false)
+                    .put("message", "Card info failed");
+        }
     }
 
 }

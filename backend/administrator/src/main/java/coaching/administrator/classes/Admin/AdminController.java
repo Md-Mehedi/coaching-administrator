@@ -49,7 +49,7 @@ public class AdminController {
     @PreAuthorize("hasRole('COACHING_ADMIN')")
     @PostMapping("/add-admin")
     public ObjectNode addAdmin(@RequestPart("object") Admin admin, @RequestPart("file") MultipartFile adminImage,
-            @RequestPart("coachingImage") MultipartFile coachingImage) {
+            @RequestPart("file") MultipartFile coachingImage) {
         return service.addAdmin(admin, adminImage, coachingImage);
     }
 
@@ -87,6 +87,11 @@ public class AdminController {
         String password = adminMap.get("password");
         return service.authenticateAdmin(email, password);
 
+    }
+
+    @GetMapping("/get-card-info")
+    public ObjectNode getCardInfo() {
+        return service.getCardInfo(JwtUtils.getCoachingId());
     }
 
     // @PreAuthorize("hasRole('COACHING_ADMIN')")

@@ -12,7 +12,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate, useParams } from "react-router-dom";
 import ShortInfo from "../../components/person-components/short-info";
 import About from "../../components/person-components/about";
-import WithdrawnHistory from "./withdrawn-history";
+import WithdrawnHistory from "./teacher-withdrawn-history";
 import TeacherBatchList from "./teacher-batch-list";
 import { useSnackbar } from "notistack";
 import { Teacher } from "../../classes/person-info";
@@ -92,7 +92,7 @@ export default function TeacherInfo() {
     },
     {
       title: "Withdrawn History",
-      element: <WithdrawnHistory />,
+      element: <WithdrawnHistory teacher={state.teacher} />,
     },
 
     // {

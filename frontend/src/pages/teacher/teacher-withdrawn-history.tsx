@@ -1,9 +1,15 @@
 import { DatePicker } from "@mui/lab";
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { API } from "../../api";
+import { TeacherPaymentOwed } from "../../classes/coaching";
+import { Teacher } from "../../classes/person-info";
 import DropDown from "../../components/dropdown";
 import MyTable, { onRowUpdate, onRowDelete } from "../../components/my-table";
 import { Field } from "../../components/person-components/about";
+import { showSnackbar } from "../../tools/helper-functions";
+import { apiCatch } from "./../../tools/helper-functions";
+import { useSnackbar } from "notistack";
 
 const data = [
   {
@@ -64,33 +70,81 @@ const data = [
   },
 ];
 
-export default function WithdrawnHistory() {
-  const [state, setState] = useState({
+export default function WithdrawnHistory({ teacher }: { teacher: Teacher }) {
+  const { enqueueSnackbar } = useSnackbar();
+  const [state, setState] = useState<{
+    data: TeacherPaymentOwed[];
+    columns: any[];
+    reload: boolean;
+    // filter: {
+    //   month:
+    // }
+  }>({
     columns: [
-      { title: "Program Name", field: "programName" },
-      { title: "Batch Name", field: "batchName" },
+      {
+        title: "Program Name",
+        field: "teacherPayment.batch.program.name",
+      },
+      { title: "Batch Name", field: "teacherPayment.batch.name" },
       { title: "Class Count", field: "classCount" },
-      { title: "Month", field: "month" },
+      {
+        title: "Month",
+        field: "month",
+        render: (rowData: TeacherPaymentOwed) =>
+          new Date(rowData.owedDate).getMonth(),
+      },
       { title: "Amount", field: "amount" },
       {
         title: "Withdrawn Date",
-        field: "withdrawnDate",
-        render: (rowData) =>
-          rowData.withdrawnDate ? (
-            rowData.withdrawnDate
+        field: "withdrawalDate",
+        render: (rowData: TeacherPaymentOwed) =>
+          rowData.withdrawalDate ? (
+            new Date(rowData.withdrawalDate).toLocaleDateString()
           ) : (
-            <Button variant="contained">Withdraw</Button>
+            <Typography variant="body2">Not Withdrawn</Typography>
+            // <Button
+            //   variant="contained"
+            //   onClick={(event) => handleWithdrawClick(rowData)}
+            // >
+            //   Withdraw
+            // </Button>
           ),
       },
     ],
-    data: data,
-    filter: {
-      month: null,
-      year: null,
-      selectedAmount: 0,
-    },
+    data: [],
+    reload: false,
+    // filter: {
+    //   month: null,
+    //   year: null,
+    //   selectedAmount: 0,
+    // },
   });
+  function handleWithdrawClick(rowData: TeacherPaymentOwed) {
+    rowData.id &&
+      API.teacherPayment
+        .withdraw(rowData.id)
+        .then((response) => {
+          showSnackbar(enqueueSnackbar, response.data, () => {
+            console.log("in handle withdraw click", state, rowData);
+            // rowData.withdrawalDate = new Date();
+            reload();
+          });
+        })
+        .catch((r) => apiCatch(enqueueSnackbar, r));
+  }
+  function reload() {
+    console.log("in reload", state);
+    setState({ ...state, reload: !state.reload });
+  }
+  console.log("teacher-withdrawn-history state", state);
   useEffect(() => {
+    teacher.person?.id &&
+      API.teacherPayment.getAllOwedList(teacher.person.id).then((response) => {
+        setState({
+          ...state,
+          data: response.data,
+        });
+      });
     // var input = document.getElementsByClassName(
     //   "MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
     // )[0];
@@ -110,7 +164,7 @@ export default function WithdrawnHistory() {
   }
   return (
     <Grid container direction="column" spacing={2}>
-      <Grid item container spacing={2} alignItems="center">
+      {/* <Grid item container spacing={2} alignItems="center">
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <DropDown
             label="Month"
@@ -164,7 +218,7 @@ export default function WithdrawnHistory() {
         <Grid item xs={12} sm={6} md={4} lg={3}>
           <Field field="Remaining" value={state.filter.selectedAmount} />
         </Grid>
-      </Grid>
+      </Grid> */}
       <Grid item container>
         <MyTable
           //@ts-ignore
@@ -176,6 +230,35 @@ export default function WithdrawnHistory() {
             sorting: false,
             filtering: true,
           }}
+          toolbarButtons={
+            state.data.filter((item) => item.withdrawalDate).length !=
+            state.data.length ? (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  teacher.person?.id &&
+                    API.teacherPayment
+                      .withdrawAll(teacher.person.id)
+                      .then((response) => {
+                        showSnackbar(enqueueSnackbar, response.data, () => {
+                          state.data.forEach((item) => {
+                            if (!item.withdrawalDate) {
+                              item.withdrawalDate = new Date();
+                            }
+                          });
+                          reload();
+                        });
+                      })
+                      .catch((error) => apiCatch(enqueueSnackbar, error));
+                }}
+              >
+                Withdraw All
+              </Button>
+            ) : (
+              <></>
+            )
+          }
+
           // onSelectionChange={(rows) => {
           //   let sum = 0;
           //   rows.forEach((item) => {

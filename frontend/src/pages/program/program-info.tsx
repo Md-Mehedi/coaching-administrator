@@ -56,6 +56,10 @@ export default function ProgramInfo() {
 
   const tabs: TabLayoutContent[] = [
     {
+      title: "Exam",
+      element: <ProgramExam />,
+    },
+    {
       title: "Routine",
       element: <ProgramRoutine program={state.program} />,
     },
@@ -66,10 +70,6 @@ export default function ProgramInfo() {
     {
       title: "Enrolled Students",
       element: <ProgramEnrolledStudent program={state.program} />,
-    },
-    {
-      title: "Exam",
-      element: <ProgramExam />,
     },
   ];
   function handleUpdateClick(event) {

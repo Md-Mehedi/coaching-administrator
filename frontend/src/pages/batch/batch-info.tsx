@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { ADMIN_LINKS } from "./../../links";
 import Loading from "../../components/loading";
 import CreateBatchDialog from "./create-batch";
+import BatchTeacher from "./batch-teacher-list";
 
 export default function BatchInfo() {
   const { id } = useParams();
@@ -90,6 +91,10 @@ export default function BatchInfo() {
     {
       title: "Students",
       element: <BatchStudents batch={state.batch} />,
+    },
+    {
+      title: "Teachers",
+      element: <BatchTeacher batch={state.batch} />,
     },
     {
       title: "Attendance",

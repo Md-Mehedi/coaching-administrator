@@ -3,6 +3,8 @@ package coaching.administrator.classes.TeacherPayment;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,15 +24,17 @@ import lombok.NoArgsConstructor;
 public class TeacherPayment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "teacher_id", referencedColumnName = "person_id")
     private Teacher teacher;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "batch_id", referencedColumnName = "id")
     private Batch batch;
 
-    private Integer amount;
+    private Integer amountPerDay;
 
 }

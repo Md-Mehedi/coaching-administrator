@@ -28,11 +28,87 @@ WHERE
     AND datname = 'dcet64lv7go83l'
     ;
 
+-- alternate only idle are deleted
+SELECT pg_terminate_backend(pid) FROM pg_stat_activity
+WHERE datname = 'dcet64lv7go83l'
+AND pid <> pg_backend_pid()
+AND state in ('idle');
+
+-- ilde connections are removed every 2 minutes
+alter system set idle_in_transaction_session_timeout='2min';
+
+-- see current connections
+SELECT * FROM pg_stat_activity where datname='dcet64lv7go83l';
+
 SELECT * from coaching;
+pg_stat_activity
+-- admin home page utility
+
+drop table monthly_fees cascade;
+
+select count(*) teacherCount, p.coaching_id coachingId  
+from teacher t, person p 
+group by coachingId, t.person_id, p.id
+having t.person_id = p.id 
+and p.coaching_id = 5 
+
+select count(*) teacherCount, p.coaching_id
+from teacher t
+Inner JOIN person p
+on p.id = t.person_id
+where p.coaching_id = 5
+group by p.coaching_id
+
+-- batch count
+select count(*) count,p.coaching_id coachingId
+from batch b,program p
+where b.program_id = p.id and p.coaching_id = 5
+group by p.coaching_id
+
+-- program count
+select coaching_id,count(*)
+from program 
+group by coaching_id
+
+select * from exam;
 
 
+-- expense in a ACCESSmonth
+select * from expense
+where coaching_id = 5 AND
+EXTRACT(MONTH FROM expense_date) = 8
 
-select * from subject;
+-- total income in a month
+
+select sum(mf.amount) total,EXTRACT(MONTH FROM payment_date) as month
+from monthly_fees mf,batch b,program p,coaching c
+where mf.batch_id = b.id and b.program_id = p.id and p.coaching_id = c.id
+ and EXTRACT(year FROM payment_date) = 2022 and p.coaching_id = 5
+group by EXTRACT(MONTH FROM payment_date) 
+-- monthly fees by coaching id
+select ms.id,ms.amount,ms.due_Date,ms.payment_date,ms.batch_id,ms.student_id
+from monthly_fees ms,student s,person p 
+where ms.student_id = s.person_id and s.person_id = p.id and p.coaching_id = 5 
+
+-- find batch income by month_date
+select sum(mf.amount) total,mf.batch_id batchId 
+ from monthly_fees mf 
+ where mf.batch_id = 3
+and mf.payment_date is not null and EXTRACT(MONTH FROM payment_date) = 8 
+group by mf.batch_id
+
+
+-- find income by program
+
+select sum(mf.amount) total,p.id programId
+from monthly_fees mf,batch b, program p 
+where mf.batch_id = b.id and b.program_id = p.id
+ and p.id = 1 and mf.payment_date is not null and EXTRACT(MONTH FROM payment_date) = 8 
+group by p.id
+
+drop table fees_history cascade;
+
+select * from monthly_fees
 
 update person set nick_name='Ali' where id='4';
 update person set nick_name='Akbar' where id='5';
@@ -47,12 +123,13 @@ update institution set name='City College' where id=8
 
 
 
-
+select email from person
 
 
 ------------------- Mehedi ----------------------
 select
 select * from student;
+drop table teacher_payment cascade
 update person set coaching_id=5 
 -- alter table person drop CONSTRAINT uk_ipuv2udv3fk0pcuq4yxwlw3yw
 drop table edu_qualification cascade;
@@ -82,7 +159,10 @@ delete from class_time;
 drop table class_time CASCADE;
 drop table todo CASCADE;
 
-s
+DROP TABLE EXAM CASCADE;
+DROP TABLE EXAM_SUBJECT CASCADE;
+DROP TABLE EXAM_MARK CASCADE;
+
 
 insert into occupation (name) values('Driver');
 insert into occupation (name) values('Housewife');
@@ -277,8 +357,17 @@ select * from enrolled_program ep  where ep.student_id = 20;
 
 UPDATE Person set email = 'asifahmedutsha@gmail.com' where email = 'asifahmedutsa@gmail.com';
 
-select name from occupation
+0
 
+delete from person where email like '%kaziwasif%' cascade
+
+
+
+select * from coaching
+delete from room cascade
+
+select * from coaching
+delete from room cascade
 
 select * from person;
 select * from admin;
@@ -301,3 +390,23 @@ delete from occupation where name is null
 select * from person;
 insert into enrolled_program (program_id, student_id, enrolled_date) values(5, 18, now())
 select * from enrolled_program where program_id = 2;
+
+insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
+insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
+insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
+insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
+insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
+
+select * from teacher_payment tp, teacher_payment_owed tpw where tp.id = tpw.teacher_payment_id and tp.teacher_id = 13
+
+update teacher_payment_owed tpw 
+set withdrawal_date = null
+from teacher_payment tp 
+where tp.id = tpw.teacher_payment_id 
+and tp.teacher_id = 13 
+
+and tpw.id = 3;
+
+select * from teacher_payment;
+select * from teacher_payment_owed;
+

@@ -1,6 +1,6 @@
-package coaching.administrator.classes.ExamMark;
+package coaching.administrator.classes.TeacherPaymentOwed;
 
-import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import coaching.administrator.classes.ExamSubject.ExamSubject;
+import coaching.administrator.classes.TeacherPayment.TeacherPayment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,17 +23,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "exam_mark")
-public class ExamMark implements Serializable {
+@Table(name = "teacher_payment_owed")
+public class TeacherPaymentOwed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String exam_type;
-    private float examSubjectMark;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_subject_id", referencedColumnName = "id")
-    private ExamSubject examSubject;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "teacher_payment_id", referencedColumnName = "id")
+    private TeacherPayment teacherPayment;
+
+    private Date owedDate;
+    private Date withdrawalDate;
 
 }
