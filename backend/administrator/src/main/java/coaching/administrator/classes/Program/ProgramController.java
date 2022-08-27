@@ -1,9 +1,9 @@
 
 package coaching.administrator.classes.Program;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import coaching.administrator.classes.Batch.Batch;
 import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.Coaching.CoachingService;
+import coaching.administrator.classes.EnrolledProgram.EnrolledProgram;
+import coaching.administrator.classes.EnrolledProgram.EnrolledProgramService;
 import coaching.administrator.classes.Global.Global;
 import coaching.administrator.classes.Security.jwt.JwtUtils;
+import coaching.administrator.classes.Student.Student;
+import coaching.administrator.classes.Student.StudentService;
 
 @RestController
 public class ProgramController {
@@ -30,6 +33,13 @@ public class ProgramController {
     private ProgramService service;
     @Autowired
     private CoachingService coachingService;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private EnrolledProgramService enrolledProgramService;
+
     @Autowired
     private ProgramRepository repository;
 
@@ -123,4 +133,27 @@ public class ProgramController {
     // // return Global.createSuccessMessage("Exam List Found")
     // // .putPOJO("object", program.getExamList());
     // }
+
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
+    @GetMapping("/get-program-list-by-student-id/{id}")
+    public ObjectNode getProgramListByStudentId(@PathVariable Integer id) {
+        Student fetchedStudent = studentService.getStudentById(id);
+        if (fetchedStudent == null) {
+            return Global.createErrorMessage("Student not found");
+        } else {
+            if (fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+                List<EnrolledProgram> studEnrolledPrograms = enrolledProgramService
+                        .getAllEnrolledProgramByStudentId(id);
+
+                List<Program> programList = new ArrayList<Program>();
+                for (EnrolledProgram enrolledProgram : studEnrolledPrograms) {
+                    programList.add(enrolledProgram.getProgram());
+                }
+                return Global.createSuccessMessage("Program List Found")
+                        .putPOJO("object", programList);
+            } else {
+                return Global.createErrorMessage("Not eligible to fetch program list");
+            }
+        }
+    }
 }

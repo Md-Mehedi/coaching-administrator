@@ -1,11 +1,9 @@
 package coaching.administrator.classes.EnrolledProgram;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
-import javax.websocket.server.PathParam;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
