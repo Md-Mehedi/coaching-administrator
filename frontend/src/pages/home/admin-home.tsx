@@ -61,18 +61,22 @@ function AdminHome() {
   return (
     // <div className="App">
     //   <MobileLayout title="Home">
-    <Grid container spacing={3}>
-      {cards &&
-        cardData.map((item) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <StyledCard title={item.title} value={cards[item.field]} />
-          </Grid>
-        ))}
-      <Grid item xs={12} sm={12} md={6}>
-        <StudentMonthChart />
+    <Grid container direction="column" spacing={2} sx={{ padding: 3 }}>
+      <Grid container spacing={3}>
+        {cards &&
+          cardData.map((item) => (
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <StyledCard title={item.title} value={cards[item.field]} />
+            </Grid>
+          ))}
       </Grid>
-      <Grid item xs={12} sm={12} md={6}>
-        <ExpenseMonthChart />
+      <Grid container spacing={2} sx={{ mt: 3 }}>
+        <Grid item xs={12} sm={12} md={6}>
+          <StudentMonthChart />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <ExpenseMonthChart />
+        </Grid>
       </Grid>
     </Grid>
     //   </MobileLayout>

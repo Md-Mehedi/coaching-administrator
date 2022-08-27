@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Security.jwt.JwtUtils;
+
 @RestController
 public class MonthlyFeesController {
 
@@ -47,9 +52,9 @@ public class MonthlyFeesController {
         return repository.findAllByBatchId(id);
     }
 
-    @GetMapping("/get-monthlyFees-by-coachingId/{id}")
-    public List<MonthlyFees> getMonthlyFeesByCoachingId(@PathVariable Integer id) {
-        return repository.findAllByCoachingId(id);
+    @GetMapping("/get-monthlyFees")
+    public List<MonthlyFees> getMonthlyFeesByCoachingId() {
+        return repository.findAllByCoachingId(JwtUtils.getCoachingId());
     }
 
     @GetMapping("/get-monthlyFees-by-month/{month}")
@@ -85,5 +90,17 @@ public class MonthlyFeesController {
     @DeleteMapping("/delete-monthlyFees-by-id")
     public String deleteMonthlyFees(@PathVariable Integer id) {
         return service.deleteMonthlyFees(id);
+    }
+
+    @PostMapping("/pay-monthly-fees")
+    public ObjectNode payMonthlyFees(@RequestBody List<Integer> monthlyFeesIds) {
+        for (Integer id : monthlyFeesIds) {
+            MonthlyFees fees = repository.findById(id).orElse(null);
+            if (fees != null && fees.getPaymentDate() == null) {
+                fees.setPaymentDate(new Date());
+                repository.save(fees);
+            }
+        }
+        return Global.createSuccessMessage("Selected fees are paid");
     }
 }

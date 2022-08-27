@@ -213,6 +213,14 @@ export const API = {
     filterMonthYear: (month: string, year: number) =>
       get("/get-expense-by-coaching-id-month-year/" + month + "/" + year),
   },
+  monthlyFees: {
+    getAllByCoaching: () => get("/get-monthlyFees"),
+    getAllByStudent: (studentId: number) =>
+      get("/get-monthly-fees-by-studentId/" + studentId),
+    getAllByBatch: (batchId: number) =>
+      get("/get-monthly-fees-by-batchId/" + batchId),
+    pay: (ids: number[]) => postBody("/pay-monthly-fees", ids),
+  },
   csvImport: {
     students: (formData: FormData) => post("/import-students", formData),
     teachers: (formData: FormData) => post("/import-teachers", formData),
