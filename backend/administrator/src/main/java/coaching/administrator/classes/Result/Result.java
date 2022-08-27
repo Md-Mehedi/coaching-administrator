@@ -11,10 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import coaching.administrator.classes.Exam.QualificationExam;
 import coaching.administrator.classes.ExamMark.ExamMark;
-import coaching.administrator.classes.ExamSubject.ExamSubject;
 import coaching.administrator.classes.Student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,12 +31,19 @@ public class Result implements Serializable {
     private Integer id;
     private Float obtainedMark;
 
+    @Transient
+    private float highestMark;
+
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_mark_id", referencedColumnName = "id")
     private ExamMark examMark;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", referencedColumnName = "person_id")
     private Student student;
+
+    public void setHighestMark(float highestMark) {
+        this.highestMark = highestMark;
+    }
 
 }

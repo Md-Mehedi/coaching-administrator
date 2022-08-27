@@ -73,42 +73,8 @@ group by coaching_id
 select * from exam;
 
 
--- expense in a ACCESSmonth
-select * from expense
-where coaching_id = 5 AND
-EXTRACT(MONTH FROM expense_date) = 8
 
--- total income in a month
-
-select sum(mf.amount) total,EXTRACT(MONTH FROM payment_date) as month
-from monthly_fees mf,batch b,program p,coaching c
-where mf.batch_id = b.id and b.program_id = p.id and p.coaching_id = c.id
- and EXTRACT(year FROM payment_date) = 2022 and p.coaching_id = 5
-group by EXTRACT(MONTH FROM payment_date) 
--- monthly fees by coaching id
-select ms.id,ms.amount,ms.due_Date,ms.payment_date,ms.batch_id,ms.student_id
-from monthly_fees ms,student s,person p 
-where ms.student_id = s.person_id and s.person_id = p.id and p.coaching_id = 5 
-
--- find batch income by month_date
-select sum(mf.amount) total,mf.batch_id batchId 
- from monthly_fees mf 
- where mf.batch_id = 3
-and mf.payment_date is not null and EXTRACT(MONTH FROM payment_date) = 8 
-group by mf.batch_id
-
-
--- find income by program
-
-select sum(mf.amount) total,p.id programId
-from monthly_fees mf,batch b, program p 
-where mf.batch_id = b.id and b.program_id = p.id
- and p.id = 1 and mf.payment_date is not null and EXTRACT(MONTH FROM payment_date) = 8 
-group by p.id
-
-drop table fees_history cascade;
-
-select * from monthly_fees
+select * from subject;
 
 update person set nick_name='Ali' where id='4';
 update person set nick_name='Akbar' where id='5';
@@ -123,6 +89,7 @@ update institution set name='City College' where id=8
 
 
 
+select * from exam_subject;
 select email from person
 
 
@@ -374,39 +341,31 @@ select * from admin;
 insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
 insert into admin (person_id) values(1);
 select * from student_batch
-update person set image=NULL where id = 5;
-update coaching set image=NULL where id = 5;
+>>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
 
-select * from person where id = 6;
-select * from coaching where id = 6
+select max(obtained_mark) highestMark from result r where r.exam_mark_id = 1 Group By r.exam_mark_id
 
-select * from contact_type;
-insert into contact_type (type) values('PHONE');
-update contact_type set name = 'Personal' where name = 'Own'
-select * from occupation;
-select * from person p, student s where p.id = s.person_id;
-select * from occupation where name = 'Businessman'
-delete from occupation where name is null
-select * from person;
-insert into enrolled_program (program_id, student_id, enrolled_date) values(5, 18, now())
-select * from enrolled_program where program_id = 2;
 
-insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
-insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
-insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
-insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
-insert into teacher_payment_owed (teacher_payment_id, owed_date) values(1, now());
+select * from exam;
 
-select * from teacher_payment tp, teacher_payment_owed tpw where tp.id = tpw.teacher_payment_id and tp.teacher_id = 13
+select * from exam_subject;
 
-update teacher_payment_owed tpw 
-set withdrawal_date = null
-from teacher_payment tp 
-where tp.id = tpw.teacher_payment_id 
-and tp.teacher_id = 13 
+select * from subject;
 
-and tpw.id = 3;
+insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper',1,9)
 
-select * from teacher_payment;
-select * from teacher_payment_owed;
+select * from exam_mark;
 
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (20,'CQ',1)
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (10,'MCQ',1)
+
+insert into result(exam_mark_id,student_id,obtained_mark) values (1,62,18)
+insert into result(exam_mark_id,student_id,obtained_mark) values (2,62,8)
+
+
+insert into result(exam_mark_id,student_id,obtained_mark) values (1,63,18);
+insert into result(exam_mark_id,student_id,obtained_mark) values (2,63,8);
+
+select * from result;
+
+select * from person,student where person.id = student.person_id;

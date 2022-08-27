@@ -1,5 +1,7 @@
 package coaching.administrator.classes.Exam;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,6 @@ public class ExamService {
     @Autowired
     private ExamRepository repository;
 
-    public Exam saveExam(Exam exam) {
-        return repository.save(exam);
-    }
-
     public Exam getExamById(Integer id) {
         return repository.findById(id).orElse(null);
     }
@@ -21,9 +19,19 @@ public class ExamService {
         return repository.findByName(name);
     }
 
-    public String deleteExam(Integer id) {
-        repository.deleteById(id);
-        return "Exam with id : " + id + " deleted";
+    public Set<Exam> getAllExamsByProgramId(Integer programId) {
+        return repository.findByProgramId(programId);
     }
 
+    public void save(Exam exam) {
+        repository.save(exam);
+    }
+
+    public void delete(Exam exam) {
+        repository.delete(exam);
+    }
+
+    public void update(Exam exam) {
+        repository.save(exam);
+    }
 }

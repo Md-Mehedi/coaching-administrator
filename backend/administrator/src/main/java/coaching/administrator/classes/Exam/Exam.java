@@ -1,9 +1,8 @@
 package coaching.administrator.classes.Exam;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,9 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import coaching.administrator.classes.Coaching.Coaching;
 import coaching.administrator.classes.ExamSubject.ExamSubject;
 import coaching.administrator.classes.Program.Program;
 import lombok.AllArgsConstructor;
@@ -44,11 +42,14 @@ public class Exam implements Serializable {
     private Program program;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date resultDate = new Date();
+    private Date resultDate;
 
-    @OneToMany(mappedBy = "exam", cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.DETACH,
-            CascadeType.REFRESH }, fetch = FetchType.EAGER)
-    private List<ExamSubject> examSubject;
+    // exam subject list rakhbo - fetchType lazy
+    @JsonBackReference
+    @OneToMany(mappedBy = "exam", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    private Set<ExamSubject> examSubjects;
 
+    public Set<ExamSubject> getExamSubjectList() {
+        return examSubjects;
+    }
 }

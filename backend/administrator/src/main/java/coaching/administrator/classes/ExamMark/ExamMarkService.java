@@ -10,9 +10,9 @@ public class ExamMarkService {
     @Autowired
     private ExamMarkRepository repository;
 
-    public ExamMark saveExamMark(ExamMark examMark) {
-        return repository.save(examMark);
-    }
+    // public ExamMark saveExamMark(ExamMark examMark) {
+    //     return repository.save(examMark);
+    // }
 
     public ExamMark getExamMarkById(Integer id) {
         return repository.findById(id).orElse(null);
@@ -22,6 +22,20 @@ public class ExamMarkService {
     public String deleteExamMark(Integer id) {
         repository.deleteById(id);
         return "ExamMark with id : " + id + " deleted";
+    }
+
+    public void save(ExamMark examMark) {
+        repository.save(examMark);
+    }
+
+
+    public void update(ExamMark examMark) {
+        repository.save(examMark);
+    }
+
+
+    public void delete(ExamMark fetchedExamMark) {
+        repository.delete(fetchedExamMark);
     }
 
 }

@@ -1,6 +1,7 @@
 package coaching.administrator.classes.ExamSubject;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,10 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import coaching.administrator.classes.Exam.Exam;
-import coaching.administrator.classes.Exam.QualificationExam;
+import coaching.administrator.classes.ExamMark.ExamMark;
 import coaching.administrator.classes.Subject.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,5 +42,14 @@ public class ExamSubject implements Serializable {
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;
+
+    // bidrectional examSubject.
+    @JsonBackReference
+    @OneToMany(mappedBy = "examSubject", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    private Set<ExamMark> examMarks;
+
+    public Set<ExamMark> getExamMarkList() {
+        return examMarks;
+    }
 
 }

@@ -48,7 +48,8 @@ public class DivisionController {
     }
 
     @GetMapping("/get-district-count-by-division")
-    public List<Map<String, Object>> getDistrictCountByDivision() {
+    public Object getDistrictCountByDivision() {
+        // List<Map<String, Object>> objects = repository.countByDivision();
         List<Map<String, Object>> objects = repository.countByDivision();
         // List<ObjectNode> nodes;
         // for(Object object : objects)
@@ -57,7 +58,18 @@ public class DivisionController {
         // node.put("division name",object.getClass().);
         // nodes.add()
         // }
-        return objects;
+        // String temp = "";
+        // Map<String, Object> map = objects.
+        // temp = objects.toString() + "\n";
+
+        for (int i = 0; i < objects.size(); i++) {
+            Map.Entry<String, Object> entry = objects.get(i).entrySet().iterator().next();
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+        return null;
+        // System.out.println("Key value is :" + temp);
+        // return temp;
+        // return objects.size() > 0 ? returnObject : null;
     }
 
     @DeleteMapping("/delete-division-by-id")
