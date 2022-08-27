@@ -342,3 +342,28 @@ insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail
 insert into admin (person_id) values(1);
 select * from student_batch
 >>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
+
+
+select * from exam;
+
+select * from exam_subject;
+
+select * from subject;
+
+insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper',1,9)
+
+select * from exam_mark;
+
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (20,'CQ',1)
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (10,'MCQ',1)
+
+insert into result(exam_mark_id,student_id,obtained_mark) values (1,62,18)
+insert into result(exam_mark_id,student_id,obtained_mark) values (2,62,8)
+
+
+insert into result(exam_mark_id,student_id,obtained_mark) values (1,63,18);
+insert into result(exam_mark_id,student_id,obtained_mark) values (2,63,8);
+
+select * from result;
+
+select * from person,student where person.id = student.person_id;
