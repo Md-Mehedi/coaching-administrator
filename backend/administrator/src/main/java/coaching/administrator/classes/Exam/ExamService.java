@@ -1,5 +1,6 @@
 package coaching.administrator.classes.Exam;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ExamService {
         return repository.findByName(name);
     }
 
-    public Set<Exam> getAllExamsByProgramId(Integer programId) {
+    public List<Exam> getAllExamsByProgramId(Integer programId) {
         return repository.findByProgramId(programId);
     }
 

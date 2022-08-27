@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import coaching.administrator.classes.ExamSubject.ExamSubject;
 import coaching.administrator.classes.Result.Result;
@@ -36,17 +37,19 @@ public class ExamMark implements Serializable {
     private String examType;
     private float examSubjectMark;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_subject_id", referencedColumnName = "id")
-    private ExamSubject examSubject;
+    // @JsonManagedReference
+    // @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "exam_subject_id", referencedColumnName = "id")
+    // private ExamSubject examSubject;
 
     // add a derived column that is not in the database . Derived column is a column
     // that is not in the database but is calculated from other columns.
-    @JsonBackReference
-    @OneToMany(mappedBy = "examMark", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-    private Set<Result> resultList;
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "examMark", cascade = { CascadeType.ALL }, fetc //
+    // FetchType.LAZY)
+    // private Set<Result> resultList;
 
-    public Set<Result> getResultList() {
-        return resultList;
-    }
+    // public Set<Result> getResultList(
+    // return resultList;
+    // }
 }

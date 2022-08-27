@@ -57,7 +57,7 @@ export default function ProgramInfo() {
   const tabs: TabLayoutContent[] = [
     {
       title: "Exam",
-      element: <ProgramExam />,
+      element: <ProgramExam program={state.program} />,
     },
     {
       title: "Routine",

@@ -22,62 +22,65 @@ public class ResultService {
     // return repository.save(result);
     // }
 
-    public Result getResultById(Integer id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    // public String deleteResult(Integer id) {
-    // repository.deleteById(id);
-    // return "Result with id : " + id + " deleted";
+    // public Result getResultById(Integer id) {
+    // return repository.findById(id).orElse(null);
     // }
 
-    public void save(Result result) {
-        repository.save(result);
-    }
+    // // public String deleteResult(Integer id) {
+    // // repository.deleteById(id);
+    // // return "Result with id : " + id + " deleted";
+    // // }
 
-    public void delete(Result result) {
-        repository.delete(result);
-    }
+    // public void save(Result result) {
+    // repository.save(result);
+    // }
 
-    public void update(Result result) {
-        repository.save(result);
-    }
+    // public void delete(Result result) {
+    // repository.delete(result);
+    // }
 
-    public Set<Result> getAllResultsByExamSubject(ExamSubject fetchedExamSubject) {
+    // public void update(Result result) {
+    // repository.save(result);
+    // }
 
-        Set<Result> totalResultList = new HashSet<Result>();
+    // public Set<Result> getAllResultsByExamSubject(ExamSubject fetchedExamSubject)
+    // {
 
-        fetchedExamSubject.getExamMarkList().size();
-        Set<ExamMark> examMarkList = fetchedExamSubject.getExamMarkList();
+    // Set<Result> totalResultList = new HashSet<Result>();
 
-        for (ExamMark examMark : examMarkList) {
+    // // fetchedExamSubject.getExamMarkList().size();
+    // Set<ExamMark> examMarkList = fetchedExamSubject.getExamMarkList();
 
-            examMark.getResultList().size();
-            Set<Result> examResultList = examMark.getResultList();
+    // for (ExamMark examMark : examMarkList) {
 
-            for (Result result : examResultList) {
-                totalResultList.add(result);
-            }
-        }
-        return totalResultList;
-    }
+    // // examMark.getResultList().size();
+    // // Set<Result> examResultList = examMark.getResultList();
 
-    public Set<Result> getAllResultsByStudentExam(Exam fetchedExam, Student fetchedStudent) {
-        Set<Result> totalResultList = new HashSet<Result>();
-        fetchedExam.getExamSubjectList().size();
-        for (ExamSubject examSubject : fetchedExam.getExamSubjectList()) {
-            examSubject.getExamMarkList().size();
-            for (ExamMark examMark : examSubject.getExamMarkList()) {
-                examMark.getResultList().size();
-                for (Result result : examMark.getResultList()) {
-                    if (result.getStudent().getPerson().getId() == fetchedStudent.getPerson().getId()) {
-                        result.setHighestMark(repository.getHighestMarkByExamMark(examMark.getId()));
-                        totalResultList.add(result);
-                        Global.colorPrint("Result Added");
-                    }
-                }
-            }
-        }
-        return totalResultList;
-    }
+    // // for (Result result : examResultList) {
+    // // totalResultList.add(result);
+    // // }
+    // }
+    // return totalResultList;
+    // }
+
+    // public Set<Result> getAllResultsByStudentExam(Exam fetchedExam, Student
+    // fetchedStudent) {
+    // Set<Result> totalResultList = new HashSet<Result>();
+    // fetchedExam.getExamSubjectList().size();
+    // for (ExamSubject examSubject : fetchedExam.getExamSubjectList()) {
+    // examSubject.getExamMarkList().size();
+    // for (ExamMark examMark : examSubject.getExamMarkList()) {
+    // examMark.getResultList().size();
+    // for (Result result : examMark.getResultList()) {
+    // if (result.getStudent().getPerson().getId() ==
+    // fetchedStudent.getPerson().getId()) {
+    // result.setHighestMark(repository.getHighestMarkByExamMark(examMark.getId()));
+    // totalResultList.add(result);
+    // Global.colorPrint("Result Added");
+    // }
+    // }
+    // }
+    // }
+    // return totalResultList;
+    // }
 }

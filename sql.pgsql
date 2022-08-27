@@ -341,7 +341,6 @@ select * from admin;
 insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
 insert into admin (person_id) values(1);
 select * from student_batch
->>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
 
 select max(obtained_mark) highestMark from result r where r.exam_mark_id = 1 Group By r.exam_mark_id
 
@@ -352,16 +351,14 @@ select * from exam_subject;
 
 select * from subject;
 
-insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper',1,9)
+insert into exam(name, program_id) values('Physics Exam', 2);
+insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper',3,9);
 
-select * from exam_mark;
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (20,'CQ',4);
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (10,'MCQ',4);
 
-insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (20,'CQ',1)
-insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (10,'MCQ',1)
-
-insert into result(exam_mark_id,student_id,obtained_mark) values (1,62,18)
-insert into result(exam_mark_id,student_id,obtained_mark) values (2,62,8)
-
+insert into result(exam_mark_id,student_id,obtained_mark) values (1,62,18);
+insert into result(exam_mark_id,student_id,obtained_mark) values (2,62,8);
 
 insert into result(exam_mark_id,student_id,obtained_mark) values (1,63,18);
 insert into result(exam_mark_id,student_id,obtained_mark) values (2,63,8);
@@ -369,3 +366,15 @@ insert into result(exam_mark_id,student_id,obtained_mark) values (2,63,8);
 select * from result;
 
 select * from person,student where person.id = student.person_id;
+
+select * from exam;
+select * from exam_subject;
+select * from exam_mark;
+select * from result;
+drop table result;
+drop table exam_mark;
+drop table exam_exam_subjects ;
+drop table exam CASCADE;
+update exam_subject set description=''
+
+select * from program where id = 2;

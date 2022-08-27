@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Grid } from "@mui/material";
 import { EduQualification } from "../../classes/person-info";
-import ExamDetails from "../../pages/exam/exam-info";
+import ExamInfo from "../../pages/exam/exam-info";
 import QualificationExamResultField from "./qualifiction-exam-field";
 import { updateArray } from "../../tools/helper-functions";
 

@@ -12,6 +12,7 @@ import {
   TeacherPayment,
 } from "./classes/coaching";
 import AuthService from "./services/auth-service";
+import { Exam } from "./classes/exam";
 
 const HOST = "http://localhost:7982";
 
@@ -220,6 +221,14 @@ export const API = {
     getAllByBatch: (batchId: number) =>
       get("/get-monthly-fees-by-batchId/" + batchId),
     pay: (ids: number[]) => postBody("/pay-monthly-fees", ids),
+  },
+  exam: {
+    add: (exam: Exam) => postBody("/add-exam", exam),
+    delete: (examId: number) => del("/delete-exam-by-id/" + examId),
+    update: (exam: Exam) => put("/update-exam", exam),
+    get: (id: number) => get("/get-exam-by-id/" + id),
+    getAllByProgram: (programId: number) =>
+      get("/get-all-exams-by-programId/" + programId),
   },
   csvImport: {
     students: (formData: FormData) => post("/import-students", formData),
