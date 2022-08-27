@@ -1,10 +1,8 @@
 
 package coaching.administrator.classes.Result;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import coaching.administrator.classes.Exam.Exam;
+import coaching.administrator.classes.Exam.ExamService;
 import coaching.administrator.classes.ExamMark.ExamMark;
 import coaching.administrator.classes.ExamMark.ExamMarkService;
 import coaching.administrator.classes.ExamSubject.ExamSubject;
@@ -43,6 +43,9 @@ public class ResultController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private ExamService examService;
 
     @Autowired
     private ObjectMapper mapper;
@@ -107,6 +110,7 @@ public class ResultController {
 
     @GetMapping("/get-result-by-id/{id}")
     public Result getResultById(@PathVariable Integer id) {
+        Global.colorPrint("Inside Result Controller");
         return service.getResultById(id);
     }
 
@@ -130,7 +134,7 @@ public class ResultController {
     // }
 
     @PreAuthorize("hasRole('COACHING_ADMIN')")
-    @GetMapping("/get-all-results-by-student/{id}")
+    @GetMapping("/get-all-results-by-examSubject/{id}")
     public ObjectNode getAllResultsByExamSubject(@PathVariable Integer id) {
         ExamSubject fetchedExamSubject = examSubjectService.getExamSubjectById(id);
         if (fetchedExamSubject == null) {
@@ -166,6 +170,31 @@ public class ResultController {
         }
     }
 
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
+    @GetMapping("/get-all-results-by-student-exam/{student_id}/{exam_id}")
+    public ObjectNode getResultListByStudentExam(@PathVariable Integer student_id, @PathVariable Integer exam_id) {
+        Exam fetchedExam = examService.getExamById(exam_id);
+        Student fetchedStudent = studentService.getStudentById(student_id);
+
+        if (fetchedExam == null) {
+            return Global.createErrorMessage("Exam Not found");
+        }
+
+        if (fetchedStudent == null) {
+            return Global.createErrorMessage("Student Not Found");
+        }
+
+        if (fetchedExam.getProgram().getCoaching().getId() == JwtUtils.getCoachingId()
+                && fetchedStudent.getPerson().getCoaching().getId() == JwtUtils.getCoachingId()) {
+            Global.colorPrint("Result List Found");
+            Set<Result> results = service.getAllResultsByStudentExam(fetchedExam, fetchedStudent);
+            return Global.createSuccessMessage("Result List Found").putPOJO("object", results);
+        } else {
+            return Global.createErrorMessage("Not Authorized to get result list");
+        }
+    }
+
+    @PreAuthorize("hasRole('COACHING_ADMIN')")
     public Set<String> getExamMarkListName(ExamSubject examSubject) {
         Set<String> examMarkList = new HashSet<>();
         for (ExamMark examMark : examSubject.getExamMarkList()) {

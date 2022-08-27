@@ -342,3 +342,5 @@ insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail
 insert into admin (person_id) values(1);
 select * from student_batch
 >>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
+
+select max(obtained_mark) highestMark from result r where r.exam_mark_id = 1 Group By r.exam_mark_id

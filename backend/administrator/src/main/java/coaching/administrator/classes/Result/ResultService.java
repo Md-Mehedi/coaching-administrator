@@ -6,8 +6,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coaching.administrator.classes.Exam.Exam;
 import coaching.administrator.classes.ExamMark.ExamMark;
 import coaching.administrator.classes.ExamSubject.ExamSubject;
+import coaching.administrator.classes.Global.Global;
+import coaching.administrator.classes.Student.Student;
 
 @Service
 public class ResultService {
@@ -54,6 +57,25 @@ public class ResultService {
 
             for (Result result : examResultList) {
                 totalResultList.add(result);
+            }
+        }
+        return totalResultList;
+    }
+
+    public Set<Result> getAllResultsByStudentExam(Exam fetchedExam, Student fetchedStudent) {
+        Set<Result> totalResultList = new HashSet<Result>();
+        fetchedExam.getExamSubjectList().size();
+        for (ExamSubject examSubject : fetchedExam.getExamSubjectList()) {
+            examSubject.getExamMarkList().size();
+            for (ExamMark examMark : examSubject.getExamMarkList()) {
+                examMark.getResultList().size();
+                for (Result result : examMark.getResultList()) {
+                    if (result.getStudent().getPerson().getId() == fetchedStudent.getPerson().getId()) {
+                        result.setHighestMark(repository.getHighestMarkByExamMark(examMark.getId()));
+                        totalResultList.add(result);
+                        Global.colorPrint("Result Added");
+                    }
+                }
             }
         }
         return totalResultList;
