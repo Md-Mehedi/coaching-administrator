@@ -134,20 +134,14 @@ export default function MyTable<RowData extends object>(
             </>
           ),
         }}
-        // icons={{
-        //   Add: (addProps) => (
-        //     <Button
-        //       variant="contained"
-        //       startIcon={<AddCircle />}
-        //       onClick={(event) => {
-        //         event.stopPropagation();
-        //         addProps?.ref?.onClick();
-        //       }}
-        //     >
-        //       {props.addButtonText || "Add"}
-        //     </Button>
-        //   ),
-        // }}
+        icons={{
+          //@ts-ignore
+          Add: (addProps) => (
+            <Button variant="contained" startIcon={<AddCircle />}>
+              {props.addButtonText || "Add"}
+            </Button>
+          ),
+        }}
         // components={{
         //   Action: (props) => {
         //     if (

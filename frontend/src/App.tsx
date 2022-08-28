@@ -1,3 +1,4 @@
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -6,13 +7,14 @@ import React from "react";
 import "./index.css";
 import Router from "./routes";
 import CSVProvider from "./services/csv-hook";
-import { lightTheme } from "./theme";
+import { lightTheme, darkTheme } from "./theme";
 
 export const moment = require("moment");
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
         <LocalizationProvider
           // @ts-ignore
           dateAdapter={AdapterDateFns}

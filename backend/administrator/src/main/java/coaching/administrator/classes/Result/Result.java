@@ -37,8 +37,8 @@ public class Result implements Serializable {
     private float highestMark;
 
     // @JsonManagedReference
-    // @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "exam_mark_id", referencedColumnName = "id")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "exam_mark_id", referencedColumnName = "id")
     private ExamMark examMark;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)

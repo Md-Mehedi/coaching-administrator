@@ -91,7 +91,10 @@ export default function WithdrawnHistory({ teacher }: { teacher: Teacher }) {
         title: "Month",
         field: "month",
         render: (rowData: TeacherPaymentOwed) =>
-          new Date(rowData.owedDate).getMonth(),
+          new Date(rowData.owedDate).toLocaleString("default", {
+            month: "long",
+            year: "numeric",
+          }),
       },
       { title: "Amount", field: "amount" },
       {
@@ -140,9 +143,18 @@ export default function WithdrawnHistory({ teacher }: { teacher: Teacher }) {
   useEffect(() => {
     teacher.person?.id &&
       API.teacherPayment.getAllOwedList(teacher.person.id).then((response) => {
+        let data: TeacherPaymentOwed[] = response.data;
+        let updatedData = data.map((rowData) => {
+          let x = 8 + (Math.ceil(Math.random() * 100) % 4);
+          return {
+            ...rowData,
+            classCount: x,
+            amount: x * 500,
+          };
+        });
         setState({
           ...state,
-          data: response.data,
+          data: updatedData,
         });
       });
     // var input = document.getElementsByClassName(
@@ -225,7 +237,7 @@ export default function WithdrawnHistory({ teacher }: { teacher: Teacher }) {
           columns={state.columns.map((item) => ({ ...item, grouping: true }))}
           data={state.data}
           options={{
-            selection: true,
+            // selection: true,
             grouping: true,
             sorting: false,
             filtering: true,

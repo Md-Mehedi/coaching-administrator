@@ -62,15 +62,19 @@ export function Footer() {
               <Typography variant="h5">Kazi Wasif Amin Shammya</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h6">CSE, BUET</Typography>
+              <Typography variant="h6">ID : 1705079</Typography>
             </Grid>
+            {/* <Grid item>
+              <Typography variant="h6">CSE, BUET</Typography>
+            </Grid> */}
           </Grid>
         </Grid>
         <Grid item>
           <Grid container direction="column" alignItems="center">
             <Grid item>
               <Avatar
-                src="https://avatars.githubusercontent.com/u/46004817?v=4"
+                // src="https://avatars.githubusercontent.com/u/46004817?v=4"
+                src={resolvePublicImage("mehedi.jpg")}
                 sx={{ width: "200px", height: "200px" }}
               />
             </Grid>
@@ -78,8 +82,30 @@ export function Footer() {
               <Typography variant="h5">Md. Mehedi Hasan</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h6">CSE, BUET</Typography>
+              <Typography variant="h6">ID : 1705082</Typography>
             </Grid>
+            {/* <Grid item>
+              <Typography variant="h6">CSE, BUET</Typography>
+            </Grid> */}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="column" alignItems="center">
+            <Grid item>
+              <Avatar
+                src="https://avatars.githubusercontent.com/u/45968966?v=4"
+                sx={{ width: "200px", height: "200px" }}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant="h5">Asif Ahmed Utsa</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="h6">ID : 1705084</Typography>
+            </Grid>
+            {/* <Grid item>
+              <Typography variant="h6">CSE, BUET</Typography>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>
@@ -136,18 +162,12 @@ function Contacts() {
           Contacts
         </Typography>
       </Grid>
-      <Grid
-        item
-        container
-        spacing={4}
-        direction="row"
-        justifyContent="space-around"
-      >
+      <Grid item container spacing={4} direction="row" justifyContent="center">
         {contacts.map((item, idx) => (
           <Grid item key={idx}>
-            <Card sx={{ padding: 4 }}>
+            <Card sx={{ padding: 2 }}>
               <CardContent>
-                <img src={item.icon} width="200px" />
+                <img src={item.icon} width="80px" />
               </CardContent>
             </Card>
           </Grid>

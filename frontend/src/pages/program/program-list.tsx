@@ -28,9 +28,7 @@ function ProgramCards({ programs }: { programs: Program[] }) {
             disableUnderline
             href={ADMIN_LINKS.program.path + "/" + program.id}
           >
-            <Card
-              sx={{ width: "100%", backgroundColor: "#2F4B60", color: "white" }}
-            >
+            <Card sx={{ width: "100%" }}>
               <CardActionArea>
                 <CardContent>
                   <Grid

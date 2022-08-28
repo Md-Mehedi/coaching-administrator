@@ -229,6 +229,8 @@ export const API = {
     get: (id: number) => get("/get-exam-by-id/" + id),
     getAllByProgram: (programId: number) =>
       get("/get-all-exams-by-programId/" + programId),
+    getMarksByExamSubject: (id: number) =>
+      get("/get-all-results-by-examSubject/" + id),
   },
   csvImport: {
     students: (formData: FormData) => post("/import-students", formData),

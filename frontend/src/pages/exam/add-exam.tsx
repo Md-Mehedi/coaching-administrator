@@ -83,15 +83,18 @@ function ExamSubjectDetails({
     subject: null,
   });
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ArrowDownward />}>
+    <Accordion sx={{ backgroundColor: "#DFF6F8" }}>
+      <AccordionSummary
+        expandIcon={<ArrowDownward />}
+        // sx={{ backgroundColor: "#ACE1E1" }}
+      >
         <Grid
           container
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Grid item xs={8} md={10}>
+          <Grid item xs={10}>
             <DropDown
               label="Subject"
               value={subject.subject}
