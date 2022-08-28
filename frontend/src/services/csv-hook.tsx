@@ -114,6 +114,7 @@ export default function CSVProvider({ children }) {
     <CSVContext.Provider value={{ state, setState, openDialog }}>
       {children}
       <DialogLayout
+        fullWidth
         // title={props.title ? (props.title as string) : ""}
         open={state.dialogOpen}
         onClose={() => {

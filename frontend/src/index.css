@@ -16,3 +16,40 @@ code {
 .fc-media-screen{
   width: 100%
 }
+
+
+
+.chart {
+  background-color: white !important;
+}
+.chart .MuiInputBase-root {
+  background-color: "#234042";
+}
+.main-nav-name {
+  color: black !important;
+}
+.MuiGrid-root .main-nav-name:hover {
+  color: #282c34 !important;
+  text-decoration: none !important;
+}
+.sub-nav-name:hover {
+  color: gray !important;
+  text-decoration: none !important;
+}
+.MuiGrid-root a:hover {
+  color: royalblue !important;
+}
+.MuiGrid-root .main-nav-name:hover {
+  color: "#282C34" !important;
+  text-decoration: none !important;
+}
+a {
+  cursor: pointer;
+}
+.hide-scroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}

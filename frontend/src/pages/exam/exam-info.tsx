@@ -20,12 +20,20 @@ import { onRowDelete, onRowUpdate } from "../../components/my-table";
 import { Student } from "../../classes/person-info";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { API } from "../../api";
-import { showSnackbar } from "../../tools/helper-functions";
+import { apiCatch, showSnackbar } from "../../tools/helper-functions";
 import Loading from "../../components/loading";
-import { Exam, ExamSubject } from "../../classes/exam";
+import { Exam, ExamSubject, Result } from "../../classes/exam";
+import { API } from "./../../api";
+import { EnrolledProgram } from "./../../classes/coaching";
 
-function ExamShortInfo({ exam }: { exam: Exam }) {
+function ExamShortInfo({
+  exam,
+  setExam,
+}: {
+  exam: Exam;
+  setExam: (exam: Exam) => void;
+}) {
+  const { enqueueSnackbar } = useSnackbar();
   const [state, setState] = useState({ open: false });
 
   return (
@@ -75,8 +83,18 @@ function ExamShortInfo({ exam }: { exam: Exam }) {
                   open={state.open}
                   onClose={(event) => setState({ ...state, open: false })}
                   title="Exam name"
+                  onSaveButtonClick={(event) =>
+                    API.exam
+                      .update(exam)
+                      .then((response) => {
+                        showSnackbar(enqueueSnackbar, response.data, () => {
+                          setState({ ...state, open: false });
+                        });
+                      })
+                      .catch((r) => apiCatch(enqueueSnackbar, r))
+                  }
                 >
-                  <AddExam exam={exam} setExam={(exam) => {}} />
+                  <AddExam exam={exam} setExam={setExam} />
                 </DialogLayout>
               </Grid>
               <Grid item>
@@ -168,33 +186,64 @@ function ExamMarkUpload() {
   );
 }
 
-function ExamMark({ examSubject }: { examSubject: ExamSubject }) {
-  const [state, setState] = useState({
+function ExamMark({
+  programId,
+  examSubject,
+}: {
+  programId: number;
+  examSubject: ExamSubject;
+}) {
+  const { enqueueSnackbar } = useSnackbar();
+  const [state, setState] = useState<{
+    column: any[];
+    data: Result[];
+    uploadDialogOpen: boolean;
+  }>({
     column: [
-      { title: "ID", field: "id", editable: "never" },
-      { title: "Nickname", field: "nickname", editable: "never" },
-      { title: "CQ", field: "cq", editable: "always" },
-      { title: "MCQ", field: "mcq", editable: "always" },
+      { title: "ID", field: "student.person.id", editable: "never" },
+      {
+        title: "Nickname",
+        field: "student.person.nickName",
+        editable: "never",
+      },
     ],
-    data: [
-      { id: 1, nickname: "Aman", cq: 20, mcq: 10 },
-      { id: 2, nickname: "Shemu", cq: 21, mcq: 5 },
-      { id: 3, nickname: "Sanjida", cq: 10, mcq: 7 },
-      { id: 4, nickname: "Mehedi", cq: 14, mcq: 9 },
-      { id: 5, nickname: "Nasir", cq: 22, mcq: 7 },
-    ],
+    data: [],
     uploadDialogOpen: false,
   });
+  useEffect(() => {
+    let type = examSubject.examMarks
+      ? examSubject.examMarks.map((item) => ({
+          title: `${item.examType} (${item.examSubjectMark})`,
+          field: item.examType,
+          editable: "always",
+        }))
+      : [];
+    console.log("in useeffect type", type);
+    programId != 0 &&
+      API.program.getEnrolledStudents(programId).then((response) => {
+        let students: EnrolledProgram[] = response.data.object;
+        console.log("exa student list", students);
+        setState({
+          ...state,
+          data: students.map((enroll) => ({
+            student: enroll.student,
+          })),
+          column: [...state.column, ...type],
+        });
+      });
+    // API.exam
+  }, [programId]);
+
   return (
     <>
       <MyTable
         //@ts-ignore
         columns={state.column}
         data={state.data}
-        addButtonText="Upload Mark"
-        onAddButtonClick={(event) => {
-          setState({ ...state, uploadDialogOpen: true });
-        }}
+        // addButtonText="Upload Mark"
+        // onAddButtonClick={(event) => {
+        //   setState({ ...state, uploadDialogOpen: true });
+        // }}
         editable={{
           onRowUpdate: onRowUpdate(state.data, (newData) =>
             setState({ ...state, data: newData })
@@ -203,6 +252,22 @@ function ExamMark({ examSubject }: { examSubject: ExamSubject }) {
             console.log(newData);
             setState({ ...state, data: newData });
           }),
+          onBulkUpdate: (changes) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                let newData: Result[] = [];
+                for (let i in changes) {
+                  newData.push(changes[i].newData);
+                }
+                console.log("in bulk update", changes);
+                setState({
+                  ...state,
+                  data: newData,
+                });
+                resolve(1);
+                enqueueSnackbar("Updated successfully", { variant: "success" });
+              }, 100);
+            }),
         }}
       />
       <DialogLayout
@@ -215,7 +280,13 @@ function ExamMark({ examSubject }: { examSubject: ExamSubject }) {
     </>
   );
 }
-function ExamSubjectInTab({ examSubject }: { examSubject: ExamSubject }) {
+function ExamSubjectInTab({
+  programId,
+  examSubject,
+}: {
+  programId: number;
+  examSubject: ExamSubject;
+}) {
   return (
     <TabLayout
       tabs={[
@@ -225,7 +296,7 @@ function ExamSubjectInTab({ examSubject }: { examSubject: ExamSubject }) {
         },
         {
           title: "Student marks",
-          element: <ExamMark examSubject={examSubject} />,
+          element: <ExamMark programId={programId} examSubject={examSubject} />,
         },
       ]}
     />
@@ -258,7 +329,12 @@ export default function ExamInfo() {
             loading: false,
             tabs: response.data.object.examSubjects.map((item) => ({
               title: item.subject.name || "",
-              element: <ExamSubjectInTab examSubject={item} />,
+              element: (
+                <ExamSubjectInTab
+                  programId={response.data.object.program?.id || 0}
+                  examSubject={item}
+                />
+              ),
             })),
           });
         });
@@ -268,7 +344,10 @@ export default function ExamInfo() {
     <Loading loading={state.loading}>
       <Grid container direction="column" spacing={2}>
         <Grid item container>
-          <ExamShortInfo exam={state.exam} />
+          <ExamShortInfo
+            exam={state.exam}
+            setExam={(exam) => setState({ ...state, exam: exam })}
+          />
         </Grid>
         <Grid item container>
           <TabLayout noPadding tabs={state.tabs} />

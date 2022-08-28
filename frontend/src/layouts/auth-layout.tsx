@@ -20,12 +20,14 @@ import { HEADER_HEIGHT } from "./../components/header";
 import SpecialLink from "./../components/special-link";
 import { USER_LINKS } from "../links";
 import { Theme } from "@mui/material/styles";
+import { resolvePublicImage } from "../tools/helper-functions";
 
 const useStyles: any = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
     minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
-    backgroundColor: "#1E293B",
+    // backgroundColor: "#1E293B",
+    backgroundImage: `url(${resolvePublicImage("/login-bg.jpg")})`,
     [theme.breakpoints.up("xs")]: {
       justifyContent: "center",
     },

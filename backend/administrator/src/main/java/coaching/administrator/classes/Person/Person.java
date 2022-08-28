@@ -59,17 +59,17 @@ public class Person implements Serializable {
     private Address presentAddress;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    // @Cascade(CascadeType.ALL)
     @JoinColumn(name = "father_ocptn_id", referencedColumnName = "id")
     private Occupation fatherOccupation;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    // @Cascade(CascadeType.ALL)
     @JoinColumn(name = "mother_ocptn_id", referencedColumnName = "id")
     private Occupation motherOccupation;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    // @Cascade(CascadeType.ALL)
     @JoinColumn(name = "religion_id", referencedColumnName = "id")
     private Religion religion;
 

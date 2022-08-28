@@ -45,7 +45,7 @@ export function TeacherList() {
         field: "person.bloodGroup",
       },
       {
-        title: "Studying",
+        title: "Academic profile",
         field: "person.currentQualification",
         render: (item) => {
           return `${item.person.currentQualification?.department.name}, ${item.person.currentQualification?.institution.name}`;

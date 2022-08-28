@@ -378,3 +378,22 @@ drop table exam CASCADE;
 update exam_subject set description=''
 
 select * from program where id = 2;
+
+select sum(mf.amount) totalIncome,
+p.coaching_id coachingId 
+from monthly_fees mf,batch b, 
+program p,coaching c  
+where mf.batch_id = b.id 
+and b.program_id = p.id 
+and p.coaching_id =c.id 
+and EXTRACT(year FROM payment_date) = 2022 
+and p.coaching_id = 5  
+and EXTRACT(month FROM payment_date) = 7  
+and mf.payment_date is not null  
+group by p.coaching_id
+
+select * from teacher_payment;
+select * from teacher_payment_owed
+update teacher_payment_owed set withdrawal_date = NULL
+
+alter table exam_subject alter column description type character varying(2000);
