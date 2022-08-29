@@ -396,4 +396,14 @@ select * from teacher_payment;
 select * from teacher_payment_owed
 update teacher_payment_owed set withdrawal_date = NULL
 
+select * from monthly_fees
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(6, 1000, '2020-07-01', 1, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(7, 1000, '2020-07-01', 5, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(8, 1000, '2020-07-01', 11, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(9, 1000, '2020-07-01', 7, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(10, 1000, '2020-06-01', 1, 19);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(11, 1000, '2020-06-01', 5, 19);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(12, 1000, '2020-06-01', 11, 21);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(13, 1000, '2020-06-01', 7, 21);
+
 alter table exam_subject alter column description type character varying(2000);

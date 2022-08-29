@@ -84,6 +84,7 @@ export default function MonthlyBatchDues({ sums, setSums }) {
         selection: true,
         filtering: true,
         draggable: true,
+        pageSize: 10,
         // sorting: false,
       }}
       toolbarButtons={

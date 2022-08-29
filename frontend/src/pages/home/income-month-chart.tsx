@@ -41,10 +41,13 @@ export function IncomeMonthChart() {
     <Card className="chart">
       <CardContent style={{ textAlign: "center" }}>
         <Chart palette="Violet" dataSource={temp}>
-          <CommonSeriesSettings argumentField="month" type="line" />
+          <CommonSeriesSettings argumentField="month" type="stackedBar" />
           {/* {energySources.map((item) => ( */}
           <Series valueField="count" name="Amount (in TK)" />
-          {/* ))} */}
+          {/* ))} */}{" "}
+          <ValueAxis>
+            <Title text="Amount (in TK)" />
+          </ValueAxis>
           <Margin bottom={20} />
           <ArgumentAxis
             valueMarginsEnabled={false}
@@ -53,6 +56,7 @@ export function IncomeMonthChart() {
             <Grid visible={true} />
           </ArgumentAxis>
           <Legend
+            visible={false}
             verticalAlignment="bottom"
             horizontalAlignment="center"
             itemTextPosition="bottom"
