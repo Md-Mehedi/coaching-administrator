@@ -123,3 +123,11 @@ export class TeacherPaymentOwed {
   owedDate: Date;
   withdrawalDate: Date;
 }
+export class MonthlyFees {
+  id: number;
+  student: Student;
+  batch: Batch;
+  dueDate: Date;
+  paymentDate: Date;
+  amount: number;
+}

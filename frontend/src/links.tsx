@@ -13,7 +13,7 @@ import { TeacherList } from "./pages/teacher/teacher-list";
 import Test, { TabTest } from "./pages/test";
 import { Register } from "./pages/auth/register";
 import Settings from "./pages/settings/settings";
-import ExamDetails from "./pages/exam/exam-info";
+import ExamInfo from "./pages/exam/exam-info";
 import AdminHome from "./pages/home/admin-home";
 import SubjectList from "./pages/coaching/subject-list";
 import DuesList from "./pages/financial/dues-list";
@@ -47,7 +47,8 @@ export var ADMIN_LINKS = {
   program: { path: "/dashboard/program", element: <ProgramInfo /> },
   programWithId: { path: "/dashboard/program/:id", element: <ProgramInfo /> },
   programList: { path: "/dashboard/program-list", element: <ProgramList /> },
-  exam: { path: "/dashboard/exam", element: <ExamDetails /> },
+  exam: { path: "/dashboard/exam", element: <ExamInfo /> },
+  examWithId: { path: "/dashboard/exam/:id", element: <ExamInfo /> },
   // Batch
   batch: { path: "/dashboard/batch", element: <Batch /> },
   batchWithId: { path: "/dashboard/batch/:id", element: <Batch /> },

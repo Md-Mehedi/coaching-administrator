@@ -121,8 +121,8 @@ export default function TeacherInfo() {
   }
   return (
     <Loading loading={state.loading}>
-      <Grid container direction="column" spacing={2}>
-        <Grid item>
+      <Grid container direction="column" spacing={0}>
+        <Grid item sx={{ height: "225px" }}>
           <ShortInfo
             person={state.teacher.person}
             deleteLoading={state.deleteLoading}

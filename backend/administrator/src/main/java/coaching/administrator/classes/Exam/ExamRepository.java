@@ -9,5 +9,5 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     Exam findByName(String name);
 
-    Set<Exam> findByProgramId(Integer programId);
+    List<Exam> findByProgramId(Integer programId);
 }

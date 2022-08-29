@@ -341,7 +341,6 @@ select * from admin;
 insert into person (id, email, password, person_type) values(1, '66.mehedi@gmail.com', 'password', 'ROLE_COACHING_ADMIN');
 insert into admin (person_id) values(1);
 select * from student_batch
->>>>>>> 62ebb73ffbfd363bd72e559f5d52aa6d0e2eef0a
 
 select max(obtained_mark) highestMark from result r where r.exam_mark_id = 1 Group By r.exam_mark_id
 
@@ -352,16 +351,14 @@ select * from exam_subject;
 
 select * from subject;
 
-insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper',1,9)
+insert into exam(name, program_id) values('Physics Exam', 2);
+insert into exam_subject(description,exam_id,subject_id) values ('Physics 1st Paper',3,9);
 
-select * from exam_mark;
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (20,'CQ',4);
+insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (10,'MCQ',4);
 
-insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (20,'CQ',1)
-insert into exam_mark(exam_subject_mark,exam_type,exam_subject_id) values (10,'MCQ',1)
-
-insert into result(exam_mark_id,student_id,obtained_mark) values (1,62,18)
-insert into result(exam_mark_id,student_id,obtained_mark) values (2,62,8)
-
+insert into result(exam_mark_id,student_id,obtained_mark) values (1,62,18);
+insert into result(exam_mark_id,student_id,obtained_mark) values (2,62,8);
 
 insert into result(exam_mark_id,student_id,obtained_mark) values (1,63,18);
 insert into result(exam_mark_id,student_id,obtained_mark) values (2,63,8);
@@ -375,3 +372,88 @@ select * from exam;
 select * from exam_subject;
 select * from exam_mark;
 select * from result;
+
+select * from exam;
+select * from exam_subject;
+select * from exam_mark;
+select * from result;
+drop table result;
+drop table exam_mark;
+drop table exam_exam_subjects ;
+drop table exam CASCADE;
+update exam_subject set description=''
+
+select * from program where id = 2;
+
+select * from student, person where person.id = student.person_id and person.coaching_id = 5;
+
+update person_contact set person_id=null where person_id=54;
+update edu_qualification set person_id=null where person_id=54;
+delete from student where person_id=54;
+delete from person where id=57;
+
+select id, full_name , email from person;
+select * from student;
+select * from teacher;
+select * from person;
+
+select * from person,student where person.id EXISTS student.person_id;
+
+update person_contact set person_id=null where person_id>=64 and person_id<=70;
+update edu_qualification set person_id=null where person_id>=64 and person_id<=70;
+delete from teacher where person_id>=64 and person_id<=70;
+delete from person_contact where id=?
+delete from person_contact where id=?
+delete from person_contact where id=?
+delete from edu_qualification where id=?
+delete from person where id=57
+delete from edu_qualification where id=?
+delete from address where id=?
+delete from address where id=?
+
+delete from person where id>=64 and id<=70;
+
+select * from teacher,person where teacher.person_id = person.id;
+
+delete from person CASCADE where id = 57;
+
+delete from person, student where student.person_id = person.id and person.id = 30;
+
+delete from person where person.person_id 
+
+select * from person,student where person.id != student.person_id;
+
+
+update person_contact set person_id=null where person_id>=64 and person_id<=70;
+update edu_qualification set person_id=null where person_id>=64 and person_id<=70;
+delete from teacher where person_id>=64 and person_id<=70;
+delete from person where id>=64 and id<=70;
+
+select sum(mf.amount) totalIncome,
+p.coaching_id coachingId 
+from monthly_fees mf,batch b, 
+program p,coaching c  
+where mf.batch_id = b.id 
+and b.program_id = p.id 
+and p.coaching_id =c.id 
+and EXTRACT(year FROM payment_date) = 2022 
+and p.coaching_id = 5  
+and EXTRACT(month FROM payment_date) = 7  
+and mf.payment_date is not null  
+group by p.coaching_id
+
+select * from teacher_payment;
+select * from teacher_payment_owed
+update teacher_payment_owed set withdrawal_date = NULL
+
+select * from monthly_fees
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(6, 1000, '2020-07-01', 1, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(7, 1000, '2020-07-01', 5, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(8, 1000, '2020-07-01', 11, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(9, 1000, '2020-07-01', 7, 7);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(10, 1000, '2020-06-01', 1, 19);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(11, 1000, '2020-06-01', 5, 19);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(12, 1000, '2020-06-01', 11, 21);
+insert into monthly_fees (id, amount, due_date, batch_id, student_id) values(13, 1000, '2020-06-01', 7, 21);
+
+alter table exam_subject alter column description type character varying(2000);

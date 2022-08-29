@@ -1,6 +1,7 @@
 package coaching.administrator.classes.ExamSubject;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import coaching.administrator.classes.Exam.Exam;
 import coaching.administrator.classes.ExamMark.ExamMark;
@@ -35,21 +37,19 @@ public class ExamSubject implements Serializable {
     private Integer id;
     private String description;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_id", referencedColumnName = "id")
-    private Exam exam;
+    // @JsonManagedReference
+    // @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "exam_id", referencedColumnName = "id")
+    // private Exam exam;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;
 
     // bidrectional examSubject.
-    @JsonBackReference
-    @OneToMany(mappedBy = "examSubject", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    // @JsonBackReference
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinColumn(name = "exam_subject_id", referencedColumnName = "id")
     private Set<ExamMark> examMarks;
-
-    public Set<ExamMark> getExamMarkList() {
-        return examMarks;
-    }
 
 }

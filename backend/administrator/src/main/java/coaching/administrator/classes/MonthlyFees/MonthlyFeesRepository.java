@@ -46,7 +46,8 @@ public interface MonthlyFeesRepository extends JpaRepository<MonthlyFees, Intege
                         " where mf.batch_id = b.id and b.program_id = p.id and p.coaching_id =c.id and " +
                         " EXTRACT(year FROM payment_date) = :yearNo and p.coaching_id = :coachingId " +
                         " and EXTRACT(month FROM payment_date) = :monthNo " +
-                        " and  mf.payment_date is not null ", nativeQuery = true)
+                        " and  mf.payment_date is not null " +
+                        " group by p.coaching_id ", nativeQuery = true)
         Map<String, Object> findTotalCoachingIncomeByMonth(@Param("coachingId") Integer coachingId,
                         @Param("yearNo") Integer yearNo, @Param("monthNo") Integer monthNo);
 

@@ -42,7 +42,7 @@ export default function TextEditor({
         <MUIRichTextEditor
           toolbar={!readOnly}
           key={key}
-          label="Start typing here..."
+          label={readOnly ? "" : "Start typing here..."}
           defaultValue={value}
           onChange={handleBodyChange}
           readOnly={readOnly}

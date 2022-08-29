@@ -70,7 +70,8 @@ export default function AdminCoachingInput() {
           .then((response) => {
             showSnackbar(enqueueSnackbar, response.data, () => {
               AuthService.setAdmin(response.data.object);
-              navigate(-1);
+              // navigate(-1);
+              navigate(ADMIN_LINKS.home.path);
             });
             // navigate(ADMIN_LINKS.home.path);
           })

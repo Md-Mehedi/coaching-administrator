@@ -19,20 +19,20 @@ import {
 } from "devextreme-react/chart";
 import React, { useEffect, useState } from "react";
 
-export function ExpenseMonthChart() {
+export function IncomeMonthChart() {
   let temp = [
-    { month: "September", count: 200 },
-    { month: "October", count: 100 },
-    { month: "November", count: 2000 },
-    { month: "December", count: 1200 },
-    { month: "January", count: 1500 },
-    { month: "February", count: 1000 },
-    { month: "March", count: 500 },
-    { month: "April", count: 300 },
-    { month: "May", count: 500 },
-    { month: "June", count: 600 },
-    { month: "July", count: 400 },
-    { month: "August", count: 700 },
+    { month: "September", count: 22000 },
+    { month: "October", count: 10000 },
+    { month: "November", count: 32000 },
+    { month: "December", count: 12200 },
+    { month: "January", count: 17000 },
+    { month: "February", count: 25000 },
+    { month: "March", count: 12000 },
+    { month: "April", count: 30000 },
+    { month: "May", count: 15000 },
+    { month: "June", count: 26000 },
+    { month: "July", count: 19500 },
+    { month: "August", count: 17000 },
   ];
 
   useEffect(() => {}, []);
@@ -62,7 +62,7 @@ export function ExpenseMonthChart() {
             itemTextPosition="bottom"
           />
           <Export enabled={true} />
-          <Title text="Expense" />
+          <Title text="Income" />
           <Tooltip enabled={true} />
         </Chart>
       </CardContent>

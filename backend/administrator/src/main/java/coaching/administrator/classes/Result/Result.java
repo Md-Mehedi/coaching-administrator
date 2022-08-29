@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import coaching.administrator.classes.ExamMark.ExamMark;
 import coaching.administrator.classes.Student.Student;
 import lombok.AllArgsConstructor;
@@ -34,11 +36,12 @@ public class Result implements Serializable {
     @Transient
     private float highestMark;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JsonManagedReference
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_mark_id", referencedColumnName = "id")
     private ExamMark examMark;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", referencedColumnName = "person_id")
     private Student student;
 

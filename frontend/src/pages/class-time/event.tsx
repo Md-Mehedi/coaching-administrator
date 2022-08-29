@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
@@ -202,6 +203,7 @@ export function Event(props: EventProps) {
           <Grid item container alignItems="center">
             <Grid item xs={6}>
               <FormControl>
+                <Typography variant="h6">Repeat Frequency</Typography>
                 <RadioGroup
                   value={state.repeatType}
                   onChange={(event) => {

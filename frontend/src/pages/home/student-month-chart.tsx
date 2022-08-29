@@ -45,6 +45,9 @@ export function StudentMonthChart() {
           {/* {energySources.map((item) => ( */}
           <Series valueField="count" name="Count" />
           {/* ))} */}
+          <ValueAxis>
+            <Title text="Count" />
+          </ValueAxis>
           <Margin bottom={20} />
           <ArgumentAxis
             valueMarginsEnabled={false}
@@ -53,6 +56,7 @@ export function StudentMonthChart() {
             <Grid visible={true} />
           </ArgumentAxis>
           <Legend
+            visible={false}
             verticalAlignment="bottom"
             horizontalAlignment="center"
             itemTextPosition="bottom"

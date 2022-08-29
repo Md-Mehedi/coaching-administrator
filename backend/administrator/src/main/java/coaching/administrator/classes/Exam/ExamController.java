@@ -1,6 +1,7 @@
 
 package coaching.administrator.classes.Exam;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,12 +84,12 @@ public class ExamController {
     @GetMapping("/get-exam-by-id/{id}")
     public ObjectNode getExamById(@PathVariable Integer id) {
         Exam fetchedExam = service.getExamById(id);
-
+        Global.colorPrint(fetchedExam.getExamSubjects().size());
         if (fetchedExam == null) {
             return Global.createErrorMessage("Exam not found");
         } else {
             if (fetchedExam.getProgram().getCoaching().getId() == JwtUtils.getCoachingId()) {
-                fetchedExam.getExamSubjectList().size();
+                // fetchedExam.getExamSubjectList().size();
                 return Global.createSuccessMessage("Exam Found").putPOJO("object", fetchedExam);
             } else {
                 return Global.createErrorMessage("Not authorized to get exam");
@@ -105,15 +106,10 @@ public class ExamController {
             return Global.createErrorMessage("Program not found");
         } else {
             if (program.getCoaching().getId() == JwtUtils.getCoachingId()) {
-                Set<Exam> examList = service.getAllExamsByProgramId(programId);
+                List<Exam> examList = service.getAllExamsByProgramId(programId);
 
-                // populate examSubject in Exam object
-                for (Exam exam : examList) {
-                    exam.getExamSubjectList().size();
-                }
-
-                return Global.createSuccessMessage("Class Time List Found")
-                        .putPOJO("object", service.getAllExamsByProgramId(programId));
+                return Global.createSuccessMessage("Exam List Found")
+                        .putPOJO("object", examList);
             } else {
                 return Global.createErrorMessage("Not Authorized to get exams");
             }

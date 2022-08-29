@@ -84,7 +84,6 @@ export function createClassTime(info: DateSelectArg) {
   return classTime;
 }
 export function eventToClassTime(info: EventApi) {
-  console.log(info);
   let classTime: ClassTime = new ClassTime();
   let day1 = new Date(info.startStr);
   let day2 = new Date(info.endStr);
@@ -159,7 +158,6 @@ export function timeFormatAsFullCalender(date: Date | null | undefined) {
   return "";
 }
 export function classTimeToEvent(classTime: ClassTime, title: string) {
-  console.log("in classtime to event", classTime);
   let day1 = new Date();
   let startDT = classTime.startDateTime;
   let endT = new Date(
@@ -178,7 +176,6 @@ export function classTimeToEvent(classTime: ClassTime, title: string) {
       : "",
     endRecur: dateFormatAsFullCalender(classTime.endDate),
   };
-  console.log("classTimeToEvent : ", classTime, event);
   return event;
 }
 

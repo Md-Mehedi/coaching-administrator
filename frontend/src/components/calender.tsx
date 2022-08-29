@@ -45,7 +45,6 @@ export default function Calender(props: CalenderProps) {
     events: [],
     isNew: false,
   });
-  console.log("in calender", state);
 
   useEffect(() => {
     let ct = props.classTimes?.map((item) => new ClassTime(item));
@@ -144,7 +143,6 @@ export default function Calender(props: CalenderProps) {
           slotMaxTime={createDuration({ hour: 20 })}
           selectable={!props.readOnly}
           select={(info) => {
-            console.log(info);
             setState({
               ...state,
               eventDialogOpen: true,
@@ -161,7 +159,6 @@ export default function Calender(props: CalenderProps) {
           }}
           eventClick={(event) => {
             if (props.readOnly) return;
-            console.log("clicked event", event);
             setState({
               ...state,
               currentClassTime: state.classTimes.find(

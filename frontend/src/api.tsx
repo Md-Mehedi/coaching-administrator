@@ -12,6 +12,7 @@ import {
   TeacherPayment,
 } from "./classes/coaching";
 import AuthService from "./services/auth-service";
+import { Exam } from "./classes/exam";
 
 const HOST = "http://localhost:7982";
 
@@ -212,6 +213,24 @@ export const API = {
     update: (expense: Expense) => put("/update-expense", expense),
     filterMonthYear: (month: string, year: number) =>
       get("/get-expense-by-coaching-id-month-year/" + month + "/" + year),
+  },
+  monthlyFees: {
+    getAllByCoaching: () => get("/get-monthlyFees"),
+    getAllByStudent: (studentId: number) =>
+      get("/get-monthly-fees-by-studentId/" + studentId),
+    getAllByBatch: (batchId: number) =>
+      get("/get-monthly-fees-by-batchId/" + batchId),
+    pay: (ids: number[]) => postBody("/pay-monthly-fees", ids),
+  },
+  exam: {
+    add: (exam: Exam) => postBody("/add-exam", exam),
+    delete: (examId: number) => del("/delete-exam-by-id/" + examId),
+    update: (exam: Exam) => put("/update-exam", exam),
+    get: (id: number) => get("/get-exam-by-id/" + id),
+    getAllByProgram: (programId: number) =>
+      get("/get-all-exams-by-programId/" + programId),
+    getMarksByExamSubject: (id: number) =>
+      get("/get-all-results-by-examSubject/" + id),
   },
   csvImport: {
     students: (formData: FormData) => post("/import-students", formData),

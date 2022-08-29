@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SpecialLink from "./special-link";
 import { USER_LINKS } from "../links";
 import AuthService from "./../services/auth-service";
-import { resolveURL } from "../tools/helper-functions";
+import { resolvePublicImage, resolveURL } from "../tools/helper-functions";
 import { Admin } from "../classes/person-info";
 import { ADMIN_LINKS } from "./../links";
 
@@ -171,9 +171,10 @@ export default function Header() {
                   navigate(ADMIN_LINKS.home.path)
                 }
               >
-                <Avatar>
-                  <Dashboard style={{ color: "white" }} />
-                </Avatar>
+                <Avatar
+                  src={resolvePublicImage("dashboard.png")}
+                  sx={{ backgroundColor: "white", padding: "7px" }}
+                />
               </IconButton>
             </Tooltip>
           </Grid>

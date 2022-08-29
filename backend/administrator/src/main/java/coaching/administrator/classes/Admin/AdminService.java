@@ -251,22 +251,21 @@ public class AdminService {
             Map<String, Object> studentCount = studentRepository.countByCoachingId(coachingId);
             Map<String, Object> programCount = programRepository.countByCoachingId(coachingId);
             Map<String, Object> batchCount = batchRepository.countByCoachingId(coachingId);
-            // Date d = new Date();
-            // Integer yearNo = d.getYear();
-            // Integer monthNo = d.getMonth();
-            // Map<String, Object> totalIncome =
-            // monthlyFeesRepository.findTotalCoachingIncomeByMonth(coachingId, yearNo,
-            // monthNo);
-            // Map<String, Object> totalExpense =
-            // expenseRepository.findByTotalMonth(coachingId, monthNo, yearNo);
+            Date d = new Date();
+            Integer yearNo = 1900 + d.getYear();
+            Integer monthNo = 1 + d.getMonth();
+            Global.colorPrint("Year  m onth:  " + yearNo + "   " + monthNo);
+            Map<String, Object> totalIncome = monthlyFeesRepository.findTotalCoachingIncomeByMonth(coachingId, yearNo,
+                    monthNo);
+            Map<String, Object> totalExpense = expenseRepository.findByTotalMonth(coachingId, monthNo, yearNo);
 
             return node
                     .put("teacherCount", (BigInteger) teacherCount.get("teacherCount"))
                     .put("studentCount", (BigInteger) studentCount.get("studentCount"))
                     .put("programCount", (BigInteger) programCount.get("programCount"))
                     .put("batchCount", (BigInteger) batchCount.get("batchCount"))
-                    // .put("totalIncome", (Integer) totalIncome.get("totalIncome"))
-                    // .put("totalExpense", (Integer) totalExpense.get("totalExpense"))
+                    .put("totalIncome", (BigInteger) totalIncome.get("totalIncome"))
+                    .put("totalExpense", (BigInteger) totalExpense.get("totalExpense"))
                     .put("success", true)
                     .put("message", "Card info loaded successfully");
 

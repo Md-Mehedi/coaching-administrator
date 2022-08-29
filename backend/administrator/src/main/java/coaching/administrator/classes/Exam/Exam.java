@@ -2,6 +2,7 @@ package coaching.administrator.classes.Exam;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -37,19 +38,19 @@ public class Exam implements Serializable {
     private Integer id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id", referencedColumnName = "id")
     private Program program;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Date resultDate;
 
     // exam subject list rakhbo - fetchType lazy
-    @JsonBackReference
-    @OneToMany(mappedBy = "exam", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    // @JsonBackReference
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinColumn(name = "exam_id", referencedColumnName = "id")
     private Set<ExamSubject> examSubjects;
 
-    public Set<ExamSubject> getExamSubjectList() {
-        return examSubjects;
-    }
+    // public Set<ExamSubject> getExamSubjectList() {
+    // return examSubjects;
+    // }
 }
