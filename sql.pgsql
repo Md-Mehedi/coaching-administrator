@@ -379,6 +379,50 @@ update exam_subject set description=''
 
 select * from program where id = 2;
 
+select * from student, person where person.id = student.person_id and person.coaching_id = 5;
+
+update person_contact set person_id=null where person_id=54;
+update edu_qualification set person_id=null where person_id=54;
+delete from student where person_id=54;
+delete from person where id=57;
+
+select id, full_name , email from person;
+select * from student;
+select * from teacher;
+select * from person;
+
+select * from person,student where person.id EXISTS student.person_id;
+
+update person_contact set person_id=null where person_id>=64 and person_id<=70;
+update edu_qualification set person_id=null where person_id>=64 and person_id<=70;
+delete from teacher where person_id>=64 and person_id<=70;
+delete from person_contact where id=?
+delete from person_contact where id=?
+delete from person_contact where id=?
+delete from edu_qualification where id=?
+delete from person where id=57
+delete from edu_qualification where id=?
+delete from address where id=?
+delete from address where id=?
+
+delete from person where id>=64 and id<=70;
+
+select * from teacher,person where teacher.person_id = person.id;
+
+delete from person CASCADE where id = 57;
+
+delete from person, student where student.person_id = person.id and person.id = 30;
+
+delete from person where person.person_id 
+
+select * from person,student where person.id != student.person_id;
+
+
+update person_contact set person_id=null where person_id>=64 and person_id<=70;
+update edu_qualification set person_id=null where person_id>=64 and person_id<=70;
+delete from teacher where person_id>=64 and person_id<=70;
+delete from person where id>=64 and id<=70;
+
 select sum(mf.amount) totalIncome,
 p.coaching_id coachingId 
 from monthly_fees mf,batch b, 
