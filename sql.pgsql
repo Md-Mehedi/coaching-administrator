@@ -367,6 +367,12 @@ select * from result;
 
 select * from person,student where person.id = student.person_id;
 
+
+select * from exam;
+select * from exam_subject;
+select * from exam_mark;
+select * from result;
+
 select * from exam;
 select * from exam_subject;
 select * from exam_mark;
