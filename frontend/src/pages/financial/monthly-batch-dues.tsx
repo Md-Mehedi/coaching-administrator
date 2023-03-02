@@ -27,7 +27,7 @@ export default function MonthlyBatchDues({ sums, setSums }) {
         render: (rowData) => new Date(rowData.dueDate).toLocaleDateString(),
       },
       {
-        title: "Month",
+        title: "Payment Date",
         field: "month",
         render: (rowData) =>
           rowData.paymentDate ? (

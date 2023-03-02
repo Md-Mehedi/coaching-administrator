@@ -46,7 +46,7 @@ export default function AddPerson({
   return (
     <Grid container spacing={2}>
       <Grid item container>
-        <Card sx={{ width: "100%" }}>
+        <Card sx={{ width: "100%", backgroundColor: "white", color: "black" }}>
           <CardContent>
             <Grid container spacing={2}>
               <Grid item container>
@@ -116,7 +116,7 @@ export default function AddPerson({
         />
       </Grid> */}
       <Grid item container>
-        <Card sx={{ width: "100%" }}>
+        <Card sx={{ width: "100%", backgroundColor: "white", color: "black" }}>
           <CardContent>
             <Grid container direction="column" spacing={2}>
               <Grid item xs={12}>
@@ -142,7 +142,7 @@ export default function AddPerson({
         </Card>
       </Grid>
       <Grid item container>
-        <Card sx={{ width: "100%" }}>
+        <Card sx={{ width: "100%", backgroundColor: "white", color: "black" }}>
           <CardContent>
             <PersonQualification
               currentQualification={person?.currentQualification}
@@ -162,7 +162,7 @@ export default function AddPerson({
         </Card>
       </Grid>
       <Grid item container>
-        <Card sx={{ width: "100%" }}>
+        <Card sx={{ width: "100%", backgroundColor: "white", color: "black" }}>
           <CardContent>
             <ContactInformation
               contacts={person?.contacts}

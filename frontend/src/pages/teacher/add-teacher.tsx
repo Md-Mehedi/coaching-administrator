@@ -96,6 +96,7 @@ export default function AddTeacher() {
           saveButtonText={state ? "Update" : "Save"}
           loading={saveLoading}
           onSaveClick={(event) => postTeacher()}
+          onCancelClick={(event) => navigate(ADMIN_LINKS.teacherList.path)}
         />
       </Grid>
     </Grid>

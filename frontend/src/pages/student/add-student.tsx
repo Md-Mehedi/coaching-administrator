@@ -104,6 +104,7 @@ export default function AddStudent() {
           saveButtonText={state ? "Update" : "Save"}
           loading={saveLoading}
           onSaveClick={(event) => postStudent()}
+          onCancelClick={(event) => navigate(ADMIN_LINKS.studentList.path)}
         />
       </Grid>
     </Grid>

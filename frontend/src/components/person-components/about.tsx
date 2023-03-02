@@ -55,7 +55,14 @@ export default function About({ person }: { person?: Person }) {
           <Grid container direction="column" spacing={2}>
             <Field field="Full name" value={person?.fullName} />
             <Field field="Gender" value={getGender(person?.gender)} />
-            <Field field="Date of birth" value={person?.dateOfBirth} />
+            <Field
+              field="Date of birth"
+              value={
+                person?.dateOfBirth
+                  ? new Date(person.dateOfBirth).toLocaleDateString()
+                  : ""
+              }
+            />
             <Field field="Blood group" value={person?.bloodGroup} />
             <Field field="Nationality" value={person?.nationality} />
             <Field field="Religion" value={person?.religion?.name} />
